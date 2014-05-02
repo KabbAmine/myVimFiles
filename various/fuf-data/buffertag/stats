@@ -1,0 +1,3 @@
+{'word': 'afficheBloc', 'pattern': 'bloc'}
+{'word': 'menu2', 'pattern': 'menu'}
+{'word': 'g:airline#extensions#tabline#tab_min_count', 'pattern': 'TabTo'}

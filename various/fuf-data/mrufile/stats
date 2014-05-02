@@ -1,0 +1,97 @@
+{'word': '~/.vim/plugin/zeavim.vim', 'pattern': 'zea'}
+{'word': '~/.vim/plugin/zeavim.vim', 'pattern': 'ze'}
+{'word': '~/.bashrc', 'pattern': 'bas'}
+{'word': '~/installXubuntu', 'pattern': 'ins'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/bil/functions.php', 'pattern': 'php'}
+{'word': '~/MyProjects/Formations en cours/JavaScript/test.js', 'pattern': 'js'}
+{'word': '~/.vim/plugin/zeavimII.vim', 'pattern': 'zeav'}
+{'word': '~/.vim/plugin/templateBox.vim', 'pattern': 'temp'}
+{'word': '~/.vim/plugin/templateBox.vim', 'pattern': 'templ'}
+{'word': '~/MyProjects/Formations en cours/JavaScript/test.html', 'pattern': 'test'}
+{'word': '~/MyProjects/Formations en cours/JavaScript/convert_nb_en_lettre_SdZ.js', 'pattern': '.js'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/bil/functions.php', 'pattern': 'fun'}
+{'word': '~/.vim/box/php', 'pattern': 'ph'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/yts/design.css', 'pattern': 'css'}
+{'word': '~/.config/xfce4/terminal/terminalrc', 'pattern': 'ter'}
+{'word': '~/.vim/doc/zeavim.txt', 'pattern': 'zea'}
+{'word': '~/.vim/plugin/templateBox.vim', 'pattern': 'tem'}
+{'word': '~/.vim/plugin/zealVim.vim', 'pattern': 'ze'}
+{'word': '~/.vim/plugin/zealVim.vim', 'pattern': '~/.vim/plugin/zealVim.v'}
+{'word': '~/.vim/plugin/zealVim.vim', 'pattern': 'zea'}
+{'word': '~/MyProjects/Programmation/Python/conversion_Secondes.py', 'pattern': '.py'}
+{'word': '~/MyProjects/Formations en cours/JavaScript/test.html', 'pattern': 'html'}
+{'word': '~/.vim/plugin/zealVim.vim', 'pattern': 'zeal'}
+{'word': '~/MyProjects/Formations en cours/JavaScript_Video2Brain/convert_nb_en_lettre_SdZ.js', 'pattern': 'js'}
+{'word': '~/Bureau/merde', 'pattern': 'mer'}
+{'word': '~/MyProjects/Formations en cours/JavaScript_Video2Brain/test.js', 'pattern': 'tes'}
+{'word': '~/MyProjects/Formations en cours/JavaScript_Video2Brain/test.js', 'pattern': 'test'}
+{'word': '~/MyProjects/Formations en cours/JavaScript_Video2Brain/test.js', 'pattern': '.js'}
+{'word': '~/MyProjects/Formations en cours/JavaScript_Video2Brain/test.js', 'pattern': 'js'}
+{'word': '~/.vim/plugin/zealVim.vim', 'pattern': 'z'}
+{'word': '/opt/lampp/htdocs/mesProjets/merde.php', 'pattern': 'merde'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/yts/reset.css', 'pattern': 'css'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/index.php', 'pattern': 'php'}
+{'word': '/opt/lampp/htdocs/mesProjets/Zozor/index.html', 'pattern': 'html'}
+{'word': '/opt/lampp/htdocs/mesProjets/MrOccan/index.php', 'pattern': 'php'}
+{'word': '/opt/lampp/htdocs/mesProjets/merde/style/design.css', 'pattern': 'css'}
+{'word': '/opt/lampp/htdocs/mesProjets/merde/index.php', 'pattern': 'inde'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/index.php', 'pattern': 'inde'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/partial/content_test.php', 'pattern': 'test'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/bil/bdd_connexion.php', 'pattern': 'co'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/contact.php', 'pattern': 'php'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/partial/header.php', 'pattern': 'heade'}
+{'word': '/opt/lampp/htdocs/mesProjets/amineKabbInfo/partial/content.php', 'pattern': 'conte'}
+{'word': '~/MyProjects/DeveloppementWeb/Carnet_voyage_Zozor/yts/design.css', 'pattern': 'css'}
+{'word': '/opt/lampp/htdocs/bbcode/lib/parsers.php', 'pattern': 'php'}
+{'word': '~/Téléchargements/tp_final/style.css', 'pattern': 'css'}
+{'word': '~/MyProjects/DeveloppementWeb/Carnet_voyage_Zozor/index.html', 'pattern': 'html'}
+{'word': '~/.bashrc', 'pattern': 'bash'}
+{'word': '~/MyProjects/Scripts/Installation/install_LibreOffice.sh', 'pattern': 'sh'}
+{'word': '~/MyProjects/pluginsVim/zealVim/plugin/zealVim.vim', 'pattern': 'zeal'}
+{'word': '/opt/lampp/htdocs/blogComm/article.php', 'pattern': 'php'}
+{'word': '/opt/lampp/htdocs/tutoPooPhp/compteur/compteur.php', 'pattern': 'comp'}
+{'word': '/opt/lampp/htdocs/blogSdz/index.php', 'pattern': 'php'}
+{'word': '~/Ressources/Dévéloppement Web/HTML/formulaires.html', 'pattern': 'html'}
+{'word': '/opt/lampp/htdocs/miniChat/index.php', 'pattern': 'php'}
+{'word': '/opt/lampp/htdocs/blogSdz/db.php', 'pattern': 'php++db'}
+{'word': '~/MyProjects/Programmation/Python/Turtle/creation_figures_geometriques.py', 'pattern': 'css'}
+{'word': '~/.bash_functions', 'pattern': '.sh'}
+{'word': '/opt/lampp/htdocs/test/mok.php', 'pattern': 'php'}
+{'word': '~/MyProjects/DeveloppementWeb/Site_Sunshine/styles/design.css', 'pattern': 'css'}
+{'word': '~/MyProjects/Programmation/Java/formationCoursera/Rebonds2.java', 'pattern': 'jav'}
+{'word': '~/MyProjects/Programmation/Java/formationCoursera/TableMultiplication.java', 'pattern': 'mai'}
+{'word': '~/MyProjects/DeveloppementWeb/SiteExo/index.html', 'pattern': 'html'}
+{'word': '~/MyProjects/Programmation/Java/formationCoursera/Rebonds2.java', 'pattern': 'java'}
+{'word': '~/MyProjects/DeveloppementWeb/SiteExo/index.html', 'pattern': 'ht'}
+{'word': '~/MyProjects/Programmation/Python/ZCasino/ZCasino.py', 'pattern': 'py'}
+{'word': '~/MyProjects/Programmation/Python/Turtle/creation_figures_geometriques.py', 'pattern': 'tur'}
+{'word': '~/.vimrc', 'pattern': 'vimr'}
+{'word': '~/MyProjects/Programmation/C/FCFS Algorithm/main.c', 'pattern': 'main'}
+{'word': '~/MyProjects/Scripts/Installation/install_LibreOffice.sh', 'pattern': 'inst'}
+{'word': '~/.conkys/.conkySimpleOrange/.conkyrcInfo', 'pattern': 'conky'}
+{'word': '~/MyProjects/Programmation/Python/Turtle/creation_figures_geometriques.py', 'pattern': 'py'}
+{'word': '~/MyProjects/Programmation/Python/Turtle/creation_figures_geometriques.py', 'pattern': '.py'}
+{'word': '~/MyProjects/Scripts/PourConkys/ConkysSimpleOrange', 'pattern': 'oran'}
+{'word': '~/MyProjects/Scripts/script_Demarrage.sh', 'pattern': 'dema'}
+{'word': '~/.vim/merde.php', 'pattern': 'php'}
+{'word': '~/.conkys/.conkySimpleOrange/.conkyrcMemo', 'pattern': 'mem'}
+{'word': '~/MyProjects/Scripts/script_Demarrage.sh', 'pattern': 'dem'}
+{'word': '~/MyProjects/Scripts/Installation/install_LibreOffice.sh', 'pattern': '~/MyProjects/Scripts/Installation/install_LibreOffice.sh'}
+{'word': '~/MyProjects/Scripts/Installation/install_LibreOffice.sh', 'pattern': 'Lib'}
+{'word': '~/Téléchargements/LibreOffice-4.1.2/install_LO.sh', 'pattern': '.sh'}
+{'word': '~/.config/geany/colorschemes/railcasts2 Darker.conf', 'pattern': 'dark'}
+{'word': '~/.vimrc', 'pattern': 'vim'}
+{'word': '~/.vim/templates/html5T.html', 'pattern': 'html5'}
+{'word': '~/.vim/bundle/snipmate/snippets/_.snippets', 'pattern': 'snipp'}
+{'word': '~/.vim/bundle/snipmate/snippets/php.snippets', 'pattern': 'sni'}
+{'word': '~/.vimrc', 'pattern': 'rc'}
+{'word': '/opt/lampp/htdocs/test/test.html', 'pattern': 'test'}
+{'word': '~/.vim/bundle/snipmate/snippets/html.snippets', 'pattern': 'html'}
+{'word': '~/.vim/bundle/snipmate/snippets/php.snippets', 'pattern': 'php'}
+{'word': '~/.vim/bundle/snipmate/snippets/html.snippets', 'pattern': 'sn'}
+{'word': '~/.vim/bundle/snipmate/snippets/html.snippets', 'pattern': 'snip'}
+{'word': '~/.vim/bundle/snipmate/snippets/_.snippets', 'pattern': 'sni'}
+{'word': '/opt/lampp/htdocs/test/test.php', 'pattern': 'test'}
+{'word': '~/.vim/bundle/snipmate/snippets/test.md', 'pattern': 'test'}
+{'word': '~/test.md', 'pattern': 'test'}
+{'word': '~/.bashrc', 'pattern': '.c'}

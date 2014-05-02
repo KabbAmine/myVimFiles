@@ -1,0 +1,2079 @@
+# Ce fichier viminfo a été généré par Vim 7.4.
+# Vous pouvez l'éditer, mais soyez prudent.
+
+# 'encoding' dans lequel ce fichier a été écrit
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Dernier motif de recherche  :
+~MSle0/^=
+
+# Dernier motif de recherche Substitue  :
+~MSle0~&^=
+
+# Dernières chaînes de substitution :
+$
+
+# Historique ligne de commande (chronologie décroissante) :
+:wq
+:w
+:Ft markdown
+:q
+:FufMruFile
+:q!
+:Ev
+:e!
+:w merde.html
+:%!markdown
+:set nospell
+:set nosp
+:set spell
+:set spelllang=en
+:qa
+:h list-functions
+:bn!
+:w! test.html
+:g/^=/:normal V$r-
+:g/^=/:normal r-
+
+# Historique chaîne de recherche (chronologie décroissante) :
+? ^=
+? ^=+
+?/script
+? script
+?/mapleader
+? mapleader
+?/\
+? \
+?/leader
+? leader
+? \Vdate\%#
+? \V#!\%#
+?/gv
+? gv
+??gvim
+? gvim
+?/INTER
+? INTER
+?/term
+? term
+
+# Historique expression (chronologie décroissante) :
+=SuperTab('n')
+=acp#onPopupPost()
+=fuf#getRunningHandler().onCr(1) ? '' : ''
+=$_SERVER['DOCUMENT_ROOT']
+
+# Historique ligne de saisie (chronologie décroissante) :
+@bold
+@list
+@ma
+@<S-Tab><S-Tab>
+@,b
+@image
+@markdown
+@marckup
+@8
+@n
+@zeavim
+@html
+@link
+@emmet
+@merde
+@/home/k-bag/.vim/plugin/zeavim.vim
+@isset()
+@switch
+@med
+@php
+
+# Historique ligne de saisie (chronologie décroissante) :
+
+# Registres :
+"0	CHAR	0
+	=============
+"1	LINE	0
+	
+"2	LINE	0
+	
+	" Templates *******
+	" {
+		" *** \T{fileType})		=> Paste a template from ~/.vim/templates.
+			" C, python, bash, HTML5, PHP, db-connection-PHP, LaTeX, Java
+				execute "nmap <silent> <leader>Tc :0r ".vimDir."/templates/cT.c<CR>:set ft=c<CR>5gg"
+				execute "nmap <silent> <leader>Tpy :0r ".vimDir."/templates/pythonT.py<CR>:set ft=python<CR>4gg"
+				execute "nmap <silent> <leader>Tsh :0r ".vimDir."/templates/bashT.sh<CR>:set ft=sh<CR>3gg"
+				execute "nmap <silent> <leader>Thtml :0r ".vimDir."/templates/html5T.html<CR>:set ft=html<CR>5ggf>a"
+				execute "nmap <silent> <leader>Tphp :0r ".vimDir."/templates/php.php<CR>:set ft=php<CR>5ggf>a"
+				execute "nmap <silent> <leader>Tdb :0r ".vimDir."/templates/db.php<CR>:set ft=php<CR>6gg3f=a"
+				execute "nmap <silent> <leader>Ttex :0r ".vimDir."/templates/latexT.tex<CR>:set ft=tex<CR>8gg"
+				execute "nmap <silent> <leader>Tjava :0r ".vimDir."/templates/javaT.java<CR>:set ft=java<CR>1Gf?"
+	" }
+"3	LINE	0
+	
+"4	LINE	0
+	" Inserts special fields *******
+	" {
+		" *** _n		=> Inserts name.
+		" *** _m		=> Inserts mail (amine.kabb@gmail.com).
+			nmap <silent> _n maaKabbaj Amine<Esc>`afe
+			nmap <silent> _m maaamine.kabb@gmail.com<Esc>`a3fm
+	" }
+"5	LINE	0
+		" For (( colorv ))
+			" Plugin 'mattn/webapi-vim'
+			" Plugin 'Rykka/colorv.vim'
+"6	LINE	0
+		- qui
+"7	BLOCK	2
+	My 
+	My 
+	My 
+"8	LINE	0
+	
+"9	LINE	0
+	In windows, I assume that *zeal.exe* is located in your *Program Files* directory, in *Zeal/*, if not you can specify his location by adding in your vimrc:u
+"a	CHAR	0
+	ea Kabbaj�kd^
+"c	CHAR	0
+	4884E3
+"f	CHAR	0
+		// DEGATS
+		public function setDegats($degats)
+		{
+			$degats = (int)$degats;
+			if ( !( ($degats >= 0) && ($degats <= 100) ) )
+			{
+				trigger_error("Les degats doivent être compris entre 0 et 100", E_USER_WARNING);
+			}
+			$this->_degats = $degats;
+		}
+"g	CHAR	0
+	
+"h	LINE	0
+	<!DOCTYPE html>
+	<html>
+		
+		<head>
+			<meta charset="utf-8">
+			<title>MiniChat</title>
+		</head>
+	
+		<body>
+"l	CHAR	0
+	I<li>A</li>�kd
+"m	CHAR	0
+	bi'ea'w
+"o	CHAR	0
+	
+"q@	CHAR	0
+	^3f'�kr~�kd
+"s	CHAR	0
+	'sh'
+"t	LINE	0
+	Titre 10
+"x	CHAR	0
+	\V\(\^\.\{-}\^\)\(\(\_.\{-}\)\$\)\(\)
+"z	LINE	0
+	let g:tagbar_sort = 0
+""-	CHAR	0
+	my v
+
+# Marques dans le fichier :
+'A  61  0  /opt/lampp/htdocs/blogComm/article.php
+'D  28  14  /opt/lampp/htdocs/mesProjets/Zozor/index.html
+'N  30  1  /opt/lampp/htdocs/mesProjets/tutoPooPhp/Personnage3.class.php
+'Q  28  0  ~/MyProjects/Formations en cours/JavaScript/convert_nb_en_lettre_SdZ.js
+'Z  61  36  /opt/lampp/htdocs/blogComm/article.php
+'0  6  69  ~/.vim/README.md
+'1  815  0  ~/.vim/vimrc
+'2  1  0  ~/.dotfiles/README.md
+'3  80  0  ~/MyProjects/pluginsVim/zeavim/README.md
+'4  5  0  ~/.gitconfig
+'5  13  0  ~/.dotfiles/tmux/tmux.conf
+'6  12  19  ~/.dotfiles/bash/bash_aliases
+'7  53  0  ~/.dotfiles/bash/bash_aliases
+'8  22  0  /etc/apt/sources.list
+'9  42  0  /tmp/vqBGiIq/269
+
+# Liste de sauts (le plus récent en premier) :
+-'  6  69  ~/.vim/README.md
+-'  1  0  ~/.vim/README.md
+-'  815  0  ~/.vim/vimrc
+-'  9  7  ~/.vim/README.md
+-'  1  0  ~/.dotfiles/README.md
+-'  23  0  ~/.dotfiles/README.md
+-'  80  0  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  71  0  ~/.vim/doc/zeavim.txt
+-'  77  48  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  81  0  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  55  0  ~/.vim/plugin/zeavim.vim
+-'  102  0  ~/.vim/plugin/zeavim.vim
+-'  45  0  ~/.vim/plugin/zeavim.vim
+-'  173  0  ~/.vim/plugin/zeavim.vim
+-'  1  0  ~/.vim/plugin/zeavim.vim
+-'  5  0  ~/.gitconfig
+-'  6  21  ~/.gitconfig
+-'  1  0  ~/.gitconfig
+-'  13  0  ~/.dotfiles/tmux/tmux.conf
+-'  1  0  ~/.dotfiles/tmux/tmux.conf
+-'  12  19  ~/.dotfiles/bash/bash_aliases
+-'  1  0  ~/.dotfiles/bash/bash_aliases
+-'  53  0  ~/.dotfiles/bash/bash_aliases
+-'  22  0  /etc/apt/sources.list
+-'  1  0  /etc/apt/sources.list
+-'  42  0  /tmp/vqBGiIq/269
+-'  37  0  ~/[Vundle] Installer
+-'  1  22  ~/.bash_profile
+-'  2  0  ~/.bash_profile
+-'  3  11  ~/.bash_profile
+-'  4  0  ~/.bash_profile
+-'  5  0  ~/.bash_profile
+-'  109  0  ~/.bashrc
+-'  1  0  ~/.bashrc
+-'  43  74  ~/.dotfiles/bash/bash_aliases
+-'  259  0  ~/.vim/plugin/templateBox.vim
+-'  833  0  ~/.vimrc
+-'  1  0  ~/.vimrc
+-'  3  3  ~/[Vundle] search
+-'  22  0  ~/[Vundle] search
+-'  4005  0  ~/[Vundle] search
+-'  3  0  ~/[Vundle] list
+-'  354  57  ~/.vim/bundle/vundle/doc/vundle.txt
+-'  342  56  ~/.vim/bundle/vundle/doc/vundle.txt
+-'  15  69  ~/.vim/bundle/vundle/doc/vundle.txt
+-'  207  0  /usr/share/vim/vim74/doc/help.txt
+-'  13  0  ~/.vim/doc/zeavim.txt
+-'  206  0  /usr/share/vim/vim74/doc/help.txt
+-'  1  0  /usr/share/vim/vim74/doc/help.txt
+-'  355  0  ~/merde
+-'  1  0  ~/merde
+-'  119  0  ~/[Vundle] list
+-'  92  0  /tmp/vN6fa7l/270
+-'  109  0  ~/[Vundle] Installer
+-'  58  1  /tmp/vN6fa7l/269
+-'  163  0  ~/[Vundle] Installer
+-'  29  0  ~/merde
+-'  31  0  ~/Documents/testoterone.html
+-'  1  0  ~/Documents/testoterone.html
+-'  38  0  ~/.dotfiles/bash/bashrc
+-'  80  0  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  71  0  ~/.vim/doc/zeavim.txt
+-'  77  48  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  81  0  ~/MyProjects/pluginsVim/zeavim/README.md
+-'  55  0  ~/.vim/plugin/zeavim.vim
+-'  102  0  ~/.vim/plugin/zeavim.vim
+-'  45  0  ~/.vim/plugin/zeavim.vim
+-'  173  0  ~/.vim/plugin/zeavim.vim
+-'  1  0  ~/.vim/plugin/zeavim.vim
+-'  5  0  ~/.gitconfig
+-'  6  21  ~/.gitconfig
+-'  1  0  ~/.gitconfig
+-'  13  0  ~/.dotfiles/tmux/tmux.conf
+-'  1  0  ~/.dotfiles/tmux/tmux.conf
+-'  12  19  ~/.dotfiles/bash/bash_aliases
+-'  1  0  ~/.dotfiles/bash/bash_aliases
+-'  53  0  ~/.dotfiles/bash/bash_aliases
+-'  22  0  /etc/apt/sources.list
+-'  1  0  /etc/apt/sources.list
+-'  42  0  /tmp/vqBGiIq/269
+-'  37  0  ~/[Vundle] Installer
+-'  1  22  ~/.bash_profile
+-'  2  0  ~/.bash_profile
+-'  3  11  ~/.bash_profile
+-'  4  0  ~/.bash_profile
+-'  5  0  ~/.bash_profile
+-'  109  0  ~/.bashrc
+-'  1  0  ~/.bashrc
+-'  43  74  ~/.dotfiles/bash/bash_aliases
+-'  259  0  ~/.vim/plugin/templateBox.vim
+-'  833  0  ~/.vimrc
+-'  1  0  ~/.vimrc
+-'  3  3  ~/[Vundle] search
+-'  22  0  ~/[Vundle] search
+-'  4005  0  ~/[Vundle] search
+-'  3  0  ~/[Vundle] list
+-'  354  57  ~/.vim/bundle/vundle/doc/vundle.txt
+-'  342  56  ~/.vim/bundle/vundle/doc/vundle.txt
+-'  15  69  ~/.vim/bundle/vundle/doc/vundle.txt
+
+# Historique des marques dans les fichiers (les plus récentes en premier) :
+
+> ~/.vim/README.md
+	"	6	69
+	^	6	51
+	.	6	51
+	+	9	8
+	+	4	129
+	+	6	80
+	+	4	70
+	+	6	51
+
+> ~/.gitconfig
+	"	10	13
+	^	2	20
+	.	2	19
+	+	8	18
+	+	6	6
+	+	1	6
+	+	2	11
+	+	4	6
+	+	3	13
+	+	4	0
+	+	9	7
+	+	10	0
+	+	6	60
+	+	5	27
+	+	6	21
+	+	5	3
+	+	6	21
+	+	2	19
+
+> ~/.vim/vimrc
+	"	815	0
+	^	483	0
+	.	483	0
+	+	60	0
+	+	332	0
+	+	379	0
+	+	482	0
+	+	483	0
+
+> ~/.dotfiles/README.md
+	"	1	0
+	.	1	0
+	+	23	9
+	+	23	31
+	+	23	87
+	+	23	1
+	+	23	0
+	+	23	7
+	+	23	5
+	+	23	34
+	+	23	11
+	+	23	10
+	+	23	18
+	+	23	0
+	+	23	27
+	+	23	27
+	+	23	10
+	+	23	22
+	+	23	1
+	+	23	13
+	+	23	12
+	+	23	11
+	+	23	15
+	+	23	0
+	+	23	0
+	+	23	11
+	+	23	0
+	+	23	0
+	+	23	5
+	+	23	5
+	+	23	2
+	+	23	0
+	+	23	14
+	+	23	28
+	+	23	0
+	+	23	0
+	+	10	1
+	+	16	1
+	+	1	0
+
+> ~/.vim/plugin/zeavim.vim
+	"	56	67
+	^	37	0
+	.	37	0
+	+	94	0
+	+	132	0
+	+	133	27
+	+	94	24
+	+	94	0
+	+	106	0
+	+	133	33
+	+	106	0
+	+	94	0
+	+	116	0
+	+	119	0
+	+	107	56
+	+	107	56
+	+	108	44
+	+	111	48
+	+	113	0
+	+	125	0
+	+	118	27
+	+	106	0
+	+	106	0
+	+	107	41
+	+	111	37
+	+	125	32
+	+	107	10
+	+	111	50
+	+	108	2
+	+	125	0
+	+	111	0
+	+	106	4
+	+	108	11
+	+	111	6
+	+	125	0
+	+	125	22
+	+	111	33
+	+	111	6
+	+	111	0
+	+	110	80
+	+	111	37
+	+	109	35
+	+	106	38
+	+	114	9
+	+	114	41
+	+	114	0
+	+	108	0
+	+	114	0
+	+	125	0
+	+	115	76
+	+	125	0
+	+	106	0
+	+	57	16
+	+	106	0
+	+	74	0
+	+	73	48
+	+	94	0
+	+	106	0
+	+	51	32
+	+	52	18
+	+	107	10
+	+	54	33
+	+	52	63
+	+	179	16
+	+	54	23
+	+	74	4
+	+	108	11
+	+	111	6
+	+	118	39
+	+	119	21
+	+	179	0
+	+	118	27
+	+	119	0
+	+	118	27
+	+	119	0
+	+	119	23
+	+	117	5
+	+	108	12
+	+	118	0
+	+	3	0
+	+	4	0
+	+	117	0
+	+	119	21
+	+	74	15
+	+	54	0
+	+	107	10
+	+	74	62
+	+	74	33
+	+	74	33
+	+	74	0
+	+	74	52
+	+	74	0
+	+	87	0
+	+	86	24
+	+	91	30
+	+	119	21
+	+	87	0
+	+	88	3
+	+	89	0
+	+	30	0
+	+	31	35
+	+	38	47
+	+	37	0
+
+> ~/MyProjects/pluginsVim/zeavim/[fuf]
+	"	1	23
+	^	1	24
+	.	1	23
+	+	1	23
+	+	1	9
+	+	1	8
+	+	1	8
+	+	1	9
+	+	1	12
+	+	1	23
+
+> ~/MyProjects/pluginsVim/zeavim/README.md
+	"	80	0
+	^	77	49
+	.	77	37
+	+	81	6
+	+	81	20
+	+	81	0
+	+	81	0
+	+	81	21
+	+	81	31
+	+	81	35
+	+	81	30
+	+	81	0
+	+	81	21
+	+	81	28
+	+	81	0
+	+	81	9
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	1
+	+	81	1
+	+	81	1
+	+	81	0
+	+	81	31
+	+	81	1
+	+	81	1
+	+	81	1
+	+	81	0
+	+	81	109
+	+	81	113
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	9
+	+	81	3
+	+	81	3
+	+	81	3
+	+	81	3
+	+	81	3
+	+	81	3
+	+	81	0
+	+	81	4
+	+	81	0
+	+	81	3
+	+	81	0
+	+	81	3
+	+	81	0
+	+	81	24
+	+	81	0
+	+	81	23
+	+	81	23
+	+	81	74
+	+	81	29
+	+	81	0
+	+	81	0
+	+	81	21
+	+	81	0
+	+	81	12
+	+	81	0
+	+	81	5
+	+	81	0
+	+	81	7
+	+	81	13
+	+	81	155
+	+	81	159
+	+	81	155
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	20
+	+	81	34
+	+	81	142
+	+	81	0
+	+	81	0
+	+	81	134
+	+	81	73
+	+	81	51
+	+	81	15
+	+	81	15
+	+	81	23
+	+	81	0
+	+	81	8
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	81	0
+	+	73	130
+	+	74	28
+	+	78	30
+	+	78	0
+	+	77	37
+
+> ~/MyProjects/pluginsVim/zeavim/NERD_tree_1
+	"	1	0
+	.	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+
+> ~/.vimrc
+	"	839	0
+	.	845	0
+	+	842	0
+	+	842	0
+	+	493	0
+	+	495	3
+	+	498	30
+	+	499	0
+	+	496	0
+	+	498	0
+	+	499	0
+	+	496	25
+	+	497	19
+	+	501	0
+	+	503	0
+	+	842	0
+	+	2	0
+	+	148	0
+	+	150	0
+	+	149	2
+	+	1	0
+	+	459	0
+	+	461	43
+	+	458	17
+	+	457	15
+	+	458	20
+	+	461	34
+	+	60	0
+	+	457	8
+	+	458	8
+	+	459	25
+	+	460	0
+	+	461	24
+	+	3	0
+	+	4	0
+	+	60	0
+	+	60	25
+	+	357	0
+	+	358	0
+	+	357	0
+	+	60	0
+	+	3	0
+	+	4	0
+	+	61	0
+	+	842	0
+	+	842	0
+	+	826	0
+	+	555	28
+	+	3	0
+	+	4	0
+	+	534	25
+	+	528	40
+	+	528	12
+	+	528	25
+	+	529	0
+	+	842	0
+	+	60	0
+	+	136	0
+	+	842	0
+	+	735	0
+	+	734	37
+	+	3	0
+	+	4	0
+	+	835	18
+	+	841	3
+	+	841	0
+	+	838	0
+	+	838	30
+	+	840	0
+	+	839	22
+	+	840	22
+	+	840	0
+	+	839	9
+	+	840	9
+	+	841	1
+	+	838	0
+	+	837	0
+	+	227	0
+	+	228	20
+	+	230	0
+	+	229	0
+	+	230	0
+	+	837	0
+	+	3	0
+	+	4	0
+	+	838	0
+	+	839	25
+	+	840	0
+	+	840	0
+	+	510	0
+	+	510	0
+	+	512	31
+	+	515	0
+	+	514	24
+	+	515	24
+	+	516	24
+	+	517	38
+	+	514	22
+	+	3	0
+	+	4	0
+	+	60	0
+	+	845	0
+
+> ~/MyProjects/pluginsVim/zeavim/__Tagbar__
+	"	3	0
+	.	56	0
+	+	56	0
+	+	56	0
+	+	56	0
+	+	56	0
+	+	56	0
+	+	56	0
+	+	56	0
+
+> /usr/share/vim/vim74/doc/map.txt
+	"	540	40
+
+> ~/.vim/doc/zeavim.txt
+	"	71	0
+	^	1	13
+	.	1	15
+	+	5	0
+	+	6	0
+	+	5	0
+	+	1	12
+	+	3	0
+	+	1	46
+	+	3	0
+	+	2	0
+	+	3	3
+	+	1	15
+
+> /usr/share/vim/vim74/doc/help.txt
+	"	79	10
+
+> /usr/share/vim/vim74/doc/usr_41.txt
+	"	893	3
+
+> /usr/share/vim/vim74/doc/eval.txt
+	"	5432	12
+
+> ~/MyProjects/pluginsVim/zeavim/README-fr.md
+	"	34	27
+	^	34	43
+	.	34	42
+	+	36	15
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	9
+	+	36	13
+	+	36	105
+	+	36	3
+	+	36	3
+	+	36	15
+	+	36	17
+	+	36	43
+	+	36	43
+	+	36	0
+	+	36	0
+	+	36	61
+	+	36	3
+	+	36	3
+	+	36	73
+	+	36	65
+	+	36	0
+	+	36	113
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	17
+	+	36	7
+	+	36	108
+	+	36	46
+	+	36	19
+	+	36	68
+	+	36	32
+	+	36	0
+	+	36	125
+	+	36	85
+	+	36	14
+	+	36	48
+	+	36	86
+	+	36	0
+	+	36	82
+	+	36	5
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	4
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	3
+	+	36	0
+	+	36	3
+	+	36	0
+	+	36	0
+	+	36	73
+	+	36	26
+	+	36	122
+	+	36	122
+	+	36	106
+	+	36	95
+	+	36	48
+	+	36	49
+	+	36	0
+	+	36	0
+	+	36	135
+	+	36	96
+	+	36	79
+	+	36	0
+	+	36	0
+	+	36	67
+	+	36	25
+	+	36	25
+	+	36	25
+	+	36	0
+	+	36	28
+	+	36	0
+	+	36	106
+	+	36	0
+	+	36	0
+	+	36	0
+	+	36	10
+	+	36	0
+	+	36	98
+	+	36	0
+	+	36	0
+	+	30	31
+	+	29	0
+	+	26	77
+	+	34	42
+
+> ~/MyProjects/pluginsVim/zeavim/test.html
+	"	8	0
+
+> ~/[fuf]
+	"	1	23
+	^	1	24
+	.	1	23
+	+	1	9
+	+	1	8
+	+	1	8
+	+	1	9
+	+	1	12
+	+	1	23
+
+> ~/.vim/[fuf]
+	"	1	5
+	^	1	6
+	.	1	5
+	+	1	3
+	+	1	8
+	+	1	8
+	+	1	9
+	+	1	12
+	+	1	5
+
+> ~/.vim/nouveau_fichier.vim
+	"	29	0
+	.	1	0
+	+	1	0
+
+> ~/.vim/nouveau_fichier.txt
+	"	23	0
+	.	1	0
+	+	1	0
+
+> ~/.dotfiles/tmux/tmux.conf
+	"	13	0
+	^	13	31
+	.	13	0
+	+	17	0
+	+	17	0
+	+	17	0
+	+	17	0
+	+	16	0
+	+	17	0
+	+	5	0
+	+	13	0
+	+	13	0
+
+> ~/.dotfiles/bash/bash_aliases
+	"	12	19
+	^	12	20
+	.	12	19
+	+	43	14
+	+	2	19
+	+	3	19
+	+	4	19
+	+	5	34
+	+	4	27
+	+	5	33
+	+	10	17
+	+	11	22
+	+	26	0
+	+	42	30
+	+	50	0
+	+	12	19
+
+> ~/.bash_profile
+	"	3	0
+	.	1	0
+	+	4	0
+	+	1	25
+	+	3	4
+	+	2	0
+	+	1	0
+	+	4	0
+	+	1	24
+	+	1	0
+	+	1	11
+	+	2	11
+	+	1	0
+
+> ~/.bashrc
+	"	2	25
+	^	2	25
+	.	2	24
+	+	33	0
+	+	26	1
+	+	118	0
+	+	118	0
+	+	57	0
+	+	58	0
+	+	56	22
+	+	118	0
+	+	95	0
+	+	86	0
+	+	84	2
+	+	109	0
+	+	102	0
+	+	114	11
+	+	118	0
+	+	75	0
+	+	84	0
+	+	83	0
+	+	56	8
+	+	54	0
+	+	56	0
+	+	53	0
+	+	68	0
+	+	75	2
+	+	84	54
+	+	100	0
+	+	100	0
+	+	97	0
+	+	97	14
+	+	100	9
+	+	101	0
+	+	99	0
+	+	55	0
+	+	110	0
+	+	112	0
+	+	111	15
+	+	113	0
+	+	12	37
+	+	11	3
+	+	1	0
+	+	8	0
+	+	5	0
+	+	1	20
+	+	6	0
+	+	6	30
+	+	7	0
+	+	8	0
+	+	1	36
+	+	9	0
+	+	13	0
+	+	17	2
+	+	21	2
+	+	26	0
+	+	26	2
+	+	26	2
+	+	34	0
+	+	26	0
+	+	26	0
+	+	35	2
+	+	38	0
+	+	23	0
+	+	97	15
+	+	118	0
+	+	117	0
+	+	2	0
+	+	1	31
+	+	3	10
+	+	2	24
+
+> /etc/apt/sources.list
+	"	22	0
+	.	57	0
+	+	57	0
+	+	57	0
+
+> ~/[Vundle] clean
+	"	2	0
+	.	1	0
+	+	96	0
+	+	94	0
+	+	89	0
+	+	88	0
+	+	86	0
+	+	82	0
+	+	81	0
+	+	76	0
+	+	74	0
+	+	72	0
+	+	71	0
+	+	70	0
+	+	69	0
+	+	67	0
+	+	65	0
+	+	64	0
+	+	63	0
+	+	61	0
+	+	60	0
+	+	59	0
+	+	58	0
+	+	57	0
+	+	56	0
+	+	55	0
+	+	54	0
+	+	53	0
+	+	51	0
+	+	50	0
+	+	49	0
+	+	47	0
+	+	46	0
+	+	45	0
+	+	44	0
+	+	42	0
+	+	40	0
+	+	38	0
+	+	36	0
+	+	34	0
+	+	33	0
+	+	32	0
+	+	31	0
+	+	29	0
+	+	27	0
+	+	25	0
+	+	23	0
+	+	21	0
+	+	20	0
+	+	19	0
+	+	18	0
+	+	17	0
+	+	16	0
+	+	15	0
+	+	14	0
+	+	12	0
+	+	11	0
+	+	10	0
+	+	9	0
+	+	8	0
+	+	7	0
+	+	6	0
+	+	5	0
+	+	4	0
+	+	3	0
+	+	2	0
+	+	1	0
+
+> ~/[Vundle] Installer
+	"	37	0
+	.	1	0
+	+	4955	0
+	+	4903	0
+	+	4853	0
+	+	4803	0
+	+	4757	0
+	+	4711	0
+	+	4665	0
+	+	4618	0
+	+	4571	0
+	+	4524	0
+	+	4476	0
+	+	4428	0
+	+	4380	0
+	+	4333	0
+	+	4286	0
+	+	4239	0
+	+	4190	0
+	+	4141	0
+	+	4092	0
+	+	4044	0
+	+	3997	0
+	+	3949	0
+	+	3901	0
+	+	3853	0
+	+	3805	0
+	+	3756	0
+	+	3706	0
+	+	3656	0
+	+	3606	0
+	+	3555	0
+	+	3505	0
+	+	3456	0
+	+	3407	0
+	+	3359	0
+	+	3311	0
+	+	3263	0
+	+	3215	0
+	+	3167	0
+	+	3119	0
+	+	3070	0
+	+	3022	0
+	+	2974	0
+	+	2926	0
+	+	2878	0
+	+	2830	0
+	+	2782	0
+	+	2734	0
+	+	2685	0
+	+	2636	0
+	+	2586	0
+	+	2536	0
+	+	2486	0
+	+	2437	0
+	+	2388	0
+	+	2338	0
+	+	2287	0
+	+	2235	0
+	+	2182	0
+	+	2129	0
+	+	2075	0
+	+	2020	0
+	+	1965	0
+	+	1910	0
+	+	1854	0
+	+	1799	0
+	+	1744	0
+	+	1689	0
+	+	1634	0
+	+	1579	0
+	+	1524	0
+	+	1469	0
+	+	1414	0
+	+	1359	0
+	+	1304	0
+	+	1248	0
+	+	1192	0
+	+	1136	0
+	+	1082	0
+	+	1027	0
+	+	973	0
+	+	919	0
+	+	865	0
+	+	811	0
+	+	757	0
+	+	703	0
+	+	649	0
+	+	595	0
+	+	541	0
+	+	487	0
+	+	433	0
+	+	379	0
+	+	325	0
+	+	271	0
+	+	217	0
+	+	163	0
+	+	109	0
+	+	55	0
+	+	1	0
+
+> /tmp/vqBGiIq/269
+	"	42	0
+
+> ~/.vim/plugin/templateBox.vim
+	"	259	0
+	^	8	51
+	.	8	50
+	+	244	0
+	+	244	24
+	+	244	0
+	+	244	19
+	+	233	0
+	+	244	0
+	+	183	0
+	+	183	8
+	+	182	0
+	+	183	0
+	+	182	0
+	+	244	5
+	+	244	17
+	+	103	13
+	+	103	20
+	+	103	15
+	+	245	16
+	+	245	6
+	+	245	10
+	+	245	11
+	+	245	43
+	+	245	28
+	+	245	0
+	+	245	23
+	+	245	26
+	+	245	0
+	+	244	17
+	+	245	29
+	+	244	0
+	+	244	0
+	+	244	17
+	+	245	30
+	+	244	0
+	+	67	0
+	+	67	0
+	+	67	0
+	+	186	0
+	+	186	0
+	+	237	0
+	+	245	0
+	+	238	12
+	+	238	0
+	+	49	4
+	+	18	73
+	+	182	0
+	+	183	0
+	+	184	0
+	+	182	3
+	+	182	0
+	+	183	41
+	+	18	6
+	+	185	3
+	+	184	0
+	+	238	7
+	+	183	0
+	+	184	0
+	+	182	0
+	+	238	0
+	+	239	0
+	+	238	0
+	+	239	0
+	+	182	0
+	+	103	0
+	+	103	0
+	+	103	7
+	+	239	0
+	+	239	0
+	+	238	0
+	+	239	0
+	+	238	0
+	+	239	0
+	+	103	0
+	+	103	0
+	+	103	0
+	+	108	26
+	+	118	0
+	+	103	0
+	+	109	0
+	+	116	0
+	+	109	0
+	+	117	0
+	+	99	0
+	+	102	23
+	+	183	0
+	+	184	0
+	+	185	0
+	+	180	0
+	+	102	0
+	+	109	16
+	+	110	17
+	+	109	0
+	+	110	0
+	+	109	0
+	+	109	0
+	+	110	0
+	+	109	0
+	+	110	0
+	+	49	16
+	+	11	61
+	+	8	50
+
+> ~/[Vundle] list
+	"	3	0
+	.	1	0
+	+	107	0
+	+	54	0
+	+	1	0
+
+> ~/.vim/bundle/vundle/doc/vundle.txt
+	"	354	57
+
+> ~/[Vundle] search
+	"	3	3
+	.	1	0
+	+	4	0
+	+	1	0
+
+> ~/merde
+	"	355	0
+
+> /tmp/vN6fa7l/269
+	"	58	1
+
+> /tmp/vN6fa7l/270
+	"	92	0
+
+> ~/Documents/testoterone.html
+	"	31	0
+
+> ~/.dotfiles/bash/bashrc
+	"	38	0
+	^	109	11
+	.	109	10
+	+	110	0
+	+	111	0
+	+	111	0
+	+	111	21
+	+	111	0
+	+	110	0
+	+	108	0
+	+	109	32
+	+	109	13
+	+	109	0
+	+	110	0
+	+	109	0
+	+	110	0
+	+	109	10
+
+> ~/Bureau/Navigateur Web Firefox.desktop
+	"	9	11
+
+> /etc/default/useradd
+	"	8	0
+	.	8	0
+	+	8	0
+	+	9	0
+	+	8	0
+
+> ~/Scripts/Conkys/SimpleConky/conkyrcSimpleProcessus
+	"	42	15
+	^	42	16
+	.	42	15
+	+	43	7
+	+	42	0
+	+	43	6
+	+	42	15
+
+> ~/installXubuntu
+	"	64	17
+	^	64	18
+	.	64	17
+	+	32	37
+	+	37	88
+	+	40	15
+	+	42	33
+	+	43	18
+	+	43	109
+	+	58	0
+	+	58	0
+	+	56	16
+	+	57	0
+	+	44	34
+	+	63	11
+	+	64	17
+
+> ~/.config/menus/xfce-applications.menu
+	"	152	45
+	.	181	0
+	+	362	0
+	+	103	0
+	+	181	0
+
+> /etc/xdg/xdg-xubuntu/menus/xfce-applications.menu
+	"	69	0
+
+> ~/.config/xfce4/panel/whiskermenu-1.rc
+	"	66	0
+
+> /usr/share/applications/gvbam.desktop
+	"	10	28
+	.	10	28
+	+	10	28
+
+> ~/.bash_history
+	"	1	0
+
+> /usr/share/gmusicbrowser/layouts/shimmer2.layout
+	"	99	10
+	^	99	11
+	.	99	10
+	+	99	10
+
+> /usr/share/gmusicbrowser/layouts/[fuf]
+	"	1	20
+	^	1	21
+	.	1	20
+	+	1	20
+
+> /usr/share/gmusicbrowser/layouts/shimmer.layout
+	"	96	0
+	^	99	11
+	.	96	0
+	+	99	0
+	+	96	0
+
+> ~/.conkyrcProcessus
+	"	39	12
+	^	39	13
+	.	39	12
+	+	35	7
+	+	40	0
+	+	37	10
+	+	49	39
+	+	37	7
+	+	49	39
+	+	37	7
+	+	39	12
+	+	40	0
+	+	49	54
+	+	49	54
+	+	50	49
+	+	51	49
+	+	53	0
+	+	37	12
+	+	39	12
+	+	52	111
+	+	44	6
+	+	42	0
+	+	44	6
+	+	38	12
+	+	39	12
+
+> /etc/ufw/before.rules
+	"	49	64
+	^	43	65
+	.	43	0
+	+	33	36
+	+	39	0
+	+	39	46
+	+	43	0
+
+> ~/Bureau/installXubuntu
+	"	9	81
+	^	9	82
+	.	9	81
+	+	9	81
+
+> ~/Bureau/installFiles/extraConfiguration
+	"	3	0
+	.	3	0
+	+	1	41
+	+	6	0
+	+	3	0
+	+	1	31
+	+	2	100
+	+	3	100
+	+	3	0
+
+> /proc/sys/vm/swappiness
+	"	2	0
+	^	2	0
+	.	2	0
+	+	11	23
+	+	7	0
+	+	3	43
+	+	6	23
+	+	2	0
+
+> ~/.pulse/client.conf
+	"	1	0
+	.	1	0
+	+	1	0
+
+> /etc/fstab
+	"	15	59
+	^	15	60
+	.	15	59
+	+	16	0
+	+	15	59
+
+> ~/.config/quicktile.cfg
+	"	19	3
+	^	8	4
+	.	8	4
+	+	21	0
+	+	7	0
+	+	8	0
+	+	9	0
+	+	10	0
+	+	11	0
+	+	8	4
+
+> ~/undotree_2
+	"	3	1
+	.	3	0
+	+	3	0
+	+	3	0
+
+> ~/diffpanel_3
+	"	1	0
+	.	10	0
+	+	10	0
+	+	10	0
+
+> /usr/share/applications/xfce4-terminal.desktop
+	"	145	9
+	^	145	10
+	.	145	9
+	+	144	0
+	+	145	9
+
+> ~/Téléchargements/Faenza-Games/Game-Icons/index.theme
+	"	3	20
+	^	3	21
+	.	3	20
+	+	3	20
+
+> /usr/share/applications/gvim.desktop
+	"	77	5
+	^	77	6
+	.	77	0
+	+	77	0
+
+> /usr/share/applications/smplayer.desktop
+	"	7	0
+
+> ~/.local/share/applications/gcolor2.desktop
+	"	7	5
+	^	7	27
+	.	7	0
+	+	7	0
+
+> /usr/share/applications/gmusicbrowser.desktop
+	"	6	0
+	.	6	0
+	+	6	0
+
+> ~/.config/xfce4/xfconf/xfce-perchannel-xml/keyboard-layout.xml
+	"	1	0
+
+> ~/.config/xfce4/xfconf/xfce-perchannel-xml/[fuf]
+	"	1	27
+	^	1	28
+	.	1	27
+	+	1	13
+	+	1	25
+	+	1	25
+	+	1	25
+	+	1	25
+	+	1	23
+	+	1	23
+	+	1	52
+	+	1	13
+	+	1	9
+	+	1	23
+	+	1	28
+	+	1	15
+	+	1	11
+	+	1	28
+	+	1	23
+	+	1	28
+	+	1	28
+	+	1	0
+	+	1	24
+	+	1	5
+	+	1	59
+	+	1	11
+	+	1	8
+	+	1	12
+	+	1	11
+	+	1	10
+	+	1	59
+	+	1	59
+	+	1	13
+	+	1	12
+	+	1	50
+	+	1	7
+	+	1	5
+	+	1	13
+	+	1	59
+	+	1	59
+	+	1	62
+	+	1	15
+	+	1	9
+	+	1	12
+	+	1	18
+	+	1	64
+	+	1	27
+	+	1	51
+	+	1	56
+	+	1	7
+	+	1	7
+	+	1	56
+	+	1	51
+	+	1	7
+	+	1	5
+	+	1	56
+	+	1	50
+	+	1	9
+	+	1	15
+	+	1	82
+	+	1	27
+
+> ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+	"	182	6
+	.	182	0
+	+	242	0
+	+	170	0
+	+	170	0
+	+	242	0
+	+	243	0
+	+	170	0
+	+	169	0
+	+	182	0
+
+> ~/.config/xfce4/terminal/terminalrc
+	"	6	22
+	^	18	30
+	.	18	29
+	+	7	20
+	+	12	21
+	+	18	29
+
+> /home/.dotfiles/bash/bashrc
+	"	1	0
+
+> ~/.config/autostart/MonScript.desktop
+	"	1	0
+
+> ~/.cache/dconf/user
+	"	1	0
+
+> /tmp/va9oj1N/164
+	"	1	0
+
+> ~/MyProjects/pluginsVim/zeavim/plugin/zeavim.vim
+	"	1	0
+	.	243	0
+	+	243	0
+
+> ~/merde.km
+	"	1	0
+
+> ~/.vim/plugin/NERD_tree_1
+	"	3	0
+	.	1	0
+	+	1	0
+	+	1	0
+
+> ~/.vim/plugin/[Vundle] clean
+	"	2	0
+	.	1	0
+	+	1	0
+
+> ~/.vim/plugin/[Vundle] Installer
+	"	55	0
+	.	1	0
+	+	55	0
+	+	1	0
+
+> /tmp/vmPt9yq/176
+	"	22	0
+
+> ~/.vim/plugin/zeavimII.vim
+	"	33	4
+	^	35	29
+	.	35	28
+	+	1	0
+	+	1	54
+	+	1	50
+	+	1	0
+	+	1	55
+	+	1	10
+	+	1	45
+	+	1	0
+	+	1	49
+	+	1	70
+	+	1	23
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	4
+	+	1	0
+	+	1	0
+	+	1	12
+	+	1	3
+	+	1	60
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	51
+	+	1	58
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	21
+	+	1	18
+	+	1	27
+	+	1	20
+	+	1	26
+	+	1	19
+	+	1	18
+	+	1	29
+	+	1	11
+	+	1	0
+	+	1	0
+	+	23	19
+	+	25	0
+	+	28	40
+	+	29	35
+	+	30	0
+	+	31	0
+	+	34	60
+	+	31	23
+	+	41	0
+	+	31	14
+	+	31	0
+	+	35	47
+	+	37	0
+	+	40	67
+	+	37	30
+	+	27	39
+	+	25	0
+	+	26	0
+	+	33	39
+	+	30	26
+	+	31	38
+	+	39	39
+	+	36	26
+	+	37	45
+	+	25	0
+	+	179	0
+	+	180	0
+	+	37	0
+	+	34	27
+	+	40	39
+	+	30	40
+	+	36	49
+	+	33	70
+	+	39	85
+	+	25	0
+	+	31	0
+	+	37	0
+	+	33	39
+	+	30	26
+	+	31	38
+	+	33	38
+	+	30	25
+	+	31	37
+	+	32	0
+	+	34	52
+	+	35	28
+
+> ~/Bureau/zeavim.vim
+	"	42	4
+
+> /usr/share/vim/vim73/doc/help.txt
+	"	79	7
+
+> /usr/share/vim/vim73/doc/usr_41.txt
+	"	1822	0
+	^	620	3
+
+> /opt/lampp/htdocs/mesProjets/amineKabbInfo/bil/functions.php
+	"	8	6
+	^	2	4
+	.	2	3
+	+	13	0
+	+	23	0
+	+	8	21
+	+	8	21
+	+	8	42
+	+	8	22
+	+	8	21
+	+	9	0
+	+	8	0
+	+	2	3
+
+> ~/MyProjects/Formations en cours/JavaScript/test.js
+	"	7	0
+	^	4	2
+	.	4	1
+	+	14	34
+	+	14	18
+	+	14	20
+	+	14	0
+	+	14	58
+	+	14	7
+	+	14	40
+	+	14	8
+	+	14	10
+	+	14	22
+	+	14	9
+	+	14	27
+	+	14	7
+	+	14	13
+	+	14	0
+	+	14	0
+	+	14	1
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	16
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	8
+	+	14	13
+	+	14	16
+	+	14	19
+	+	14	14
+	+	14	13
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	14	0
+	+	1	48
+	+	14	19
+	+	1	47
+	+	8	19
+	+	14	0
+	+	14	30
+	+	14	19
+	+	8	39
+	+	8	0
+	+	8	24
+	+	8	9
+	+	8	7
+	+	8	0
+	+	8	0
+	+	8	7
+	+	8	11
+	+	8	14
+	+	8	18
+	+	8	23
+	+	1	41
+	+	8	55
+	+	8	0
+	+	12	17
+	+	13	18
+	+	8	0
+	+	1	50
+	+	7	47
+	+	7	0
+	+	7	0
+	+	7	34
+	+	7	0
+	+	7	4
+	+	7	0
+	+	1	51
+	+	2	73
+	+	4	18
+	+	6	44
+	+	4	1
+
+> ~/__Tagbar__
+	"	49	2
+	.	81	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	134	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	127	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	123	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	112	0
+	+	106	0
+	+	106	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	105	0
+	+	81	0
+	+	81	0
+
+> /usr/share/vim/vim73/doc/eval.txt
+	"	3719	42
+	^	1	0
+
+> ~/merde.hjyj
+	"	1	0
+
+> ~/Merde.mrdffdg
+	"	1	0
+
+> /usr/share/vim/vim73/doc/fold.txt
+	"	581	0
+
+> ~/merde.txt
+	"	1	0
+
+> ~/merde.as
+	"	1	0
+
+> ~/NERD_tree_1
+	"	3	0
+	.	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+
+> /usr/share/vim/vim73/doc/syntax.txt
+	"	4447	7
+
+> /usr/share/vim/vim73/doc/options.txt
+	"	3104	10
+
+> ~/merde.mlll
+	"	1	0
+
+> ~/nouveau_fichier.html
+	"	2	3
+	.	3	0
+	+	3	0
+
+> ~/.vim/bundle/tagbar/doc/tagbar.txt
+	"	473	9
+
+> /tmp/vQ0RSeP/163
+	"	1	0

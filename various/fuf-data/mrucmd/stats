@@ -1,0 +1,42 @@
+{'word': ':source $MYVIMRC', 'pattern': 'sou'}
+{'word': ':source $MYVIMRC', 'pattern': 'sour'}
+{'word': ':helptags ~/.vim/doc/', 'pattern': 'help'}
+{'word': ':file templateBox.vim', 'pattern': 'file '}
+{'word': ':h functions', 'pattern': 'h fun'}
+{'word': ':h functions', 'pattern': 'fun'}
+{'word': ':source $MYVIMRC', 'pattern': 'so'}
+{'word': ':source $MYVIMRC', 'pattern': ':source $MYVIMRC'}
+{'word': ':VS javascript', 'pattern': 'java'}
+{'word': ':Ft javascript', 'pattern': 'ja'}
+{'word': ':Ft javascript', 'pattern': 'java'}
+{'word': ':h NERD_tree.txt', 'pattern': 'h '}
+{'word': ':set guioptions+=m', 'pattern': 'gui'}
+{'word': ':set nopaste', 'pattern': 'pas'}
+{'word': ':set complete?', 'pattern': 'comp'}
+{'word': ':set directory?', 'pattern': 'dire'}
+{'word': ':set guifont?', 'pattern': 'fon'}
+{'word': ':set autochdir', 'pattern': 'aur'}
+{'word': ':!chmod 777 compteur.txt', 'pattern': 'chmo'}
+{'word': ':colo Tomorrow-Night', 'pattern': 'tomo'}
+{'word': ':set background=dark', 'pattern': 'back'}
+{'word': ':cd NARÉ', 'pattern': 'cd'}
+{'word': ':set omnifunc?', 'pattern': 'omn'}
+{'word': ':version', 'pattern': 'versio'}
+{'word': ':h NERDTree', 'pattern': 'NER'}
+{'word': ':set guifont=MyFont\ for\ Powerline', 'pattern': 'fon'}
+{'word': ':h syntastic', 'pattern': 'h S'}
+{'word': ':SyntasticCheck', 'pattern': 'che'}
+{'word': ':SyntasticCheck', 'pattern': 'Synta'}
+{'word': ':SyntasticToggleMode', 'pattern': 'toggle'}
+{'word': ':SyntasticToggleMode', 'pattern': 'togg'}
+{'word': ':h autcmd', 'pattern': 'h au'}
+{'word': ':h autocmd', 'pattern': 'auto'}
+{'word': ':Hl', 'pattern': 'h'}
+{'word': ':AirlineToggle', 'pattern': 'toggle'}
+{'word': ':argadd', 'pattern': 'arga'}
+{'word': ':AirlineTheme molokai', 'pattern': 'them'}
+{'word': ':AirlineTheme wombat', 'pattern': 'them'}
+{'word': ':AirlineTheme dark', 'pattern': 'them'}
+{'word': ':AirlineTheme luna', 'pattern': 'them'}
+{'word': ':AirlineTheme zenburn', 'pattern': 'the; ze'}
+{'word': ':AirlineToggle', 'pattern': 'to'}
