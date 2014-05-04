@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-04-21
+" Last modification: 2014-05-04
 " ================================================================================
 
 
@@ -17,15 +17,15 @@ filetype off			" Required for (( vundle )) !
 
 " ========== VUNDLE ============================================================ 
 " Let Vundle manage Vundle
-execute "set rtp+=".vimDir."/bundle/vundle/"
+execute "set rtp+=".vimDir."/bundle/Vundle.vim"
 
 if has ('win32') || has('win64')
-	call vundle#rc('$HOME/vimfiles/bundle/')
+	call vundle#begin('$HOME/vimfiles/bundle/')
 else
-	call vundle#rc()
+	call vundle#begin()
 endif
 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " My Plugins:
 " {
@@ -92,6 +92,8 @@ Plugin 'gmarik/vundle'
 		Plugin 'Wombat'
 " }
 
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " ========== VARIOUS  ============================================================
 " Load indentation rules and plugins according to the detected filetype.
