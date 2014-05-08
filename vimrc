@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-04
+" Last modification: 2014-05-08
 " ================================================================================
 
 
@@ -11,11 +11,12 @@ else
 	let g:vimDir = "$HOME/.vim"
 endif
 
+
+" ========== VUNDLE ============================================================ 
+
 set nocompatible		" No compatible with Vi.
 filetype off			" Required for (( vundle )) !
 
-
-" ========== VUNDLE ============================================================ 
 " Let Vundle manage Vundle
 execute "set rtp+=".vimDir."/bundle/Vundle.vim"
 
@@ -76,8 +77,6 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'matchit.zip'
 	" Colorschemes
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
-		Plugin 'fmoralesc/vim-vitamins'
-		Plugin 'jaromero/vim-monokai-refined'
 		Plugin 'jnurmine/Zenburn'
 		Plugin 'morhetz/gruvbox'
 		Plugin 'nanotech/jellybeans.vim'
@@ -86,14 +85,11 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'sjl/badwolf'
 		Plugin 'w0ng/vim-hybrid'
 		Plugin 'zeis/vim-kolor'
-		Plugin 'BusyBee'
-		Plugin 'Mustang2'
-		Plugin 'pyte'
 		Plugin 'Wombat'
 " }
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()
+filetype plugin indent on
 
 " ========== VARIOUS  ============================================================
 " Load indentation rules and plugins according to the detected filetype.
