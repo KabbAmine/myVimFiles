@@ -30,64 +30,64 @@ Plugin 'gmarik/Vundle.vim'
 
 " My Plugins:
 " " {
-" 	" For PHP
-" 		Plugin 'StanAngeloff/php.vim'
-" 		Plugin 'PHP-correct-Indenting'
-" 	" For HTML/CSS
-" 		Plugin 'ap/vim-css-color'
-" 		Plugin 'hail2u/vim-css3-syntax.git'
-" 		Plugin 'mattn/emmet-vim'
-" 		Plugin 'othree/html5.vim'
-" 		Plugin 'plasticboy/vim-markdown'
-" 		Plugin 'Valloric/MatchTagAlways'
-" 	" For JavaScript
-" 		Plugin 'pangloss/vim-javascript'
-" 	" For Python
-" 		Plugin 'hdima/python-syntax'
-" 		Plugin 'rkulla/pydiction'
-" 	" For Java
-" 		Plugin 'javacomplete'
-" 	" For (( fuzzyfinder ))
+ 	" For PHP
+ 		Plugin 'StanAngeloff/php.vim'
+ 		Plugin 'PHP-correct-Indenting'
+ 	" For HTML/CSS
+ 		Plugin 'ap/vim-css-color'
+ 		Plugin 'hail2u/vim-css3-syntax.git'
+ 		Plugin 'mattn/emmet-vim'
+ 		Plugin 'othree/html5.vim'
+ 		Plugin 'plasticboy/vim-markdown'
+ 		Plugin 'Valloric/MatchTagAlways'
+ 	" For JavaScript
+ 		Plugin 'pangloss/vim-javascript'
+ 	" For Python
+ 		Plugin 'hdima/python-syntax'
+ 		Plugin 'rkulla/pydiction'
+ 	" For Java
+ 		Plugin 'javacomplete'
+ 	" For (( fuzzyfinder ))
 		Plugin 'FuzzyFinder'
 		Plugin 'L9'
-" 	" For (( snipmate ))
-" 		Plugin 'garbas/vim-snipmate'
-" 		Plugin 'honza/vim-snippets'
-" 		Plugin 'MarcWeber/vim-addon-mw-utils'
-" 		Plugin 'tomtom/tlib_vim'
-" 	" For (( airline ))
+ 	" For (( snipmate ))
+ 		Plugin 'garbas/vim-snipmate'
+ 		Plugin 'honza/vim-snippets'
+ 		Plugin 'MarcWeber/vim-addon-mw-utils'
+ 		Plugin 'tomtom/tlib_vim'
+ 	" For (( airline ))
 		Plugin 'bling/vim-airline'
 		Plugin 'edkolev/tmuxline.vim'
-" 	" Various
-" 		Plugin 'AndrewRadev/splitjoin.vim'
-" 		Plugin 'godlygeek/tabular'
-" 		" Plugin 'kshenoy/vim-signature'
-" 		Plugin 'Lokaltog/vim-easymotion'
-" 		Plugin 'majutsushi/tagbar'
-" 		Plugin 'mbbill/undotree'
-" 		Plugin 'Raimondi/delimitMate'
-" 		Plugin 'scrooloose/nerdtree'
-" 		Plugin 'scrooloose/syntastic'
-" 		Plugin 'sk1418/Join'
-" 		Plugin 't9md/vim-textmanip'
-" 		Plugin 'terryma/vim-multiple-cursors'
-" 		Plugin 'tomtom/tcomment_vim'
-" 		Plugin 'tpope/vim-surround'
-" 		Plugin 'AutoComplPop'
-" 		Plugin 'matchit.zip'
-" 	" Colorschemes
+ 	" Various
+ 		Plugin 'AndrewRadev/splitjoin.vim'
+ 		Plugin 'godlygeek/tabular'
+ 		Plugin 'kshenoy/vim-signature'
+ 		Plugin 'Lokaltog/vim-easymotion'
+ 		Plugin 'majutsushi/tagbar'
+ 		Plugin 'mbbill/undotree'
+ 		Plugin 'Raimondi/delimitMate'
+ 		Plugin 'scrooloose/nerdtree'
+ 		Plugin 'scrooloose/syntastic'
+ 		Plugin 'sk1418/Join'
+ 		Plugin 't9md/vim-textmanip'
+ 		Plugin 'terryma/vim-multiple-cursors'
+ 		Plugin 'tomtom/tcomment_vim'
+ 		Plugin 'tpope/vim-surround'
+ 		Plugin 'AutoComplPop'
+ 		Plugin 'matchit.zip'
+ 	" Colorschemes
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
-" 		Plugin 'jnurmine/Zenburn'
-" 		Plugin 'morhetz/gruvbox'
-" 		Plugin 'nanotech/jellybeans.vim'
-" 		Plugin 'noahfrederick/vim-hemisu'
-" 		Plugin 'reedes/vim-colors-pencil'
-" 		Plugin 'sjl/badwolf'
-" 		Plugin 'w0ng/vim-hybrid'
-" 		Plugin 'zeis/vim-kolor'
-" 		Plugin 'Wombat'
-" " }
-"
+ 		Plugin 'jnurmine/Zenburn'
+ 		Plugin 'morhetz/gruvbox'
+ 		Plugin 'nanotech/jellybeans.vim'
+ 		Plugin 'noahfrederick/vim-hemisu'
+ 		Plugin 'reedes/vim-colors-pencil'
+ 		Plugin 'sjl/badwolf'
+ 		Plugin 'w0ng/vim-hybrid'
+ 		Plugin 'zeis/vim-kolor'
+ 		Plugin 'Wombat'
+ " }
+
 call vundle#end()
 filetype plugin indent on
 
