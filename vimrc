@@ -1,7 +1,7 @@
-" ========== $MYVIMRC (Unix & Windows) ===========================================
+" ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-08
-" ================================================================================
+" Last modification: 2014-05-10
+" ================================================================
 
 
 " Stock the Location of vim's folder in a global variable.
@@ -12,7 +12,7 @@ else
 endif
 
 
-" ========== VUNDLE ============================================================ 
+" ========== VUNDLE ==============================================
 
 set nocompatible		" No compatible with Vi.
 filetype off			" Required for (( vundle )) !
@@ -29,69 +29,69 @@ endif
 Plugin 'gmarik/Vundle.vim'
 
 " My Plugins:
-" {
-	" For PHP
-		Plugin 'StanAngeloff/php.vim'
-		Plugin 'PHP-correct-Indenting'
-	" For HTML/CSS
-		Plugin 'ap/vim-css-color'
-		Plugin 'hail2u/vim-css3-syntax.git'
-		Plugin 'mattn/emmet-vim'
-		Plugin 'othree/html5.vim'
-		Plugin 'plasticboy/vim-markdown'
-		Plugin 'Valloric/MatchTagAlways'
-	" For JavaScript
-		Plugin 'pangloss/vim-javascript'
-	" For Python
-		Plugin 'hdima/python-syntax'
-		Plugin 'rkulla/pydiction'
-	" For Java
-		Plugin 'javacomplete'
-	" For (( fuzzyfinder ))
+" " {
+" 	" For PHP
+" 		Plugin 'StanAngeloff/php.vim'
+" 		Plugin 'PHP-correct-Indenting'
+" 	" For HTML/CSS
+" 		Plugin 'ap/vim-css-color'
+" 		Plugin 'hail2u/vim-css3-syntax.git'
+" 		Plugin 'mattn/emmet-vim'
+" 		Plugin 'othree/html5.vim'
+" 		Plugin 'plasticboy/vim-markdown'
+" 		Plugin 'Valloric/MatchTagAlways'
+" 	" For JavaScript
+" 		Plugin 'pangloss/vim-javascript'
+" 	" For Python
+" 		Plugin 'hdima/python-syntax'
+" 		Plugin 'rkulla/pydiction'
+" 	" For Java
+" 		Plugin 'javacomplete'
+" 	" For (( fuzzyfinder ))
 		Plugin 'FuzzyFinder'
 		Plugin 'L9'
-	" For (( snipmate ))
-		Plugin 'garbas/vim-snipmate'
-		Plugin 'honza/vim-snippets'
-		Plugin 'MarcWeber/vim-addon-mw-utils'
-		Plugin 'tomtom/tlib_vim'
-	" For (( airline ))
+" 	" For (( snipmate ))
+" 		Plugin 'garbas/vim-snipmate'
+" 		Plugin 'honza/vim-snippets'
+" 		Plugin 'MarcWeber/vim-addon-mw-utils'
+" 		Plugin 'tomtom/tlib_vim'
+" 	" For (( airline ))
 		Plugin 'bling/vim-airline'
 		Plugin 'edkolev/tmuxline.vim'
-	" Various
-		Plugin 'AndrewRadev/splitjoin.vim'
-		Plugin 'godlygeek/tabular'
-		Plugin 'kshenoy/vim-signature'
-		Plugin 'Lokaltog/vim-easymotion'
-		Plugin 'majutsushi/tagbar'
-		Plugin 'mbbill/undotree'
-		Plugin 'Raimondi/delimitMate'
-		Plugin 'scrooloose/nerdtree'
-		Plugin 'scrooloose/syntastic'
-		Plugin 'sk1418/Join'
-		Plugin 't9md/vim-textmanip'
-		Plugin 'terryma/vim-multiple-cursors'
-		Plugin 'tomtom/tcomment_vim'
-		Plugin 'tpope/vim-surround'
-		Plugin 'AutoComplPop'
-		Plugin 'matchit.zip'
-	" Colorschemes
+" 	" Various
+" 		Plugin 'AndrewRadev/splitjoin.vim'
+" 		Plugin 'godlygeek/tabular'
+" 		" Plugin 'kshenoy/vim-signature'
+" 		Plugin 'Lokaltog/vim-easymotion'
+" 		Plugin 'majutsushi/tagbar'
+" 		Plugin 'mbbill/undotree'
+" 		Plugin 'Raimondi/delimitMate'
+" 		Plugin 'scrooloose/nerdtree'
+" 		Plugin 'scrooloose/syntastic'
+" 		Plugin 'sk1418/Join'
+" 		Plugin 't9md/vim-textmanip'
+" 		Plugin 'terryma/vim-multiple-cursors'
+" 		Plugin 'tomtom/tcomment_vim'
+" 		Plugin 'tpope/vim-surround'
+" 		Plugin 'AutoComplPop'
+" 		Plugin 'matchit.zip'
+" 	" Colorschemes
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
-		Plugin 'jnurmine/Zenburn'
-		Plugin 'morhetz/gruvbox'
-		Plugin 'nanotech/jellybeans.vim'
-		Plugin 'noahfrederick/vim-hemisu'
-		Plugin 'reedes/vim-colors-pencil'
-		Plugin 'sjl/badwolf'
-		Plugin 'w0ng/vim-hybrid'
-		Plugin 'zeis/vim-kolor'
-		Plugin 'Wombat'
-" }
-
+" 		Plugin 'jnurmine/Zenburn'
+" 		Plugin 'morhetz/gruvbox'
+" 		Plugin 'nanotech/jellybeans.vim'
+" 		Plugin 'noahfrederick/vim-hemisu'
+" 		Plugin 'reedes/vim-colors-pencil'
+" 		Plugin 'sjl/badwolf'
+" 		Plugin 'w0ng/vim-hybrid'
+" 		Plugin 'zeis/vim-kolor'
+" 		Plugin 'Wombat'
+" " }
+"
 call vundle#end()
 filetype plugin indent on
 
-" ========== VARIOUS  ============================================================
+" ========== VARIOUS  ===========================================
 " Load indentation rules and plugins according to the detected filetype.
 if has("autocmd")
 	filetype plugin indent on
@@ -133,7 +133,7 @@ if &term =~ '^screen'
 endif
 
 
-" ========== GUI =============================================================
+" ========== GUI ===============================================
 if has("gui_running")
 	set guioptions-=T		" No toolbar in GVim.
 	set guioptions-=m		" No menu in GVim.
@@ -151,13 +151,13 @@ if has("gui_running")
 endif
 
 
-" ========== MESSAGES & INFO =================================================
+" ========== MESSAGES & INFO ===================================
 set showcmd			" Show (partial) command in status line.
 set showmode		" Display the current mode in status line.
 set ruler			" Show cursor position below each window.
 
 
-" ========== EDIT TEXT =======================================================
+" ========== EDIT TEXT =========================================
 set showmatch						" Show matching brackets.
 set matchpairs=(:),{:},[:],<:>		" List of pairs that match for the % command.
 set backspace=indent,eol,start		" Specifies what <BS>, CTRL-W, etc. can do in Insert mode.
@@ -165,16 +165,16 @@ set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
 
 
-" ========== DISPLAY TEXT ====================================================
-set number										" Show the line number for each line.
-set breakat=\ \ !@*-+;:,./?						" Which characters might cause a line break
-set linebreak									" Wrap long lines at a character in 'breakat'.
-let &showbreak='░░░░ '							" String to put before wrapped screen lines.
-set scrolloff=3									" Number of screen lines to show around the cursor.
-set display=lastline							" Show the last line even if it doesn't fit.
+" ========== DISPLAY TEXT ======================================
+set number							" Show the line number for each line.
+set breakat=\ \ !@*-+;:,./?			" Which characters might cause a line break
+set linebreak						" Wrap long lines at a character in 'breakat'.
+let &showbreak='░░░░ '				" String to put before wrapped screen lines.
+set scrolloff=3						" Number of screen lines to show around the cursor.
+set display=lastline				" Show the last line even if it doesn't fit.
 " Make stars and bars visible
 " {
-	set conceallevel=0							" Controls whether concealable text is hidden.
+	set conceallevel=0				" Controls whether concealable text is hidden.
 	hi link HelpBar Normal
 	hi link HelpStar Normal
 " }
@@ -188,51 +188,51 @@ set display=lastline							" Show the last line even if it doesn't fit.
 	set list
 " }
 
-" ========== MOVE, SEARCH & PATTERNS =========================================
+" ========== MOVE, SEARCH & PATTERNS ===========================
 set ignorecase					" Do case insensitive matching.
 set smartcase					" Do smart case matching.
 set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 
 
-" ========== MOUSE ===========================================================
+" ========== MOUSE =============================================
 set mouse=a		" Enable mouse usage (all modes).
 
 
-" ========== SYNTAX, HIGHLIGHTING AND SPELLING ===============================
+" ========== SYNTAX, HIGHLIGHTING AND SPELLING =================
 set cursorline				" Highlight the screen line of the cursor.
 " set cursorcolumn			" Highlight the screen column of the cursor.
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
 
 
-" ========== READ & WRITE FILES ==============================================
+" ========== READ & WRITE FILES ================================
 set writebackup				" Write a backup file before overwriting a file.
 " set backupext=.backup		" File name extension for the backup file.
 
 
-" ========== TABS & INDENTING ================================================
+" ========== TABS & INDENTING ==================================
 set tabstop=4			" Number of spaces a <Tab> in the text stands for.
-set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set softtabstop=4		" Number of spaces to insert for a <Tab>.
+set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
 set smartindent			" Do clever autoindenting.
 set copyindent			" Copy whitespace for indenting from previous line.
 
 
-" ========== FOLDING =========================================================
+" ========== FOLDING ===========================================
 set foldcolumn=3			" Width of the column used to indicate fold.
 set foldmethod=manual		" Folding type: 'manual', 'indent', 'expr', 'marker' or 'syntax'.
 " set foldlevel=4			" Folds with a level higher than this number will be closed.
 " set foldenable			" Folds are open by default
 
 
-" ========== MULTIPLE TAB PAGES ==============================================
+" ========== MULTIPLE TAB PAGES ================================
 "set showtabline=1		" 0, 1 or 2; when to use a tab pages line.
 
 
-" ========== COMMAND LINE EDITING ============================================
+" ========== COMMAND LINE EDITING ==============================
 set wildmode=list:longest,full		" Command <Tab> completion, list matches, then longest common part, then all.
 set wildmenu						" Command-line completion shows a list of matches with TAB.
 " Enable the persistent undo.
@@ -242,23 +242,23 @@ if has("persistent_undo")
 endif
 
 
-" ========== MULTI-BYTE CHARACTERS ================================================
+" ========== MULTI-BYTE CHARACTERS =============================
 set encoding=utf-8
 
 
-" ========== MULTIPLE WINDOWS ================================================
-set equalalways											" Make all windows the same size when adding/removing windows.
-set eadirection=both									" In which direction 'equalalways' works: 'ver', 'hor' or 'both'.
-set splitright											" A new window is put right of the current one.
-set laststatus=2										" 0, 1 or 2; when to use a status line for the last window.
+" ========== MULTIPLE WINDOWS ==================================
+set equalalways						" Make all windows the same size when adding/removing windows.
+set eadirection=both				" In which direction 'equalalways' works: 'ver', 'hor' or 'both'.
+set splitright						" A new window is put right of the current one.
+set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
 set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be used for a status line.
 
 
-" ========== TERMINAL ========================================================
+" ========== TERMINAL ==========================================
 " set title			" Show info in the window title.
 
 
-" ========== SWAP FILE ========================================================
+" ========== SWAP FILE =========================================
 " Set the swap file directories.
 if has ('win32') || has('win64')
 	execute "set directory=".vimDir."\\various\\swap_dir,c:\\tmp,c:\\temp\\"
@@ -267,53 +267,7 @@ else
 endif
 
 
-" =========== MAPPING ========================================================
-" Compilation and execution of scripts, executables, etc.... *******
-" {
-	" *** <F9>
-	" ***		Compile a C or Java file.
-	" ***		Compile a Tex file and generate a pdf file (Unix).
-	" ***		Give the execution right to a Bash script and execute it (Unix).
-	" ***		Convert a Markdown syntax to HTML (Unix).
-	" ***		Execute a Python2 file.
-		autocmd! FileType c
-					\ nmap <silent> <F9> :!gcc -o "%:p:r" "%:p"<CR>
-		autocmd! FileType java
-					\ nmap <silent> <F9> :!javac "%:p"<CR>
-		autocmd! FileType tex
-					\ nmap <silent> <F9> :!pdflatex "%:p"<CR>
-		autocmd! FileType sh
-					\ nmap <silent> <F9> :!chmod +x "%:p" && "%:p"<CR>
-		autocmd! FileType markdown,mkd
-					\ nmap <silent> <F9> :%!markdown<CR>
-		autocmd! FileType python
-					\ nmap <silent> <F9> :!python "%:p"<CR>
-	" *** <C-F9>
-	" ***		Open a HTML file into the browser.
-	" ***		Execute a C, Python3 or Java file.
-	" ***		Open the generated pdf from Tex file compilation with Evince in Linux and default-pdf reader in Windows.
-		if has ('win32') || has('win64')
-			autocmd! FileType html,xhtml
-						\ nmap <silent> <c-F9> :!start cmd /c "%:p"<CR>
-		else
-			autocmd! FileType html,xhtml
-						\ nmap <silent> <c-F9> :!x-www-browser "%:p" &<CR><CR>
-		endif
-		autocmd! FileType c
-					\ nmap <silent> <c-F9> :!"%:p:r"<CR>
-		autocmd! FileType python
-					\ nmap <silent> <c-F9> :!python3 "%:p"<CR>
-		autocmd! FileType java
-					\ nmap <silent> <c-F9> :!java -cp "%:p:h" "%:t:r"<CR>
-		if has ('win32') || has('win64')
-			autocmd! FileType tex
-						\ nmap <silent> <c-F9> :!start cmd /c ""%:p:r.pdf"<CR>
-		else
-			autocmd! FileType tex
-						\ nmap <silent> <c-F9> :!evince "%:p:r.pdf" &<CR><CR>
-		endif
-" }
-
+" =========== MAPPING ==========================================
 " Apply the option 'only' *******
 " {
 	" *** <F5>		=> For a splitted window.
@@ -350,10 +304,8 @@ endif
 " Operations on tabs *******
 " {
 	" *** <C-t>			=> New tab.
-	" *** <C-S-q>		=> Close tab.
 	" *** <S-Tab>		=> Next tab.
 		map <silent> <C-t> :tabedit<CR>
-		map <silent> <C-S-q> :tabclose<CR>
 		map <silent> <S-Tab> gt
 " }
 
@@ -430,8 +382,8 @@ endif
 
 " (( tComment )) shortcut *******
 " {
-	" *** \c			=> Comment or uncomment a line, selection or bloc.
-	" *** \C{motion}	=> Comment or uncomment a line, selection or bloc.
+	" *** \cc			=> Comment or uncomment a line.
+	" *** \c{motion}	=> Comment or uncomment a specified motion.
 		nmap <silent> <leader>cc <c-_><c-_>
 		vmap <silent> <leader>cc <c-_><c-_>
 		nmap <silent> <leader>c gc
@@ -458,13 +410,13 @@ endif
 	" *** ùf			=> Search for a character in both directions (f equivalent).
 		" Disable default mappings
 			let g:EasyMotion_do_mapping = 0
-		map <silent> ù <Plug>(easymotion-prefix)
-		map <silent> ù<Down> <Plug>(easymotion-sol-j)
-		map <silent> ù<Up> <Plug>(easymotion-sol-k)
+		map <silent> ù		  <Plug>(easymotion-prefix)
+		map <silent> ù<Down>  <Plug>(easymotion-sol-j)
+		map <silent> ù<Up>	  <Plug>(easymotion-sol-k)
 		map <silent> ù<Right> <Plug>(easymotion-iskeyword-w)
-		map <silent> ù<Left> <Plug>(easymotion-iskeyword-b)
-		map <silent> ùù <Plug>(easymotion-lineanywhere)
-		map <silent> ùf <Plug>(easymotion-bd-f)
+		map <silent> ù<Left>  <Plug>(easymotion-iskeyword-b)
+		map <silent> ùù		  <Plug>(easymotion-lineanywhere)
+		map <silent> ùf		  <Plug>(easymotion-bd-f)
 " }
 
 " (( splitjoin )) mappings *******
@@ -559,14 +511,6 @@ endif
 		autocmd! FileType html command! Ch :setlocal ft=php
 " }
 
-" Set Python2 or Python3 syntax ***
-" {
-	" *** :Py2		=> For py2
-	" *** :Py3		=> For py3
-		autocmd! Filetype python command! Py2 :Python2Syntax
-		autocmd! Filetype python command! Py3 :Python3Syntax
-" }
-
 " Conversion between TABS ans SPACES *******
 " {
 	" *** :TabToSpace
@@ -579,46 +523,6 @@ endif
 " {
 	" *** :Dir
 	command! Dir :cd %:p:h
-" }
-
-" Replace special character with his HTML entity *******
-" {
-	" *** :SpecChar
-		command! SpecChar :call SpecChar()
-		function! SpecChar()
-			silent s/À/\&Agrave;/eg
-			silent s/Â/\&Acirc;/eg
-			silent s/Æ/\&AElig;/eg
-			silent s/Ç/\&Ccedil;/eg
-			silent s/È/\&Egrave;/eg
-			silent s/É/\&Eacute;/eg
-			silent s/Ê/\&Ecirc;/eg
-			silent s/Ë/\&Euml;/eg
-			silent s/Î/\&Icirc;/eg
-			silent s/Ô/\&Ocirc;/eg
-			silent s/Ø/\&Oslash;/eg
-			silent s/Ù/\&Ugrave;/eg
-			silent s/Ú/\&Uacute;/eg
-			silent s/Û/\&Ucirc;/eg
-			silent s/à/\&agrave;/eg
-			silent s/á/\&aacute;/eg
-			silent s/â/\&acirc;/eg
-			silent s/ä/\&auml;/eg
-			silent s/æ/\&aelig;/eg
-			silent s/ç/\&ccedil;/eg
-			silent s/è/\&egrave;/eg
-			silent s/é/\&eacute;/eg
-			silent s/ê/\&ecirc;/eg
-			silent s/ë/\&euml;/eg
-			silent s/î/\&icirc;/eg
-			silent s/ï/\&iuml;/eg
-			silent s/ô/\&ocirc;/eg
-			silent s/ö/\&ouml;/eg
-			silent s/ø/\&oslash;/eg
-			silent s/ù/\&ugrave;/eg
-			silent s/û/\&ucirc;/eg
-			silent s/ü/\&uuml;/eg
-		endfunction
 " }
 
 
@@ -738,7 +642,7 @@ endif
 			let g:airline#extensions#tabline#tab_min_count = 1
 		" Integration with tmux
 			let g:airline#extensions#tmuxline#enabled = 1
-			let airline#extensions#tmuxline#snapshot_file = "~/.tmux-statusline-colors.conf"
+			let airline#extensions#tmuxline#snapshot_file = "~/.dotfiles/tmux/tmux-statusline-colors.conf"
 			let airline#extensions#tmuxline#color_template = 'replace'
 
 " }
@@ -803,9 +707,9 @@ endif
 	" Keep cursor in the same column for JK motions
 		let g:EasyMotion_startofline = 0
 	" Matching target keys by smartcase.
-	    let g:EasyMotion_smartcase = 1
+		let g:EasyMotion_smartcase = 1
 	" Shows target labels with uppercase letters.
-	    let g:EasyMotion_use_upper = 1
+		let g:EasyMotion_use_upper = 1
 		let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 " }
 
@@ -813,6 +717,6 @@ endif
 " {
 	" let g:ZV_zeal_directory = ""
 	" let g:ZV_added_files_type = {
-	" 			\ 'extension': 'docset',
-	" 			\}
-" }	
+	"			\ 'extension': 'docset',
+	"			\}
+" }
