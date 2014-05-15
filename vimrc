@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-10
+" Last modification: 2014-05-15
 " ================================================================
 
 
@@ -35,6 +35,7 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'PHP-correct-Indenting'
  	" For HTML/CSS
  		Plugin 'ap/vim-css-color'
+		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'hail2u/vim-css3-syntax.git'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
@@ -86,6 +87,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'w0ng/vim-hybrid'
  		Plugin 'zeis/vim-kolor'
  		Plugin 'Wombat'
+ 	" My Plugins
+		Plugin 'KabbAmine/zeavim.vim'
  " }
 
 call vundle#end()
@@ -167,7 +170,7 @@ set completeopt=menuone				" Use only a popup menu for Insert mode completion wi
 
 " ========== DISPLAY TEXT ======================================
 set number							" Show the line number for each line.
-set breakat=\ \ !@*-+;:,./?			" Which characters might cause a line break
+" set breakat=\ \ !@*-+;:,./?			" Which characters might cause a line break
 set linebreak						" Wrap long lines at a character in 'breakat'.
 let &showbreak='░░░░ '				" String to put before wrapped screen lines.
 set scrolloff=3						" Number of screen lines to show around the cursor.
@@ -446,6 +449,12 @@ endif
 		command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
 " }
 
+" Open a terminal with tmux in the current directory
+" {
+	" *** :Term
+		command! Term :!xfce4-terminal -x tmux -2 &
+" }
+
 " Commands for manipulating directories and deleting files *******
 " {
 	" *** :CreD		=> Create directory(ies) (Or directories recursively)
@@ -482,6 +491,12 @@ endif
 " {
 	" *** :Ft <FileType>
 	command! -complete=filetype -nargs=1 Ft :set ft=<args>
+" }
+
+" Save/Restore folds when a file is closed/re-opened.
+" {
+	" autocmd! BufWinLeave ?* mkview
+	" autocmd! BufWinEnter ?* silent loadview
 " }
 
 " Specify indentation (ts,sts,sw) *******
@@ -659,20 +674,23 @@ endif
 		let g:syntastic_html_checkers=['w3']
 		let g:syntastic_xhtml_checkers=['tidy']
 		let g:syntastic_css_checkers=['prettycss']
-		let g:syntastic_python_checkers=['flake8']
+		let g:syntastic_python_checkers=['python']
 		let g:syntastic_tex_checkers=['chktex']
 		let g:syntastic_javascript_checkers=['jshint']
+		" For sass
+			let g:syntastic_filetype_map = { 'scss.css': 'scss' }
+			let g:syntastic_scss_checkers=['sass']
 	" Passive mode.
 		let g:syntastic_mode_map = { 'mode': 'passive',
 					\ 'active_filetypes': [],
-					\ 'passive_filetypes': ['c', 'html', 'java', 'php', 'python', 'sh', 'tex', 'xhtml', 'javascript']}
+					\ 'passive_filetypes': ['c', 'html', 'java', 'php', 'python', 'sh', 'tex', 'xhtml', 'javascript', 'sass', 'scss']}
 " }
 
 " ******* (( emmet )) *******
 " {
 	" Enable emmet for html,php & css files.
 		let g:user_emmet_install_global = 0
-		autocmd FileType html,xhtml,css,php EmmetInstall
+		autocmd FileType html,xhtml,scss,css,php EmmetInstall
 	" Set the leader key.
 		let g:user_emmet_leader_key = '<c-e>'
 " }
@@ -717,6 +735,6 @@ endif
 " {
 	" let g:ZV_zeal_directory = ""
 	" let g:ZV_added_files_type = {
-	"			\ 'extension': 'docset',
-	"			\}
+	" 			\ 'extension': 'docset',
+	" 			\}
 " }
