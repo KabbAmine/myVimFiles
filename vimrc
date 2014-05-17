@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-15
+" Last modification: 2014-05-17
 " ================================================================
 
 
@@ -31,8 +31,8 @@ Plugin 'gmarik/Vundle.vim'
 " My Plugins:
 " " {
  	" For PHP
- 		Plugin 'StanAngeloff/php.vim'
  		Plugin 'PHP-correct-Indenting'
+ 		Plugin 'StanAngeloff/php.vim'
  	" For HTML/CSS
  		Plugin 'ap/vim-css-color'
 		Plugin 'cakebaker/scss-syntax.vim'
@@ -59,23 +59,26 @@ Plugin 'gmarik/Vundle.vim'
  	" For (( airline ))
 		Plugin 'bling/vim-airline'
 		Plugin 'edkolev/tmuxline.vim'
+	" For (( nerdtree ))
+		Plugin 'ivalkeen/nerdtree-execute'
+		Plugin 'markgandolfo/nerdtree-wget.vim'
+		Plugin 'scrooloose/nerdtree'
  	" Various
  		Plugin 'AndrewRadev/splitjoin.vim'
+ 		Plugin 'AutoComplPop'
  		Plugin 'godlygeek/tabular'
  		Plugin 'kshenoy/vim-signature'
  		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
+ 		Plugin 'matchit.zip'
  		Plugin 'mbbill/undotree'
  		Plugin 'Raimondi/delimitMate'
- 		Plugin 'scrooloose/nerdtree'
  		Plugin 'scrooloose/syntastic'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
  		Plugin 'tomtom/tcomment_vim'
  		Plugin 'tpope/vim-surround'
- 		Plugin 'AutoComplPop'
- 		Plugin 'matchit.zip'
  	" Colorschemes
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
  		Plugin 'jnurmine/Zenburn'
@@ -85,8 +88,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'reedes/vim-colors-pencil'
  		Plugin 'sjl/badwolf'
  		Plugin 'w0ng/vim-hybrid'
- 		Plugin 'zeis/vim-kolor'
  		Plugin 'Wombat'
+ 		Plugin 'zeis/vim-kolor'
  	" My Plugins
 		Plugin 'KabbAmine/zeavim.vim'
  " }
@@ -688,9 +691,9 @@ endif
 
 " ******* (( emmet )) *******
 " {
-	" Enable emmet for html,php & css files.
+	" Enable emmet for specific files.
 		let g:user_emmet_install_global = 0
-		autocmd FileType html,xhtml,scss,css,php EmmetInstall
+		autocmd FileType html,xhtml,scss,css,sass,php EmmetInstall
 	" Set the leader key.
 		let g:user_emmet_leader_key = '<c-e>'
 " }
@@ -728,7 +731,7 @@ endif
 		let g:EasyMotion_smartcase = 1
 	" Shows target labels with uppercase letters.
 		let g:EasyMotion_use_upper = 1
-		let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+		let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 " }
 
 " ******* (( zeavim )) *******
