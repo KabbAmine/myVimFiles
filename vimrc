@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-17
+" Last modification: 2014-05-19
 " ================================================================
 
 
@@ -37,6 +37,7 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'ap/vim-css-color'
 		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'hail2u/vim-css3-syntax.git'
+ 		" Plugin 'kwaledesign/scss-snippets'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
  		Plugin 'plasticboy/vim-markdown'
@@ -335,24 +336,24 @@ endif
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** F2		=> FufBuffer
+	" *** ,b		=> FufBuffer
 	" *** ,r		=> FufMruFile
 	" *** ,c		=> FufMruCmd
 	" *** ,f		=> FufFile
 	" *** ,,f		=> FufCoverageFile
 	" *** ,d		=> FufDir
 	" *** ,t		=> FufBufferTag
-	" *** ,b		=> FufBookmarkDir
+	" *** ,,b		=> FufBookmarkDir
 	" *** ,l		=> FufLine
 	" *** ,h		=> FufHelp
-		nmap <silent> <F2> :FufBuffer<CR>
+		nmap <silent> ,b :FufBuffer<CR>
 		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,c :FufMruCmd<CR>
 		nmap <silent> ,,f :FufCoverageFile<CR>
 		nmap <silent> ,d :FufDir<CR>
 		nmap <silent> ,t :FufBufferTag<CR>
-		nmap <silent> ,b :FufBookmarkDir<CR>
+		nmap <silent> ,,b :FufBookmarkDir<CR>
 		nmap <silent> ,l :FufLine<CR>
 		nmap <silent> ,h :FufHelp!<CR>
 " }
