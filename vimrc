@@ -45,10 +45,10 @@ Plugin 'gmarik/Vundle.vim'
  	" For JavaScript
  		Plugin 'pangloss/vim-javascript'
  	" For Python
- 		Plugin 'hdima/python-syntax'
- 		Plugin 'rkulla/pydiction'
+ 		" Plugin 'hdima/python-syntax'
+ 		" Plugin 'rkulla/pydiction'
  	" For Java
- 		Plugin 'javacomplete'
+ 		" Plugin 'javacomplete'
  	" For (( fuzzyfinder ))
 		Plugin 'FuzzyFinder'
 		Plugin 'L9'
@@ -294,6 +294,12 @@ endif
 	" *** <space>
 		nnoremap <silent> <space> za
 		vmap <silent> <space> :fold<CR>
+" }
+
+" Go to the current directory (Uses command 'Dir') *******
+" {
+	" *** <F2>
+		nmap <F2> :Dir<CR>
 " }
 
 " Remove the highlighting of 'hlsearch' *******
