@@ -1,15 +1,17 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-19
+" Last modification: 2014-05-21
 " ================================================================
 
 
 " Stock the Location of vim's folder in a global variable.
-if has('win32') || has('win64')
-	let g:vimDir = "$HOME/vimfiles"
-else
-	let g:vimDir = "$HOME/.vim"
-endif
+" {
+	if has('win32') || has('win64')
+		let g:vimDir = "$HOME/vimfiles"
+	else
+		let g:vimDir = "$HOME/.vim"
+	endif
+" }
 
 
 " ========== VUNDLE ==============================================
@@ -37,7 +39,6 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'ap/vim-css-color'
 		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'hail2u/vim-css3-syntax.git'
- 		" Plugin 'kwaledesign/scss-snippets'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
  		Plugin 'plasticboy/vim-markdown'
@@ -52,11 +53,9 @@ Plugin 'gmarik/Vundle.vim'
  	" For (( fuzzyfinder ))
 		Plugin 'FuzzyFinder'
 		Plugin 'L9'
- 	" For (( snipmate ))
- 		Plugin 'garbas/vim-snipmate'
- 		Plugin 'honza/vim-snippets'
- 		Plugin 'MarcWeber/vim-addon-mw-utils'
- 		Plugin 'tomtom/tlib_vim'
+ 	" For (( ultisnips ))
+		Plugin 'SirVer/ultisnips'
+		Plugin 'honza/vim-snippets'
  	" For (( airline ))
 		Plugin 'bling/vim-airline'
 		Plugin 'edkolev/tmuxline.vim'
@@ -75,6 +74,7 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'mbbill/undotree'
  		Plugin 'Raimondi/delimitMate'
  		Plugin 'scrooloose/syntastic'
+ 		Plugin 'jszakmeister/vim-togglecursor'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
@@ -98,46 +98,69 @@ Plugin 'gmarik/Vundle.vim'
 call vundle#end()
 filetype plugin indent on
 
+
 " ========== VARIOUS  ===========================================
 " Load indentation rules and plugins according to the detected filetype.
-if has("autocmd")
-	filetype plugin indent on
-endif
+" {
+	if has("autocmd")
+		filetype plugin indent on
+	endif
+"}
 
 " Enables syntax highlighting.
-if has("syntax")
-	syntax on
-endif
+" {
+	if has("syntax")
+		syntax on
+	endif
+" }
 
 " What to write in Viminfo and his location.
 execute "set vi='100,<50,s10,h,n".vimDir."/various/viminfo"
 
-" Using a dark background.
-set background=dark
-
 " Add the file systags to the tags option.
 execute "set tags+=".vimDir."/various/systags"
 
+" Using a dark background.
+set background=dark
+
 " Theme & number of colors.
-if has ('win32') || has('win64')
-	colorscheme hybrid
-else
-	colorscheme Tomorrow-Night-Eighties
-endif
-set t_Co=256
+" {
+	if has ('win32') || has('win64')
+		colorscheme hybrid
+	else
+		colorscheme Tomorrow-Night-Eighties
+	endif
+	set t_Co=256
+" }
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
-if &term =~ '256color'
-	set t_ut=
-endif
+" {
+	if &term =~ '256color'
+		set t_ut=
+	endif
+" }
 
 " Tmux will send xterm-style keys when its xterm-keys option is on.
-if &term =~ '^screen'
-	execute "set <xUp>=\e[1;*A"
-	execute "set <xDown>=\e[1;*B"
-	execute "set <xRight>=\e[1;*C"
-	execute "set <xLeft>=\e[1;*D"
-endif
+" {
+	if &term =~ '^screen'
+		execute "set <xUp>=\e[1;*A"
+		execute "set <xDown>=\e[1;*B"
+		execute "set <xRight>=\e[1;*C"
+		execute "set <xLeft>=\e[1;*D"
+	endif
+" }
+
+" Change color of cursor in INSERT mode terminal
+" {
+	if (&term =~ "^screen") || (&term =~ "^xterm")
+		" Use an orange cursor in insert mode
+		let &t_SI = "\<Esc>]12;orange\x7"
+		" Use a green cursor otherwise
+		let &t_EI = "\<Esc>]12;green\x7"
+		" Reset cursor when vim exits
+		autocmd VimLeave * silent !echo -ne "\033]112\007"
+	endif
+" }
 
 
 " ========== GUI ===============================================
@@ -342,24 +365,24 @@ endif
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** ,b		=> FufBuffer
+	" *** <F2>		=> FufBuffer
 	" *** ,r		=> FufMruFile
 	" *** ,c		=> FufMruCmd
 	" *** ,f		=> FufFile
 	" *** ,,f		=> FufCoverageFile
 	" *** ,d		=> FufDir
 	" *** ,t		=> FufBufferTag
-	" *** ,,b		=> FufBookmarkDir
+	" *** ,b		=> FufBookmarkDir
 	" *** ,l		=> FufLine
 	" *** ,h		=> FufHelp
-		nmap <silent> ,b :FufBuffer<CR>
+		nmap <silent> <F2> :FufBuffer<CR>
 		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,c :FufMruCmd<CR>
 		nmap <silent> ,,f :FufCoverageFile<CR>
 		nmap <silent> ,d :FufDir<CR>
 		nmap <silent> ,t :FufBufferTag<CR>
-		nmap <silent> ,,b :FufBookmarkDir<CR>
+		nmap <silent> ,b :FufBookmarkDir<CR>
 		nmap <silent> ,l :FufLine<CR>
 		nmap <silent> ,h :FufHelp!<CR>
 " }
@@ -739,6 +762,16 @@ endif
 	" Shows target labels with uppercase letters.
 		let g:EasyMotion_use_upper = 1
 		let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+" }
+
+" ******* (( ultisnips )) *******
+" {
+	" Trigger configuration.
+		let g:UltiSnipsExpandTrigger="<tab>"
+		let g:UltiSnipsJumpForwardTrigger="<tab>"
+		let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+	" :UltiSnipsEdit splits the window.
+		let g:UltiSnipsEditSplit="vertical"
 " }
 
 " ******* (( zeavim )) *******
