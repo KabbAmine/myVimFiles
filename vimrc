@@ -772,6 +772,9 @@ endif
 		let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 	" :UltiSnipsEdit splits the window.
 		let g:UltiSnipsEditSplit="vertical"
+	" Define directory for my personal snippets.
+		let g:UltiSnipsSnippetsDir= ".vim/mySnippets"
+		let g:UltiSnipsSnippetDirectories=["UltiSnips", "mySnippets"]
 " }
 
 " ******* (( zeavim )) *******
