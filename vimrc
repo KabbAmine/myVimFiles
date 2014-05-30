@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-21
+" Last modification: 2014-05-26
 " ================================================================
 
 
@@ -37,12 +37,13 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'StanAngeloff/php.vim'
  	" For HTML/CSS
  		Plugin 'ap/vim-css-color'
+ 		Plugin 'jaxbot/brolink.vim.git'
 		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'hail2u/vim-css3-syntax.git'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
  		Plugin 'plasticboy/vim-markdown'
- 		Plugin 'Valloric/MatchTagAlways'
+ 		" Plugin 'Valloric/MatchTagAlways'
  	" For JavaScript
  		Plugin 'pangloss/vim-javascript'
  	" For Python
@@ -65,8 +66,8 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
  		Plugin 'AndrewRadev/splitjoin.vim'
- 		Plugin 'AutoComplPop'
  		Plugin 'godlygeek/tabular'
+		Plugin 'airblade/vim-gitgutter'
  		Plugin 'kshenoy/vim-signature'
  		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
@@ -74,13 +75,14 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'mbbill/undotree'
  		Plugin 'Raimondi/delimitMate'
  		Plugin 'scrooloose/syntastic'
- 		Plugin 'jszakmeister/vim-togglecursor'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
  		Plugin 'tomtom/tcomment_vim'
  		Plugin 'tpope/vim-surround'
+		Plugin 'Valloric/YouCompleteMe'
  	" Colorschemes
+		Plugin 'chriskempson/base16-vim'
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
  		Plugin 'jnurmine/Zenburn'
  		Plugin 'morhetz/gruvbox'
@@ -128,9 +130,9 @@ set background=dark
 	if has ('win32') || has('win64')
 		colorscheme hybrid
 	else
-		colorscheme Tomorrow-Night-Eighties
+		colorscheme Tomorrow-Night
 	endif
-	set t_Co=256
+	" set t_Co=256
 " }
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
@@ -150,17 +152,17 @@ set background=dark
 	endif
 " }
 
-" Change color of cursor in INSERT mode terminal
-" {
-	if (&term =~ "^screen") || (&term =~ "^xterm")
-		" Use an orange cursor in insert mode
-		let &t_SI = "\<Esc>]12;orange\x7"
-		" Use a green cursor otherwise
-		let &t_EI = "\<Esc>]12;green\x7"
-		" Reset cursor when vim exits
-		autocmd VimLeave * silent !echo -ne "\033]112\007"
-	endif
-" }
+" " Change color of cursor in INSERT mode terminal
+" " {
+" 	if (&term =~ "^screen") || (&term =~ "^xterm")
+" 		" Use an orange cursor in insert mode
+" 		let &t_SI = "\<Esc>]12;orange\x7"
+" 		" Use a green cursor otherwise
+" 		let &t_EI = "\<Esc>]12;green\x7"
+" 		" Reset cursor when vim exits
+" 		autocmd VimLeave * silent !echo -ne "\033]112\007"
+" 	endif
+" " }
 
 
 " ========== GUI ===============================================
@@ -252,7 +254,7 @@ set copyindent			" Copy whitespace for indenting from previous line.
 
 
 " ========== FOLDING ===========================================
-set foldcolumn=3			" Width of the column used to indicate fold.
+set foldcolumn=1			" Width of the column used to indicate fold.
 set foldmethod=manual		" Folding type: 'manual', 'indent', 'expr', 'marker' or 'syntax'.
 " set foldlevel=4			" Folds with a level higher than this number will be closed.
 " set foldenable			" Folds are open by default
@@ -319,12 +321,6 @@ endif
 		vmap <silent> <space> :fold<CR>
 " }
 
-" Go to the current directory (Uses command 'Dir') *******
-" {
-	" *** <F2>
-		nmap <F2> :Dir<CR>
-" }
-
 " Remove the highlighting of 'hlsearch' *******
 " {
 	" *** <F6>
@@ -363,9 +359,15 @@ endif
 		nmap <silent> <c-F4> :lnext<CR>
 " }
 
+" (( brolink )) shortcuts *******
+" {
+	" *** <C-F5>	=> Reload page
+		nmap <silent> <C-f5> :BLReloadPage<CR>
+" }
+
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** <F2>		=> FufBuffer
+	" *** F2		=> FufBuffer
 	" *** ,r		=> FufMruFile
 	" *** ,c		=> FufMruCmd
 	" *** ,f		=> FufFile
@@ -387,7 +389,13 @@ endif
 		nmap <silent> ,h :FufHelp!<CR>
 " }
 
-" (( textmanip ))
+" (( ultisnips )) *******
+" {
+	" <C-F2>		=> Open the custom snippet file of the current file.
+		nmap <C-F2> :UltiSnipsEdit<CR>
+" }
+
+" (( textmanip )) *******
 " {
 	" *** \t				=> Toggle insert/replace modes.
 	" *** <Alt-direction>	=> Move selection.
@@ -485,7 +493,12 @@ endif
 " Open a terminal with tmux in the current directory
 " {
 	" *** :Term
-		command! Term :!xfce4-terminal -x tmux -2 &
+	fun! Term()
+		let currentDir = getcwd()
+		execute "silent :!xfce4-terminal --working-directory=\"".currentDir."\" -x tmux -2 &"
+		unlet currentDir
+	endf
+	command! Term :call Term()
 " }
 
 " Commands for manipulating directories and deleting files *******
@@ -526,10 +539,9 @@ endif
 	command! -complete=filetype -nargs=1 Ft :set ft=<args>
 " }
 
-" Save/Restore folds when a file is closed/re-opened.
+" Reload the localhost in saving scss files using (( brolink ))
 " {
-	" autocmd! BufWinLeave ?* mkview
-	" autocmd! BufWinEnter ?* silent loadview
+	" autocmd! BufWritePre,FileWritePre *.scss :BLReloadPage
 " }
 
 " Specify indentation (ts,sts,sw) *******
@@ -571,6 +583,12 @@ endif
 " {
 	" *** :Dir
 	command! Dir :cd %:p:h
+" }
+
+" Toggle (( gitgutter )) *******
+" {
+	" *** :GG
+		command! GG :GitGutterToggle
 " }
 
 
@@ -638,23 +656,14 @@ endif
 		let NERDTreeDirArrows=1
 " }
 
-" ******* (( AutoComplPop )) *******
-" {
-	let g:acp_behaviorKeywordLength = 2
-	let g:acp_behaviorFileLength = 0
-	let g:acp_behaviorPythonOmniLength = 2
-	let g:acp_behaviorXmlOmniLength = 2
-	let g:acp_ignorecaseOption = 1
-" }
+" " ******* (( pydiction )) *******
+" " {
+" 	execute "let g:pydiction_location = '".vimDir."/bundle/pydiction/complete-dict'"
+" 	let g:pydiction_menu_height = 20
+" " }
 
-" ******* (( pydiction )) *******
-" {
-	execute "let g:pydiction_location = '".vimDir."/bundle/pydiction/complete-dict'"
-	let g:pydiction_menu_height = 20
-" }
-
-" ******* (( python-syntax )) *******
-	let python_highlight_all=1
+" " ******* (( python-syntax )) *******
+" 	let python_highlight_all=1
 
 " ******* (( tagbar )) *******
 " {
@@ -666,12 +675,19 @@ endif
 		if has ('win32') || has('win64')
 			let g:tagbar_ctags_bin = 'C:\Program Files\ctags58\ctags.exe'
 		endif
+	" Get a simple list of ((ultisnips)) snippets in snippet files.
+		let g:tagbar_type_snippets = {
+					\ 'ctagstype' : 'snippets',
+					\ 'kinds' : [
+					\ 's:snippets',
+					\ ]
+					\ }
 " }
 
 " ******* (( airline )) *******
 " {
 	" Set theme.
-		let g:airline_theme='tomorrow'
+		" let g:airline_theme='lucius'
 	" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
@@ -691,7 +707,6 @@ endif
 		" Integration with tmux
 			let g:airline#extensions#tmuxline#enabled = 1
 			let airline#extensions#tmuxline#snapshot_file = "~/.dotfiles/tmux/tmux-statusline-colors.conf"
-			let airline#extensions#tmuxline#color_template = 'replace'
 
 " }
 
@@ -773,9 +788,23 @@ endif
 	" :UltiSnipsEdit splits the window.
 		let g:UltiSnipsEditSplit="vertical"
 	" Define directory for my personal snippets.
-		let g:UltiSnipsSnippetsDir= ".vim/mySnippets"
-		let g:UltiSnipsSnippetDirectories=["UltiSnips", "mySnippets"]
+		" let g:UltiSnipsSnippetsDir= ".vim/mySnippets"
+		let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " }
+
+" ******* (( youcompleteme )) *******
+" {
+	  let g:ycm_min_num_of_chars_for_completion = 1
+	  let g:ycm_key_list_select_completion = ['<Down>']
+	  let g:ycm_key_list_previous_completion = ['<Up>']
+" }
+
+" ******* (( gitgutter )) *******
+" {
+	" Turn off the plugin by default.
+		let g:gitgutter_enabled = 0
+" }
+	
 
 " ******* (( zeavim )) *******
 " {
