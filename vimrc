@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-26
+" Last modification: 2014-05-31
 " ================================================================
 
 
@@ -37,13 +37,12 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'StanAngeloff/php.vim'
  	" For HTML/CSS
  		Plugin 'ap/vim-css-color'
- 		Plugin 'jaxbot/brolink.vim.git'
 		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'hail2u/vim-css3-syntax.git'
+ 		Plugin 'jaxbot/brolink.vim.git'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
  		Plugin 'plasticboy/vim-markdown'
- 		" Plugin 'Valloric/MatchTagAlways'
  	" For JavaScript
  		Plugin 'pangloss/vim-javascript'
  	" For Python
@@ -59,15 +58,14 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'honza/vim-snippets'
  	" For (( airline ))
 		Plugin 'bling/vim-airline'
-		Plugin 'edkolev/tmuxline.vim'
 	" For (( nerdtree ))
 		Plugin 'ivalkeen/nerdtree-execute'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
+		Plugin 'airblade/vim-gitgutter'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'godlygeek/tabular'
-		Plugin 'airblade/vim-gitgutter'
  		Plugin 'kshenoy/vim-signature'
  		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
@@ -330,7 +328,7 @@ endif
 " Make shortcuts for completion *******
 " {
 	" *** <c-space>		=> Omni-completion.
-		inoremap <silent> <c-space> <c-x><c-o><c-p>
+		" inoremap <silent> <c-space> <c-x><c-o><c-p>
 " }
 
 " Operations on tabs *******
@@ -704,10 +702,6 @@ endif
 			let g:airline#extensions#tabline#buffer_min_count = 1
 		" Configure the minimum number of tabs needed to show the tabline.
 			let g:airline#extensions#tabline#tab_min_count = 1
-		" Integration with tmux
-			let g:airline#extensions#tmuxline#enabled = 1
-			let airline#extensions#tmuxline#snapshot_file = "~/.dotfiles/tmux/tmux-statusline-colors.conf"
-
 " }
 
 " ******* (( markdown )) *******
@@ -793,12 +787,13 @@ endif
 " }
 
 " ******* (( youcompleteme )) *******
-" {
-	  let g:ycm_min_num_of_chars_for_completion = 1
-	  let g:ycm_key_list_select_completion = ['<Down>']
-	  let g:ycm_key_list_previous_completion = ['<Up>']
-" }
-
+" " {
+	let g:ycm_complete_in_comments = 1
+	let g:ycm_seed_identifiers_with_syntax = 1
+	let g:ycm_key_list_select_completion = ['<Down>']
+	let g:ycm_key_list_previous_completion = ['<Up>']
+" " }
+"
 " ******* (( gitgutter )) *******
 " {
 	" Turn off the plugin by default.
@@ -813,3 +808,4 @@ endif
 	" 			\ 'extension': 'docset',
 	" 			\}
 " }
+"
