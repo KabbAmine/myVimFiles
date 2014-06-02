@@ -151,18 +151,6 @@ set background=dark
 	endif
 " }
 
-" " Change color of cursor in INSERT mode terminal
-" " {
-" 	if (&term =~ "^screen") || (&term =~ "^xterm")
-" 		" Use an orange cursor in insert mode
-" 		let &t_SI = "\<Esc>]12;orange\x7"
-" 		" Use a green cursor otherwise
-" 		let &t_EI = "\<Esc>]12;green\x7"
-" 		" Reset cursor when vim exits
-" 		autocmd VimLeave * silent !echo -ne "\033]112\007"
-" 	endif
-" " }
-
 
 " ========== GUI ===============================================
 if has("gui_running")
@@ -536,11 +524,6 @@ endif
 " {
 	" *** :Ft <FileType>
 	command! -complete=filetype -nargs=1 Ft :set ft=<args>
-" }
-
-" Reload the localhost in saving scss files using (( brolink ))
-" {
-	" autocmd! BufWritePre,FileWritePre *.scss :BLReloadPage
 " }
 
 " Specify indentation (ts,sts,sw) *******
