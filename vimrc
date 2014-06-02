@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-05-31
+" Last modification: 2014-06-02
 " ================================================================
 
 
@@ -63,22 +63,23 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
+		Plugin 'Valloric/YouCompleteMe'
 		Plugin 'airblade/vim-gitgutter'
  		Plugin 'AndrewRadev/splitjoin.vim'
+ 		Plugin 'Lokaltog/vim-easymotion'
+ 		Plugin 'Raimondi/delimitMate'
  		Plugin 'godlygeek/tabular'
  		Plugin 'kshenoy/vim-signature'
- 		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
  		Plugin 'matchit.zip'
  		Plugin 'mbbill/undotree'
- 		Plugin 'Raimondi/delimitMate'
+ 		Plugin 'motemen/git-vim'
  		Plugin 'scrooloose/syntastic'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
  		Plugin 'tomtom/tcomment_vim'
  		Plugin 'tpope/vim-surround'
-		Plugin 'Valloric/YouCompleteMe'
  	" Colorschemes
 		Plugin 'chriskempson/base16-vim'
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
@@ -585,8 +586,12 @@ endif
 
 " Toggle (( gitgutter )) *******
 " {
-	" *** :GG
+	" *** :GG	=> Toggle GitGutter.
+	" *** :Gn	=> Next diff.
+	" *** :Gp	=> Previous diff.
 		command! GG :GitGutterToggle
+		command! Gn :GitGutterNextHunk
+		command! Gp :GitGutterPrevHunk
 " }
 
 
@@ -626,6 +631,8 @@ endif
 		let g:fuf_keyOpenSplit = '<C-s>'
 	" Open it in vertical split with <Ctrl-v>
 		let g:fuf_keyOpenVsplit = '<C-v>'
+	" Delete the buffer.
+		let g:fuf_buffer_keyDelete = '<C-d>'
 	" Cancel the <Ctrl-t> shortcut to use it in next command.
 		let g:fuf_keyNextMode = '<>'
 	" Open it in a tab with <Ctrl-t>
