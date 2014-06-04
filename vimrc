@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-02
+" Last modification: 2014-06-04
 " ================================================================
 
 
@@ -63,23 +63,23 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
-		Plugin 'Valloric/YouCompleteMe'
 		Plugin 'airblade/vim-gitgutter'
  		Plugin 'AndrewRadev/splitjoin.vim'
- 		Plugin 'Lokaltog/vim-easymotion'
- 		Plugin 'Raimondi/delimitMate'
  		Plugin 'godlygeek/tabular'
  		Plugin 'kshenoy/vim-signature'
+ 		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
  		Plugin 'matchit.zip'
  		Plugin 'mbbill/undotree'
- 		Plugin 'motemen/git-vim'
+ 		Plugin 'Raimondi/delimitMate'
  		Plugin 'scrooloose/syntastic'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
  		Plugin 'tomtom/tcomment_vim'
+ 		Plugin 'tpope/vim-fugitive'
  		Plugin 'tpope/vim-surround'
+		Plugin 'Valloric/YouCompleteMe'
  	" Colorschemes
 		Plugin 'chriskempson/base16-vim'
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
@@ -798,4 +798,3 @@ endif
 	" 			\ 'extension': 'docset',
 	" 			\}
 " }
-"
