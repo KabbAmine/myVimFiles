@@ -1,5 +1,5 @@
 " For HTML files.
-" Last modification: 2014-05-10
+" Last modification: 2014-06-08
 
 " =========== VARIOUS =======================
 " Set indentation to 2.
@@ -24,7 +24,7 @@
 " Replace special character with his HTML entity *******
 " {
 	" *** :SpecChar
-		command! SpecChar :call SpecChar()
+		command! -range=% SpecChar :call SpecChar()
 		function! SpecChar()
 			silent s/À/\&Agrave;/eg
 			silent s/Â/\&Acirc;/eg
