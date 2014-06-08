@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-04
+" Last modification: 2014-06-08
 " ================================================================
 
 
@@ -128,10 +128,11 @@ set background=dark
 " {
 	if has ('win32') || has('win64')
 		colorscheme hybrid
-	else
+	elseif !empty($TERM)
 		colorscheme Tomorrow-Night
+	else
+		colorscheme base16-tomorrow
 	endif
-	" set t_Co=256
 " }
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
