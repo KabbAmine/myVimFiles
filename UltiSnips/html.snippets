@@ -1,0 +1,43 @@
+snippet html5 "A simple HTML5 file" b
+<!DOCTYPE html>
+<html lang="fr">
+
+<html>
+	
+	<head>
+		<meta charset="utf-8" />
+		<title>${1:...}</title>
+	</head>
+
+	<body>
+		${2:...}
+	</body>
+
+</html>
+endsnippet
+
+snippet scomm "<!-- ... -->"
+<!-- ${1:Commentary} -->
+endsnippet
+
+snippet comm "A commentary bloc" b
+<!-- ****************** -->
+<!--     ${1:...}       -->
+<!-- ****************** -->
+endsnippet
+
+snippet h1 "<h1>...</h1>" b
+<h1>${1:...}</h1>
+endsnippet
+
+snippet img "<img src alt>" b
+<img src="${1:...}" alt="${2:...}" >
+endsnippet
+
+snippet imgl "<img lorempixel>"
+<img src="http://lorempixel.com/${1:"width"}/${2:"height"}/${3:"type"}" >
+endsnippet
+
+snippet link:css "<link css>" b
+<link rel="stylesheet" href="${1:...}" >
+endsnippet

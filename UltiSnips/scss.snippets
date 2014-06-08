@@ -1,0 +1,67 @@
+snippet // "Commentary bloc"
+// -------------------------- //
+//			${1}
+// -------------------------- //
+endsnippet
+
+snippet imp "@import '...';"
+@import "${1:file}";
+endsnippet
+
+snippet inc "@include mixin();"
+@include ${1:mixin}(${2:args});
+endsnippet
+
+snippet ext? "@extend %placeholder;"
+@extend %${1:placeholder};
+endsnippet
+
+snippet mix "@mixin (...) { ... }"
+@mixin ${1:name}(${2:arguments}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet fun "@function (...) { ... }"
+@function ${1:name}(${2:arguments}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet if "@if (...) { ... }"
+@if ${1:condition} {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet else "@else { ... }"
+@else ${1:condition} {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet for "@for loop"
+@for ${1:$i} from ${2:1} through ${3:3} {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet each "@each loop"
+@each ${1:$item} in ${2:item, item, item} {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet while "@while loop"
+@while ${1:$i} ${2:>} ${3:0} {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet dark "darken(color, %)"
+darken(${1:...}, ${2:...})
+endsnippet
+
+snippet light "lighten(color, %)"
+lighten(${1:...}, ${2:...})
+endsnippet
