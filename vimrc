@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-08
+" Last modification: 2014-06-12
 " ================================================================
 
 
@@ -50,6 +50,10 @@ Plugin 'gmarik/Vundle.vim'
  		" Plugin 'rkulla/pydiction'
  	" For Java
  		" Plugin 'javacomplete'
+	" For Git
+		Plugin 'airblade/vim-gitgutter'
+ 		Plugin 'idanarye/vim-merginal'
+ 		Plugin 'tpope/vim-fugitive'
  	" For (( fuzzyfinder ))
 		Plugin 'FuzzyFinder'
 		Plugin 'L9'
@@ -63,7 +67,6 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
-		Plugin 'airblade/vim-gitgutter'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'godlygeek/tabular'
  		Plugin 'kshenoy/vim-signature'
@@ -76,8 +79,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
+ 		Plugin 'tommcdo/vim-exchange'
  		Plugin 'tomtom/tcomment_vim'
- 		Plugin 'tpope/vim-fugitive'
  		Plugin 'tpope/vim-surround'
 		Plugin 'Valloric/YouCompleteMe'
  	" Colorschemes
@@ -131,7 +134,7 @@ set background=dark
 	elseif !empty($TERM)
 		colorscheme Tomorrow-Night
 	else
-		colorscheme base16-tomorrow
+		colorscheme Tomorrow-Night
 	endif
 " }
 
@@ -337,6 +340,12 @@ endif
 		map <silent> <F3> :bp!<CR>
 		map <silent> <F4> :bn!<CR>
 		nnoremap <silent> <C-q> :bd<CR>
+" }
+
+" Repeat the last command *******
+" {
+	" *** zz
+		nnoremap zz :<Up><CR>
 " }
 
 " Operations on current buffer (Move between errors) *******
@@ -710,9 +719,7 @@ endif
 		let g:syntastic_python_checkers=['python']
 		let g:syntastic_tex_checkers=['chktex']
 		let g:syntastic_javascript_checkers=['jshint']
-		" For sass
-			let g:syntastic_filetype_map = { 'scss.css': 'scss' }
-			let g:syntastic_scss_checkers=['sass']
+		let g:syntastic_scss_checkers=['sass']
 	" Passive mode.
 		let g:syntastic_mode_map = { 'mode': 'passive',
 					\ 'active_filetypes': [],
