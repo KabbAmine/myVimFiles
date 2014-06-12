@@ -1,5 +1,5 @@
 " For HTML files.
-" Last modification: 2014-06-08
+" Last modification: 2014-06-09
 
 " =========== VARIOUS =======================
 " Set indentation to 2.
@@ -26,37 +26,39 @@
 	" *** :SpecChar
 		command! -range=% SpecChar :call SpecChar()
 		function! SpecChar()
-			silent s/À/\&Agrave;/eg
-			silent s/Â/\&Acirc;/eg
-			silent s/Æ/\&AElig;/eg
-			silent s/Ç/\&Ccedil;/eg
-			silent s/È/\&Egrave;/eg
-			silent s/É/\&Eacute;/eg
-			silent s/Ê/\&Ecirc;/eg
-			silent s/Ë/\&Euml;/eg
-			silent s/Î/\&Icirc;/eg
-			silent s/Ô/\&Ocirc;/eg
-			silent s/Ø/\&Oslash;/eg
-			silent s/Ù/\&Ugrave;/eg
-			silent s/Ú/\&Uacute;/eg
-			silent s/Û/\&Ucirc;/eg
-			silent s/à/\&agrave;/eg
-			silent s/á/\&aacute;/eg
-			silent s/â/\&acirc;/eg
-			silent s/ä/\&auml;/eg
-			silent s/æ/\&aelig;/eg
-			silent s/ç/\&ccedil;/eg
-			silent s/è/\&egrave;/eg
-			silent s/é/\&eacute;/eg
-			silent s/ê/\&ecirc;/eg
-			silent s/ë/\&euml;/eg
-			silent s/î/\&icirc;/eg
-			silent s/ï/\&iuml;/eg
-			silent s/ô/\&ocirc;/eg
-			silent s/ö/\&ouml;/eg
-			silent s/ø/\&oslash;/eg
-			silent s/ù/\&ugrave;/eg
-			silent s/û/\&ucirc;/eg
-			silent s/ü/\&uuml;/eg
+			silent s/á/\&aacute;/e
+			silent s/â/\&acirc;/e
+			silent s/Â/\&Acirc;/e
+			silent s/à/\&agrave;/e
+			silent s/À/\&Agrave;/e
+			silent s/ä/\&auml;/e
+			silent s/æ/\&aelig;/e
+			silent s/Æ/\&AElig;/e
+			silent s/ç/\&ccedil;/e
+			silent s/Ç/\&Ccedil;/e
+			silent s/é/\&eacute;/e
+			silent s/É/\&Eacute;/e
+			silent s/ê/\&ecirc;/e
+			silent s/Ê/\&Ecirc;/e
+			silent s/è/\&egrave;/e
+			silent s/È/\&Egrave;/e
+			silent s/ë/\&euml;/e
+			silent s/Ë/\&Euml;/e
+			silent s/>/\&gt;/
+			silent s/î/\&icirc;/e
+			silent s/Î/\&Icirc;/e
+			silent s/ï/\&iuml;/e
+			silent s/</\&lt;/
+			silent s/ô/\&ocirc;/e
+			silent s/Ô/\&Ocirc;/e
+			silent s/ø/\&oslash;/e
+			silent s/Ø/\&Oslash;/e
+			silent s/ö/\&ouml;/e
+			silent s/Ú/\&Uacute;/e
+			silent s/û/\&ucirc;/e
+			silent s/Û/\&Ucirc;/e
+			silent s/ù/\&ugrave;/e
+			silent s/Ù/\&Ugrave;/e
+			silent s/ü/\&uuml;/e
 		endfunction
 " }
