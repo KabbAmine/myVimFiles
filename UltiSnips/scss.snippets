@@ -58,10 +58,37 @@ snippet while "@while loop"
 }
 endsnippet
 
-snippet dark "darken(color, %)"
-darken(${1:...}, ${2:...})
+# **************
+# Compass mixins
+# **************
+snippet dark "darken(color, %perc)"
+darken(${1:color}, ${2:perc});
 endsnippet
 
 snippet light "lighten(color, %)"
-lighten(${1:...}, ${2:...})
+lighten(${1:color}, ${2:perc});
+endsnippet
+
+snippet bxs "box-shadow(...)"
+box-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px} ${6:false/inset});
+endsnippet
+
+snippet txts "text-shadow(...)"
+text-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px}px);
+endsnippet
+
+snippet @dark "darken(color, %perc)" b
+@include darken(${1:color}, ${2:perc});
+endsnippet
+
+snippet @light "lighten(color, %)" b
+@include lighten(${1:color}, ${2:perc});
+endsnippet
+
+snippet @bxs "box-shadow(...)" b
+@include box-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px} ${6:false/inset});
+endsnippet
+
+snippet @txts "text-shadow(...)" b
+@include text-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px}px);
 endsnippet
