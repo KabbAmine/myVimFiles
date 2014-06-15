@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-12
+" Last modification: 2014-06-15
 " ================================================================
 
 
@@ -67,14 +67,15 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
+		Plugin 'Valloric/YouCompleteMe'
  		Plugin 'AndrewRadev/splitjoin.vim'
+ 		Plugin 'Lokaltog/vim-easymotion'
+ 		Plugin 'Raimondi/delimitMate'
  		Plugin 'godlygeek/tabular'
  		Plugin 'kshenoy/vim-signature'
- 		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'majutsushi/tagbar'
  		Plugin 'matchit.zip'
  		Plugin 'mbbill/undotree'
- 		Plugin 'Raimondi/delimitMate'
  		Plugin 'scrooloose/syntastic'
  		Plugin 'sk1418/Join'
  		Plugin 't9md/vim-textmanip'
@@ -82,19 +83,12 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'tommcdo/vim-exchange'
  		Plugin 'tomtom/tcomment_vim'
  		Plugin 'tpope/vim-surround'
-		Plugin 'Valloric/YouCompleteMe'
  	" Colorschemes
 		Plugin 'chriskempson/base16-vim'
 		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
- 		Plugin 'jnurmine/Zenburn'
- 		Plugin 'morhetz/gruvbox'
- 		Plugin 'nanotech/jellybeans.vim'
- 		Plugin 'noahfrederick/vim-hemisu'
  		Plugin 'reedes/vim-colors-pencil'
  		Plugin 'sjl/badwolf'
  		Plugin 'w0ng/vim-hybrid'
- 		Plugin 'Wombat'
- 		Plugin 'zeis/vim-kolor'
  	" My Plugins
 		Plugin 'KabbAmine/zeavim.vim'
  " }
@@ -291,6 +285,12 @@ endif
 
 
 " =========== MAPPING ==========================================
+" Text manipulation *******
+" {
+	" *** <C-d>		=> Duplicate line (NORMAL mode).
+		nmap <silent> <C-d> yyp
+" }
+
 " Apply the option 'only' *******
 " {
 	" *** <F5>		=> For a splitted window.
@@ -490,12 +490,14 @@ endif
 " Open a terminal with tmux in the current directory
 " {
 	" *** :Term
-	fun! Term()
-		let currentDir = getcwd()
-		execute "silent :!xfce4-terminal --working-directory=\"".currentDir."\" -x tmux -2 &"
-		unlet currentDir
-	endf
-	command! Term :call Term()
+	if has ('unix')
+		function! Term()
+			let currentDir = getcwd()
+			execute "silent :!x-terminal-emulator --working-directory=\"".currentDir."\" -x tmux -2 &"
+			unlet currentDir
+		endfunction
+		command! Term :call Term()
+	endif
 " }
 
 " Commands for manipulating directories and deleting files *******
