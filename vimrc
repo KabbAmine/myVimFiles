@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-15
+" Last modification: 2014-06-16
 " ================================================================
 
 
@@ -517,6 +517,11 @@ endif
 		command! -complete=file -nargs=+ Del :!rm -Irv <args> 
 	endif
 " }
+
+" Set md files as a markdown files.
+" {
+	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+} "
 
 " Short commands for (( vundle ))
 " {
