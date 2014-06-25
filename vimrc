@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-16
+" Last modification: 2014-06-23
 " ================================================================
 
 
@@ -521,7 +521,7 @@ endif
 " Set md files as a markdown files.
 " {
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-} "
+" }
 
 " Short commands for (( vundle ))
 " {
@@ -540,7 +540,7 @@ endif
 " Define the file type *******
 " {
 	" *** :Ft <FileType>
-	command! -complete=filetype -nargs=1 Ft :set ft=<args>
+		command! -complete=filetype -nargs=1 Ft :set ft=<args>
 " }
 
 " Specify indentation (ts,sts,sw) *******
@@ -720,6 +720,7 @@ endif
 " ******* (( syntastic )) *******
 " {
 	" Set a specific checkers for some languages.
+		let g:syntastic_c_checkers=['gcc']
 		let g:syntastic_html_checkers=['w3']
 		let g:syntastic_xhtml_checkers=['tidy']
 		let g:syntastic_css_checkers=['prettycss']
@@ -730,7 +731,8 @@ endif
 	" Passive mode.
 		let g:syntastic_mode_map = { 'mode': 'passive',
 					\ 'active_filetypes': [],
-					\ 'passive_filetypes': ['c', 'html', 'java', 'php', 'python', 'sh', 'tex', 'xhtml', 'javascript', 'sass', 'scss']}
+					\ 'passive_filetypes': ['c', 'cpp', 'html', 'java', 'php', 'python', 'sh', 'tex', 'xhtml', 'javascript', 'sass', 'scss']
+					\ }
 " }
 
 " ******* (( emmet )) *******
@@ -798,13 +800,12 @@ endif
 	let g:ycm_key_list_select_completion = ['<Down>']
 	let g:ycm_key_list_previous_completion = ['<Up>']
 " " }
-"
+
 " ******* (( gitgutter )) *******
 " {
 	" Turn off the plugin by default.
 		let g:gitgutter_enabled = 0
 " }
-	
 
 " ******* (( zeavim )) *******
 " {
