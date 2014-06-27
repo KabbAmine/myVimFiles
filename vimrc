@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-23
+" Last modification: 2014-06-27
 " ================================================================
 
 
@@ -148,7 +148,11 @@ set background=dark
 		execute "set <xLeft>=\e[1;*D"
 	endif
 " }
-
+	
+" Directory where to store files with :mkview.
+" {
+	execute "set viewdir=".vimDir."/various/view"
+" }
 
 " ========== GUI ===============================================
 if has("gui_running")
