@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-06-27
+" Last modification: 2014-07-02
 " ================================================================
 
 
@@ -67,6 +67,7 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
  	" Various
+		Plugin 'ScrollColors'
 		Plugin 'Valloric/YouCompleteMe'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'Lokaltog/vim-easymotion'
@@ -293,6 +294,12 @@ endif
 " {
 	" *** <C-d>		=> Duplicate line (NORMAL mode).
 		nmap <silent> <C-d> yyp
+" }
+
+" Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
+" {
+	" *** <F11>
+		nnoremap <silent> <F11> :!wmctrl -r ":ACTIVE:" -b toggle,fullscreen<CR><CR>
 " }
 
 " Apply the option 'only' *******
