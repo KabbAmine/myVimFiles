@@ -3,3 +3,16 @@ snippet /** "Commentary bloc"
  *			${1}
 \* -------------------------- */
 endsnippet
+
+snippet @ff+ "@font-face" b
+@font-face {
+	font-family: '${1:fontName}';
+	src: url('polices/${2:font}.eot');
+	src: url('polices/$2.eot?#iefix') format('embedded-opentype'),
+		url('polices/$2.woff') format('woff'),
+		url('polices/$2.ttf') format('truetype'),
+		url('polices/$2.svg#$1') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+endsnippet
