@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-02
+" Last modification: 2014-07-03
 " ================================================================
 
 
@@ -66,6 +66,13 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'ivalkeen/nerdtree-execute'
 		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
+	" For (( ctrlp ))
+		Plugin 'kien/ctrlp.vim'
+		Plugin 'DavidEGx/ctrlp-smarttabs'
+		Plugin 'endel/ctrlp-filetype.vim'
+		Plugin 'fisadev/vim-ctrlp-cmdpalette'
+		Plugin 'sgur/ctrlp-extensions.vim'
+		Plugin 'tacahiroy/ctrlp-funky'
  	" Various
 		Plugin 'ScrollColors'
 		Plugin 'Valloric/YouCompleteMe'
@@ -373,28 +380,38 @@ endif
 		nmap <silent> <C-f5> :BLReloadPage<CR>
 " }
 
+" (( CtrlP )) & extensions shortcuts *******
+" {
+	" *** ,f   :CtrlP
+	" *** ,c   :Cmdline
+	" *** ,,f  :Funky
+	" *** ,t   :BufTag
+	" *** ,l   :Line
+	" *** ,C   :CmdPalette
+	" *** ,y   :Yankring
+	" *** ,F   :Filetype
+	" *** ,s   :Tabs
+		nmap <silent> ,f   :CtrlP<CR>
+		nmap <silent> ,c   :CtrlPCmdline<CR>
+		nmap <silent> ,,f  :CtrlPFunky<CR>
+		nmap <silent> ,t   :CtrlPBufTag<CR>
+		nmap <silent> ,l   :CtrlPLine<CR>
+		nmap <silent> ,C   :CtrlPCmdPalette<CR>
+		nmap <silent> ,y   :CtrlPYankring<CR>
+		nmap <silent> ,F   :CtrlPFiletype<CR>
+		nmap <silent> ,s   :CtrlPSmartTabs<CR>
+" }
+
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** F2		=> FufBuffer
+	" *** <f2>		=> FufBuffer
 	" *** ,r		=> FufMruFile
-	" *** ,c		=> FufMruCmd
-	" *** ,f		=> FufFile
-	" *** ,,f		=> FufCoverageFile
 	" *** ,d		=> FufDir
-	" *** ,t		=> FufBufferTag
 	" *** ,b		=> FufBookmarkDir
-	" *** ,l		=> FufLine
-	" *** ,h		=> FufHelp
 		nmap <silent> <F2> :FufBuffer<CR>
-		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
-		nmap <silent> ,c :FufMruCmd<CR>
-		nmap <silent> ,,f :FufCoverageFile<CR>
 		nmap <silent> ,d :FufDir<CR>
-		nmap <silent> ,t :FufBufferTag<CR>
 		nmap <silent> ,b :FufBookmarkDir<CR>
-		nmap <silent> ,l :FufLine<CR>
-		nmap <silent> ,h :FufHelp!<CR>
 " }
 
 " (( ultisnips )) *******
@@ -805,17 +822,38 @@ endif
 " }
 
 " ******* (( youcompleteme )) *******
-" " {
+" {
 	let g:ycm_complete_in_comments = 1
 	let g:ycm_seed_identifiers_with_syntax = 1
 	let g:ycm_key_list_select_completion = ['<Down>']
 	let g:ycm_key_list_previous_completion = ['<Up>']
-" " }
+" }
 
 " ******* (( gitgutter )) *******
 " {
 	" Turn off the plugin by default.
 		let g:gitgutter_enabled = 0
+" }
+
+" ******* (( ctrlp )) *******
+" {
+	let g:ctrlp_cache_dir = vimDir.'/various/ctrlp'
+	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10'
+	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
+	let g:ctrlp_working_path_mode = 0
+	" Open multiple files in hidden buffers.
+		let g:ctrlp_open_multiple_files = 'i'
+	" Open new file in the current window.
+		let g:ctrlp_open_new_file = 'r'
+	" Files to ignore in MRU mode.
+		if has('win32') || has('win64')
+			let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*'
+		else
+			let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*'
+		endif
+	" Make available extensions.
+		let g:ctrlp_extensions = ['funky']
+		let g:ctrlp_extensions = ['filetype']
 " }
 
 " ******* (( zeavim )) *******
