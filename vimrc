@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-03
+" Last modification: 2014-07-11
 " ================================================================
 
 
@@ -74,7 +74,6 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'sgur/ctrlp-extensions.vim'
 		Plugin 'tacahiroy/ctrlp-funky'
  	" Various
-		Plugin 'ScrollColors'
 		Plugin 'Valloric/YouCompleteMe'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'Lokaltog/vim-easymotion'
@@ -299,8 +298,18 @@ endif
 " =========== MAPPING ==========================================
 " Text manipulation *******
 " {
-	" *** <C-d>		=> Duplicate line (NORMAL mode).
-		nmap <silent> <C-d> yyp
+	" *** NORMAL MODE
+		" *** <C-d>		=> Duplicate line.
+	" *** INSERT MODE
+		" *** <A-d>	=> Duplicate line.
+		" *** <A-k>	=> Delete line.
+		" *** <A-o>	=> Insert new line.
+		" *** <A-a>	=> Insert new line before.
+			nnoremap <silent> <C-d> yyp
+			inoremap <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
+			inoremap <A-k> <C-o>$<C-u>
+			inoremap <A-o> <C-o>o
+			inoremap <A-a> <C-o>O
 " }
 
 " Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
@@ -352,11 +361,11 @@ endif
 
 " Operations on buffers *******
 " {
-	" *** <F3>		=> Previous.
-	" *** <F3>		=> Next. 
+	" *** <C-S-left>		=> Previous.
+	" *** <C-S-right>		=> Next. 
 	" *** <C-q>		=> Delete buffer.
-		map <silent> <F3> :bp!<CR>
-		map <silent> <F4> :bn!<CR>
+		map <silent> <C-S-left> :bp!<CR>
+		map <silent> <C-S-right> :bn!<CR>
 		nnoremap <silent> <C-q> :bd<CR>
 " }
 
@@ -513,19 +522,6 @@ endif
 		command! Ea :e! $HOME/.dotfiles/bash/bash_aliases
 		command! Ef :e! $HOME/.dotfiles/bash/bash_functions
 		command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
-" }
-
-" Open a terminal with tmux in the current directory
-" {
-	" *** :Term
-	if has ('unix')
-		function! Term()
-			let currentDir = getcwd()
-			execute "silent :!x-terminal-emulator --working-directory=\"".currentDir."\" -x tmux -2 &"
-			unlet currentDir
-		endfunction
-		command! Term :call Term()
-	endif
 " }
 
 " Commands for manipulating directories and deleting files *******
@@ -778,8 +774,8 @@ endif
 		let g:undotree_SetFocusWhenToggle = 1
 	" Undotree window in the right.
 		let g:undotree_WindowLayout = 'botright'
-	" Disable the bookmarks.
-		let NERDTreeMinimalUI=1
+	" Show bookmarks.
+		let NERDTreeShowBookmarks=1
 	" Automatically remove a buffer when his file is being deleted/renamed via the menu.
 		let NERDTreeAutoDeleteBuffer=1
 	" Case sensitive sorting.
@@ -817,7 +813,6 @@ endif
 	" :UltiSnipsEdit splits the window.
 		let g:UltiSnipsEditSplit="vertical"
 	" Define directory for my personal snippets.
-		" let g:UltiSnipsSnippetsDir= ".vim/mySnippets"
 		let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " }
 
@@ -831,14 +826,13 @@ endif
 
 " ******* (( gitgutter )) *******
 " {
-	" Turn off the plugin by default.
-		let g:gitgutter_enabled = 0
+	let g:gitgutter_enabled = 0
 " }
 
 " ******* (( ctrlp )) *******
 " {
 	let g:ctrlp_cache_dir = vimDir.'/various/ctrlp'
-	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10'
+	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
 	let g:ctrlp_working_path_mode = 0
 	" Open multiple files in hidden buffers.
@@ -862,4 +856,13 @@ endif
 	" let g:ZV_added_files_type = {
 	" 			\ 'extension': 'docset',
 	" 			\}
+" }
+
+" ******* (( vimply )) *******
+" {
+	" let g:V_list_comm = {
+	" 			\ "Atom": {
+	" 				\ "u": "atom", "w": "atom" }
+	" 			\ }
+	" command! Atom :call VComm("Atom", "%:p:h")
 " }
