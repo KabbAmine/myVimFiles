@@ -46,3 +46,39 @@ snippet body "<body></body>" b
 	${1:...}
 </body>
 endsnippet
+
+snippet table "<table>...</table>" b
+<table>
+	<caption>${1:...}</caption>
+	<tr>
+		<th>${2:...}</th>
+	</tr>
+	<tr>
+		<td>${3:...}</td>
+	</tr>
+</table>
+endsnippet
+
+snippet table+ "<table><thead><tbody>...</table>" b
+<table>
+	<caption>${1:...}</caption>
+
+	<thead>
+		<tr>
+			<th>${2:...}</th>
+		</tr>
+	</thead>
+	
+	<tfoot>
+		<tr>
+			<th>$2</th>
+		</tr>
+	</tfoot>
+
+	<tbody>
+		<tr>
+			<td>${3:...}</td>
+		</tr>
+	</tbody>
+</table>
+endsnippet
