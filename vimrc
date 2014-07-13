@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-11
+" Last modification: 2014-07-13
 " ================================================================
 
 
@@ -303,19 +303,29 @@ endif
 	" *** INSERT MODE
 		" *** <A-d>	=> Duplicate line.
 		" *** <A-k>	=> Delete line.
+		" *** <A-$>	=> Delete till end of line.
 		" *** <A-o>	=> Insert new line.
 		" *** <A-a>	=> Insert new line before.
+		" *** <A-">	=> Change inside ", ', (, ...
 			nnoremap <silent> <C-d> yyp
 			inoremap <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
+			inoremap <A-$> <C-o>d$
 			inoremap <A-k> <C-o>$<C-u>
 			inoremap <A-o> <C-o>o
 			inoremap <A-a> <C-o>O
+			inoremap <A-'> <C-o>ci'
+			inoremap <A-"> <C-o>ci"
+			inoremap <A-(> <C-o>ci(
+			inoremap <A-{> <C-o>ci{
+			inoremap <A-[> <C-o>ci[
 " }
 
 " Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
 " {
 	" *** <F11>
+	if has('unix')
 		nnoremap <silent> <F11> :!wmctrl -r ":ACTIVE:" -b toggle,fullscreen<CR><CR>
+	endif
 " }
 
 " Apply the option 'only' *******
@@ -834,6 +844,7 @@ endif
 	let g:ctrlp_cache_dir = vimDir.'/various/ctrlp'
 	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
+	let g:ctrlp_clear_cache_on_exit = 0
 	let g:ctrlp_working_path_mode = 0
 	" Open multiple files in hidden buffers.
 		let g:ctrlp_open_multiple_files = 'i'
@@ -858,11 +869,10 @@ endif
 	" 			\}
 " }
 
-" ******* (( vimply )) *******
+" ******* (( termivator )) *******
 " {
-	" let g:V_list_comm = {
-	" 			\ "Atom": {
-	" 				\ "u": "atom", "w": "atom" }
-	" 			\ }
-	" command! Atom :call VComm("Atom", "%:p:h")
+	let g:T_list_comm = {
+				\ "cmder": {
+					\ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
+				\ }
 " }
