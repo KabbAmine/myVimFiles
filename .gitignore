@@ -1,0 +1,6 @@
+autoload
+plugin
+spell
+various
+bundle/*
+!/bundle/Vundle.vim
