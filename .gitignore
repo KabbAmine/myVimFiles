@@ -4,3 +4,4 @@ spell
 various
 bundle/*
 !/bundle/Vundle.vim/
+!/bundle/Vundle.vim/*
