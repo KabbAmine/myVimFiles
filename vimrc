@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-13
+" Last modification: 2014-07-14
 " ================================================================
 
 
@@ -64,7 +64,6 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'bling/vim-airline'
 	" For (( nerdtree ))
 		Plugin 'ivalkeen/nerdtree-execute'
-		Plugin 'markgandolfo/nerdtree-wget.vim'
 		Plugin 'scrooloose/nerdtree'
 	" For (( ctrlp ))
 		Plugin 'kien/ctrlp.vim'
@@ -296,7 +295,7 @@ endif
 
 
 " =========== MAPPING ==========================================
-" Text manipulation *******
+" Text manipulation (Most of commands are for Gvim only) *******
 " {
 	" *** NORMAL MODE
 		" *** <C-d>		=> Duplicate line.
@@ -401,33 +400,35 @@ endif
 
 " (( CtrlP )) & extensions shortcuts *******
 " {
-	" *** ,f   :CtrlP
+	" *** ,,f   :CtrlP
 	" *** ,c   :Cmdline
-	" *** ,,f  :Funky
+	" *** ,F  :Funky
 	" *** ,t   :BufTag
 	" *** ,l   :Line
 	" *** ,C   :CmdPalette
 	" *** ,y   :Yankring
-	" *** ,F   :Filetype
+	" *** ,,l   :Filetype
 	" *** ,s   :Tabs
-		nmap <silent> ,f   :CtrlP<CR>
+		nmap <silent> ,,f   :CtrlP<CR>
 		nmap <silent> ,c   :CtrlPCmdline<CR>
-		nmap <silent> ,,f  :CtrlPFunky<CR>
+		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine<CR>
 		nmap <silent> ,C   :CtrlPCmdPalette<CR>
 		nmap <silent> ,y   :CtrlPYankring<CR>
-		nmap <silent> ,F   :CtrlPFiletype<CR>
+		nmap <silent> ,,l   :CtrlPFiletype<CR>
 		nmap <silent> ,s   :CtrlPSmartTabs<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
 " {
 	" *** <f2>		=> FufBuffer
+	" *** ,f		=> FufFile
 	" *** ,r		=> FufMruFile
 	" *** ,d		=> FufDir
 	" *** ,b		=> FufBookmarkDir
 		nmap <silent> <F2> :FufBuffer<CR>
+		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,d :FufDir<CR>
 		nmap <silent> ,b :FufBookmarkDir<CR>
