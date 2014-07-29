@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-14
+" Last modification: 2014-07-27
 " ================================================================
 
 
@@ -392,6 +392,18 @@ endif
 		nmap <silent> <c-F4> :lnext<CR>
 " }
 
+" (( termivator )) shortcuts *******
+" {
+	" *** ;t	=> Terminal.
+	" *** ;f	=> File manager.
+	" *** ;g	=> Gitg.
+	" *** ;c	=> Cmder(Win)/GColor2(Unix).
+		nmap ;t :Tt<CR>
+		nmap ;f :Tf<CR>
+		nmap ;g :Tg<CR>
+		nmap ;c :Tc<CR>
+" }
+
 " (( brolink )) shortcuts *******
 " {
 	" *** <C-F5>	=> Reload page
@@ -413,7 +425,7 @@ endif
 		nmap <silent> ,c   :CtrlPCmdline<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
-		nmap <silent> ,l   :CtrlPLine<CR>
+		nmap <silent> ,l   :CtrlPLine %<CR>
 		nmap <silent> ,C   :CtrlPCmdPalette<CR>
 		nmap <silent> ,y   :CtrlPYankring<CR>
 		nmap <silent> ,,l   :CtrlPFiletype<CR>
@@ -422,16 +434,16 @@ endif
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** <f2>		=> FufBuffer
+	" *** ,b		=> FufBuffer
 	" *** ,f		=> FufFile
 	" *** ,r		=> FufMruFile
 	" *** ,d		=> FufDir
-	" *** ,b		=> FufBookmarkDir
-		nmap <silent> <F2> :FufBuffer<CR>
+	" *** ,B		=> FufBookmarkDir
+		nmap <silent> ,b :FufBuffer<CR>
 		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,d :FufDir<CR>
-		nmap <silent> ,b :FufBookmarkDir<CR>
+		nmap <silent> ,B :FufBookmarkDir<CR>
 " }
 
 " (( ultisnips )) *******
@@ -616,7 +628,7 @@ endif
 " Make the current file directory as the vim current directory *******
 " {
 	" *** :Dir
-	command! Dir :cd %:p:h
+	command! Dir :lcd %:p:h
 " }
 
 " Toggle (( gitgutter )) *******
@@ -786,7 +798,7 @@ endif
 	" Undotree window in the right.
 		let g:undotree_WindowLayout = 'botright'
 	" Show bookmarks.
-		let NERDTreeShowBookmarks=1
+		" let NERDTreeShowBookmarks=1
 	" Automatically remove a buffer when his file is being deleted/renamed via the menu.
 		let NERDTreeAutoDeleteBuffer=1
 	" Case sensitive sorting.
@@ -833,6 +845,7 @@ endif
 	let g:ycm_seed_identifiers_with_syntax = 1
 	let g:ycm_key_list_select_completion = ['<Down>']
 	let g:ycm_key_list_previous_completion = ['<Up>']
+	let g:ycm_filetype_specific_completion_to_disable = {'vim': 1}
 " }
 
 " ******* (( gitgutter )) *******
@@ -858,8 +871,7 @@ endif
 			let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*'
 		endif
 	" Make available extensions.
-		let g:ctrlp_extensions = ['funky']
-		let g:ctrlp_extensions = ['filetype']
+		let g:ctrlp_extensions = ['funky', 'filetype']
 " }
 
 " ******* (( zeavim )) *******
