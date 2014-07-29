@@ -3,3 +3,11 @@ function ${1:...}(${2:...})
 	${3:...}
 endfunction
 endsnippet
+
+snippet ifmap "if !hasmapto ..." b
+if !hasmapto('<Plug>${1:...}')
+	nmap <unique> <Leader>z  <Plug>$1
+endif
+nnoremap <unique> <script> <Plug>$1 <SID>${2:...}
+nnoremap <silent> <SID>$2 :call <SID>${3:functionName}<CR>
+endsnippet
