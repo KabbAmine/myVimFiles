@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-07-27
+" Last modification: 2014-08-06
 " ================================================================
 
 
@@ -36,8 +36,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'PHP-correct-Indenting'
  		Plugin 'StanAngeloff/php.vim'
  	" For HTML/CSS
- 		Plugin 'ap/vim-css-color'
 		Plugin 'cakebaker/scss-syntax.vim'
+ 		Plugin 'gorodinskiy/vim-coloresque.git'
  		Plugin 'hail2u/vim-css3-syntax.git'
  		Plugin 'jaxbot/brolink.vim.git'
  		Plugin 'mattn/emmet-vim'
@@ -70,9 +70,11 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'DavidEGx/ctrlp-smarttabs'
 		Plugin 'endel/ctrlp-filetype.vim'
 		Plugin 'fisadev/vim-ctrlp-cmdpalette'
+		Plugin 'mattn/ctrlp-mark'
 		Plugin 'sgur/ctrlp-extensions.vim'
 		Plugin 'tacahiroy/ctrlp-funky'
  	" Various
+		Plugin 'ConvertBase.vim'
 		Plugin 'Valloric/YouCompleteMe'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'Lokaltog/vim-easymotion'
@@ -96,6 +98,7 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'sjl/badwolf'
  		Plugin 'w0ng/vim-hybrid'
  	" My Plugins
+		Plugin 'KabbAmine/vCoolor.vim'
 		Plugin 'KabbAmine/zeavim.vim'
  " }
 
@@ -419,7 +422,8 @@ endif
 	" *** ,l   :Line
 	" *** ,C   :CmdPalette
 	" *** ,y   :Yankring
-	" *** ,,l   :Filetype
+	" *** ,,l  :Filetype
+	" *** ,m   :Marks
 	" *** ,s   :Tabs
 		nmap <silent> ,,f   :CtrlP<CR>
 		nmap <silent> ,c   :CtrlPCmdline<CR>
@@ -429,6 +433,7 @@ endif
 		nmap <silent> ,C   :CtrlPCmdPalette<CR>
 		nmap <silent> ,y   :CtrlPYankring<CR>
 		nmap <silent> ,,l   :CtrlPFiletype<CR>
+		nmap <silent> ,m   :CtrlPMark<CR>
 		nmap <silent> ,s   :CtrlPSmartTabs<CR>
 " }
 
@@ -628,7 +633,7 @@ endif
 " Make the current file directory as the vim current directory *******
 " {
 	" *** :Dir
-	command! Dir :lcd %:p:h
+	command! Dir :cd %:p:h
 " }
 
 " Toggle (( gitgutter )) *******
