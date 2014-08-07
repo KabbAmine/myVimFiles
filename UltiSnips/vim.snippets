@@ -4,9 +4,15 @@ function ${1:...}(${2:...})
 endfunction
 endsnippet
 
+snippet ifcmd "if exists(command) ..." b
+if exists(":${1:command}") != 2
+	command! ${2:...} $1 ${3:...}
+endif
+endsnippet
+
 snippet ifmap "if !hasmapto ..." b
 if !hasmapto('<Plug>${1:...}')
-	nmap <unique> <Leader>z  <Plug>$1
+	nmap <unique> ${4:mapping} <Plug>$1
 endif
 nnoremap <unique> <script> <Plug>$1 <SID>${2:...}
 nnoremap <silent> <SID>$2 :call <SID>${3:functionName}<CR>
