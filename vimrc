@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-08-06
+" Last modification: 2014-08-17
 " ================================================================
 
 
@@ -55,18 +55,18 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'idanarye/vim-merginal'
  		Plugin 'tpope/vim-fugitive'
  	" For (( fuzzyfinder ))
-		Plugin 'FuzzyFinder'
 		Plugin 'L9'
+		Plugin 'FuzzyFinder'
  	" For (( ultisnips ))
 		Plugin 'SirVer/ultisnips'
 		Plugin 'honza/vim-snippets'
  	" For (( airline ))
 		Plugin 'bling/vim-airline'
 	" For (( nerdtree ))
-		Plugin 'ivalkeen/nerdtree-execute'
 		Plugin 'scrooloose/nerdtree'
 	" For (( ctrlp ))
 		Plugin 'kien/ctrlp.vim'
+		Plugin 'jasoncodes/ctrlp-modified.vim'
 		Plugin 'DavidEGx/ctrlp-smarttabs'
 		Plugin 'endel/ctrlp-filetype.vim'
 		Plugin 'fisadev/vim-ctrlp-cmdpalette'
@@ -74,8 +74,8 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'sgur/ctrlp-extensions.vim'
 		Plugin 'tacahiroy/ctrlp-funky'
  	" Various
-		Plugin 'ConvertBase.vim'
 		Plugin 'Valloric/YouCompleteMe'
+		Plugin 'osyo-manga/vim-over'
  		Plugin 'AndrewRadev/splitjoin.vim'
  		Plugin 'Lokaltog/vim-easymotion'
  		Plugin 'Raimondi/delimitMate'
@@ -98,8 +98,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'sjl/badwolf'
  		Plugin 'w0ng/vim-hybrid'
  	" My Plugins
-		Plugin 'KabbAmine/vCoolor.vim'
-		Plugin 'KabbAmine/zeavim.vim'
+		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/zeavim'
+		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/vCoolor'
  " }
 
 call vundle#end()
@@ -190,7 +190,6 @@ set ruler			" Show cursor position below each window.
 " ========== EDIT TEXT =========================================
 set showmatch						" Show matching brackets.
 set matchpairs=(:),{:},[:],<:>		" List of pairs that match for the % command.
-set backspace=indent,eol,start		" Specifies what <BS>, CTRL-W, etc. can do in Insert mode.
 set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
 
@@ -204,7 +203,6 @@ set scrolloff=3						" Number of screen lines to show around the cursor.
 set display=lastline				" Show the last line even if it doesn't fit.
 " Make stars and bars visible
 " {
-	set conceallevel=0				" Controls whether concealable text is hidden.
 	hi link HelpBar Normal
 	hi link HelpStar Normal
 " }
@@ -218,6 +216,7 @@ set display=lastline				" Show the last line even if it doesn't fit.
 	set list
 " }
 
+
 " ========== MOVE, SEARCH & PATTERNS ===========================
 set ignorecase					" Do case insensitive matching.
 set smartcase					" Do smart case matching.
@@ -225,20 +224,11 @@ set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 
 
-" ========== MOUSE =============================================
-set mouse=a		" Enable mouse usage (all modes).
-
-
 " ========== SYNTAX, HIGHLIGHTING AND SPELLING =================
 set cursorline				" Highlight the screen line of the cursor.
 " set cursorcolumn			" Highlight the screen column of the cursor.
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
-
-
-" ========== READ & WRITE FILES ================================
-set writebackup				" Write a backup file before overwriting a file.
-" set backupext=.backup		" File name extension for the backup file.
 
 
 " ========== TABS & INDENTING ==================================
@@ -253,13 +243,6 @@ set copyindent			" Copy whitespace for indenting from previous line.
 
 " ========== FOLDING ===========================================
 set foldcolumn=1			" Width of the column used to indicate fold.
-set foldmethod=manual		" Folding type: 'manual', 'indent', 'expr', 'marker' or 'syntax'.
-" set foldlevel=4			" Folds with a level higher than this number will be closed.
-" set foldenable			" Folds are open by default
-
-
-" ========== MULTIPLE TAB PAGES ================================
-"set showtabline=1		" 0, 1 or 2; when to use a tab pages line.
 
 
 " ========== COMMAND LINE EDITING ==============================
@@ -277,15 +260,9 @@ set encoding=utf-8
 
 
 " ========== MULTIPLE WINDOWS ==================================
-set equalalways						" Make all windows the same size when adding/removing windows.
-set eadirection=both				" In which direction 'equalalways' works: 'ver', 'hor' or 'both'.
 set splitright						" A new window is put right of the current one.
 set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
 set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be used for a status line.
-
-
-" ========== TERMINAL ==========================================
-" set title			" Show info in the window title.
 
 
 " ========== SWAP FILE =========================================
@@ -609,10 +586,12 @@ endif
 		endfunction
 " }
 
-" Open the help of local-additions *******
+" Shortcuts for vim doc *******
 " {
-	" *** :Hl
+	" *** :Hl	=>	local-additions
+	" *** :Fl	=>	function-list
 		command! Hl :help local-additions
+		command! Fl :help function-list
 " }
 
 " Change file type between PHP and HTML files *******
@@ -644,6 +623,27 @@ endif
 		command! GG :GitGutterToggle
 		command! Gn :GitGutterNextHunk
 		command! Gp :GitGutterPrevHunk
+" }
+
+" ******* (( vim-over )) *******
+" {
+	" *** :S	=> OverCommandLine
+		command! S OverCommandLine
+" }
+
+" =========== ABBREVIATIONS ==============================
+" No more rage (Idea from a generated vimrc
+" from http://vim-bootstrap.com/)
+" {
+	cab W! w!
+	cab Q! q!
+	cab QA! qa!
+	cab QA qa
+	cab Wq wq
+	cab wQ wq
+	cab WQ wq
+	cab W w
+	cab Q q
 " }
 
 
@@ -885,6 +885,11 @@ endif
 	" let g:ZV_added_files_type = {
 	" 			\ 'extension': 'docset',
 	" 			\}
+" }
+
+" ******* (( vcoolor )) *******
+" {
+	" let g:vcoolor_lowercase = 1
 " }
 
 " ******* (( termivator )) *******
