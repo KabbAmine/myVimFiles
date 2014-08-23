@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-08-17
+" Last modification: 2014-08-23
 " ================================================================
 
 
@@ -39,7 +39,7 @@ Plugin 'gmarik/Vundle.vim'
 		Plugin 'cakebaker/scss-syntax.vim'
  		Plugin 'gorodinskiy/vim-coloresque.git'
  		Plugin 'hail2u/vim-css3-syntax.git'
- 		Plugin 'jaxbot/brolink.vim.git'
+ 		Plugin 'jaxbot/browserlink.vim'
  		Plugin 'mattn/emmet-vim'
  		Plugin 'othree/html5.vim'
  		Plugin 'plasticboy/vim-markdown'
@@ -65,13 +65,9 @@ Plugin 'gmarik/Vundle.vim'
 	" For (( nerdtree ))
 		Plugin 'scrooloose/nerdtree'
 	" For (( ctrlp ))
-		Plugin 'kien/ctrlp.vim'
-		Plugin 'jasoncodes/ctrlp-modified.vim'
-		Plugin 'DavidEGx/ctrlp-smarttabs'
-		Plugin 'endel/ctrlp-filetype.vim'
-		Plugin 'fisadev/vim-ctrlp-cmdpalette'
+		" Plugin 'kien/ctrlp.vim'
+		Plugin 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plugin 'mattn/ctrlp-mark'
-		Plugin 'sgur/ctrlp-extensions.vim'
 		Plugin 'tacahiroy/ctrlp-funky'
  	" Various
 		Plugin 'Valloric/YouCompleteMe'
@@ -86,7 +82,6 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'mbbill/undotree'
  		Plugin 'scrooloose/syntastic'
  		Plugin 'sk1418/Join'
- 		Plugin 't9md/vim-textmanip'
  		Plugin 'terryma/vim-multiple-cursors'
  		Plugin 'tommcdo/vim-exchange'
  		Plugin 'tomtom/tcomment_vim'
@@ -98,8 +93,8 @@ Plugin 'gmarik/Vundle.vim'
  		Plugin 'sjl/badwolf'
  		Plugin 'w0ng/vim-hybrid'
  	" My Plugins
-		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/zeavim'
 		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/vCoolor'
+		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/zeavim'
  " }
 
 call vundle#end()
@@ -384,7 +379,7 @@ endif
 		nmap ;c :Tc<CR>
 " }
 
-" (( brolink )) shortcuts *******
+" (( browserlink )) shortcuts *******
 " {
 	" *** <C-F5>	=> Reload page
 		nmap <silent> <C-f5> :BLReloadPage<CR>
@@ -432,17 +427,6 @@ endif
 " {
 	" <C-F2>		=> Open the custom snippet file of the current file.
 		nmap <C-F2> :UltiSnipsEdit<CR>
-" }
-
-" (( textmanip )) *******
-" {
-	" *** \t				=> Toggle insert/replace modes.
-	" *** <Alt-direction>	=> Move selection.
-		nmap <silent> <leader>t <Plug>(textmanip-toggle-mode)
-		xmap <silent> <M-Down> <Plug>(textmanip-move-down)
-		xmap <silent> <M-Up> <Plug>(textmanip-move-up)
-		xmap <silent> <M-Left> <Plug>(textmanip-move-left)
-		xmap <silent> <M-Right> <Plug>(textmanip-move-right)
 " }
 
 " (( NERDTree )) shortcut *******
@@ -511,6 +495,16 @@ endif
 			let g:splitjoin_join_mapping = ''
 		nmap <Leader>j :SplitjoinJoin<cr>
 		nmap <Leader>s :SplitjoinSplit<cr>
+" }
+
+" (( termivator )) mappings *******
+" {
+	" *** \tt		=> Terminal.
+	" *** \tf		=> File manager.
+	" *** \th		=> Haroopad.
+		map <silent> <leader>tt :Tt<CR>
+		map <silent> <leader>tf :Tf<CR>
+		map <silent> <leader>th :Th<CR>
 " }
 
 
@@ -629,6 +623,11 @@ endif
 " {
 	" *** :S	=> OverCommandLine
 		command! S OverCommandLine
+" }
+
+" ******* (( browserlink )) *******
+" {
+	au BufWritePost *.scss :sleep 500m | BLReloadCSS
 " }
 
 " =========== ABBREVIATIONS ==============================
@@ -865,6 +864,10 @@ endif
 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
 	let g:ctrlp_clear_cache_on_exit = 0
 	let g:ctrlp_working_path_mode = 0
+	let g:ctrlp_max_files = 0
+	let g:ctrlp_max_depth = 40
+	let g:ctrlp_follow_symlinks = 1
+	let g:ctrlp_lazy_update = 1
 	" Open multiple files in hidden buffers.
 		let g:ctrlp_open_multiple_files = 'i'
 	" Open new file in the current window.
@@ -876,7 +879,12 @@ endif
 			let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*'
 		endif
 	" Make available extensions.
-		let g:ctrlp_extensions = ['funky', 'filetype']
+		let g:ctrlp_extensions = ['funky']
+" }
+
+" ******* (( browserlink )) *******
+" {
+	let g:bl_no_mappings = 1
 " }
 
 " ******* (( zeavim )) *******
