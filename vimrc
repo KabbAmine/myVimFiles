@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-08-23
+" Last modification: 2014-09-02
 " ================================================================
 
 
@@ -14,94 +14,87 @@
 " }
 
 
-" ========== VUNDLE ==============================================
-
-set nocompatible		" No compatible with Vi.
-filetype off			" Required for (( vundle )) !
-
-" Let Vundle manage Vundle
-execute "set rtp+=".vimDir."/bundle/Vundle.vim"
-
+" ========== VIM-PLUG ==============================================
 if has ('win32') || has('win64')
-	call vundle#begin('$HOME/vimfiles/bundle/')
+	call plug#begin('$HOME/vimfiles/plugged')
 else
-	call vundle#begin()
+	call plug#begin('~/.vim/plugged')
 endif
-
-Plugin 'gmarik/Vundle.vim'
 
 " My Plugins:
 " " {
  	" For PHP
- 		Plugin 'PHP-correct-Indenting'
- 		Plugin 'StanAngeloff/php.vim'
+ 		Plug 'PHP-correct-Indenting', { 'for': ['php','html']}
+ 		Plug 'StanAngeloff/php.vim', { 'for': ['php','html']}
  	" For HTML/CSS
-		Plugin 'cakebaker/scss-syntax.vim'
- 		Plugin 'gorodinskiy/vim-coloresque.git'
- 		Plugin 'hail2u/vim-css3-syntax.git'
- 		Plugin 'jaxbot/browserlink.vim'
- 		Plugin 'mattn/emmet-vim'
- 		Plugin 'othree/html5.vim'
- 		Plugin 'plasticboy/vim-markdown'
+		Plug 'cakebaker/scss-syntax.vim', { 'for': ['scss']}
+ 		Plug 'ap/vim-css-color', { 'for': ['css','html']}
+ 		Plug 'hail2u/vim-css3-syntax', { 'for': ['css']}
+ 		Plug 'jaxbot/browserlink.vim'
+ 		Plug 'mattn/emmet-vim', { 'for': ['css','html','scss']}
+ 		Plug 'othree/html5.vim', { 'for': ['html']}
+ 		Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
  	" For JavaScript
- 		Plugin 'pangloss/vim-javascript'
+ 		Plug 'pangloss/vim-javascript', { 'for': ['javascript']}
  	" For Python
- 		" Plugin 'hdima/python-syntax'
- 		" Plugin 'rkulla/pydiction'
+ 		" Plug 'hdima/python-syntax', { 'for': 'python'}
+ 		" Plug 'rkulla/pydiction', { 'for': 'python'}
  	" For Java
- 		" Plugin 'javacomplete'
+ 		" Plug 'javacomplete', { 'for': 'java'}
 	" For Git
-		Plugin 'airblade/vim-gitgutter'
- 		Plugin 'idanarye/vim-merginal'
- 		Plugin 'tpope/vim-fugitive'
+		Plug 'airblade/vim-gitgutter'
+ 		Plug 'idanarye/vim-merginal'
+ 		Plug 'tpope/vim-fugitive'
  	" For (( fuzzyfinder ))
-		Plugin 'L9'
-		Plugin 'FuzzyFinder'
+		Plug 'L9'
+		Plug 'FuzzyFinder'
  	" For (( ultisnips ))
-		Plugin 'SirVer/ultisnips'
-		Plugin 'honza/vim-snippets'
+		Plug 'SirVer/ultisnips'
+		Plug 'honza/vim-snippets'
  	" For (( airline ))
-		Plugin 'bling/vim-airline'
+		Plug 'bling/vim-airline'
 	" For (( nerdtree ))
-		Plugin 'scrooloose/nerdtree'
+		Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 	" For (( ctrlp ))
-		" Plugin 'kien/ctrlp.vim'
-		Plugin 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
-		Plugin 'mattn/ctrlp-mark'
-		Plugin 'tacahiroy/ctrlp-funky'
+		" Plug 'kien/ctrlp.vim'
+		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
+		Plug 'mattn/ctrlp-mark'
+		Plug 'tacahiroy/ctrlp-funky'
  	" Various
-		Plugin 'Valloric/YouCompleteMe'
-		Plugin 'osyo-manga/vim-over'
- 		Plugin 'AndrewRadev/splitjoin.vim'
- 		Plugin 'Lokaltog/vim-easymotion'
- 		Plugin 'Raimondi/delimitMate'
- 		Plugin 'godlygeek/tabular'
- 		Plugin 'kshenoy/vim-signature'
- 		Plugin 'majutsushi/tagbar'
- 		Plugin 'matchit.zip'
- 		Plugin 'mbbill/undotree'
- 		Plugin 'scrooloose/syntastic'
- 		Plugin 'sk1418/Join'
- 		Plugin 'terryma/vim-multiple-cursors'
- 		Plugin 'tommcdo/vim-exchange'
- 		Plugin 'tomtom/tcomment_vim'
- 		Plugin 'tpope/vim-surround'
+		Plug 'Valloric/YouCompleteMe'
+		Plug 'matze/vim-move'
+		Plug 'osyo-manga/vim-over'
+ 		Plug 'AndrewRadev/splitjoin.vim'
+ 		Plug 'Lokaltog/vim-easymotion'
+ 		Plug 'Raimondi/delimitMate'
+ 		Plug 'godlygeek/tabular'
+ 		Plug 'kshenoy/vim-signature'
+		Plug 'majutsushi/tagbar'
+ 		Plug 'matchit.zip'
+ 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+ 		Plug 'scrooloose/syntastic'
+ 		Plug 'sk1418/Join'
+ 		Plug 'terryma/vim-multiple-cursors'
+ 		Plug 'tommcdo/vim-exchange'
+ 		Plug 'tomtom/tcomment_vim'
+ 		Plug 'tpope/vim-surround'
  	" Colorschemes
-		Plugin 'chriskempson/base16-vim'
-		Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
- 		Plugin 'reedes/vim-colors-pencil'
- 		Plugin 'sjl/badwolf'
- 		Plugin 'w0ng/vim-hybrid'
+		Plug 'chriskempson/base16-vim'
+		Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
+ 		Plug 'reedes/vim-colors-pencil'
+ 		Plug 'sjl/badwolf'
+ 		Plug 'w0ng/vim-hybrid'
  	" My Plugins
-		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/vCoolor'
-		Plugin 'file:///home/k-bag/MyProjects/pluginsVim/zeavim'
+		Plug '~/MyProjects/pluginsVim/vCoolor'
+		Plug '~/MyProjects/pluginsVim/zeavim'
  " }
 
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 
 " ========== VARIOUS  ===========================================
+set nocompatible		" No compatible with Vi.
+
 " Load indentation rules and plugins according to the detected filetype.
 " {
 	if has("autocmd")
@@ -373,10 +366,12 @@ endif
 	" *** ;f	=> File manager.
 	" *** ;g	=> Gitg.
 	" *** ;c	=> Cmder(Win)/GColor2(Unix).
-		nmap ;t :Tt<CR>
-		nmap ;f :Tf<CR>
-		nmap ;g :Tg<CR>
-		nmap ;c :Tc<CR>
+	" *** ;h	=> Haroopad
+		nmap <silent> ;t :Tt<CR>
+		nmap <silent> ;f :Tf<CR>
+		nmap <silent> ;g :Tg<CR>
+		nmap <silent> ;c :Tc<CR>
+		nmap <silent> ;h :Th<CR>
 " }
 
 " (( browserlink )) shortcuts *******
@@ -387,26 +382,16 @@ endif
 
 " (( CtrlP )) & extensions shortcuts *******
 " {
-	" *** ,,f   :CtrlP
-	" *** ,c   :Cmdline
-	" *** ,F  :Funky
-	" *** ,t   :BufTag
-	" *** ,l   :Line
-	" *** ,C   :CmdPalette
-	" *** ,y   :Yankring
-	" *** ,,l  :Filetype
-	" *** ,m   :Marks
-	" *** ,s   :Tabs
+	" *** ,,f	:CtrlP
+	" *** ,F	:Funky
+	" *** ,t	:BufTag
+	" *** ,l	:Line
+	" *** ,m	:Marks
 		nmap <silent> ,,f   :CtrlP<CR>
-		nmap <silent> ,c   :CtrlPCmdline<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine %<CR>
-		nmap <silent> ,C   :CtrlPCmdPalette<CR>
-		nmap <silent> ,y   :CtrlPYankring<CR>
-		nmap <silent> ,,l   :CtrlPFiletype<CR>
 		nmap <silent> ,m   :CtrlPMark<CR>
-		nmap <silent> ,s   :CtrlPSmartTabs<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
@@ -416,11 +401,13 @@ endif
 	" *** ,r		=> FufMruFile
 	" *** ,d		=> FufDir
 	" *** ,B		=> FufBookmarkDir
+	" *** ,c		=> FufMruCmd
 		nmap <silent> ,b :FufBuffer<CR>
 		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,d :FufDir<CR>
 		nmap <silent> ,B :FufBookmarkDir<CR>
+		nmap <silent> ,c :FufMruCmd<CR>
 " }
 
 " (( ultisnips )) *******
@@ -497,14 +484,14 @@ endif
 		nmap <Leader>s :SplitjoinSplit<cr>
 " }
 
-" (( termivator )) mappings *******
+" ******* (( move )) *******
 " {
-	" *** \tt		=> Terminal.
-	" *** \tf		=> File manager.
-	" *** \th		=> Haroopad.
-		map <silent> <leader>tt :Tt<CR>
-		map <silent> <leader>tf :Tf<CR>
-		map <silent> <leader>th :Th<CR>
+	" Disable default mapping.
+		let g:move_map_keys = 0
+	vmap <A-up> <Plug>MoveBlockUp
+	vmap <A-down> <Plug>MoveBlockDown
+	nmap <A-up> <Plug>MoveLineUp
+	nmap <A-down> <Plug>MoveLineDown
 " }
 
 
@@ -546,18 +533,18 @@ endif
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " }
 
-" Short commands for (( vundle ))
+" Short commands for (( vim-plug ))
 " {
-	" *** :VI			   => Install new plugins.
-	" *** :VU			   => Update all plugins.
-	" *** :VL			   => List all plugins.
-	" *** :VS (scriptName) => Search vim-scripts in the repos
-	" *** :VC			   => Clean the plugins. directory.
-		command! VI :PluginInstall
-		command! VU :PluginUpdate
-		command! VL :PluginList
-		command! -nargs=? VS :PluginSearch! <args>
-		command! VC :PluginClean
+	" *** :PI			=> Install new plugins.
+	" *** :PU			=> Update all plugins.
+	" *** :PL			=> List all plugins.
+	" *** :PS			=> Show plugin status.
+	" *** :PC			=> Clean the plugin directories.
+		command! PI :PlugInstall
+		command! PU :PlugUpdate
+		command! PL :PlugList
+		command! PS :PlugStatus
+		command! PC :PlugClean
 " }
 
 " Define the file type *******
@@ -656,9 +643,9 @@ endif
 			\	endif
 	endif
 	" For (( javacomplete ))
-		if has("autocmd")
-			autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
-		endif
+		" if has("autocmd")
+		" 	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
+		" endif
 " }
 
 
@@ -890,6 +877,7 @@ endif
 " ******* (( zeavim )) *******
 " {
 	" let g:ZV_zeal_directory = ""
+	" let g:ZV_disable_mapping = 1
 	" let g:ZV_added_files_type = {
 	" 			\ 'extension': 'docset',
 	" 			\}
