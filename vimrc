@@ -1,57 +1,67 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-02
+" Last modification: 2014-09-10
 " ================================================================
 
 
+" Useful variables & functions
+" {
+	let s:hasUnix = has('unix')
+	let s:hasWin = has('win32') || has('win64')
+
+	function! s:PlugInOs(link, os)
+		if has(a:os)
+			execute "Plug '".a:link."'"
+		endif
+	endfunction
+" }
 " Stock the Location of vim's folder in a global variable.
 " {
-	if has('win32') || has('win64')
-		let g:vimDir = "$HOME/vimfiles"
+	if s:hasWin
+		let s:vimDir = "$HOME/vimfiles"
 	else
-		let g:vimDir = "$HOME/.vim"
+		let s:vimDir = "$HOME/.vim"
 	endif
 " }
 
 
 " ========== VIM-PLUG ==============================================
-if has ('win32') || has('win64')
-	call plug#begin('$HOME/vimfiles/plugged')
+if s:hasWin
+	call plug#begin($HOME.'/vimfiles/plugged')
 else
 	call plug#begin('~/.vim/plugged')
 endif
 
-" My Plugins:
+" Plugins:
 " " {
- 	" For PHP
- 		Plug 'PHP-correct-Indenting', { 'for': ['php','html']}
- 		Plug 'StanAngeloff/php.vim', { 'for': ['php','html']}
- 	" For HTML/CSS
-		Plug 'cakebaker/scss-syntax.vim', { 'for': ['scss']}
- 		Plug 'ap/vim-css-color', { 'for': ['css','html']}
- 		Plug 'hail2u/vim-css3-syntax', { 'for': ['css']}
- 		Plug 'jaxbot/browserlink.vim'
- 		Plug 'mattn/emmet-vim', { 'for': ['css','html','scss']}
- 		Plug 'othree/html5.vim', { 'for': ['html']}
- 		Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
- 	" For JavaScript
- 		Plug 'pangloss/vim-javascript', { 'for': ['javascript']}
- 	" For Python
- 		" Plug 'hdima/python-syntax', { 'for': 'python'}
- 		" Plug 'rkulla/pydiction', { 'for': 'python'}
- 	" For Java
- 		" Plug 'javacomplete', { 'for': 'java'}
+	" For PHP
+		Plug 'PHP-correct-Indenting', { 'for': ['php','html'] }
+		Plug 'StanAngeloff/php.vim', { 'for': ['php','html'] }
+	" For HTML/CSS
+		Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
+		Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+		call s:PlugInOs('jaxbot/browserlink.vim', 'unix')
+		Plug 'mattn/emmet-vim', { 'for': ['css','html','scss', 'php'] }
+		Plug 'othree/html5.vim', { 'for': 'html' }
+		Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+	" For JavaScript
+		Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+	" For Python
+		Plug 'hdima/python-syntax', { 'for': 'python'}
+	" For Java
+		Plug 'javacomplete', { 'for': 'java'}
 	" For Git
 		Plug 'airblade/vim-gitgutter'
- 		Plug 'idanarye/vim-merginal'
- 		Plug 'tpope/vim-fugitive'
- 	" For (( fuzzyfinder ))
+		Plug 'idanarye/vim-merginal'
+		Plug 'tpope/vim-fugitive'
+	" For (( fuzzyfinder ))
 		Plug 'L9'
 		Plug 'FuzzyFinder'
- 	" For (( ultisnips ))
+	" For (( ultisnips ))
 		Plug 'SirVer/ultisnips'
 		Plug 'honza/vim-snippets'
- 	" For (( airline ))
+	" For (( airline ))
 		Plug 'bling/vim-airline'
 	" For (( nerdtree ))
 		Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -60,33 +70,36 @@ endif
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plug 'mattn/ctrlp-mark'
 		Plug 'tacahiroy/ctrlp-funky'
- 	" Various
-		Plug 'Valloric/YouCompleteMe'
+	" (( syntastic )) & linters
+		Plug 'scrooloose/syntastic'
+		Plug 'syngan/vim-vimlint', {'for': 'vim'}
+		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
+	" Various
+		call s:PlugInOs('Valloric/YouCompleteMe', 'unix')
 		Plug 'matze/vim-move'
 		Plug 'osyo-manga/vim-over'
- 		Plug 'AndrewRadev/splitjoin.vim'
- 		Plug 'Lokaltog/vim-easymotion'
- 		Plug 'Raimondi/delimitMate'
- 		Plug 'godlygeek/tabular'
- 		Plug 'kshenoy/vim-signature'
+		Plug 'AndrewRadev/splitjoin.vim'
+		Plug 'Lokaltog/vim-easymotion'
+		Plug 'Raimondi/delimitMate'
+		Plug 'godlygeek/tabular'
+		Plug 'kshenoy/vim-signature'
 		Plug 'majutsushi/tagbar'
- 		Plug 'matchit.zip'
- 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
- 		Plug 'scrooloose/syntastic'
- 		Plug 'sk1418/Join'
- 		Plug 'terryma/vim-multiple-cursors'
- 		Plug 'tommcdo/vim-exchange'
- 		Plug 'tomtom/tcomment_vim'
- 		Plug 'tpope/vim-surround'
- 	" Colorschemes
+		Plug 'matchit.zip'
+		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+		Plug 'sk1418/Join'
+		Plug 'terryma/vim-multiple-cursors'
+		Plug 'tommcdo/vim-exchange'
+		Plug 'tomtom/tcomment_vim'
+		Plug 'tpope/vim-surround'
+	" Colorschemes
 		Plug 'chriskempson/base16-vim'
-		Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
- 		Plug 'reedes/vim-colors-pencil'
- 		Plug 'sjl/badwolf'
- 		Plug 'w0ng/vim-hybrid'
- 	" My Plugins
-		Plug '~/MyProjects/pluginsVim/vCoolor'
-		Plug '~/MyProjects/pluginsVim/zeavim'
+		Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
+		Plug 'reedes/vim-colors-pencil'
+		Plug 'sjl/badwolf'
+		Plug 'w0ng/vim-hybrid'
+	" My Plugins
+		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', 'unix')
+		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', 'unix')
  " }
 
 call plug#end()
@@ -110,17 +123,17 @@ set nocompatible		" No compatible with Vi.
 " }
 
 " What to write in Viminfo and his location.
-execute "set vi='100,<50,s10,h,n".vimDir."/various/viminfo"
+execute "set vi='100,<50,s10,h,n".s:vimDir."/various/viminfo"
 
 " Add the file systags to the tags option.
-execute "set tags+=".vimDir."/various/systags"
+execute "set tags+=".s:vimDir."/various/systags"
 
 " Using a dark background.
 set background=dark
 
 " Theme & number of colors.
 " {
-	if has ('win32') || has('win64')
+	if s:hasWin
 		colorscheme hybrid
 	elseif !empty($TERM)
 		colorscheme Tomorrow-Night
@@ -148,7 +161,7 @@ set background=dark
 	
 " Directory where to store files with :mkview.
 " {
-	execute "set viewdir=".vimDir."/various/view"
+	execute "set viewdir=".s:vimDir."/various/view"
 " }
 
 " ========== GUI ===============================================
@@ -158,7 +171,7 @@ if has("gui_running")
 	set guioptions-=e		" Apply normal tabline in Gvim.
 	set guioptions-=L
 	set guioptions-=l
-	if has("win32") || has('win64')
+	if s:hasWin
 		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
 	else
 		" set guifont=Monospace\ 10
@@ -184,7 +197,7 @@ set completeopt=menuone				" Use only a popup menu for Insert mode completion wi
 
 " ========== DISPLAY TEXT ======================================
 set number							" Show the line number for each line.
-" set breakat=\ \ !@*-+;:,./?			" Which characters might cause a line break
+" set breakat=\ \ !@*-+;:,./?		" Which characters might cause a line break
 set linebreak						" Wrap long lines at a character in 'breakat'.
 let &showbreak='░░░░ '				" String to put before wrapped screen lines.
 set scrolloff=3						" Number of screen lines to show around the cursor.
@@ -196,7 +209,7 @@ set display=lastline				" Show the last line even if it doesn't fit.
 " }
 " Format of highlighting for tabs, whitespace... using 'list'.
 " {
-	if has ('win32') || has('win64')
+	if s:hasWin
 		set listchars=tab:\|\ ,trail:~,extends:>,precedes:<
 	else
 		set listchars=tab:╎\ ,trail:•,extends:#,nbsp:.
@@ -238,7 +251,7 @@ set wildmode=list:longest,full		" Command <Tab> completion, list matches, then l
 set wildmenu						" Command-line completion shows a list of matches with TAB.
 " Enable the persistent undo.
 if has("persistent_undo")
-	execute "set undodir =".vimDir."/various/undodir/"
+	execute "set undodir =".s:vimDir."/various/undodir/"
 	set undofile
 endif
 
@@ -255,10 +268,10 @@ set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be 
 
 " ========== SWAP FILE =========================================
 " Set the swap file directories.
-if has ('win32') || has('win64')
-	execute "set directory=".vimDir."\\various\\swap_dir,c:\\tmp,c:\\temp\\"
+if s:hasWin
+	execute "set directory=".s:vimDir."\\various\\swap_dir,c:\\tmp,c:\\temp\\"
 else
-	execute "set directory=".vimDir."/various/swap_dir,~/tmp,/var/tmp,/tmp\""
+	execute "set directory=".s:vimDir."/various/swap_dir,~/tmp,/var/tmp,/tmp\""
 endif
 
 
@@ -268,12 +281,12 @@ endif
 	" *** NORMAL MODE
 		" *** <C-d>		=> Duplicate line.
 	" *** INSERT MODE
-		" *** <A-d>	=> Duplicate line.
-		" *** <A-k>	=> Delete line.
-		" *** <A-$>	=> Delete till end of line.
-		" *** <A-o>	=> Insert new line.
-		" *** <A-a>	=> Insert new line before.
-		" *** <A-">	=> Change inside ", ', (, ...
+		" *** <A-d> => Duplicate line.
+		" *** <A-k> => Delete line.
+		" *** <A-$> => Delete till end of line.
+		" *** <A-o> => Insert new line.
+		" *** <A-a> => Insert new line before.
+		" *** <A-"> => Change inside ", ', (, ...
 			nnoremap <silent> <C-d> yyp
 			inoremap <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
 			inoremap <A-$> <C-o>d$
@@ -290,7 +303,7 @@ endif
 " Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
 " {
 	" *** <F11>
-	if has('unix')
+	if s:hasUnix
 		nnoremap <silent> <F11> :!wmctrl -r ":ACTIVE:" -b toggle,fullscreen<CR><CR>
 	endif
 " }
@@ -365,12 +378,10 @@ endif
 	" *** ;t	=> Terminal.
 	" *** ;f	=> File manager.
 	" *** ;g	=> Gitg.
-	" *** ;c	=> Cmder(Win)/GColor2(Unix).
 	" *** ;h	=> Haroopad
 		nmap <silent> ;t :Tt<CR>
 		nmap <silent> ;f :Tf<CR>
 		nmap <silent> ;g :Tg<CR>
-		nmap <silent> ;c :Tc<CR>
 		nmap <silent> ;h :Th<CR>
 " }
 
@@ -387,7 +398,7 @@ endif
 	" *** ,t	:BufTag
 	" *** ,l	:Line
 	" *** ,m	:Marks
-		nmap <silent> ,,f   :CtrlP<CR>
+		nmap <silent> ,,f	:CtrlP<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine %<CR>
@@ -445,9 +456,9 @@ endif
 
 " (( syntastic )) shortcuts *******
 " {
-	" *** <F8>		=> SyntasticToggleMode.
+	" *** <F8>		=> SyntasticCheck
 	" *** <c-F8>	=> SyntasticReset
-	" *** ,E		=> Errors: Display an errors window.
+	" *** ,E		=> Display an errors window.
 		map <silent> <F8> :SyntasticCheck<CR>
 		map <silent> <c-F8> :SyntasticReset<CR>
 		map <silent> ,E :Errors<CR>
@@ -484,7 +495,7 @@ endif
 		nmap <Leader>s :SplitjoinSplit<cr>
 " }
 
-" ******* (( move )) *******
+" (( move )) *******
 " {
 	" Disable default mapping.
 		let g:move_map_keys = 0
@@ -517,7 +528,7 @@ endif
 	" *** :DelD		=> Delete directory(ies) in windows.
 	" *** :DelF		=> Delete file(s) in windows.
 	" *** :Del		=> Delete file(s) or folder(s).
-	if has ('win32') || has('win64')
+	if s:hasWin
 		command! -complete=file -nargs=+ CreD :!MD <args>
 		command! -complete=file -nargs=+ DelD :!RD /S <args> 
 		command! -complete=file -nargs=+ DelF :!DEL /P <args> 
@@ -537,12 +548,10 @@ endif
 " {
 	" *** :PI			=> Install new plugins.
 	" *** :PU			=> Update all plugins.
-	" *** :PL			=> List all plugins.
 	" *** :PS			=> Show plugin status.
 	" *** :PC			=> Clean the plugin directories.
 		command! PI :PlugInstall
 		command! PU :PlugUpdate
-		command! PL :PlugList
 		command! PS :PlugStatus
 		command! PC :PlugClean
 " }
@@ -643,9 +652,9 @@ endif
 			\	endif
 	endif
 	" For (( javacomplete ))
-		" if has("autocmd")
-		" 	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
-		" endif
+		if has("autocmd")
+			autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
+		endif
 " }
 
 
@@ -655,67 +664,50 @@ endif
 
 " ******* (( FuzzyFinder )) *******
 " {
-	" Files to ignore in 'FufCoverageFile' (All files in current directory).
 		let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|\.(png|jpg|jpeg|gif|xcf|svg)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|\.(cbp|depend)$'
 	" Enable all the modes (MRU mode was disabled).
 		let g:fuf_modesDisable = []
-	" Maximum number of MRU stored items.
-		let g:fuf_mrufile_maxItem = 40
+	let g:fuf_mrufile_maxItem = 40
 	" Separator for a primary and refining patterns.
 		let g:fuf_patternSeparator = '+'
 	" Cancel the <Ctrl-s> shortcut to use it in next command.
 		let g:fuf_keyPrevPattern = ''	
-	" Open it in horizontal split with <Ctrl-s>
-		let g:fuf_keyOpenSplit = '<C-s>'
-	" Open it in vertical split with <Ctrl-v>
-		let g:fuf_keyOpenVsplit = '<C-v>'
-	" Delete the buffer.
-		let g:fuf_buffer_keyDelete = '<C-d>'
+	let g:fuf_keyOpenSplit = '<C-s>'
+	let g:fuf_keyOpenVsplit = '<C-v>'
+	let g:fuf_buffer_keyDelete = '<C-d>'
 	" Cancel the <Ctrl-t> shortcut to use it in next command.
 		let g:fuf_keyNextMode = '<>'
-	" Open it in a tab with <Ctrl-t>
-		let g:fuf_keyOpenTabpage = '<C-t>'
+	let g:fuf_keyOpenTabpage = '<C-t>'
 	" Define the directory for data files.
-		execute "let g:fuf_dataDir = '".vimDir."/various/fuf-data/'"
+		execute "let g:fuf_dataDir = '".s:vimDir."/various/fuf-data/'"
 " }
 
 " ******* (( NERDTree )) *******
 " {
-	" Where bookmarks are stored.
-		if has ('win32') || has('win64')
-			let NERDTreeBookmarksFile='C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
-		else
-			let NERDTreeBookmarksFile='/home/k-bag/.vim/various/NERDTreeBookmarks'
-		endif
+	if s:hasWin
+		let NERDTreeBookmarksFile='C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
+	else
+		let NERDTreeBookmarksFile='/home/k-bag/.vim/various/NERDTreeBookmarks'
+	endif
 	" Ignore the following files.
 		let NERDTreeIgnore=['\~$', '\.class$']
-	" Show the bookmarks in the startup.
-		" let NERDTreeShowBookmarks=1
 	" Remove a buffer when a file is being deleted or renamed.
 		let NERDTreeAutoDeleteBuffer=1
 	" Single-clic for folder nodes and double for files.
 		let NERDTreeMouseMode=2
-	" Arrows for the directories.
-		let NERDTreeDirArrows=1
+	let NERDTreeDirArrows=1
 " }
 
-" " ******* (( pydiction )) *******
-" " {
-" 	execute "let g:pydiction_location = '".vimDir."/bundle/pydiction/complete-dict'"
-" 	let g:pydiction_menu_height = 20
-" " }
-
 " " ******* (( python-syntax )) *******
-" 	let python_highlight_all=1
+	let python_highlight_all=1
 
 " ******* (( tagbar )) *******
 " {
-	" Move the cursor to the tagbar window when it is opened.
-		let g:tagbar_autofocus = 1
+	let g:tagbar_autofocus = 1
 	" Sort the elements by the order of appearance.
 		let g:tagbar_sort = 0
 	" Define the ctags location for windows.
-		if has ('win32') || has('win64')
+		if s:hasWin
 			let g:tagbar_ctags_bin = 'C:\Program Files\ctags58\ctags.exe'
 		endif
 	" Get a simple list of ((ultisnips)) snippets in snippet files.
@@ -729,8 +721,6 @@ endif
 
 " ******* (( airline )) *******
 " {
-	" Set theme.
-		" let g:airline_theme='lucius'
 	" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
@@ -739,10 +729,8 @@ endif
 		let g:Powerline_symbols = 'fancy'
 		let g:airline_powerline_fonts = 1
 	" Tabline.
-		" Enable/disable enhanced tabline.
-			let g:airline#extensions#tabline#enabled = 1
-		" Enable/disable displaying buffers with a single tab.
-			let g:airline#extensions#tabline#show_buffers = 1
+		let g:airline#extensions#tabline#enabled = 1
+		let g:airline#extensions#tabline#show_buffers = 1
 		" Configure the minimum number of buffers needed to show the tabline.
 			let g:airline#extensions#tabline#buffer_min_count = 1
 		" Configure the minimum number of tabs needed to show the tabline.
@@ -757,20 +745,13 @@ endif
 
 " ******* (( syntastic )) *******
 " {
-	" Set a specific checkers for some languages.
-		let g:syntastic_c_checkers=['gcc']
-		let g:syntastic_html_checkers=['w3']
-		let g:syntastic_xhtml_checkers=['tidy']
-		let g:syntastic_css_checkers=['prettycss']
-		let g:syntastic_python_checkers=['python']
-		let g:syntastic_tex_checkers=['chktex']
-		let g:syntastic_javascript_checkers=['jshint']
-		let g:syntastic_scss_checkers=['sass']
-	" Passive mode.
-		let g:syntastic_mode_map = { 'mode': 'passive',
-					\ 'active_filetypes': [],
-					\ 'passive_filetypes': ['c', 'cpp', 'html', 'java', 'php', 'python', 'sh', 'tex', 'xhtml', 'javascript', 'sass', 'scss']
-					\ }
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_html_checkers=['w3']
+	let g:syntastic_php_php_exec = '/opt/lampp/bin/php'
+	let g:syntastic_mode_map = { "mode": "passive",
+				\ "active_filetypes": [],
+				\ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss"]
+				\ }
 " }
 
 " ******* (( emmet )) *******
@@ -778,18 +759,13 @@ endif
 	" Enable emmet for specific files.
 		let g:user_emmet_install_global = 0
 		autocmd FileType html,xhtml,scss,css,sass,php EmmetInstall
-	" Set the leader key.
-		let g:user_emmet_leader_key = '<c-e>'
+	let g:user_emmet_leader_key = '<c-e>'
 " }
 
 " ******* (( undotree )) *******
 " {
-	" Set focus to undotree after opening it.
-		let g:undotree_SetFocusWhenToggle = 1
-	" Undotree window in the right.
-		let g:undotree_WindowLayout = 'botright'
-	" Show bookmarks.
-		" let NERDTreeShowBookmarks=1
+	let g:undotree_SetFocusWhenToggle = 1
+	let g:undotree_WindowLayout = 'botright'
 	" Automatically remove a buffer when his file is being deleted/renamed via the menu.
 		let NERDTreeAutoDeleteBuffer=1
 	" Case sensitive sorting.
@@ -803,8 +779,7 @@ endif
 
 " ******* (( vim-javascript )) *******
 " {
-	" Enables HTML/CSS syntax highlighting in your JavaScript file.
-		let javascript_enable_domhtmlcss = 1
+	let javascript_enable_domhtmlcss = 1
 " }
 
 " ******* (( easymotion )) *******
@@ -813,17 +788,15 @@ endif
 		let g:EasyMotion_startofline = 0
 	" Matching target keys by smartcase.
 		let g:EasyMotion_smartcase = 1
-	" Shows target labels with uppercase letters.
-		let g:EasyMotion_use_upper = 1
-		let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+	let g:EasyMotion_use_upper = 1
+	let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 " }
 
 " ******* (( ultisnips )) *******
 " {
-	" Trigger configuration.
-		let g:UltiSnipsExpandTrigger="<tab>"
-		let g:UltiSnipsJumpForwardTrigger="<tab>"
-		let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+	let g:UltiSnipsExpandTrigger="<tab>"
+	let g:UltiSnipsJumpForwardTrigger="<tab>"
+	let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 	" :UltiSnipsEdit splits the window.
 		let g:UltiSnipsEditSplit="vertical"
 	" Define directory for my personal snippets.
@@ -832,6 +805,7 @@ endif
 
 " ******* (( youcompleteme )) *******
 " {
+	let g:ycm_show_diagnostics_ui = 0		" To get (( syntastic )) working
 	let g:ycm_complete_in_comments = 1
 	let g:ycm_seed_identifiers_with_syntax = 1
 	let g:ycm_key_list_select_completion = ['<Down>']
@@ -846,7 +820,7 @@ endif
 
 " ******* (( ctrlp )) *******
 " {
-	let g:ctrlp_cache_dir = vimDir.'/various/ctrlp'
+	let g:ctrlp_cache_dir = s:vimDir.'/various/ctrlp'
 	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
 	let g:ctrlp_clear_cache_on_exit = 0
@@ -874,13 +848,22 @@ endif
 	let g:bl_no_mappings = 1
 " }
 
+" ******* (( vim-plug )) *******
+" {
+	if has('win32') || has('win64')
+		let g:plug_threads = 1
+	else
+		let g:plug_threads = 10
+	endif
+" }
+
 " ******* (( zeavim )) *******
 " {
 	" let g:ZV_zeal_directory = ""
 	" let g:ZV_disable_mapping = 1
 	" let g:ZV_added_files_type = {
-	" 			\ 'extension': 'docset',
-	" 			\}
+	"			\ 'extension': 'docset',
+	"			\}
 " }
 
 " ******* (( vcoolor )) *******
