@@ -226,8 +226,9 @@ set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to ano
 
 
 " ========== SYNTAX, HIGHLIGHTING AND SPELLING =================
-set cursorline				" Highlight the screen line of the cursor.
-" set cursorcolumn			" Highlight the screen column of the cursor.
+if has('gui_running')
+	set cursorline
+endif
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
 
@@ -507,6 +508,14 @@ endif
 
 
 " =========== COMMANDS ==============================
+" Make cursor line appear ronly in INSERT mode (Terminal only)
+" {
+	if !empty($TERM)
+		autocmd InsertEnter * set cursorline
+		autocmd InsertLeave * set nocursorline
+	endif
+" }
+
 " Open config files for editing *******
 " {
 	" *** :Ev		=> ~/.vimrc
@@ -544,17 +553,6 @@ endif
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " }
 
-" Short commands for (( vim-plug ))
-" {
-	" *** :PI			=> Install new plugins.
-	" *** :PU			=> Update all plugins.
-	" *** :PS			=> Show plugin status.
-	" *** :PC			=> Clean the plugin directories.
-		command! PI :PlugInstall
-		command! PU :PlugUpdate
-		command! PS :PlugStatus
-		command! PC :PlugClean
-" }
 
 " Define the file type *******
 " {
@@ -605,7 +603,19 @@ endif
 	command! Dir :cd %:p:h
 " }
 
+" Short commands for (( vim-plug ))
+" {
+	" *** :PI			=> Install new plugins.
+	" *** :PU			=> Update all plugins.
+	" *** :PS			=> Show plugin status.
+	" *** :PC			=> Clean the plugin directories.
+		command! PI :PlugInstall
+		command! PU :PlugUpdate
+		command! PS :PlugStatus
+		command! PC :PlugClean
+" }
 " Toggle (( gitgutter )) *******
+
 " {
 	" *** :GG	=> Toggle GitGutter.
 	" *** :Gn	=> Next diff.
