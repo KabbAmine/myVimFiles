@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-10
+" Last modification: 2014-09-13
 " ================================================================
 
 
@@ -35,22 +35,23 @@ endif
 " Plugins:
 " " {
 	" For PHP
-		Plug 'PHP-correct-Indenting', { 'for': ['php','html'] }
-		Plug 'StanAngeloff/php.vim', { 'for': ['php','html'] }
+		Plug 'PHP-correct-Indenting'
+		Plug 'StanAngeloff/php.vim'
 	" For HTML/CSS
-		Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+		" Plug 'cakebaker/scss-syntax.vim'
+		Plug 'tpope/vim-haml'
 		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
-		Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+		Plug 'hail2u/vim-css3-syntax'
 		call s:PlugInOs('jaxbot/browserlink.vim', 'unix')
-		Plug 'mattn/emmet-vim', { 'for': ['css','html','scss', 'php'] }
-		Plug 'othree/html5.vim', { 'for': 'html' }
-		Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+		Plug 'mattn/emmet-vim'
+		Plug 'othree/html5.vim'
+		Plug 'plasticboy/vim-markdown'
 	" For JavaScript
-		Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+		Plug 'pangloss/vim-javascript'
 	" For Python
-		Plug 'hdima/python-syntax', { 'for': 'python'}
+		Plug 'hdima/python-syntax'
 	" For Java
-		Plug 'javacomplete', { 'for': 'java'}
+		Plug 'javacomplete'
 	" For Git
 		Plug 'airblade/vim-gitgutter'
 		Plug 'idanarye/vim-merginal'
@@ -98,6 +99,8 @@ endif
 		Plug 'sjl/badwolf'
 		Plug 'w0ng/vim-hybrid'
 	" My Plugins
+		" Plug 'KabbAmine/vCoolor.vim'
+		" Plug 'KabbAmine/zeavim.vim'
 		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', 'unix')
 		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', 'unix')
  " }
@@ -163,6 +166,15 @@ set background=dark
 " {
 	execute "set viewdir=".s:vimDir."/various/view"
 " }
+
+" Make <Alt> works in terminal.
+" (http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459)
+let c='a'
+while c <= 'z'
+	exec "set <A-".c.">=\e".c
+	exec "imap \e".c." <A-".c.">"
+	let c = nr2char(1+char2nr(c))
+endwhile
 
 " ========== GUI ===============================================
 if has("gui_running")
@@ -508,7 +520,7 @@ endif
 
 
 " =========== COMMANDS ==============================
-" Make cursor line appear ronly in INSERT mode (Terminal only)
+" Make cursor line appear only in INSERT mode (Terminal only)
 " {
 	if !empty($TERM)
 		autocmd InsertEnter * set cursorline
