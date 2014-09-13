@@ -289,9 +289,9 @@ endif
 
 
 " =========== MAPPING ==========================================
-" Text manipulation (Most of commands are for Gvim only) *******
+" Text manipulation *******
 " {
-	" *** NORMAL MODE
+	" *** NORMAL & VISUAL MODE
 		" *** <C-d>		=> Duplicate line.
 	" *** INSERT MODE
 		" *** <A-d> => Duplicate line.
@@ -300,17 +300,20 @@ endif
 		" *** <A-o> => Insert new line.
 		" *** <A-a> => Insert new line before.
 		" *** <A-"> => Change inside ", ', (, ...
+		" *** <A-t> => Change inside xml tag
+			vnoremap <silent> <C-d> :t'><CR>
 			nnoremap <silent> <C-d> yyp
-			inoremap <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
-			inoremap <A-$> <C-o>d$
-			inoremap <A-k> <C-o>$<C-u>
-			inoremap <A-o> <C-o>o
-			inoremap <A-a> <C-o>O
-			inoremap <A-'> <C-o>ci'
-			inoremap <A-"> <C-o>ci"
-			inoremap <A-(> <C-o>ci(
-			inoremap <A-{> <C-o>ci{
-			inoremap <A-[> <C-o>ci[
+			inoremap <silent> <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
+			inoremap <silent> <A-$> <C-o>d$
+			inoremap <silent> <A-k> <C-o>$<C-u>
+			inoremap <silent> <A-o> <C-o>o
+			inoremap <silent> <A-a> <C-o>O
+			inoremap <silent> <A-'> <C-o>ci'
+			inoremap <silent> <A-"> <C-o>ci"
+			inoremap <silent> <A-(> <C-o>ci(
+			inoremap <silent> <A-{> <C-o>ci{
+			inoremap <silent> <A-[> <C-o>ci[
+			inoremap <silent> <A-t> <C-o>cit
 " }
 
 " Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
