@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-13
+" Last modification: 2014-09-17
 " ================================================================
 
 
@@ -94,6 +94,7 @@ endif
 		Plug 'tpope/vim-surround'
 	" Colorschemes
 		Plug 'chriskempson/base16-vim'
+		Plug 'nanotech/jellybeans.vim'
 		Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
 		Plug 'reedes/vim-colors-pencil'
 		Plug 'sjl/badwolf'
@@ -101,8 +102,10 @@ endif
 	" My Plugins
 		" Plug 'KabbAmine/vCoolor.vim'
 		" Plug 'KabbAmine/zeavim.vim'
+		" Plug 'KabbAmine/vullScreen.vim'
 		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', 'unix')
 		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', 'unix')
+		call s:PlugInOs('~/MyProjects/pluginsVim/vullScreen', 'unix')
  " }
 
 call plug#end()
@@ -316,14 +319,6 @@ endif
 			inoremap <silent> <A-t> <C-o>cit
 " }
 
-" Toggle GVim in a fullscreen/non-fullscreen mode in Linux (Need wmctrl).
-" {
-	" *** <F11>
-	if s:hasUnix
-		nnoremap <silent> <F11> :!wmctrl -r ":ACTIVE:" -b toggle,fullscreen<CR><CR>
-	endif
-" }
-
 " Apply the option 'only' *******
 " {
 	" *** <F5>		=> For a splitted window.
@@ -507,8 +502,8 @@ endif
 		" Disable the default mapping.
 			let g:splitjoin_split_mapping = ''
 			let g:splitjoin_join_mapping = ''
-		nmap <Leader>j :SplitjoinJoin<cr>
-		nmap <Leader>s :SplitjoinSplit<cr>
+		nmap <Leader>j :SplitjoinJoin<CR>
+		nmap <Leader>s :SplitjoinSplit<CR>
 " }
 
 " (( move )) *******
@@ -902,4 +897,4 @@ endif
 				\ "cmder": {
 					\ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
 				\ }
-" }
+" i
