@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-17
+" Last modification: 2014-09-19
 " ================================================================
 
 
@@ -42,7 +42,6 @@ endif
 		Plug 'tpope/vim-haml'
 		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
 		Plug 'hail2u/vim-css3-syntax'
-		call s:PlugInOs('jaxbot/browserlink.vim', 'unix')
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
@@ -396,12 +395,6 @@ endif
 		nmap <silent> ;h :Th<CR>
 " }
 
-" (( browserlink )) shortcuts *******
-" {
-	" *** <C-F5>	=> Reload page
-		nmap <silent> <C-f5> :BLReloadPage<CR>
-" }
-
 " (( CtrlP )) & extensions shortcuts *******
 " {
 	" *** ,,f	:CtrlP
@@ -497,13 +490,13 @@ endif
 
 " (( splitjoin )) mappings *******
 " {
-	" *** \S				=> Split code.
-	" *** \J				=> Join code.
+	" *** \s				=> Split code.
+	" *** \j				=> Join code.
 		" Disable the default mapping.
 			let g:splitjoin_split_mapping = ''
 			let g:splitjoin_join_mapping = ''
-		nmap <Leader>j :SplitjoinJoin<CR>
-		nmap <Leader>s :SplitjoinSplit<CR>
+		nmap <silent> <Leader>j :SplitjoinJoin<CR>
+		nmap <silent> <Leader>s :SplitjoinSplit<CR>
 " }
 
 " (( move )) *******
@@ -641,10 +634,6 @@ endif
 		command! S OverCommandLine
 " }
 
-" ******* (( browserlink )) *******
-" {
-	au BufWritePost *.scss :sleep 500m | BLReloadCSS
-" }
 
 " =========== ABBREVIATIONS ==============================
 " No more rage (Idea from a generated vimrc
@@ -766,8 +755,8 @@ endif
 " ******* (( syntastic )) *******
 " {
 	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_html_checkers=['w3']
-	let g:syntastic_php_php_exec = '/opt/lampp/bin/php'
+	let g:syntastic_html_checkers = ['w3']
+	let g:syntastic_javascript_checkers = ['jslint']
 	let g:syntastic_mode_map = { "mode": "passive",
 				\ "active_filetypes": [],
 				\ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss"]
@@ -863,11 +852,6 @@ endif
 		let g:ctrlp_extensions = ['funky']
 " }
 
-" ******* (( browserlink )) *******
-" {
-	let g:bl_no_mappings = 1
-" }
-
 " ******* (( vim-plug )) *******
 " {
 	if has('win32') || has('win64')
@@ -897,4 +881,4 @@ endif
 				\ "cmder": {
 					\ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
 				\ }
-" i
+" }
