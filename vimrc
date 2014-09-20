@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-19
+" Last modification: 2014-09-20
 " ================================================================
 
 
@@ -38,10 +38,8 @@ endif
 		Plug 'PHP-correct-Indenting'
 		Plug 'StanAngeloff/php.vim'
 	" For HTML/CSS
-		" Plug 'cakebaker/scss-syntax.vim'
 		Plug 'tpope/vim-haml'
 		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
-		Plug 'hail2u/vim-css3-syntax'
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
@@ -872,7 +870,7 @@ endif
 
 " ******* (( vcoolor )) *******
 " {
-	" let g:vcoolor_lowercase = 1
+	let g:vcoolor_lowercase = 1
 " }
 
 " ******* (( termivator )) *******
