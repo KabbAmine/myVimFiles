@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-09-20
+" Last modification: 2014-10-01
 " ================================================================
 
 
@@ -9,9 +9,13 @@
 	let s:hasUnix = has('unix')
 	let s:hasWin = has('win32') || has('win64')
 
-	function! s:PlugInOs(link, os)
+	function! s:PlugInOs(link, param, os)
 		if has(a:os)
-			execute "Plug '".a:link."'"
+			if !empty(a:param)
+				execute "Plug '".a:link."', ".a:param.""
+			else
+				execute "Plug '".a:link."'"
+			endif
 		endif
 	endfunction
 " }
@@ -37,12 +41,12 @@ endif
 	" For PHP
 		Plug 'PHP-correct-Indenting'
 		Plug 'StanAngeloff/php.vim'
-	" For HTML/CSS
-		Plug 'tpope/vim-haml'
+	" For HTML/CSS & markdown
 		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
+		Plug 'tpope/vim-haml'
 	" For JavaScript
 		Plug 'pangloss/vim-javascript'
 	" For Python
@@ -73,9 +77,6 @@ endif
 		Plug 'syngan/vim-vimlint', {'for': 'vim'}
 		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
-		call s:PlugInOs('Valloric/YouCompleteMe', 'unix')
-		Plug 'matze/vim-move'
-		Plug 'osyo-manga/vim-over'
 		Plug 'AndrewRadev/splitjoin.vim'
 		Plug 'Lokaltog/vim-easymotion'
 		Plug 'Raimondi/delimitMate'
@@ -83,26 +84,31 @@ endif
 		Plug 'kshenoy/vim-signature'
 		Plug 'majutsushi/tagbar'
 		Plug 'matchit.zip'
+		Plug 'matze/vim-move'
 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 		Plug 'sk1418/Join'
 		Plug 'terryma/vim-multiple-cursors'
 		Plug 'tommcdo/vim-exchange'
 		Plug 'tomtom/tcomment_vim'
 		Plug 'tpope/vim-surround'
+		call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
 	" Colorschemes
 		Plug 'chriskempson/base16-vim'
-		Plug 'nanotech/jellybeans.vim'
 		Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
+		Plug 'nanotech/jellybeans.vim'
 		Plug 'reedes/vim-colors-pencil'
 		Plug 'sjl/badwolf'
 		Plug 'w0ng/vim-hybrid'
 	" My Plugins
 		" Plug 'KabbAmine/vCoolor.vim'
-		" Plug 'KabbAmine/zeavim.vim'
 		" Plug 'KabbAmine/vullScreen.vim'
-		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', 'unix')
-		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', 'unix')
-		call s:PlugInOs('~/MyProjects/pluginsVim/vullScreen', 'unix')
+		" Plug 'KabbAmine/zeavim.vim'
+		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', '', 'unix')
+		call s:PlugInOs('~/MyProjects/pluginsVim/vullScreen', '', 'unix')
+		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', '', 'unix')
+		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\vCoolor', '', 'win32')
+		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\vullScreen', '', 'win32')
+		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\zeavim', '', 'win32')
  " }
 
 call plug#end()
@@ -209,7 +215,6 @@ set completeopt=menuone				" Use only a popup menu for Insert mode completion wi
 
 " ========== DISPLAY TEXT ======================================
 set number							" Show the line number for each line.
-" set breakat=\ \ !@*-+;:,./?		" Which characters might cause a line break
 set linebreak						" Wrap long lines at a character in 'breakat'.
 let &showbreak='░░░░ '				" String to put before wrapped screen lines.
 set scrolloff=3						" Number of screen lines to show around the cursor.
@@ -624,12 +629,6 @@ endif
 		command! GG :GitGutterToggle
 		command! Gn :GitGutterNextHunk
 		command! Gp :GitGutterPrevHunk
-" }
-
-" ******* (( vim-over )) *******
-" {
-	" *** :S	=> OverCommandLine
-		command! S OverCommandLine
 " }
 
 
