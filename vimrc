@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-01
+" Last modification: 2014-10-05
 " ================================================================
 
 
@@ -47,6 +47,7 @@ endif
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
 		Plug 'tpope/vim-haml'
+		call s:PlugInOs('suan/vim-instant-markdown', '', 'unix')
 	" For JavaScript
 		Plug 'pangloss/vim-javascript'
 	" For Python
@@ -72,6 +73,7 @@ endif
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plug 'mattn/ctrlp-mark'
 		Plug 'tacahiroy/ctrlp-funky'
+		Plug 'fisadev/vim-ctrlp-cmdpalette'
 	" (( syntastic )) & linters
 		Plug 'scrooloose/syntastic'
 		Plug 'syngan/vim-vimlint', {'for': 'vim'}
@@ -405,11 +407,13 @@ endif
 	" *** ,t	:BufTag
 	" *** ,l	:Line
 	" *** ,m	:Marks
+	" *** ,,c	:Cmd palette
 		nmap <silent> ,,f	:CtrlP<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine %<CR>
 		nmap <silent> ,m   :CtrlPMark<CR>
+		nmap <silent> ,,c   :CtrlPCmdPalette<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
@@ -824,7 +828,7 @@ endif
 	let g:gitgutter_enabled = 0
 " }
 
-" ******* (( ctrlp )) *******
+" ******* (( ctrlp & cie )) *******
 " {
 	let g:ctrlp_cache_dir = s:vimDir.'/various/ctrlp'
 	let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
@@ -835,6 +839,7 @@ endif
 	let g:ctrlp_max_depth = 40
 	let g:ctrlp_follow_symlinks = 1
 	let g:ctrlp_lazy_update = 1
+	let g:ctrlp_cmdpalette_execute = 1
 	" Open multiple files in hidden buffers.
 		let g:ctrlp_open_multiple_files = 'i'
 	" Open new file in the current window.
@@ -858,6 +863,13 @@ endif
 	endif
 " }
 
+" ******* (( vim-instant-markdown )) *******
+" {
+	let g:instant_markdown_slow = 1
+	let g:instant_markdown_autostart = 0
+" }
+
+" ******* ((  )) *******
 " ******* (( zeavim )) *******
 " {
 	" let g:ZV_zeal_directory = ""
