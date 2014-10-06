@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-05
+" Last modification: 2014-10-07
 " ================================================================
 
 
@@ -105,12 +105,14 @@ endif
 		" Plug 'KabbAmine/vCoolor.vim'
 		" Plug 'KabbAmine/vullScreen.vim'
 		" Plug 'KabbAmine/zeavim.vim'
-		call s:PlugInOs('~/MyProjects/pluginsVim/vCoolor', '', 'unix')
-		call s:PlugInOs('~/MyProjects/pluginsVim/vullScreen', '', 'unix')
-		call s:PlugInOs('~/MyProjects/pluginsVim/zeavim', '', 'unix')
-		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\vCoolor', '', 'win32')
-		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\vullScreen', '', 'win32')
-		call s:PlugInOs('Z:\k-bag\MyProjects\pluginsVim\zeavim', '', 'win32')
+		call s:PlugInOs('~/Projects/pluginsVim/vCoolor', '', 'unix')
+		call s:PlugInOs('~/Projects/pluginsVim/zeavim', '', 'unix')
+		call s:PlugInOs('~/Projects/pluginsVim/vullScreen', '', 'unix')
+		call s:PlugInOs('~/Projects/pluginsVim/termivator', '', 'unix')
+		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\vCoolor', '', 'win32')
+		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\zeavim', '', 'win32')
+		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\vullScreen', '', 'win32')
+		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\termivator', '', 'win32')
  " }
 
 call plug#end()
@@ -731,6 +733,7 @@ endif
 
 " ******* (( airline )) *******
 " {
+  let g:airline_theme='raven'
 	" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
@@ -869,7 +872,6 @@ endif
 	let g:instant_markdown_autostart = 0
 " }
 
-" ******* ((  )) *******
 " ******* (( zeavim )) *******
 " {
 	" let g:ZV_zeal_directory = ""
@@ -882,6 +884,11 @@ endif
 " ******* (( vcoolor )) *******
 " {
 	let g:vcoolor_lowercase = 1
+	" let g:vcoolor_map = {
+	" 			\ 'h': ';c',
+	" 			\ 'r': ';r',
+	" 			\ 'v': ';v'
+	" 			\ }
 " }
 
 " ******* (( termivator )) *******
