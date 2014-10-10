@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-07
+" Last modification: 2014-10-10
 " ================================================================
 
 
@@ -67,13 +67,12 @@ endif
 	" For (( airline ))
 		Plug 'bling/vim-airline'
 	" For (( nerdtree ))
-		Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+		Plug 'scrooloose/nerdtree'
 	" For (( ctrlp ))
 		" Plug 'kien/ctrlp.vim'
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plug 'mattn/ctrlp-mark'
 		Plug 'tacahiroy/ctrlp-funky'
-		Plug 'fisadev/vim-ctrlp-cmdpalette'
 	" (( syntastic )) & linters
 		Plug 'scrooloose/syntastic'
 		Plug 'syngan/vim-vimlint', {'for': 'vim'}
@@ -409,13 +408,11 @@ endif
 	" *** ,t	:BufTag
 	" *** ,l	:Line
 	" *** ,m	:Marks
-	" *** ,,c	:Cmd palette
 		nmap <silent> ,,f	:CtrlP<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine %<CR>
 		nmap <silent> ,m   :CtrlPMark<CR>
-		nmap <silent> ,,c   :CtrlPCmdPalette<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
