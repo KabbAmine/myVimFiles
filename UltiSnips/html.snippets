@@ -25,16 +25,8 @@ snippet comm "A commentary bloc" b
 <!-- ****************** -->
 endsnippet
 
-snippet h1 "<h1>...</h1>" b
-<h1>${1}</h1>
-endsnippet
-
-snippet img "<img src alt>" b
-<img src="${1:...}" alt="${2:...}" >
-endsnippet
-
-snippet imgl "<img lorempixel>"
-<img src="http://lorempixel.com/${1:"width"}/${2:"height"}/${3:"type"}" >
+snippet imgl2 "<img lorempicsum>"
+<img src="http://lorempicsum.com/${1:"cartoon"}/${2:"width"}/${3:"height"}/${4:"imgIndex"}" >
 endsnippet
 
 snippet link:css "<link css>" b
@@ -81,4 +73,79 @@ snippet table+ "<table><thead><tbody>...</table>" b
 		</tr>
 	</tbody>
 </table>
+endsnippet
+
+snippet div "<div>...</div>" b
+<div>${1}</div>
+endsnippet
+
+snippet div.c "div with class" b
+<div class="${1:...}">${2}</div>
+endsnippet
+
+#	Headers
+# ###################
+
+snippet h1 "<h1>...</h1>" b
+<h1>${1}</h1>
+endsnippet
+
+snippet h1.c "h1 with class" b
+<h1 class="${1:...}">${2}</h1>
+endsnippet
+
+
+snippet h2 "<h2>...</h2>" b
+<h2>${1}</h2>
+endsnippet
+
+snippet h2.c "h2 with class" b
+<h2 class="${1:...}">${2}</h2>
+endsnippet
+
+
+snippet h3 "<h3>...</h3>" b
+<h3>${1}</h3>
+endsnippet
+
+snippet h3.c "h3 with class" b
+<h3 class="${1:...}">${2}</h3>
+endsnippet
+
+
+snippet h4 "<h4>...</h4>" b
+<h4>${1}</h4>
+endsnippet
+
+snippet h4.c "h4 with class" b
+<h4 class="${1:...}">${2}</h4>
+endsnippet
+
+
+snippet h5 "<h5>...</h5>" b
+<h5>${1}</h5>
+endsnippet
+
+snippet h5.c "h5 with class" b
+<h5 class="${1:...}">${2}</h5>
+endsnippet
+
+
+snippet h6 "<h6>...</h6>" b
+<h6>${1}</h6>
+endsnippet
+
+snippet h6.c "h6 with class" b
+<h6 class="${1:...}">${2}</h6>
+endsnippet
+
+#	Images
+# ###################
+
+snippet img "<img src alt>" b
+<img src="${1:...}" alt="${2:...}" >
+endsnippet
+
+snippet imgl "<img lorempixel>"
+<img src="http://lorempixel.com/${1:"width"}/${2:"height"}/${3:"type"}" >
 endsnippet
