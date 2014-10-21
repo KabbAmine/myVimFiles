@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-10
+" Last modification: 2014-10-21
 " ================================================================
 
 
@@ -215,6 +215,9 @@ set showmatch						" Show matching brackets.
 set matchpairs=(:),{:},[:],<:>		" List of pairs that match for the % command.
 set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
+if s:hasWin
+	set backspace=2					" Make backspace works normally in Win
+endif
 
 
 " ========== DISPLAY TEXT ======================================
