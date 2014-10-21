@@ -87,6 +87,7 @@ endif
 		Plug 'matchit.zip'
 		Plug 'matze/vim-move'
 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+		Plug 'rhysd/clever-f.vim'
 		Plug 'sk1418/Join'
 		Plug 'terryma/vim-multiple-cursors'
 		Plug 'tommcdo/vim-exchange'
@@ -868,6 +869,16 @@ endif
 	let g:instant_markdown_slow = 1
 	let g:instant_markdown_autostart = 0
 " }
+
+" ******* (( clever-f.vim )) *******
+" {
+	let g:clever_f_across_no_line = 1
+	let g:clever_f_ignore_case = 1
+	let g:clever_f_smart_case = 1
+	" Fix a direction of search (f & F)
+	let g:clever_f_fix_key_direction = 1
+" }
+
 
 " ******* (( zeavim )) *******
 " {
