@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-21
+" Last modification: 2014-10-22
 " ================================================================
 
 
@@ -421,13 +421,13 @@ endif
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** ,b		=> FufBuffer
+	" *** Ctrl-space		=> FufBuffer
 	" *** ,f		=> FufFile
 	" *** ,r		=> FufMruFile
 	" *** ,d		=> FufDir
 	" *** ,B		=> FufBookmarkDir
 	" *** ,c		=> FufMruCmd
-		nmap <silent> ,b :FufBuffer<CR>
+		nmap <silent> <C-space> :FufBuffer<CR>
 		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,d :FufDir<CR>
