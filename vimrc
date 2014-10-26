@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-22
+" Last modification: 2014-10-26
 " ================================================================
 
 
@@ -37,7 +37,7 @@ else
 endif
 
 " Plugins:
-" " {
+" {
 	" For PHP
 		Plug 'PHP-correct-Indenting'
 		Plug 'StanAngeloff/php.vim'
@@ -325,7 +325,7 @@ endif
 			inoremap <silent> <A-(> <C-o>ci(
 			inoremap <silent> <A-{> <C-o>ci{
 			inoremap <silent> <A-[> <C-o>ci[
-			inoremap <silent> <A-t> <C-o>cit
+			" inoremap <silent> <A-t> <C-o>cit
 " }
 
 " Apply the option 'only' *******
@@ -873,7 +873,7 @@ endif
 	let g:instant_markdown_autostart = 0
 " }
 
-" ******* (( clever-f.vim )) *******
+" ******* (( clever-f )) *******
 " {
 	let g:clever_f_across_no_line = 1
 	let g:clever_f_ignore_case = 1
@@ -881,7 +881,6 @@ endif
 	" Fix a direction of search (f & F)
 	let g:clever_f_fix_key_direction = 1
 " }
-
 
 " ******* (( zeavim )) *******
 " {
