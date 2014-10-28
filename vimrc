@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-26
+" Last modification: 2014-10-28
 " ================================================================
 
 
@@ -734,7 +734,7 @@ endif
 
 " ******* (( airline )) *******
 " {
-  let g:airline_theme='raven'
+  let g:airline_theme='jellybeans'
 	" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
