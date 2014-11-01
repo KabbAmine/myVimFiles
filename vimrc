@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-10-28
+" Last modification: 2014-11-01
 " ================================================================
 
 
@@ -521,6 +521,14 @@ endif
 
 
 " =========== COMMANDS ==============================
+" Automatically source vimrc on save.
+" P.S: Refresh (( airline )) theme if present.
+if !exists("g:airline_theme")
+	autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+else
+	autocmd! bufwritepost $MYVIMRC source $MYVIMRC | sleep 10m | AirlineRefresh
+endif
+
 " Make cursor line appear only in INSERT mode (Terminal only)
 " {
 	if !empty($TERM)
