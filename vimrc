@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-01
+" Last modification: 2014-11-02
 " ================================================================
 
 
@@ -148,16 +148,16 @@ set background=dark
 " {
 	if s:hasWin
 		colorscheme hybrid
-	elseif !empty($TERM)
+	elseif has("gui_running") || exists("$TMUX")
 		colorscheme Tomorrow-Night
 	else
-		colorscheme Tomorrow-Night
+		colorscheme darkblue
 	endif
 " }
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
 " {
-	if &term =~ '256color'
+	if (&term =~ '256color') && exists("$TMUX")
 		set t_ut=
 	endif
 " }
@@ -742,6 +742,7 @@ endif
 
 " ******* (( airline )) *******
 " {
+if has("gui_running") || exists("$TMUX")
   let g:airline_theme='jellybeans'
 	" Customization.
 		if !exists('g:airline_symbols')
@@ -757,6 +758,7 @@ endif
 			let g:airline#extensions#tabline#buffer_min_count = 1
 		" Configure the minimum number of tabs needed to show the tabline.
 			let g:airline#extensions#tabline#tab_min_count = 1
+endif
 " }
 
 " ******* (( markdown )) *******
