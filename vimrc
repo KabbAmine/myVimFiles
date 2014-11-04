@@ -48,6 +48,7 @@ endif
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
 		Plug 'tpope/vim-haml'
+		Plug 'tpope/vim-ragtag'
 		call s:PlugInOs('suan/vim-instant-markdown', '', 'unix')
 	" For JavaScript
 		Plug 'pangloss/vim-javascript'
