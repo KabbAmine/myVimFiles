@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-02
+" Last modification: 2014-11-04
 " ================================================================
 
 
@@ -42,6 +42,7 @@ endif
 		Plug 'PHP-correct-Indenting'
 		Plug 'StanAngeloff/php.vim'
 	" For HTML/CSS & markdown
+		Plug 'docunext/closetag.vim'
 		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
