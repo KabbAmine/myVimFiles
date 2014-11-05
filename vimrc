@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-04
+" Last modification: 2014-11-05
 " ================================================================
 
 
@@ -43,7 +43,7 @@ endif
 		Plug 'StanAngeloff/php.vim'
 	" For HTML/CSS & markdown
 		Plug 'docunext/closetag.vim'
-		Plug 'gorodinskiy/vim-coloresque', { 'for': ['css', 'scss', 'html', 'php'] }
+		Plug 'lilydjwg/colorizer'
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
@@ -853,7 +853,7 @@ endif
 	let g:ctrlp_working_path_mode = 0
 	let g:ctrlp_max_files = 0
 	let g:ctrlp_max_depth = 40
-	let g:ctrlp_follow_symlinks = 1
+	let g:ctrlp_follow_symlinks = 0
 	let g:ctrlp_lazy_update = 1
 	let g:ctrlp_cmdpalette_execute = 1
 	" Open multiple files in hidden buffers.
