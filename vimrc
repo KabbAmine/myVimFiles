@@ -58,7 +58,6 @@ endif
 		Plug 'javacomplete'
 	" For Git
 		Plug 'airblade/vim-gitgutter'
-		Plug 'idanarye/vim-merginal'
 		Plug 'tpope/vim-fugitive'
 	" For (( fuzzyfinder ))
 		Plug 'L9'
@@ -81,7 +80,6 @@ endif
 		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
-		Plug 'Lokaltog/vim-easymotion'
 		Plug 'Raimondi/delimitMate'
 		Plug 'godlygeek/tabular'
 		Plug 'kshenoy/vim-signature'
@@ -97,10 +95,8 @@ endif
 		Plug 'tpope/vim-surround'
 		call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
 	" Colorschemes
-		Plug 'chriskempson/base16-vim'
 		Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
 		Plug 'nanotech/jellybeans.vim'
-		Plug 'reedes/vim-colors-pencil'
 		Plug 'sjl/badwolf'
 		Plug 'w0ng/vim-hybrid'
 	" My Plugins
