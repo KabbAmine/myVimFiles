@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-05
+" Last modification: 2014-11-10
 " ================================================================
 
 
@@ -43,7 +43,7 @@ endif
 		Plug 'StanAngeloff/php.vim'
 	" For HTML/CSS & markdown
 		Plug 'docunext/closetag.vim'
-		Plug 'lilydjwg/colorizer'
+		Plug 'lilydjwg/colorizer', { 'for': ['css', 'scss', 'html', 'php'] }
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
@@ -519,13 +519,19 @@ endif
 
 
 " =========== COMMANDS ==============================
+
+" Make Y work as other capitals.
+	nnoremap Y y$
+
 " Automatically source vimrc on save.
 " P.S: Refresh (( airline )) theme if present.
-if !exists("g:airline_theme")
-	autocmd! bufwritepost $MYVIMRC source $MYVIMRC
-else
-	autocmd! bufwritepost $MYVIMRC source $MYVIMRC | sleep 10m | AirlineRefresh
-endif
+" {
+	if !exists("g:airline_theme")
+		autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+	else
+		autocmd! bufwritepost $MYVIMRC source $MYVIMRC | sleep 10m | AirlineRefresh
+	endif
+" }
 
 " Make cursor line appear only in INSERT mode (Terminal only)
 " {
@@ -740,23 +746,30 @@ endif
 
 " ******* (( airline )) *******
 " {
-if has("gui_running") || exists("$TMUX")
-  let g:airline_theme='jellybeans'
-	" Customization.
+	if has("gui_running") || exists("$TMUX")
+		" Theme
+		let g:airline_theme_patch_func = 'AirlineThemePatch'
+		function! AirlineThemePatch(palette)
+			if g:airline_theme == 'jellybeans'
+				for colors in values(a:palette.inactive)
+					let colors[3] = 245
+				endfor
+			endif
+		endfunction
+		" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
 		endif
-	" Automatically populate the symbols dictionary with the powerline symbols.
-		let g:Powerline_symbols = 'fancy'
+		" Automatically populate the symbols dictionary with the powerline symbols.
 		let g:airline_powerline_fonts = 1
-	" Tabline.
+		" Tabline.
 		let g:airline#extensions#tabline#enabled = 1
 		let g:airline#extensions#tabline#show_buffers = 1
 		" Configure the minimum number of buffers needed to show the tabline.
-			let g:airline#extensions#tabline#buffer_min_count = 1
+		let g:airline#extensions#tabline#buffer_min_count = 2
 		" Configure the minimum number of tabs needed to show the tabline.
-			let g:airline#extensions#tabline#tab_min_count = 1
-endif
+		let g:airline#extensions#tabline#tab_min_count = 2
+	endif
 " }
 
 " ******* (( markdown )) *******
