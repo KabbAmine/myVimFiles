@@ -289,9 +289,10 @@ function! s:reorg_rtp()
   let s:middle = get(s:, 'middle', &rtp)
   let rtps     = map(s:loaded_names(), 's:rtp(g:plugs[v:val])')
   let afters   = filter(map(copy(rtps), 'globpath(v:val, "after")'), 'isdirectory(v:val)')
-  let &rtp     = join(map(rtps, 's:escrtp(v:val)'), ',')
-                 \ . substitute(','.s:middle.',', '^,,$', ',', '')
+  let rtp      = join(map(rtps, 's:escrtp(v:val)'), ',')
+                 \ . ','.s:middle.','
                  \ . join(map(afters, 's:escrtp(v:val)'), ',')
+  let &rtp     = substitute(substitute(rtp, ',,*', ',', 'g'), '^,\|,$', '', 'g')
   let s:prtp   = &rtp
 
   if !empty(s:first_rtp)
@@ -613,6 +614,11 @@ function! s:do(pull, force, todo)
 endfunction
 
 function! s:finish(pull)
+  let new_frozen = len(filter(keys(s:update.new), 'g:plugs[v:val].frozen'))
+  if new_frozen
+    let s = new_frozen > 1 ? 's' : ''
+    call append(3, printf('- Installed %d frozen plugin%s', new_frozen, s))
+  endif
   call append(3, '- Finishing ... ')
   redraw
   call plug#helptags()
@@ -652,7 +658,7 @@ function! s:update_impl(pull, force, args) abort
                   \ remove(args, -1) : get(g:, 'plug_threads', 16)
 
   let managed = filter(copy(g:plugs), 's:is_managed(v:key)')
-  let todo = empty(args) ? filter(managed, '!v:val.frozen') :
+  let todo = empty(args) ? filter(managed, '!v:val.frozen || !isdirectory(v:val.dir)') :
                          \ filter(managed, 'index(args, v:key) >= 0')
 
   if empty(todo)
