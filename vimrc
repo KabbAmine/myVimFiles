@@ -87,6 +87,7 @@ endif
 		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
+		Plug 'Lokaltog/vim-easymotion'
 		Plug 'Raimondi/delimitMate'
 		Plug 'godlygeek/tabular'
 		Plug 'kshenoy/vim-signature'
