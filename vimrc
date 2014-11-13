@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-10
+" Last modification: 2014-11-13
 " ================================================================
 
 
@@ -25,6 +25,14 @@
 		let s:vimDir = "$HOME/vimfiles"
 	else
 		let s:vimDir = "$HOME/.vim"
+	endif
+" }
+" Personal vim plugins directory.
+" {
+	if s:hasWin
+		let s:projects = "Z:\\k-bag\\Projects\\pluginsVim\\"
+	else
+		let s:projects = "$HOME/Projects/pluginsVim/"
 	endif
 " }
 
@@ -70,7 +78,6 @@ endif
 	" For (( nerdtree ))
 		Plug 'scrooloose/nerdtree'
 	" For (( ctrlp ))
-		" Plug 'kien/ctrlp.vim'
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plug 'mattn/ctrlp-mark'
 		Plug 'tacahiroy/ctrlp-funky'
@@ -100,17 +107,10 @@ endif
 		Plug 'sjl/badwolf'
 		Plug 'w0ng/vim-hybrid'
 	" My Plugins
-		" Plug 'KabbAmine/vCoolor.vim'
-		" Plug 'KabbAmine/vullScreen.vim'
-		" Plug 'KabbAmine/zeavim.vim'
-		call s:PlugInOs('~/Projects/pluginsVim/vCoolor', '', 'unix')
-		call s:PlugInOs('~/Projects/pluginsVim/zeavim', '', 'unix')
-		call s:PlugInOs('~/Projects/pluginsVim/vullScreen', '', 'unix')
-		call s:PlugInOs('~/Projects/pluginsVim/termivator', '', 'unix')
-		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\vCoolor', '', 'win32')
-		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\zeavim', '', 'win32')
-		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\vullScreen', '', 'win32')
-		call s:PlugInOs('Z:\k-bag\Projects\pluginsVim\termivator', '', 'win32')
+		execute "Plug '".s:projects."vCoolor' "
+		execute "Plug '".s:projects."zeavim' "
+		execute "Plug '".s:projects."vullScreen' "
+		execute "Plug '".s:projects."termivator' "
  " }
 
 call plug#end()
@@ -207,6 +207,8 @@ set showcmd			" Show (partial) command in status line.
 set showmode		" Display the current mode in status line.
 set ruler			" Show cursor position below each window.
 
+" ========== SELECT TEXT =========================================
+set clipboard=unnamedplus
 
 " ========== EDIT TEXT =========================================
 set showmatch						" Show matching brackets.
@@ -405,31 +407,31 @@ endif
 
 " (( CtrlP )) & extensions shortcuts *******
 " {
+	" *** Ctrl-space		: CtrlPBuffer
 	" *** ,,f	:CtrlP
 	" *** ,F	:Funky
 	" *** ,t	:BufTag
 	" *** ,l	:Line
 	" *** ,m	:Marks
+	" *** ,f	:File
+	" *** ,b	:Bookmarks
+		nmap <silent> <C-space> :CtrlPBuffer<CR>
 		nmap <silent> ,,f	:CtrlP<CR>
 		nmap <silent> ,F  :CtrlPFunky<CR>
 		nmap <silent> ,t   :CtrlPBufTag<CR>
 		nmap <silent> ,l   :CtrlPLine %<CR>
 		nmap <silent> ,m   :CtrlPMark<CR>
+		nmap <silent> ,f   :CtrlPCurFile<CR>
+		nmap <silent> ,b :CtrlPBookmarkDir<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-	" *** Ctrl-space		=> FufBuffer
-	" *** ,f		=> FufFile
 	" *** ,r		=> FufMruFile
 	" *** ,d		=> FufDir
-	" *** ,B		=> FufBookmarkDir
 	" *** ,c		=> FufMruCmd
-		nmap <silent> <C-space> :FufBuffer<CR>
-		nmap <silent> ,f :FufFile<CR>
 		nmap <silent> ,r :FufMruFile<CR>
 		nmap <silent> ,d :FufDir<CR>
-		nmap <silent> ,B :FufBookmarkDir<CR>
 		nmap <silent> ,c :FufMruCmd<CR>
 " }
 
@@ -747,15 +749,7 @@ endif
 " ******* (( airline )) *******
 " {
 	if has("gui_running") || exists("$TMUX")
-		" Theme
-		let g:airline_theme_patch_func = 'AirlineThemePatch'
-		function! AirlineThemePatch(palette)
-			if g:airline_theme == 'jellybeans'
-				for colors in values(a:palette.inactive)
-					let colors[3] = 245
-				endfor
-			endif
-		endfunction
+		let g:airline_theme = 'jellybeans'
 		" Customization.
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
