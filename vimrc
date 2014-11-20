@@ -1,6 +1,6 @@
 " ========== $MYVIMRC (Unix & Windows) ===========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-13
+" Last modification: 2014-11-14
 " ================================================================
 
 
@@ -30,9 +30,9 @@
 " Personal vim plugins directory.
 " {
 	if s:hasWin
-		let s:projects = "Z:\\k-bag\\Projects\\pluginsVim\\"
+		let s:myPlugins = "Z:\\k-bag\\Projects\\pluginsVim\\"
 	else
-		let s:projects = "$HOME/Projects/pluginsVim/"
+		let s:myPlugins = "$HOME/Projects/pluginsVim/"
 	endif
 " }
 
@@ -67,17 +67,17 @@ endif
 	" For Git
 		Plug 'airblade/vim-gitgutter'
 		Plug 'tpope/vim-fugitive'
-	" For (( fuzzyfinder ))
+	" (( fuzzyfinder ))
 		Plug 'L9'
 		Plug 'FuzzyFinder'
-	" For (( ultisnips ))
+	" (( ultisnips ))
 		Plug 'SirVer/ultisnips'
 		Plug 'honza/vim-snippets'
-	" For (( airline ))
+	" (( airline ))
 		Plug 'bling/vim-airline'
-	" For (( nerdtree ))
+	" (( nerdtree ))
 		Plug 'scrooloose/nerdtree'
-	" For (( ctrlp ))
+	" (( ctrlp ))
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
 		Plug 'mattn/ctrlp-mark'
 		Plug 'tacahiroy/ctrlp-funky'
@@ -105,13 +105,14 @@ endif
 	" Colorschemes
 		Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
 		Plug 'nanotech/jellybeans.vim'
+		Plug 'noahfrederick/vim-hemisu'
 		Plug 'sjl/badwolf'
 		Plug 'w0ng/vim-hybrid'
 	" My Plugins
-		execute "Plug '".s:projects."vCoolor' "
-		execute "Plug '".s:projects."zeavim' "
-		execute "Plug '".s:projects."vullScreen' "
-		execute "Plug '".s:projects."termivator' "
+		execute "Plug '".s:myPlugins."vCoolor' "
+		execute "Plug '".s:myPlugins."zeavim' "
+		execute "Plug '".s:myPlugins."vullScreen' "
+		execute "Plug '".s:myPlugins."termivator' "
  " }
 
 call plug#end()
@@ -209,7 +210,7 @@ set showmode		" Display the current mode in status line.
 set ruler			" Show cursor position below each window.
 
 " ========== SELECT TEXT =========================================
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 
 " ========== EDIT TEXT =========================================
 set showmatch						" Show matching brackets.
