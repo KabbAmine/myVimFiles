@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-20
+" Last modification: 2014-11-23
 " ================================================================
 
 
@@ -91,16 +91,17 @@ endif
         Plug 'tpope/vim-surround'
         call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
     " Colorschemes
+        Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
+        Plug 'jnurmine/Zenburn'
         Plug 'nanotech/jellybeans.vim'
         Plug 'noahfrederick/vim-hemisu'
         Plug 'sjl/badwolf'
-        Plug 'w0ng/vim-hybrid'
     " My Plugins
-        execute "Plug '".s:myPlugins."vCoolor' "
-        execute "Plug '".s:myPlugins."zeavim' "
-        execute "Plug '".s:myPlugins."vullScreen' "
         execute "Plug '".s:myPlugins."termivator' "
+        execute "Plug '".s:myPlugins."vCoolor' "
+        execute "Plug '".s:myPlugins."vullScreen' "
+        execute "Plug '".s:myPlugins."zeavim' "
  " }
 
 call plug#end()
@@ -112,6 +113,9 @@ call plug#end()
     if g:hasWin
         colorscheme hybrid
     elseif has("gui_running") || exists("$TMUX")
+        colorscheme Tomorrow-Night
+    elseif exists("$TERM") && ($TERM =~ "^xterm")
+        set term=xterm-256color     " Force using 256 colors.
         colorscheme Tomorrow-Night
     endif
 " }
