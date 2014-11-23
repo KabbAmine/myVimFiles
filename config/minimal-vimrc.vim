@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-20
+" Last modification: 2014-11-23
 " ================================================================
 
 
@@ -30,10 +30,8 @@ execute "set tags+=".g:vimDir."/various/systags"
 " Using a dark background.
 set background=dark
 
-" Theme.
-if !exists("g:colors_name")
-	colorscheme darkblue
-endif
+" General theme for tty
+colo delek
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
 " {
