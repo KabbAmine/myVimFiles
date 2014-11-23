@@ -37,7 +37,7 @@ endif
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
 " {
-	if (&term =~ '256color') && exists("$TMUX")
+	if exists("$TMUX")
 		set t_ut=
 	endif
 " }
