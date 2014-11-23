@@ -38,10 +38,10 @@
 
 " Source external files.
 " {
-	" Plugins files.
-	execute "source ".g:vimDir."/config/plugins.vim"
-
 	" Minimal vimrc.
 	execute "source ".g:vimDir."/config/minimal-vimrc.vim"
+
+	" Plugins files.
+	execute "source ".g:vimDir."/config/plugins.vim"
 " }
 
