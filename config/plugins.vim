@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-23
+" Last modification: 2014-11-25
 " ================================================================
 
 
@@ -74,6 +74,7 @@ endif
         Plug 'syngan/vim-vimlint', {'for': 'vim'}
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
+        Plug 'haya14busa/incsearch.vim'
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
@@ -111,7 +112,7 @@ call plug#end()
 " Themes.
 " {
     if g:hasWin
-        colorscheme hybrid
+        colorscheme Tomorrow-Night
     elseif has("gui_running") || exists("$TMUX")
         colorscheme Tomorrow-Night
     elseif exists("$TERM") && ($TERM =~ "^xterm")
@@ -122,6 +123,13 @@ call plug#end()
 
 
 " =========== MAPPING ==========================================
+" (( incsearch )) *******
+" {
+    map /  <Plug>(incsearch-forward)
+    map ?  <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+" }
+
 " (( termivator )) shortcuts *******
 " {
     " *** ;t    => Terminal.
