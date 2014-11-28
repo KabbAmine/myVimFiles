@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-25
+" Last modification: 2014-11-28
 " ================================================================
 
 
@@ -35,8 +35,9 @@ endif
 " Plugins:
 " {
     " For PHP
-        Plug 'PHP-correct-Indenting'
+        Plug '2072/PHP-Indenting-for-VIm'
         Plug 'StanAngeloff/php.vim'
+        Plug 'shawncplus/phpcomplete.vim'
     " For HTML/CSS & markdown
         Plug 'docunext/closetag.vim'
         Plug 'lilydjwg/colorizer', { 'for': ['css', 'scss', 'html', 'php'] }
@@ -45,7 +46,6 @@ endif
         Plug 'plasticboy/vim-markdown'
         Plug 'tpope/vim-haml'
         Plug 'tpope/vim-ragtag'
-        call s:PlugInOs('suan/vim-instant-markdown', '', 'unix')
     " For JavaScript
         Plug 'pangloss/vim-javascript'
     " For Python
@@ -67,18 +67,20 @@ endif
         Plug 'scrooloose/nerdtree'
     " (( ctrlp ))
         Plug 'ctrlpvim/ctrlp.vim'       " A fork of CtrlP, more active repo.
+        Plug 'fisadev/vim-ctrlp-cmdpalette'
         Plug 'mattn/ctrlp-mark'
+        Plug 'mattn/ctrlp-register'
         Plug 'tacahiroy/ctrlp-funky'
     " (( syntastic )) & linters
         Plug 'scrooloose/syntastic'
         Plug 'syngan/vim-vimlint', {'for': 'vim'}
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
-        Plug 'haya14busa/incsearch.vim'
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
         Plug 'godlygeek/tabular'
+        Plug 'haya14busa/incsearch.vim'
         Plug 'kshenoy/vim-signature'
         Plug 'majutsushi/tagbar'
         Plug 'matchit.zip'
@@ -144,27 +146,18 @@ call plug#end()
 
 " (( CtrlP )) & extensions shortcuts *******
 " {
-    " *** Ctrl-space        : CtrlPBuffer
-    " *** ,,f   :CtrlP
-    " *** ,F    :Funky
-    " *** ,t    :BufTag
-    " *** ,l    :Line
-    " *** ,m    :Marks
-        nmap <silent> <C-space> :CtrlPBuffer<CR>
-        nmap <silent> ,,f   :CtrlP<CR>
-        nmap <silent> ,F  :CtrlPFunky<CR>
+        nmap <silent> ,,f  :CtrlP<CR>
+        nmap <silent> ,F   :CtrlPFunky<CR>
         nmap <silent> ,t   :CtrlPBufTag<CR>
         nmap <silent> ,l   :CtrlPLine %<CR>
         nmap <silent> ,m   :CtrlPMark<CR>
+        nmap <silent> ,y   :CtrlPRegister<CR>
+        nmap <silent> !!   :CtrlPCmdPalette<CR>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-    " *** ,r        :FufMruFile
-    " *** ,d        :FufDir
-    " *** ,c        :FufMruCmd
-    " *** ,f        :FufFile
-    " *** ,b        :FufBookmarkDir
+        nmap <silent> <C-space> :FufBuffer<CR>
         nmap <silent> ,r :FufMruFile<CR>
         nmap <silent> ,d :FufDir<CR>
         nmap <silent> ,c :FufMruCmd<CR>
@@ -375,12 +368,6 @@ call plug#end()
     endif
 " }
 
-" ******* (( markdown )) *******
-" {
-    " Disable folding.
-        let g:vim_markdown_folding_disabled=1
-" }
-
 " ******* (( syntastic )) *******
 " {
     let g:syntastic_always_populate_loc_list = 1
@@ -394,9 +381,11 @@ call plug#end()
 
 " ******* (( emmet )) *******
 " {
+    " Only in INSERT mode.
+        let g:user_emmet_mode='i'
     " Enable emmet for specific files.
         let g:user_emmet_install_global = 0
-        autocmd FileType html,xhtml,scss,css,sass,php EmmetInstall
+        autocmd FileType html,scss,css,php EmmetInstall
     let g:user_emmet_leader_key = '<c-e>'
 " }
 
@@ -491,12 +480,6 @@ call plug#end()
     endif
 " }
 
-" ******* (( vim-instant-markdown )) *******
-" {
-    let g:instant_markdown_slow = 1
-    let g:instant_markdown_autostart = 0
-" }
-
 " ******* (( clever-f )) *******
 " {
     let g:clever_f_across_no_line = 1
@@ -531,4 +514,18 @@ call plug#end()
                 \ "cmder": {
                     \ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
                 \ }
+" }
+
+" ******* (( PHP-Indenting-for-VIm )) *******
+" {
+  " Set a tab after <?php line.
+    let g:PHP_default_indenting = 1
+" }
+
+" ******* (( vim-markdown )) *******
+" {
+    " Disable folding.
+        let g:vim_markdown_folding_disabled=1
+    " Disable default mappings.
+        let g:vim_markdown_no_default_key_mappings=1
 " }
