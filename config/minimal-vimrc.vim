@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-23
+" Last modification: 2014-11-28
 " ================================================================
 
 
@@ -78,13 +78,12 @@ if has("gui_running")
 		set guifont=Ubuntu\ Mono\ derivative\ powerline\ 12
 	endif
 	set wak=no				" Don't use the ALT-keys for menus.
-	set linespace=2			" Number of pixel lines to use between lines.
+	set linespace=4			" Number of pixel lines to use between lines.
 endif
 
 
 " ========== MESSAGES & INFO ===================================
 set showcmd			" Show (partial) command in status line.
-set showmode		" Display the current mode in status line.
 set ruler			" Show cursor position below each window.
 
 " ========== SELECT TEXT =========================================
@@ -92,7 +91,6 @@ set ruler			" Show cursor position below each window.
 
 " ========== EDIT TEXT =========================================
 set showmatch						" Show matching brackets.
-set matchpairs=(:),{:},[:],<:>		" List of pairs that match for the % command.
 set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
 if g:hasWin
