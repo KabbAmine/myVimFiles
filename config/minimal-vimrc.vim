@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-28
+" Last modification: 2014-11-29
 " ================================================================
 
 
@@ -71,6 +71,8 @@ if has("gui_running")
 	set guioptions-=e		" Apply normal tabline in Gvim.
 	set guioptions-=L
 	set guioptions-=l
+	" Activate horizontal bottom scrollbar for each line.
+	" set guioptions+=bh		
 	if g:hasWin
 		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
 	else
@@ -78,7 +80,7 @@ if has("gui_running")
 		set guifont=Ubuntu\ Mono\ derivative\ powerline\ 12
 	endif
 	set wak=no				" Don't use the ALT-keys for menus.
-	set linespace=4			" Number of pixel lines to use between lines.
+	set linespace=5			" Number of pixel lines to use between lines.
 endif
 
 
