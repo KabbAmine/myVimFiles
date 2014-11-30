@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-28
+" Last modification: 2014-11-29
 " ================================================================
 
 
@@ -44,6 +44,7 @@ endif
         Plug 'mattn/emmet-vim'
         Plug 'othree/html5.vim'
         Plug 'plasticboy/vim-markdown'
+        Plug 'shime/vim-livedown'
         Plug 'tpope/vim-haml'
         Plug 'tpope/vim-ragtag'
     " For JavaScript
@@ -382,7 +383,7 @@ call plug#end()
 " ******* (( emmet )) *******
 " {
     " Only in INSERT mode.
-        let g:user_emmet_mode='i'
+        let g:user_emmet_mode='iv'
     " Enable emmet for specific files.
         let g:user_emmet_install_global = 0
         autocmd FileType html,scss,css,php EmmetInstall
@@ -447,6 +448,8 @@ call plug#end()
 
 " ******* (( ctrlp & cie )) *******
 " {
+	" Disable CtrlP default map.
+		let g:ctrlp_map = ''
     let g:ctrlp_cache_dir = g:vimDir.'/various/ctrlp'
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
     let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
@@ -519,7 +522,7 @@ call plug#end()
 " ******* (( PHP-Indenting-for-VIm )) *******
 " {
   " Set a tab after <?php line.
-    let g:PHP_default_indenting = 1
+    " let g:PHP_default_indenting = 1
 " }
 
 " ******* (( vim-markdown )) *******
