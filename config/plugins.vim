@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-29
+" Last modification: 2014-12-02
 " ================================================================
 
 
@@ -115,12 +115,12 @@ call plug#end()
 " Themes.
 " {
     if g:hasWin
-        colorscheme Tomorrow-Night
+        colorscheme Tomorrow-Night-Eighties
     elseif has("gui_running") || exists("$TMUX")
-        colorscheme Tomorrow-Night
+        colorscheme Tomorrow-Night-Eighties
     elseif exists("$TERM") && ($TERM =~ "^xterm")
         set term=xterm-256color     " Force using 256 colors.
-        colorscheme Tomorrow-Night
+        colorscheme Tomorrow-Night-Eighties
     endif
 " }
 
