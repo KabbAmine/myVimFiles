@@ -1,5 +1,5 @@
 " For PHP files.
-" Last modification: 2014-11-28
+" Last modification: 2014-12-06
 
 " =========== VARIOUS =======================
 " Set indentation to 4.
