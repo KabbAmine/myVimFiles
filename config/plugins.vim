@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-02
+" Last modification: 2014-12-04
 " ================================================================
 
 
@@ -46,7 +46,6 @@ endif
         Plug 'plasticboy/vim-markdown'
         Plug 'shime/vim-livedown'
         Plug 'tpope/vim-haml'
-        Plug 'tpope/vim-ragtag'
     " For JavaScript
         Plug 'pangloss/vim-javascript'
     " For Python
@@ -69,7 +68,6 @@ endif
     " (( ctrlp ))
         Plug 'ctrlpvim/ctrlp.vim'       " A fork of CtrlP, more active repo.
         Plug 'fisadev/vim-ctrlp-cmdpalette'
-        Plug 'mattn/ctrlp-mark'
         Plug 'mattn/ctrlp-register'
         Plug 'tacahiroy/ctrlp-funky'
     " (( syntastic )) & linters
@@ -78,6 +76,7 @@ endif
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
         Plug 'AndrewRadev/splitjoin.vim'
+        Plug 'kyuhi/vim-emoji-complete'
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
         Plug 'godlygeek/tabular'
@@ -97,9 +96,12 @@ endif
     " Colorschemes
         Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
+        Plug 'gosukiwi/vim-atom-dark'
         Plug 'jnurmine/Zenburn'
+        Plug 'mgutz/gosu-colors'
         Plug 'nanotech/jellybeans.vim'
         Plug 'noahfrederick/vim-hemisu'
+        Plug 'reedes/vim-colors-pencil'
         Plug 'sjl/badwolf'
     " My Plugins
         execute "Plug '".s:myPlugins."termivator' "
@@ -126,6 +128,13 @@ call plug#end()
 
 
 " =========== MAPPING ==========================================
+" (( vim-signature )) *******
+" {
+      let g:SignatureMap = {
+              \ 'ListLocalMarks'     :  ",m",
+              \ }
+" }
+
 " (( incsearch )) *******
 " {
     map /  <Plug>(incsearch-forward)
@@ -151,7 +160,6 @@ call plug#end()
         nmap <silent> ,F   :CtrlPFunky<CR>
         nmap <silent> ,t   :CtrlPBufTag<CR>
         nmap <silent> ,l   :CtrlPLine %<CR>
-        nmap <silent> ,m   :CtrlPMark<CR>
         nmap <silent> ,y   :CtrlPRegister<CR>
         nmap <silent> !!   :CtrlPCmdPalette<CR>
 " }
@@ -459,19 +467,14 @@ call plug#end()
     let g:ctrlp_max_depth = 40
     let g:ctrlp_follow_symlinks = 0
     let g:ctrlp_lazy_update = 1
-    let g:ctrlp_cmdpalette_execute = 1
-    " Open multiple files in hidden buffers.
-        let g:ctrlp_open_multiple_files = 'i'
+    " Open multiple files in hidden buffers & jump to the 1st one.
+        let g:ctrlp_open_multiple_files = 'ij'
     " Open new file in the current window.
         let g:ctrlp_open_new_file = 'r'
-    " Files to ignore in MRU mode.
-        if has('win32') || has('win64')
-            let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*'
-        else
-            let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*'
-        endif
-    " Make available extensions.
+    " " Make available extensions.
         let g:ctrlp_extensions = ['funky']
+	" CtrlP (( cmd-palette ))
+		let g:ctrlp_cmdpalette_execute = 1
 " }
 
 " ******* (( vim-plug )) *******
@@ -494,6 +497,7 @@ call plug#end()
 
 " ******* (( zeavim )) *******
 " {
+	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
     " let g:ZV_zeal_directory = ""
     " let g:ZV_disable_mapping = 1
     " let g:ZV_added_files_type = {
