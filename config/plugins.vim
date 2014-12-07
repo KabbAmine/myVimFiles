@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-06
+" Last modification: 2014-12-07
 " ================================================================
 
 
@@ -80,7 +80,6 @@ endif
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
         Plug 'godlygeek/tabular'
-        " Plug 'haya14busa/incsearch.vim'
         Plug 'kshenoy/vim-signature'
         Plug 'majutsushi/tagbar'
         Plug 'matchit.zip'
@@ -133,13 +132,6 @@ call plug#end()
       let g:SignatureMap = {
               \ 'ListLocalMarks'     :  ",m",
               \ }
-" }
-
-" (( incsearch )) *******
-" {
-    " map /  <Plug>(incsearch-forward)
-    " map ?  <Plug>(incsearch-backward)
-    " map g/ <Plug>(incsearch-stay)
 " }
 
 " (( termivator )) shortcuts *******
