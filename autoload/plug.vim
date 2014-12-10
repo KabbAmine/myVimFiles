@@ -171,7 +171,7 @@ function! plug#end()
           endif
           call add(s:triggers[name].map, cmd)
         elseif cmd =~ '^[A-Z]'
-          if !exists(':'.cmd)
+          if exists(':'.cmd) != 2
             execute printf(
             \ 'command! -nargs=* -range -bang %s call s:lod_cmd(%s, "<bang>", <line1>, <line2>, <q-args>, %s)',
             \ cmd, string(cmd), string(name))
@@ -1266,7 +1266,7 @@ function! s:clean(force)
     call append(line('$'), 'Already clean.')
   else
     call inputsave()
-    let yes = a:force || (input('Proceed? (Y/N) ') =~? '^y')
+    let yes = a:force || (input('Proceed? (y/N) ') =~? '^y')
     call inputrestore()
     if yes
       for dir in todo
@@ -1483,7 +1483,7 @@ endfunction
 function! s:revert()
   let name = s:find_name(line('.'))
   if empty(name) || !has_key(g:plugs, name) ||
-    \ input(printf('Revert the update of %s? (Y/N) ', name)) !~? '^y'
+    \ input(printf('Revert the update of %s? (y/N) ', name)) !~? '^y'
     return
   endif
 
