@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-07
+" Last modification: 2014-12-12
 " ================================================================
 
 
@@ -48,6 +48,7 @@ endif
         Plug 'tpope/vim-haml'
     " For JavaScript
         Plug 'pangloss/vim-javascript'
+        Plug 'leshill/vim-json', { 'for': ['json'] }
     " For Python
         Plug 'hdima/python-syntax'
     " For Java
