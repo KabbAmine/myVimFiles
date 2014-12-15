@@ -96,7 +96,6 @@ endif
         Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
         Plug 'gosukiwi/vim-atom-dark'
-        Plug 'jnurmine/Zenburn'
         Plug 'mgutz/gosu-colors'
         Plug 'nanotech/jellybeans.vim'
         Plug 'noahfrederick/vim-hemisu'
