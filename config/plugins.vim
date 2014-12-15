@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-15
+" Last modification: 2014-12-16
 " ================================================================
 
 
@@ -38,14 +38,13 @@ endif
         Plug '2072/PHP-Indenting-for-VIm'
         Plug 'StanAngeloff/php.vim'
         Plug 'shawncplus/phpcomplete.vim'
-    " For HTML/CSS & markdown
+    " For HTML, CSS, SASS & markdown
         Plug 'docunext/closetag.vim'
         Plug 'lilydjwg/colorizer', { 'for': ['css', 'scss', 'html', 'php'] }
         Plug 'mattn/emmet-vim'
         Plug 'othree/html5.vim'
         Plug 'plasticboy/vim-markdown'
-        Plug 'shime/vim-livedown'
-        Plug 'tpope/vim-haml'
+        Plug 'tpope/vim-haml'		" Vim runtime files for Haml, Sass, and SCSS.
     " For JavaScript
         Plug 'pangloss/vim-javascript'
         Plug 'leshill/vim-json', { 'for': ['json'] }
@@ -155,6 +154,8 @@ call plug#end()
         nmap <silent> ,l   :CtrlPLine %<CR>
         nmap <silent> ,y   :CtrlPRegister<CR>
         nmap <silent> !!   :CtrlPCmdPalette<CR>
+		" narrow the list down with a word under cursor
+			nnoremap <Leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
@@ -434,12 +435,12 @@ call plug#end()
 
 " ******* (( youcompleteme )) *******
 " {
-    let g:ycm_show_diagnostics_ui = 0       " To get (( syntastic )) working
-    let g:ycm_complete_in_comments = 1
-    let g:ycm_seed_identifiers_with_syntax = 1
-    let g:ycm_key_list_select_completion = ['<Down>']
-    let g:ycm_key_list_previous_completion = ['<Up>']
-    let g:ycm_filetype_specific_completion_to_disable = {'vim': 1}
+    " let g:ycm_show_diagnostics_ui = 0       " To get (( syntastic )) working
+    " let g:ycm_complete_in_comments = 1
+    " let g:ycm_seed_identifiers_with_syntax = 1
+    " let g:ycm_key_list_select_completion = ['<Down>']
+    " let g:ycm_key_list_previous_completion = ['<Up>']
+    " let g:ycm_filetype_specific_completion_to_disable = {'vim': 1}
 " }
 
 " ******* (( gitgutter )) *******
@@ -468,6 +469,11 @@ call plug#end()
         let g:ctrlp_extensions = ['funky']
 	" CtrlP (( cmd-palette ))
 		let g:ctrlp_cmdpalette_execute = 1
+    " If ag is available use it as filename list generator instead of 'find'
+		if executable("ag")
+			set grepprg=ag\ --nogroup\ --nocolor
+			let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+		endif
 " }
 
 " ******* (( vim-plug )) *******
@@ -486,34 +492,6 @@ call plug#end()
     let g:clever_f_smart_case = 1
     " Fix a direction of search (f & F)
     let g:clever_f_fix_key_direction = 1
-" }
-
-" ******* (( zeavim )) *******
-" {
-	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
-    " let g:ZV_zeal_directory = ""
-    " let g:ZV_disable_mapping = 1
-    " let g:ZV_added_files_type = {
-    "           \ 'extension': 'docset',
-    "           \}
-" }
-
-" ******* (( vcoolor )) *******
-" {
-    let g:vcoolor_lowercase = 1
-    " let g:vcoolor_map = {
-    "           \ 'h': ';c',
-    "           \ 'r': ';r',
-    "           \ 'v': ';v'
-    "           \ }
-" }
-
-" ******* (( termivator )) *******
-" {
-    let g:T_list_comm = {
-                \ "cmder": {
-                    \ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
-                \ }
 " }
 
 " ******* (( PHP-Indenting-for-VIm )) *******
@@ -548,6 +526,34 @@ call plug#end()
 	endif
 	let g:neocomplete#sources#omni#input_patterns.php =
 				\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" }
+
+" ******* (( zeavim )) *******
+" {
+	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
+    " let g:ZV_zeal_directory = ""
+    " let g:ZV_disable_mapping = 1
+    " let g:ZV_added_files_type = {
+    "           \ 'extension': 'docset',
+    "           \}
+" }
+
+" ******* (( vcoolor )) *******
+" {
+    let g:vcoolor_lowercase = 1
+    " let g:vcoolor_map = {
+    "           \ 'h': ';c',
+    "           \ 'r': ';r',
+    "           \ 'v': ';v'
+    "           \ }
+" }
+
+" ******* (( termivator )) *******
+" {
+    let g:T_list_comm = {
+                \ "cmder": {
+                    \ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
+                \ }
 " }
 
 
