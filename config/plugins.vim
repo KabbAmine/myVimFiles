@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-12
+" Last modification: 2014-12-15
 " ================================================================
 
 
@@ -77,22 +77,22 @@ endif
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
         Plug 'AndrewRadev/splitjoin.vim'
-        Plug 'kyuhi/vim-emoji-complete'
-        Plug 'Lokaltog/vim-easymotion'
-        Plug 'Raimondi/delimitMate'
         Plug 'godlygeek/tabular'
         Plug 'kshenoy/vim-signature'
+        Plug 'Lokaltog/vim-easymotion'
         Plug 'majutsushi/tagbar'
         Plug 'matchit.zip'
         Plug 'matze/vim-move'
         Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+        Plug 'Raimondi/delimitMate'
         Plug 'rhysd/clever-f.vim'
+        Plug 'Shougo/neocomplete.vim'
         Plug 'sk1418/Join'
         Plug 'terryma/vim-multiple-cursors'
         Plug 'tommcdo/vim-exchange'
         Plug 'tomtom/tcomment_vim'
         Plug 'tpope/vim-surround'
-        call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
+        " call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
     " Colorschemes
         Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
@@ -528,4 +528,37 @@ call plug#end()
         let g:vim_markdown_folding_disabled=1
     " Disable default mappings.
         let g:vim_markdown_no_default_key_mappings=1
+" }
+
+" ******* (( neocomplete )) *******
+" {
+	let g:neocomplete#enable_at_startup = 1
+	let g:neocomplete#enable_smart_case = 1
+	let g:neocomplete#sources#syntax#min_keyword_length = 2
+	" let g:neocomplete#enable_auto_select = 1
+	inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
+	inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
+	inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+	" Enable heavy omni completion.
+	if !exists('g:neocomplete#sources#omni#input_patterns')
+	  let g:neocomplete#sources#omni#input_patterns = {}
+	endif
+	if !exists('g:neocomplete#force_omni_input_patterns')
+	  let g:neocomplete#force_omni_input_patterns = {}
+	endif
+	let g:neocomplete#sources#omni#input_patterns.php =
+				\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" }
+
+
+" =========== HACKS =======================
+" {
+	" Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict.
+		function! Multiple_cursors_before()
+			exe 'NeoCompleteLock'
+		endfunction
+	" Enable autocompletion again.
+		function! Multiple_cursors_after()
+			exe 'NeoCompleteUnlock'
+		endfunction
 " }
