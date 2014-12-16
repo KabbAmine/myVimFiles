@@ -147,24 +147,24 @@ call plug#end()
 
 " (( CtrlP )) & extensions shortcuts *******
 " {
+        nmap <silent> !!   :CtrlPCmdPalette<CR>
         nmap <silent> ,,f  :CtrlP<CR>
         nmap <silent> ,F   :CtrlPFunky<CR>
-        nmap <silent> ,t   :CtrlPBufTag<CR>
         nmap <silent> ,l   :CtrlPLine %<CR>
+        nmap <silent> ,r   :CtrlPMRUFiles<CR>
+        nmap <silent> ,t   :CtrlPBufTag<CR>
         nmap <silent> ,y   :CtrlPRegister<CR>
-        nmap <silent> !!   :CtrlPCmdPalette<CR>
 		" narrow the list down with a word under cursor
-			nnoremap <Leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+			nnoremap <leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
 " {
-        nmap <silent> <C-space> :FufBuffer<CR>
-        nmap <silent> ,r :FufMruFile<CR>
-        nmap <silent> ,d :FufDir<CR>
-        nmap <silent> ,c :FufMruCmd<CR>
-        nmap <silent> ,f :FufFile<CR>
         nmap <silent> ,b :FufBookmarkDir<CR>
+        nmap <silent> ,c :FufMruCmd<CR>
+        nmap <silent> ,d :FufDir<CR>
+        nmap <silent> ,f :FufFile<CR>
+        nmap <silent> <C-space> :FufBuffer<CR>
 " }
 
 " (( ultisnips )) *******
@@ -295,14 +295,11 @@ call plug#end()
 " =========== PLUGINS OPTIONS =======================
 " ******* (( FuzzyFinder )) *******
 " {
-        let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|\.(png|jpg|jpeg|gif|xcf|svg)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|\.(cbp|depend)$'
-    " Enable all the modes (MRU mode was disabled).
-        let g:fuf_modesDisable = []
+	let g:fuf_modesDisable = ['mrufile']
     let g:fuf_mrufile_maxItem = 40
-    " Separator for a primary and refining patterns.
-        let g:fuf_patternSeparator = '+'
+	let g:fuf_patternSeparator = '+'
     " Cancel the <Ctrl-s> shortcut to use it in next command.
-        let g:fuf_keyPrevPattern = ''   
+        let g:fuf_keyPrevPattern = ''
     let g:fuf_keyOpenSplit = '<C-s>'
     let g:fuf_keyOpenVsplit = '<C-v>'
     let g:fuf_buffer_keyDelete = '<C-d>'
@@ -453,34 +450,33 @@ call plug#end()
 		let g:ctrlp_map = ''
     let g:ctrlp_cache_dir = g:vimDir.'/various/ctrlp'
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
-    let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
     let g:ctrlp_clear_cache_on_exit = 0
-    let g:ctrlp_working_path_mode = 0
     let g:ctrlp_max_files = 0
     let g:ctrlp_max_depth = 40
-    let g:ctrlp_follow_symlinks = 0
     let g:ctrlp_lazy_update = 1
     " Open multiple files in hidden buffers & jump to the 1st one.
-        let g:ctrlp_open_multiple_files = 'ij'
+        let g:ctrlp_open_multiple_files = 'rij'
     " Open new file in the current window.
         let g:ctrlp_open_new_file = 'r'
-    " " Make available extensions.
-        let g:ctrlp_extensions = ['funky']
-	" CtrlP (( cmd-palette ))
+	let g:ctrlp_prompt_mappings = {
+				\ 'PrtHistory(-1)':       ['<c-down>'],
+				\ 'PrtHistory(1)':        ['<c-up>'],
+				\ 'ToggleType(1)':        ['<s-right>'],
+				\ 'ToggleType(-1)':       ['<s-left>'],
+				\ 'CreateNewFile()':      ['<c-n>'],
+				\ 'MarkToOpen()':         ['<c-z>'],
+				\ 'OpenMulti()':          ['<c-o>'],
+				\ }
+	" MRU mode
+		let g:ctrlp_mruf_save_on_update = 1
+	" (( cmd-palette ))
 		let g:ctrlp_cmdpalette_execute = 1
-    " If ag is available use it as filename list generator instead of 'find'
-		if executable("ag")
-			set grepprg=ag\ --nogroup\ --nocolor
-			let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
-		endif
 " }
 
 " ******* (( vim-plug )) *******
 " {
     if has('win32') || has('win64')
         let g:plug_threads = 1
-    else
-        let g:plug_threads = 10
     endif
 " }
 
@@ -530,21 +526,12 @@ call plug#end()
 " ******* (( zeavim )) *******
 " {
 	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
-    " let g:ZV_zeal_directory = ""
-    " let g:ZV_disable_mapping = 1
-    " let g:ZV_added_files_type = {
-    "           \ 'extension': 'docset',
-    "           \}
+
 " }
 
 " ******* (( vcoolor )) *******
 " {
     let g:vcoolor_lowercase = 1
-    " let g:vcoolor_map = {
-    "           \ 'h': ';c',
-    "           \ 'r': ';r',
-    "           \ 'v': ';v'
-    "           \ }
 " }
 
 " ******* (( termivator )) *******
