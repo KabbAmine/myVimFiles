@@ -256,7 +256,7 @@ endif
 " Repeat the last command *******
 " {
 	" *** zz
-		nnoremap zz :<Up><CR>
+		nnoremap zz @:
 " }
 
 

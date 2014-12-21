@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-16
+" Last modification: 2014-12-21
 " ================================================================
 
 
@@ -44,7 +44,7 @@ endif
         Plug 'mattn/emmet-vim'
         Plug 'othree/html5.vim'
         Plug 'plasticboy/vim-markdown'
-        Plug 'tpope/vim-haml'		" Vim runtime files for Haml, Sass, and SCSS.
+        Plug 'tpope/vim-haml'       " Vim runtime files for Haml, Sass, and SCSS.
     " For JavaScript
         Plug 'pangloss/vim-javascript'
         Plug 'leshill/vim-json', { 'for': ['json'] }
@@ -76,16 +76,17 @@ endif
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
         Plug 'AndrewRadev/splitjoin.vim'
+        Plug 'Lokaltog/vim-easymotion'
+        Plug 'Raimondi/delimitMate'
+        Plug 'Shougo/neocomplete.vim'
+        Plug 'esneider/YUNOcommit.vim'
         Plug 'godlygeek/tabular'
         Plug 'kshenoy/vim-signature'
-        Plug 'Lokaltog/vim-easymotion'
         Plug 'majutsushi/tagbar'
         Plug 'matchit.zip'
         Plug 'matze/vim-move'
         Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-        Plug 'Raimondi/delimitMate'
         Plug 'rhysd/clever-f.vim'
-        Plug 'Shougo/neocomplete.vim'
         Plug 'sk1418/Join'
         Plug 'terryma/vim-multiple-cursors'
         Plug 'tommcdo/vim-exchange'
@@ -93,6 +94,7 @@ endif
         Plug 'tpope/vim-surround'
         " call s:PlugInOs('Valloric/YouCompleteMe', '', 'unix')
     " Colorschemes
+        Plug 'ajh17/Spacegray.vim'
         Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
         Plug 'gosukiwi/vim-atom-dark'
@@ -101,6 +103,7 @@ endif
         Plug 'noahfrederick/vim-hemisu'
         Plug 'reedes/vim-colors-pencil'
         Plug 'sjl/badwolf'
+        Plug 'whatyouhide/vim-gotham'
     " My Plugins
         execute "Plug '".s:myPlugins."termivator' "
         execute "Plug '".s:myPlugins."vCoolor' "
@@ -154,8 +157,8 @@ call plug#end()
         nmap <silent> ,r   :CtrlPMRUFiles<CR>
         nmap <silent> ,t   :CtrlPBufTag<CR>
         nmap <silent> ,y   :CtrlPRegister<CR>
-		" narrow the list down with a word under cursor
-			nnoremap <leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+        " narrow the list down with a word under cursor
+            nnoremap <leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " }
 
 " (( FuzzyFinder )) shortcuts *******
@@ -295,9 +298,9 @@ call plug#end()
 " =========== PLUGINS OPTIONS =======================
 " ******* (( FuzzyFinder )) *******
 " {
-	let g:fuf_modesDisable = ['mrufile']
+    let g:fuf_modesDisable = ['mrufile']
     let g:fuf_mrufile_maxItem = 40
-	let g:fuf_patternSeparator = '+'
+    let g:fuf_patternSeparator = '+'
     " Cancel the <Ctrl-s> shortcut to use it in next command.
         let g:fuf_keyPrevPattern = ''
     let g:fuf_keyOpenSplit = '<C-s>'
@@ -372,6 +375,7 @@ call plug#end()
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_html_checkers = ['w3']
     let g:syntastic_javascript_checkers = ['jslint']
+    let g:syntastic_scss_checkers = ['scss_lint']
     let g:syntastic_mode_map = { "mode": "passive",
                 \ "active_filetypes": [],
                 \ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss"]
@@ -380,7 +384,7 @@ call plug#end()
 
 " ******* (( emmet )) *******
 " {
-    " Only in INSERT mode.
+    " In INSERT & VISUAL modes only.
         let g:user_emmet_mode='iv'
     " Enable emmet for specific files.
         let g:user_emmet_install_global = 0
@@ -446,8 +450,8 @@ call plug#end()
 
 " ******* (( ctrlp & cie )) *******
 " {
-	" Disable CtrlP default map.
-		let g:ctrlp_map = ''
+    " Disable CtrlP default map.
+        let g:ctrlp_map = ''
     let g:ctrlp_cache_dir = g:vimDir.'/various/ctrlp'
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
     let g:ctrlp_clear_cache_on_exit = 0
@@ -458,25 +462,33 @@ call plug#end()
         let g:ctrlp_open_multiple_files = 'rij'
     " Open new file in the current window.
         let g:ctrlp_open_new_file = 'r'
-	let g:ctrlp_prompt_mappings = {
-				\ 'PrtHistory(-1)':       ['<c-down>'],
-				\ 'PrtHistory(1)':        ['<c-up>'],
-				\ 'ToggleType(1)':        ['<s-right>'],
-				\ 'ToggleType(-1)':       ['<s-left>'],
-				\ 'CreateNewFile()':      ['<c-n>'],
-				\ 'MarkToOpen()':         ['<c-z>'],
-				\ 'OpenMulti()':          ['<c-o>'],
-				\ }
-	" MRU mode
-		let g:ctrlp_mruf_save_on_update = 1
-	" (( cmd-palette ))
-		let g:ctrlp_cmdpalette_execute = 1
+    let g:ctrlp_prompt_mappings = {
+                \ 'PrtHistory(-1)':       ['<c-down>'],
+                \ 'PrtHistory(1)':        ['<c-up>'],
+                \ 'ToggleType(1)':        ['<s-right>'],
+                \ 'ToggleType(-1)':       ['<s-left>'],
+                \ 'CreateNewFile()':      ['<c-n>'],
+                \ 'MarkToOpen()':         ['<c-z>'],
+                \ 'OpenMulti()':          ['<c-o>'],
+                \ }
+    " MRU mode
+        let g:ctrlp_mruf_save_on_update = 1
+        " Use ag in CtrlP for listing files.
+        " P.S: Remove option -U make ag respect .gitignore.
+            if executable('ag')
+                let g:ctrlp_user_command =
+                            \ 'ag %s -U -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+            endif
+    " (( cmd-palette ))
+        let g:ctrlp_cmdpalette_execute = 1
 " }
 
 " ******* (( vim-plug )) *******
 " {
     if has('win32') || has('win64')
         let g:plug_threads = 1
+    else
+        let g:plug_threads = 10
     endif
 " }
 
@@ -505,28 +517,32 @@ call plug#end()
 
 " ******* (( neocomplete )) *******
 " {
-	let g:neocomplete#enable_at_startup = 1
-	let g:neocomplete#enable_smart_case = 1
-	let g:neocomplete#sources#syntax#min_keyword_length = 2
-	" let g:neocomplete#enable_auto_select = 1
-	inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
-	inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
-	inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
-	" Enable heavy omni completion.
-	if !exists('g:neocomplete#sources#omni#input_patterns')
-	  let g:neocomplete#sources#omni#input_patterns = {}
-	endif
-	if !exists('g:neocomplete#force_omni_input_patterns')
-	  let g:neocomplete#force_omni_input_patterns = {}
-	endif
-	let g:neocomplete#sources#omni#input_patterns.php =
-				\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 2
+    let g:neocomplete#data_directory = expand(g:vimDir).'/various/neocomplete'
+    inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
+    inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
+    inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+    " Enable heavy omni completion.
+        if !exists('g:neocomplete#sources#omni#input_patterns')
+          let g:neocomplete#sources#omni#input_patterns = {}
+        endif
+        if !exists('g:neocomplete#force_omni_input_patterns')
+          let g:neocomplete#force_omni_input_patterns = {}
+        endif
+        let g:neocomplete#sources#omni#input_patterns.php =
+                    \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" }
+
+" ******* (( YUNOcommit )) *******
+" {
+    let g:YUNOcommit_after = 20
 " }
 
 " ******* (( zeavim )) *******
 " {
-	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
-
+    let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
 " }
 
 " ******* (( vcoolor )) *******
@@ -545,12 +561,12 @@ call plug#end()
 
 " =========== HACKS =======================
 " {
-	" Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict.
-		function! Multiple_cursors_before()
-			exe 'NeoCompleteLock'
-		endfunction
-	" Enable autocompletion again.
-		function! Multiple_cursors_after()
-			exe 'NeoCompleteUnlock'
-		endfunction
+    " Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict.
+        function! Multiple_cursors_before()
+            exe 'NeoCompleteLock'
+        endfunction
+    " Enable autocompletion again.
+        function! Multiple_cursors_after()
+            exe 'NeoCompleteUnlock'
+        endfunction
 " }
