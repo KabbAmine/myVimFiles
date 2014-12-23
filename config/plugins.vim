@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-21
+" Last modification: 2014-12-25
 " ================================================================
 
 
@@ -360,14 +360,17 @@ call plug#end()
         endif
         " Automatically populate the symbols dictionary with the powerline symbols.
         let g:airline_powerline_fonts = 1
-        " Tabline.
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline#extensions#tabline#show_buffers = 1
-        " Configure the minimum number of buffers needed to show the tabline.
-        let g:airline#extensions#tabline#buffer_min_count = 2
-        " Configure the minimum number of tabs needed to show the tabline.
-        let g:airline#extensions#tabline#tab_min_count = 2
-    endif
+        " Extensions.
+            let g:airline#extensions#tagbar#enabled = 0
+            " Tabline.
+                let g:airline#extensions#tabline#enabled = 1
+                let g:airline#extensions#tabline#show_buffers = 1
+                let g:airline#extensions#tabline#buffer_idx_mode = 1
+                " Configure the minimum number of buffers needed to show the tabline.
+                    let g:airline#extensions#tabline#buffer_min_count = 2
+                " Configure the minimum number of tabs needed to show the tabline.
+                    let g:airline#extensions#tabline#tab_min_count = 2
+        endif
 " }
 
 " ******* (( syntastic )) *******
