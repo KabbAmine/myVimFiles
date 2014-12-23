@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-11-29
+" Last modification: 2014-12-23
 " ================================================================
 
 
@@ -118,7 +118,6 @@ set display=lastline				" Show the last line even if it doesn't fit.
 	else
 		set listchars=tab:╎\ ,trail:•,extends:#,nbsp:.
 	endif
-	set list
 " }
 
 
