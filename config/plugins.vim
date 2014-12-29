@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-25
+" Last modification: 2014-12-28
 " ================================================================
 
 
@@ -79,7 +79,6 @@ endif
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
         Plug 'Shougo/neocomplete.vim'
-        Plug 'esneider/YUNOcommit.vim'
         Plug 'godlygeek/tabular'
         Plug 'kshenoy/vim-signature'
         Plug 'majutsushi/tagbar'
@@ -536,11 +535,6 @@ call plug#end()
         endif
         let g:neocomplete#sources#omni#input_patterns.php =
                     \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-" }
-
-" ******* (( YUNOcommit )) *******
-" {
-    let g:YUNOcommit_after = 20
 " }
 
 " ******* (( zeavim )) *******
