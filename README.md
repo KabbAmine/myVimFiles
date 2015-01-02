@@ -33,7 +33,7 @@ This configuration is personal, so you should remove some things to make it work
 Clone the repo in your personal folder and be sure to have all requirements.
 
 ```
-git clone https://github.com/KabbAmine/myVimFiles ~/
+git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 ```
 
 You'll need some folders so better to create them manually in your vim directory.
@@ -43,7 +43,7 @@ You'll need some folders so better to create them manually in your vim directory
 mkdir -pv ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
 ```
 
-Create a symbolic link of the `vimrc`(Or a simple shortcut in Windows):
+Create a symbolic link of the `vimrc` if you want (Or a simple shortcut in Windows):
 ```
 ln -s ~/.vim/vimrc ~/.vimrc
 ```
@@ -57,3 +57,7 @@ Your vim is now ready.
 Even if this configuration is quite personal, you can use most of it because the files are well documented. Also, take your time to learn mappings and commands (Toggle *tagbar* in `~/.vim/config/minimal-vimrc.vim` or `~/.vim/config/plugins.vim`).
 
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
+
+## ToDo
+
+- Make the config less personal (A post_X files...).
