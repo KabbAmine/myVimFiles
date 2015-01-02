@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-23
+" Last modification: 2015-01-02
 " ================================================================
 
 
@@ -372,7 +372,6 @@ endif
 	cab W w
 	cab Q q
 " }
-
 
 " =========== OMNIFUNC ==============================
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion ***
