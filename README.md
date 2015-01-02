@@ -33,7 +33,7 @@ This configuration is personal, so you should remove some things to make it work
 Clone the repo in your personal folder and be sure to have all requirements.
 
 ```
-git clone https://github.com/KabbAmine/myVimFiles ~/
+git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 ```
 
 You'll need some folders so better to create them manually in your vim directory.
@@ -43,7 +43,7 @@ You'll need some folders so better to create them manually in your vim directory
 mkdir -pv ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
 ```
 
-Create a symbolic link of the `vimrc`(Or a simple shortcut in Windows):
+Create a symbolic link of the `vimrc` if you want (Or a simple shortcut in Windows):
 ```
 ln -s ~/.vim/vimrc ~/.vimrc
 ```
