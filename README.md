@@ -12,21 +12,21 @@ This configuration is personal, so you should remove some things to make it work
 1. [Exuberant ctags](http://ctags.sourceforge.net/) for *tagbar* plugin.
 
 2. Linters for *syntastic* plugin:
-	- c          ->  **gcc**[^linter]
-	- java       ->  **javac**[^linter]
-	- php        ->  **php**[^linter]
-	- python     ->  **python**[^linter]
-	- sh         ->  **sh**[^linter]
+	- c          ->  **gcc**
+	- java       ->  **javac**
+	- php        ->  **php**
+	- python     ->  **python**
+	- sh         ->  **sh**
 	- javascript ->  **jslint**    ->  `npm install -g jslint`
-	- html       ->  **w3**[^linter]
+	- html       ->  **w3**
 	- css        ->  **csslint**   ->  `npm install -g csslint`
 	- sass       ->  **sass**      ->  `gem install sass`
 	- scss       ->  **scss-lint** ->  `gem install scss-lint`
 
 3. This is optional, but there are some filetype specific plugins in `~/.vim/ftplugin/`, please  check them and see if you need the following:
-	- `markdown`[^linter] for a html2markdown quick conversion with `<F9>`.
-	- `g++`[^linter] for a quick C++ file compilation file with `<F9>`.
-	- `Evince`[^linter] in GNU/Linux to open generated pdf from Tex file compilation with `<C-F9>`.
+	- `markdown` for a html2markdown quick conversion with `<F9>`.
+	- `g++` for a quick C++ file compilation file with `<F9>`.
+	- `Evince` in GNU/Linux to open generated pdf from Tex file compilation with `<C-F9>`.
 
 ## Usage
 
@@ -57,5 +57,3 @@ Your vim is now ready.
 Even if this configuration is quite personal, you can use most of it because the files are well documented. Also, take your time to learn mappings and commands (Toggle *tagbar* in `~/.vim/config/minimal-vimrc.vim` or `~/.vim/config/plugins.vim`).
 
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
-
-[^linter]: Present by default or easily installable via the package manager of your distribution.
