@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-16
+" Last modification: 2015-01-03
 " ================================================================
 
 
@@ -27,13 +27,22 @@
 	" *** :Ea		=> ~/.dotfiles/bash/bash_aliases
 	" *** :Ef		=> ~/.dotfiles/bash/bash_functions
 	" *** :Et		=> ~/.dotfiles/tmux/.tmux.conf
-	command! Ev :e! $MYVIMRC
-	execute "command! Evm :e! ".g:vimDir."/config/minimal-vimrc.vim"
-	execute "command! Evp :e! ".g:vimDir."/config/plugins.vim"
-	command! Eb :e! $HOME/.dotfiles/bash/bashrc
-	command! Eba :e! $HOME/.dotfiles/bash/bash_aliases
-	command! Ebf :e! $HOME/.dotfiles/bash/bash_functions
-	command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
+		command! Ev :e! $MYVIMRC
+		execute "command! Evm :e! ".g:vimDir."/config/minimal-vimrc.vim"
+		execute "command! Evp :e! ".g:vimDir."/config/plugins.vim"
+		command! Eb :e! $HOME/.dotfiles/bash/bashrc
+		command! Eba :e! $HOME/.dotfiles/bash/bash_aliases
+		command! Ebf :e! $HOME/.dotfiles/bash/bash_functions
+		command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
+" }
+
+" Automatically source vimrc & config files on save.
+" {
+	augroup resource
+		autocmd!
+		autocmd bufwritepost $MYVIMRC source $MYVIMRC
+		execute "autocmd bufwritepost ".expand(g:vimDir)."/config/* source $MYVIMRC"
+	augroup END
 " }
 
 " Source external files.

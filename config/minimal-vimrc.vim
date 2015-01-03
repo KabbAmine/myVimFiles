@@ -22,16 +22,16 @@ set nocompatible		" No compatible with Vi.
 " }
 
 " What to write in Viminfo and his location.
-execute "set vi='100,<50,s10,h,n".g:vimDir."/various/viminfo"
+	execute "set vi='100,<50,s10,h,n".g:vimDir."/various/viminfo"
 
 " Add the file systags to the tags option.
-execute "set tags+=".g:vimDir."/various/systags"
+	execute "set tags+=".g:vimDir."/various/systags"
 
 " Using a dark background.
-set background=dark
+	set background=dark
 
 " General theme for tty
-colo delek
+	colo delek
 
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen.
 " {
@@ -51,9 +51,7 @@ colo delek
 " }
 	
 " Directory where to store files with :mkview.
-" {
 	execute "set viewdir=".g:vimDir."/various/view"
-" }
 
 " Make <Alt> works in terminal.
 " (http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459)
@@ -187,17 +185,15 @@ endif
 		" *** <C-d>		=> Duplicate line.
 	" *** INSERT MODE
 		" *** <A-d> => Duplicate line.
-		" *** <A-k> => Delete line.
-		" *** <A-$> => Delete till end of line.
+		" *** <A-q> => Delete line.
 		" *** <A-o> => Insert new line.
 		" *** <A-a> => Insert new line before.
 		" *** <A-"> => Change inside ", ', (, ...
-		" *** <A-t> => Change inside xml tag
 			vnoremap <silent> <C-d> :t'><CR>
 			nnoremap <silent> <C-d> yyp
 			inoremap <silent> <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
 			inoremap <silent> <A-$> <C-o>d$
-			inoremap <silent> <A-k> <C-o>$<C-u>
+			inoremap <silent> <A-q> <C-o>$<C-u>
 			inoremap <silent> <A-o> <C-o>o
 			inoremap <silent> <A-a> <C-o>O
 			inoremap <silent> <A-'> <C-o>ci'
@@ -205,7 +201,6 @@ endif
 			inoremap <silent> <A-(> <C-o>ci(
 			inoremap <silent> <A-{> <C-o>ci{
 			inoremap <silent> <A-[> <C-o>ci[
-			" inoremap <silent> <A-t> <C-o>cit
 " }
 
 " Apply the option 'only' *******
@@ -218,22 +213,12 @@ endif
 
 " Open or close the fold *******
 " {
-	" *** <space>
-		nnoremap <silent> <space> za
-		vmap <silent> <space> :fold<CR>
+	nnoremap <silent> <space> za
+	vmap <silent> <space> :fold<CR>
 " }
 
 " Remove the highlighting of 'hlsearch' *******
-" {
-	" *** <F6>
-		map <silent> <F6> :nohlsearch<CR>
-" }
-
-" Make shortcuts for completion *******
-" {
-	" *** <c-space>		=> Omni-completion.
-		" inoremap <silent> <c-space> <c-x><c-o><c-p>
-" }
+	map <silent> <F6> :nohlsearch<CR>
 
 " Operations on tabs *******
 " {
@@ -246,34 +231,21 @@ endif
 " Operations on buffers *******
 " {
 	" *** <C-S-left>		=> Previous.
-	" *** <C-S-right>		=> Next. 
-	" *** <C-q>		=> Delete buffer.
+	" *** <C-S-right>		=> Next.
+	" *** <C-q>				=> Delete buffer.
 		map <silent> <C-S-left> :bp!<CR>
 		map <silent> <C-S-right> :bn!<CR>
 		nnoremap <silent> <C-q> :bd<CR>
 " }
 
 " Repeat the last command *******
-" {
-	" *** zz
-		nnoremap zz @:
-" }
+	nnoremap zz @:
 
 
 " =========== COMMANDS ==============================
 
 " Make Y work as other capitals.
 	nnoremap Y y$
-
-" Automatically source vimrc on save.
-" P.S: Refresh (( airline )) theme if present.
-" {
-	if !exists("g:airline_theme")
-		autocmd! bufwritepost $MYVIMRC source $MYVIMRC
-	else
-		autocmd! bufwritepost $MYVIMRC source $MYVIMRC | sleep 10m | AirlineRefresh
-	endif
-" }
 
 " Make cursor line appear only in INSERT mode (Terminal only)
 " {
@@ -291,22 +263,19 @@ endif
 	" *** :DelD		=> Delete directory(ies) in windows.
 	" *** :DelF		=> Delete file(s) in windows.
 	" *** :Del		=> Delete file(s) or folder(s).
-	if g:hasWin
-		command! -complete=file -nargs=+ CreD :!MD <args>
-		command! -complete=file -nargs=+ DelD :!RD /S <args> 
-		command! -complete=file -nargs=+ DelF :!DEL /P <args> 
-	else
-		command! -complete=file -nargs=+ CreD :!mkdir -pv <args> 
-		command! -complete=file -nargs=+ SCreD :!sudo mkdir -pv <args> 
-		command! -complete=file -nargs=+ Del :!rm -Irv <args> 
-	endif
+		if g:hasWin
+			command! -complete=file -nargs=+ CreD :!MD <args>
+			command! -complete=file -nargs=+ DelD :!RD /S <args> 
+			command! -complete=file -nargs=+ DelF :!DEL /P <args> 
+		else
+			command! -complete=file -nargs=+ CreD :!mkdir -pv <args> 
+			command! -complete=file -nargs=+ SCreD :!sudo mkdir -pv <args> 
+			command! -complete=file -nargs=+ Del :!rm -Irv <args> 
+		endif
 " }
 
 " Set md files as a markdown files.
-" {
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-" }
-
 
 " Define the file type *******
 " {
@@ -345,18 +314,12 @@ endif
 
 " Conversion between TABS ans SPACES *******
 " {
-	" *** :TabToSpace
-	" *** :SpaceToTab
-		command! TabToSpace :setlocal expandtab | %retab!
-		command! SpaceToTab :setlocal noexpandtab | %retab!
+	command! TabToSpace :setlocal expandtab | %retab!
+	command! SpaceToTab :setlocal noexpandtab | %retab!
 " }
 
 " Make the current file directory as the vim current directory *******
-" {
-	" *** :Dir
 	command! Dir :cd %:p:h
-" }
-
 
 
 " =========== ABBREVIATIONS ==============================
@@ -373,6 +336,7 @@ endif
 	cab W w
 	cab Q q
 " }
+
 
 " =========== OMNIFUNC ==============================
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion ***
