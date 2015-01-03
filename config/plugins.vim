@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2014-12-28
+" Last modification: 2015-01-03
 " ================================================================
 
 
@@ -55,6 +55,9 @@ endif
     " For Git
         Plug 'airblade/vim-gitgutter'
         Plug 'tpope/vim-fugitive'
+    " (( vim-jsbeautify ))
+        Plug 'maksimr/vim-jsbeautify'
+        Plug 'einars/js-beautify'
     " (( fuzzyfinder ))
         Plug 'L9'
         Plug 'FuzzyFinder'
@@ -75,6 +78,7 @@ endif
         Plug 'syngan/vim-vimlint', {'for': 'vim'}
         Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
     " Various
+        Plug 'Yggdroot/indentLine'
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'Lokaltog/vim-easymotion'
         Plug 'Raimondi/delimitMate'
@@ -282,6 +286,13 @@ call plug#end()
         command! GG :GitGutterToggle
         command! Gn :GitGutterNextHunk
         command! Gp :GitGutterPrevHunk
+" }
+
+" ******* (( vim-jsbeautify )) *******
+" {
+	autocmd FileType html command! HtmlBeautify :call HtmlBeautify()
+	autocmd FileType css command! CssBeautify :call CSSBeautify()
+	autocmd FileType javascript command! JsBeautify :call JsBeautify()
 " }
 
 
@@ -535,6 +546,11 @@ call plug#end()
         endif
         let g:neocomplete#sources#omni#input_patterns.php =
                     \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" }
+
+" ******* (( vim-jsbeautify )) *******
+" {
+	let g:editorconfig_Beautifier = expand(g:vimDir).'/various/jsbeautify/.editorconfig'
 " }
 
 " ******* (( zeavim )) *******
