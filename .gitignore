@@ -1,4 +1,7 @@
 plugin
 spell
-various
+
+various/*
+!various/jsbeautify/
+
 plugged/*
