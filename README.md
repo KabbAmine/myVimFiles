@@ -1,11 +1,12 @@
 # MyVimFiles
 
+This repo contains my vim configuration that I've done and still doing with :heart: for more than 2 years now, and some other vim folders.
 
-This repo contains the vimrc that I've done and still doing with *love* for more than 2 years now, and also some other vim folders.
+It works on both GNU/Linux and Windows (But may be better in GNU/Linux).
+
+I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
 
 ![My vim](.img/myVim.png)
-
-This configuration is personal, so you should remove some things to make it work great for you. It works on both GNU/Linux and Windows (But may be better in GNU/Linux).
 
 ## Requirements
 
@@ -23,41 +24,27 @@ This configuration is personal, so you should remove some things to make it work
 	- sass       ->  **sass**      ->  `gem install sass`
 	- scss       ->  **scss-lint** ->  `gem install scss-lint`
 
-3. This is optional, but there are some filetype specific plugins in `~/.vim/ftplugin/`, please  check them and see if you need the following:
-	- `markdown` for a html2markdown quick conversion with `<F9>`.
-	- `g++` for a quick C++ file compilation file with `<F9>`.
-	- `Evince` in GNU/Linux to open generated pdf from Tex file compilation with `<C-F9>`.
+3. For `~/.vim/ftplugin/` files (optional):
+	- `markdown`
+	- `g++`
+	- `Evince` in GNU/Linux to open generated pdf from Tex file compilation.
 
-## Usage
-
-Clone the repo in your personal folder and be sure to have all requirements.
+## Instructions
 
 ```
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
-```
-
-You'll need some folders so better to create them manually in your vim directory.
-
-```
-# In Unix
 mkdir -pv ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
+ln -s ~/.vim/vimrc ~/.vimrc		# Not required
 ```
 
-Create a symbolic link of the `vimrc` if you want (Or a simple shortcut in Windows):
-```
-ln -s ~/.vim/vimrc ~/.vimrc
-```
+Then in Vim:
 
-Open vim and upgrade `vim-plug` with `:PlugUpgrade`, then install all the plugins with `:PlugInstall`.
-
-Your vim is now ready.
+```
+:PU		# Upgrade vim-plug
+:PI		# Install all the plugins
+```
+Have fun :smile:
 
 ## Notes
 
-Even if this configuration is quite personal, you can use most of it because the files are well documented. Also, take your time to learn mappings and commands (Toggle *tagbar* in `~/.vim/config/minimal-vimrc.vim` or `~/.vim/config/plugins.vim`).
-
-I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
-
-## ToDo
-
-- Make the config less personal (A post_X files...).
+This configuration is a little personal (Commands & mappings) but well documented, so you can use most of it by changing a few things, just take a look on the files before.

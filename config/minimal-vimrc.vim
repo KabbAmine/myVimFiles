@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-02
+" Last modification: 2015-01-03
 " ================================================================
 
 
@@ -254,7 +254,6 @@ endif
 		autocmd InsertLeave * set nocursorline
 	endif
 " }
-
 
 " Commands for manipulating directories and deleting files *******
 " {
