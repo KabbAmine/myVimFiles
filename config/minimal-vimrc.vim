@@ -119,6 +119,7 @@ set display=lastline				" Show the last line even if it doesn't fit.
 		set listchars=tab:╎\ ,trail:•,extends:#,nbsp:.
 	endif
 " }
+set list
 
 
 " ========== MOVE, SEARCH & PATTERNS ===========================
