@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-03
+" Last modification: 2015-01-08
 " ================================================================
 
 
@@ -55,9 +55,6 @@ endif
 	" For Git
 		Plug 'airblade/vim-gitgutter'
 		Plug 'tpope/vim-fugitive'
-	" (( vim-jsbeautify ))
-		Plug 'einars/js-beautify'
-		Plug 'maksimr/vim-jsbeautify'
 	" (( fuzzyfinder ))
 		Plug 'FuzzyFinder'
 		Plug 'L9'
@@ -79,6 +76,7 @@ endif
 		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
+		Plug 'Chiel92/vim-autoformat'
 		Plug 'godlygeek/tabular'
 		Plug 'kshenoy/vim-signature'
 		Plug 'Lokaltog/vim-easymotion'
@@ -274,13 +272,6 @@ call plug#end()
 		command! GG :GitGutterToggle
 		command! Gn :GitGutterNextHunk
 		command! Gp :GitGutterPrevHunk
-" }
-
-" ******* (( vim-jsbeautify )) *******
-" {
-	autocmd FileType html command! HtmlBeautify :call HtmlBeautify()
-	autocmd FileType css command! CssBeautify :call CSSBeautify()
-	autocmd FileType javascript command! JsBeautify :call JsBeautify()
 " }
 
 
@@ -512,8 +503,11 @@ call plug#end()
 					\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 " }
 
-" ******* (( vim-jsbeautify )) *******
-	let g:editorconfig_Beautifier = expand(g:vimDir).'/various/jsbeautify/.editorconfig'
+" ******* (( autoformat )) *******
+" {
+	let g:formatprg_html = "html-beautify"
+	let g:formatprg_args_expr_html = '"--indent-size ".&shiftwidth." --indent-inner-html true  --preserve-newlines -f - "'
+" }
 
 " ******* (( zeavim )) *******
 	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
