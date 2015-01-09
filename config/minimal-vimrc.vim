@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-03
+" Last modification: 2015-01-09
 " ================================================================
 
 
@@ -61,6 +61,16 @@ while c <= 'z'
 	exec "imap \e".c." <A-".c.">"
 	let c = nr2char(1+char2nr(c))
 endwhile
+
+" Show syntax highlighting groups for word under cursor
+" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 " ========== GUI ===============================================
 if has("gui_running")
