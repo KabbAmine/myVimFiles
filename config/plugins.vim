@@ -108,6 +108,7 @@ endif
 		execute "Plug '".s:myPlugins."termivator' "
 		execute "Plug '".s:myPlugins."vCoolor' "
 		execute "Plug '".s:myPlugins."vullScreen' "
+		execute "Plug '".s:myPlugins."yowish' "
 		execute "Plug '".s:myPlugins."zeavim' "
  " }
 
@@ -120,7 +121,7 @@ call plug#end()
 	if g:hasWin
 		colorscheme Tomorrow-Night-Eighties
 	elseif has("gui_running") || exists("$TMUX")
-		colorscheme Tomorrow-Night-Eighties
+		colorscheme yowish
 	elseif exists("$TERM") && ($TERM =~ "^xterm")
 		set term=xterm-256color		" Force using 256 colors.
 		colorscheme Tomorrow-Night-Eighties
