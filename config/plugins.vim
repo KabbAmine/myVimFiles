@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-08
+" Last modification: 2015-01-10
 " ================================================================
 
 
@@ -40,7 +40,7 @@ endif
 		Plug 'StanAngeloff/php.vim'
 	" For HTML, CSS, SASS & markdown
 		Plug 'docunext/closetag.vim'
-		Plug 'lilydjwg/colorizer', { 'for': ['css', 'scss', 'html', 'php'] }
+		Plug 'lilydjwg/colorizer'
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
