@@ -21,3 +21,15 @@ endsnippet
 snippet plug "Plugin for Vim-plug" b
 Plug '$1'
 endsnippet
+
+snippet hi "Highlight group" b
+hi ${1:group} guibg=${2:NONE} guifg=${3:NONE} gui=${4:NONE}
+endsnippet
+
+snippet hil "Highlight link" b
+hi! link ${1:group} ${2:toGroup}
+endsnippet
+
+snippet hic "Custom highlight" b
+call s:Hi('${1:group}' ,'${2:guibg}' ,'${3:guifg}' ,'${4:gui}')
+endsnippet
