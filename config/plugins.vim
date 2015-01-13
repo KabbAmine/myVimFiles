@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-10
+" Last modification: 2015-01-13
 " ================================================================
 
 
@@ -119,12 +119,12 @@ call plug#end()
 " Themes.
 " {
 	if g:hasWin
-		colorscheme Tomorrow-Night-Eighties
+		colorscheme yowish
 	elseif has("gui_running") || exists("$TMUX")
 		colorscheme yowish
 	elseif exists("$TERM") && ($TERM =~ "^xterm")
 		set term=xterm-256color		" Force using 256 colors.
-		colorscheme Tomorrow-Night-Eighties
+		colorscheme yowish
 	endif
 " }
 
@@ -343,7 +343,6 @@ call plug#end()
 " ******* (( airline )) *******
 " {
 	if has("gui_running") || exists("$TMUX")
-		let g:airline_theme = 'jellybeans'
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
 		endif
