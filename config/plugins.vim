@@ -40,14 +40,13 @@ endif
 		Plug 'StanAngeloff/php.vim'
 	" For HTML, CSS, SASS & markdown
 		Plug 'docunext/closetag.vim'
-		" Plug 'lilydjwg/colorizer'
-		Plug 'UncleBill/colorizer'		" Fork of lilydjwg/colorizer
+		Plug 'lilydjwg/colorizer'
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim'
 		Plug 'plasticboy/vim-markdown'
 		Plug 'tpope/vim-haml'		" Vim runtime files for Haml, Sass, and SCSS.
 	" For JavaScript
-		Plug 'leshill/vim-json', { 'for': ['json'] }
+		Plug 'leshill/vim-json', { 'for': 'json' }
 		Plug 'pangloss/vim-javascript'
 	" For Python
 		Plug 'hdima/python-syntax'
@@ -275,6 +274,10 @@ call plug#end()
 		command! Gn :GitGutterNextHunk
 		command! Gp :GitGutterPrevHunk
 " }
+
+" Set md files as a markdown files.
+	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
 
 
 " =========== OMNIFUNC ==============================
@@ -508,6 +511,12 @@ call plug#end()
 " {
 	let g:formatprg_html = "html-beautify"
 	let g:formatprg_args_expr_html = '"--indent-size ".&shiftwidth." --indent-inner-html true  --preserve-newlines -f - "'
+" }
+
+" ******* (( colorizer )) *******
+" {
+	let g:colorizer_nomap = 1
+	let g:colorizer_startup = 0
 " }
 
 " ******* (( zeavim )) *******

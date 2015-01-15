@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-13
+" Last modification: 2015-01-16
 " ================================================================
 
 
@@ -283,9 +283,6 @@ endif
 			command! -complete=file -nargs=+ Del :!rm -Irv <args> 
 		endif
 " }
-
-" Set md files as a markdown files.
-	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Define the file type *******
 " {
