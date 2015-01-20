@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-16
+" Last modification: 2015-01-21
 " ================================================================
 
 
@@ -38,6 +38,7 @@ endif
 		Plug '2072/PHP-Indenting-for-VIm'
 		Plug 'shawncplus/phpcomplete.vim'
 		Plug 'StanAngeloff/php.vim'
+		Plug 'sumpygump/php-documentor-vim'
 	" For HTML, CSS, SASS & markdown
 		Plug 'docunext/closetag.vim'
 		Plug 'lilydjwg/colorizer'
@@ -110,6 +111,7 @@ endif
 		execute "Plug '".s:myPlugins."vullScreen' "
 		execute "Plug '".s:myPlugins."yowish' "
 		execute "Plug '".s:myPlugins."zeavim' "
+		execute "Plug '".s:myPlugins."lowly' "
  " }
 
 call plug#end()
@@ -130,6 +132,13 @@ call plug#end()
 
 
 " =========== MAPPING ==========================================
+" (( php-documentor )) *******
+" {
+	nnoremap <silent> <C-p> :call PhpDoc()<CR>
+	inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
+	vnoremap <silent> <C-p> :call PhpDocRange()<CR>
+" }
+
 " (( vim-signature )) *******
 " {
 	let g:SignatureMap = {
@@ -278,6 +287,10 @@ call plug#end()
 " Set md files as a markdown files.
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" ******* (( php-documentor )) *******
+" {
+	let g:pdv_cfg_ClassTags = ["author"]
+" }
 
 
 " =========== OMNIFUNC ==============================
