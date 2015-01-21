@@ -57,7 +57,7 @@ endif
 		Plug 'airblade/vim-gitgutter'
 		Plug 'tpope/vim-fugitive'
 	" (( fuzzyfinder ))
-		Plug 'FuzzyFinder'
+		Plug 'Tinche/FuzzyFinder'
 		Plug 'L9'
 	" (( ultisnips ))
 		Plug 'honza/vim-snippets'
