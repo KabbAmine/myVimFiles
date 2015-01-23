@@ -11,16 +11,18 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 ## Requirements & external programs
 
 1. For the plugins:
+	
+	- [Wmctrl](http://tomas.styblo.name/wmctrl/) for *vullscreen*.
 
 	- [Exuberant ctags](http://ctags.sourceforge.net/) for *tagbar*.
 		
 	- *Syntastic*:
 
-		- `gcc`^*^
-		- `javac`^*^
-		- `php`^*^
-		- `python`^*^
-		- `sh`^*^
+		- `gcc`*
+		- `javac`*
+		- `php`*
+		- `python`*
+		- `sh`*
 		- `jslint`    ->  `npm install -g jslint`
 		- `w3`* for html
 		- `csslint`   ->  `npm install -g csslint`
@@ -29,15 +31,15 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 	- *Autoformat*:
 		
-		- For html, css & javascript -> `npm install -g js-beautify`.
-		- For scss, `sass-convert` shipped with `sass`.
+		- For `html`, `css` & `javascript` -> `npm install -g js-beautify`.
+		- `scss` uses `sass-convert` which is shipped with `sass`.
 
 2. For `~/.vim/ftplugin/` files (optional):
-	- `markdown`^*^
-	- `g++`^*^
-	- `Evince`^*^ in GNU/Linux to open generated pdf from Tex file compilation.
+	- `markdown`*
+	- `g++`*
+	- `Evince`* in GNU/Linux to open generated pdf from Tex file compilation.
 
-^*^ *Present by default, or easily installable in your distribution.*
+\* *Present by default, or easily installable in your distribution.*
 
 ## Instructions
 
