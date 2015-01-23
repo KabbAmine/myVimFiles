@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-21
+" Last modification: 2015-01-23
 " ================================================================
 
 
@@ -87,6 +87,7 @@ endif
 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 		Plug 'Raimondi/delimitMate'
 		Plug 'rhysd/clever-f.vim'
+		Plug 'rom399/vim-colorsheme-scroller'
 		Plug 'Shougo/neocomplete.vim'
 		Plug 'sk1418/Join'
 		Plug 'terryma/vim-multiple-cursors'
