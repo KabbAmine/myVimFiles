@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-23
+" Last modification: 2015-01-24
 " ================================================================
 
 
@@ -107,12 +107,14 @@ endif
 		Plug 'sjl/badwolf'
 		Plug 'whatyouhide/vim-gotham'
 	" My Plugins
+		execute "Plug '".s:myPlugins."lowly' "
 		execute "Plug '".s:myPlugins."termivator' "
+		execute "Plug '".s:myPlugins."test' "
 		execute "Plug '".s:myPlugins."vCoolor' "
+		execute "Plug '".s:myPlugins."vimSimpleLib' "
 		execute "Plug '".s:myPlugins."vullScreen' "
 		execute "Plug '".s:myPlugins."yowish' "
 		execute "Plug '".s:myPlugins."zeavim' "
-		execute "Plug '".s:myPlugins."lowly' "
  " }
 
 call plug#end()
