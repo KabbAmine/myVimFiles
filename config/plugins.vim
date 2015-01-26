@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-24
+" Last modification: 2015-01-26
 " ================================================================
 
 
@@ -35,24 +35,24 @@ endif
 " Plugins:
 " {
 	" For PHP
-		Plug '2072/PHP-Indenting-for-VIm'
-		Plug 'shawncplus/phpcomplete.vim'
-		Plug 'StanAngeloff/php.vim'
-		Plug 'sumpygump/php-documentor-vim'
+		Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+		Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
+		Plug 'StanAngeloff/php.vim', {'for': 'php'}
+		Plug 'sumpygump/php-documentor-vim', {'for': 'php'}
 	" For HTML, CSS, SASS & markdown
-		Plug 'docunext/closetag.vim'
-		Plug 'lilydjwg/colorizer'
-		Plug 'mattn/emmet-vim'
-		Plug 'othree/html5.vim'
-		Plug 'plasticboy/vim-markdown'
-		Plug 'tpope/vim-haml'		" Vim runtime files for Haml, Sass, and SCSS.
+		Plug 'docunext/closetag.vim', {'for': ['html', 'php', 'xml']}
+		Plug 'lilydjwg/colorizer', {'for': ['html', 'php', 'xml']}
+		Plug 'mattn/emmet-vim', {'for': ['html', 'php', 'xml']}
+		Plug 'othree/html5.vim', {'for': ['html', 'php', 'xml']}
+		Plug 'plasticboy/vim-markdown', {'for': ['html', 'php', 'xml']}
+		Plug 'tpope/vim-haml', {'for': ['sass', 'scss', 'haml']}
 	" For JavaScript
 		Plug 'leshill/vim-json', { 'for': 'json' }
-		Plug 'pangloss/vim-javascript'
+		Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 	" For Python
-		Plug 'hdima/python-syntax'
+		Plug 'hdima/python-syntax', { 'for': 'python' }
 	" For Java
-		Plug 'javacomplete'
+		Plug 'javacomplete', { 'for': 'java' }
 	" For Git
 		Plug 'airblade/vim-gitgutter'
 		Plug 'tpope/vim-fugitive'
@@ -65,31 +65,31 @@ endif
 	" (( airline ))
 		Plug 'bling/vim-airline'
 	" (( nerdtree ))
-		Plug 'scrooloose/nerdtree'
+		Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 	" (( ctrlp ))
 		Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP, more active repo.
-		Plug 'fisadev/vim-ctrlp-cmdpalette'
-		Plug 'mattn/ctrlp-register'
-		Plug 'tacahiroy/ctrlp-funky'
+		Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
+		Plug 'mattn/ctrlp-register', { 'on': 'CtrlPRegister' }
+		Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
 	" (( syntastic )) & linters
 		Plug 'scrooloose/syntastic'
 		Plug 'syngan/vim-vimlint', {'for': 'vim'}
 		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
-		Plug 'Chiel92/vim-autoformat'
-		Plug 'godlygeek/tabular'
+		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
+		Plug 'godlygeek/tabular', { 'on': 'Tabular' }
 		Plug 'kshenoy/vim-signature'
 		Plug 'Lokaltog/vim-easymotion'
-		Plug 'majutsushi/tagbar'
+		Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 		Plug 'matchit.zip'
 		Plug 'matze/vim-move'
 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 		Plug 'Raimondi/delimitMate'
 		Plug 'rhysd/clever-f.vim'
-		Plug 'rom399/vim-colorsheme-scroller'
+		Plug 'rom399/vim-colorsheme-scroller', { 'on': 'SCROLLCOLOR' }
 		Plug 'Shougo/neocomplete.vim'
-		Plug 'sk1418/Join'
+		Plug 'sk1418/Join', { 'on': 'Join' }
 		Plug 'terryma/vim-multiple-cursors'
 		Plug 'tommcdo/vim-exchange'
 		Plug 'tomtom/tcomment_vim'
