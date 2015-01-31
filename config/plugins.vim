@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-01-26
+" Last modification: 2015-01-31
 " ================================================================
 
 
@@ -78,6 +78,7 @@ endif
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
 		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
+		Plug 'gerw/vim-HiLinkTrace', { 'on': ['HLT', 'HLTm']}
 		Plug 'godlygeek/tabular', { 'on': 'Tabular' }
 		Plug 'kshenoy/vim-signature'
 		Plug 'Lokaltog/vim-easymotion'
@@ -135,6 +136,11 @@ call plug#end()
 
 
 " =========== MAPPING ==========================================
+" (( HiLinkTrace )) *******
+" {
+	nnoremap <silent> gh :HLT!<CR>
+" }
+
 " (( php-documentor )) *******
 " {
 	nnoremap <silent> <C-p> :call PhpDoc()<CR>
