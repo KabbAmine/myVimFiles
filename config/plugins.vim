@@ -1,13 +1,13 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-02-03
+" Last modification: 2015-02-07
 " ================================================================
 
 
 " Personal vim plugins directory.
 " {
 	if g:hasWin
-		let s:myPlugins = "Z:\\k-bag\\Projects\\pluginsVim\\"
+		let s:myPlugins = "z:\\k-bag\\Projects\\pluginsVim\\"
 	else
 		let s:myPlugins = "$HOME/Projects/pluginsVim/"
 	endif
