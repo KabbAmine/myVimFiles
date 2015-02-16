@@ -606,6 +606,7 @@ function! s:prepare()
   endif
   silent! unmap <buffer> <cr>
   silent! unmap <buffer> L
+  silent! unmap <buffer> o
   silent! unmap <buffer> X
   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap cursorline modifiable
   setf vim-plug
@@ -1003,23 +1004,36 @@ function! s:update_ruby()
     %["#{arg.gsub('"', '\"')}"]
   end
 
-  def killall pid
-    pids = [pid]
-    unless `which pgrep 2> /dev/null`.empty?
-      children = pids
-      until children.empty?
-        children = children.map { |pid|
-          `pgrep -P #{pid}`.lines.map { |l| l.chomp }
-        }.flatten
-        pids += children
-      end
-    end
-    pids.each { |pid| Process.kill 'TERM', pid.to_i rescue nil }
-  end
-
+  require 'rubygems'
   require 'thread'
   require 'fileutils'
   require 'timeout'
+
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('1.9')
+    def popen cmd
+      IO.popen(cmd, :pgroup => true)
+    end
+    def killall pid
+      Process.kill 'TERM', - pid rescue nil
+    end
+  else
+    def popen cmd
+      IO.popen(cmd)
+    end
+    def killall pid
+      pids = [pid]
+      unless `which pgrep 2> /dev/null`.empty?
+        children = pids
+        until children.empty?
+          children = children.map { |pid|
+            `pgrep -P #{pid}`.lines.map { |l| l.chomp }
+          }.flatten
+          pids += children
+        end
+      end
+      pids.each { |pid| Process.kill 'TERM', pid.to_i rescue nil }
+    end
+  end
   running = true
   iswin = VIM::evaluate('s:is_win').to_i == 1
   pull  = VIM::evaluate('s:update.pull').to_i == 1
@@ -1086,7 +1100,7 @@ function! s:update_ruby()
           File.unlink tmp rescue nil
         end
       else
-        fd = IO.popen(cmd).extend(PlugStream)
+        fd = popen(cmd).extend(PlugStream)
         first_line = true
         log_prob = 1.0 / nthr
         while line = Timeout::timeout(timeout) { fd.get_line }
@@ -1522,6 +1536,7 @@ function! s:diff()
 
   call setline(1, cnt == 0 ? 'No updates.' : 'Last update:')
   nnoremap <silent> <buffer> <cr> :silent! call <SID>preview_commit()<cr>
+  nnoremap <silent> <buffer> o    :silent! call <SID>preview_commit()<cr>
   nnoremap <silent> <buffer> X    :call <SID>revert()<cr>
   normal! gg
   setlocal nomodifiable
