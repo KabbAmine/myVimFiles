@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-02-07
+" Last modification: 2015-02-18
 " ================================================================
 
 
@@ -44,7 +44,7 @@ endif
 		Plug 'lilydjwg/colorizer', {'for': ['html', 'php', 'xml', 'vim']}
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim', {'for': ['html', 'php', 'xml']}
-		Plug 'plasticboy/vim-markdown', {'for': ['html', 'php', 'xml']}
+		Plug 'plasticboy/vim-markdown', {'for': ['md', 'markdown']}
 		Plug 'tpope/vim-haml', {'for': ['sass', 'scss', 'haml']}
 	" For JavaScript
 		Plug 'leshill/vim-json', { 'for': 'json' }
