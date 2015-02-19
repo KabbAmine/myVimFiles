@@ -41,7 +41,7 @@ endif
 		Plug 'sumpygump/php-documentor-vim', {'for': 'php'}
 	" For HTML, CSS, SASS & markdown
 		Plug 'docunext/closetag.vim', {'for': ['html', 'php', 'xml']}
-		Plug 'lilydjwg/colorizer', {'for': ['html', 'php', 'xml', 'vim']}
+		Plug 'lilydjwg/colorizer', {'for': ['html', 'css', 'scss', 'php', 'xml', 'vim']}
 		Plug 'mattn/emmet-vim'
 		Plug 'othree/html5.vim', {'for': ['html', 'php', 'xml']}
 		Plug 'plasticboy/vim-markdown', {'for': ['md', 'markdown']}
