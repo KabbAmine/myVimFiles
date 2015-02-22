@@ -33,6 +33,10 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		
 		- For `html`, `css` & `javascript` -> `npm install -g js-beautify`.
 		- `scss` uses `sass-convert` which is shipped with `sass`.
+	
+	- *vim-livedown*
+
+		- `npm -g livedown`
 
 2. For `~/.vim/ftplugin/` files (optional):
 	- `markdown`*
@@ -40,6 +44,11 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 	- `Evince`* in GNU/Linux to open generated pdf from Tex file compilation.
 
 \* *Present by default, or easily installable in your distribution.*
+
+3. Fonts from [here](https://github.com/powerline/fonts):
+
+	- 'DejaVu Sans Mono for Powerline' in Windows.
+	- 'Ubuntu Mono derivative powerline' in GNU/Linux.
 
 ## Instructions
 
