@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-02-19
+" Last modification: 2015-02-22
 " ================================================================
 
 
@@ -297,11 +297,6 @@ call plug#end()
 " Set md files as a markdown files.
 	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
-" ******* (( php-documentor )) *******
-" {
-	let g:pdv_cfg_ClassTags = ["author"]
-" }
-
 
 " =========== OMNIFUNC ==============================
 " For (( javacomplete ))
@@ -540,6 +535,11 @@ call plug#end()
 " {
 	let g:colorizer_nomap = 1
 	let g:colorizer_startup = 0
+" }
+
+" ******* (( php-documentor )) *******
+" {
+	let g:pdv_cfg_ClassTags = ["author"]
 " }
 
 " ******* (( zeavim )) *******
