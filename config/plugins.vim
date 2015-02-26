@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-02-22
+" Last modification: 2015-02-26
 " ================================================================
 
 
@@ -73,8 +73,6 @@ endif
 		Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
 	" (( syntastic )) & linters
 		Plug 'scrooloose/syntastic'
-		Plug 'syngan/vim-vimlint', {'for': 'vim'}
-		Plug 'ynkdir/vim-vimlparser', {'for': 'vim'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
 		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
@@ -389,9 +387,10 @@ call plug#end()
 	let g:syntastic_html_checkers = ['w3']
 	let g:syntastic_javascript_checkers = ['jslint']
 	let g:syntastic_scss_checkers = ['scss_lint']
+	let g:syntastic_vim_checkers = ['vint']
 	let g:syntastic_mode_map = { "mode": "passive",
 				\ "active_filetypes": [],
-				\ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss"]
+				\ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss", "vim"]
 				\ }
 " }
 
