@@ -39,7 +39,8 @@ endif
 		Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 		Plug 'StanAngeloff/php.vim', {'for': 'php'}
 		Plug 'sumpygump/php-documentor-vim', {'for': 'php'}
-	" For HTML, CSS, SASS & markdown
+	" For HTML, CSS, jade, SASS & markdown
+		Plug 'digitaltoad/vim-jade', {'for': ['jade']}
 		Plug 'docunext/closetag.vim', {'for': ['html', 'php', 'xml']}
 		Plug 'lilydjwg/colorizer', {'for': ['html', 'css', 'scss', 'php', 'xml', 'vim']}
 		Plug 'mattn/emmet-vim'
