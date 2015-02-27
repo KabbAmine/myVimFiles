@@ -28,7 +28,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `csslint`   -> `npm install -g csslint`
 		- `sass`      -> `gem install sass`
 		- `scss-lint` -> `gem install scss-lint`
-		- 'vint'      -> 'pip install vim-vint'
+		- `vint`      -> `pip install vim-vint`
 
 	- *Autoformat*:
 		
