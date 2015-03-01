@@ -337,7 +337,12 @@ call plug#end()
 		let NERDTreeAutoDeleteBuffer=1
 	" Single-clic for folder nodes and double for files.
 		let NERDTreeMouseMode=2
+	" Automatically remove a buffer when his file is being deleted/renamed via the menu.
+		let NERDTreeAutoDeleteBuffer=1
+	" Case sensitive sorting.
+		let NERDTreeCaseSensitiveSort=1
 	let NERDTreeDirArrows=1
+	let NERDTreeHijackNetrw=1
 " }
 
 " " ******* (( python-syntax )) *******
@@ -409,10 +414,6 @@ call plug#end()
 " {
 	let g:undotree_SetFocusWhenToggle = 1
 	let g:undotree_WindowLayout = 'botright'
-	" Automatically remove a buffer when his file is being deleted/renamed via the menu.
-		let NERDTreeAutoDeleteBuffer=1
-	" Case sensitive sorting.
-		let NERDTreeCaseSensitiveSort=1
 " }
 
 " ******* (( delimitmate )) *******
