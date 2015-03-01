@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-02-26
+" Last modification: 2015-03-02
 " ================================================================
 
 
@@ -539,7 +539,7 @@ call plug#end()
 
 " ******* (( php-documentor )) *******
 " {
-	let g:pdv_cfg_ClassTags = ["author"]
+	let g:pdv_cfg_ClassTags = []
 " }
 
 " ******* (( zeavim )) *******
