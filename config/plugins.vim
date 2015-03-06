@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-02
+" Last modification: 2015-03-06
 " ================================================================
 
 
@@ -383,14 +383,22 @@ call plug#end()
 
 " ******* (( syntastic )) *******
 " {
+    let g:syntastic_check_on_open = 1
 	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_html_checkers = ['w3']
+	"Skip checks using :wq, :x, and :ZZ
+		let g:syntastic_check_on_wq = 0
+	let g:syntastic_c_checkers = ['gcc']
+	let g:syntastic_css_checkers = ['csslint']
+	let g:syntastic_html_checkers = ['tidy']
+	let g:syntastic_javac_checkers = ['javac']
 	let g:syntastic_javascript_checkers = ['jslint']
-	let g:syntastic_scss_checkers = ['scss_lint']
+	let g:syntastic_scss_checkers = ['sass']
+	" let g:syntastic_scss_scss_lint_exec = '/usr/local/bin/scss-lint'
 	let g:syntastic_vim_checkers = ['vint']
-	let g:syntastic_mode_map = { "mode": "passive",
-				\ "active_filetypes": [],
-				\ "passive_filetypes": ["c", "java", "php", "python", "sh", "tex", "javascript", "html", "xhtml", "css", "sass", "scss", "vim"]
+	let g:syntastic_mode_map = {
+				\ "mode": "active",
+				\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh"],
+				\ "passive_filetypes": ["vim", "sass", "scss"]
 				\ }
 " }
 
