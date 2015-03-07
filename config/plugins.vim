@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-06
+" Last modification: 2015-03-07
 " ================================================================
 
 
@@ -395,6 +395,11 @@ call plug#end()
 	let g:syntastic_scss_checkers = ['sass']
 	" let g:syntastic_scss_scss_lint_exec = '/usr/local/bin/scss-lint'
 	let g:syntastic_vim_checkers = ['vint']
+	if g:hasWin
+		let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
+		let g:syntastic_php_checkers = 'php'
+		let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
+	endif
 	let g:syntastic_mode_map = {
 				\ "mode": "active",
 				\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh"],
