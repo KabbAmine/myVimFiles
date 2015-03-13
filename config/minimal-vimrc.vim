@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-02
+" Last modification: 2015-03-13
 " ================================================================
 
 
@@ -343,6 +343,8 @@ endif
 	cab WQ wq
 	cab W w
 	cab Q q
+	cab git Git
+	cab G Git
 " }
 
 
