@@ -78,7 +78,6 @@ endif
 		Plug 'AndrewRadev/splitjoin.vim'
 		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
 		Plug 'godlygeek/tabular', { 'on': 'Tabular' }
-		Plug 'shime/vim-livedown'
 		Plug 'kshenoy/vim-signature'
 		Plug 'Lokaltog/vim-easymotion'
 		Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
@@ -88,11 +87,13 @@ endif
 		Plug 'Raimondi/delimitMate'
 		Plug 'rhysd/clever-f.vim'
 		Plug 'rom399/vim-colorsheme-scroller', { 'on': 'SCROLLCOLOR' }
+		Plug 'shime/vim-livedown'
 		Plug 'Shougo/neocomplete.vim'
 		Plug 'sk1418/Join', { 'on': 'Join' }
 		Plug 'terryma/vim-multiple-cursors'
 		Plug 'tommcdo/vim-exchange'
 		Plug 'tomtom/tcomment_vim'
+		Plug 'tpope/vim-rvm', { 'on': 'Rvm' }
 		Plug 'tpope/vim-surround'
 		Plug 'Yggdroot/indentLine'
 	" Colorschemes
@@ -392,8 +393,7 @@ call plug#end()
 	let g:syntastic_html_checkers = ['tidy']
 	let g:syntastic_javac_checkers = ['javac']
 	let g:syntastic_javascript_checkers = ['jslint']
-	let g:syntastic_scss_checkers = ['sass']
-	" let g:syntastic_scss_scss_lint_exec = '/usr/local/bin/scss-lint'
+	let g:syntastic_scss_checkers = ['scss_lint', 'sass']
 	let g:syntastic_vim_checkers = ['vint']
 	if g:hasWin
 		let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
