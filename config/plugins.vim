@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-07
+" Last modification: 2015-03-15
 " ================================================================
 
 
@@ -551,7 +551,7 @@ call plug#end()
 " }
 
 " ******* (( zeavim )) *******
-	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
+	let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 
 " ******* (( vcoolor )) *******
 	let g:vcoolor_lowercase = 1
