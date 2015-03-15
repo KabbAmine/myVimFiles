@@ -74,13 +74,15 @@ endif
 		Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
 	" (( syntastic )) & linters
 		Plug 'scrooloose/syntastic'
+	" (( tagbar ))
+		Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+		Plug 'tagbar-phpctags', { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
 		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
 		Plug 'godlygeek/tabular', { 'on': 'Tabular' }
 		Plug 'kshenoy/vim-signature'
 		Plug 'Lokaltog/vim-easymotion'
-		Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 		Plug 'matchit.zip'
 		Plug 'matze/vim-move'
 		Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -343,7 +345,7 @@ call plug#end()
 " " ******* (( python-syntax )) *******
 	let python_highlight_all=1
 
-" ******* (( tagbar )) *******
+" ******* (( tagbar )) & (( tagbar-phpctags )) *******
 " {
 	let g:tagbar_autofocus = 1
 	" Sort the elements by the order of appearance.
