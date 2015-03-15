@@ -392,6 +392,7 @@ call plug#end()
 		let g:syntastic_check_on_wq = 0
 	let g:syntastic_c_checkers = ['gcc']
 	let g:syntastic_css_checkers = ['csslint']
+	let g:syntastic_html_tidy_exec = 'tidy5'
 	let g:syntastic_html_checkers = ['tidy']
 	let g:syntastic_javac_checkers = ['javac']
 	let g:syntastic_javascript_checkers = ['jslint']
