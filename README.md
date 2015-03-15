@@ -6,7 +6,7 @@ It works on both GNU/Linux and Windows (But may be better in GNU/Linux).
 
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
 
-![My vim](.img/myVim.png)
+![My vim](.img/myVim.jpg)
 
 ## Requirements & external programs
 
@@ -14,8 +14,13 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 	
 	- [Wmctrl](http://tomas.styblo.name/wmctrl/) for *vullscreen*.
 
-	- [Exuberant ctags](http://ctags.sourceforge.net/) for *tagbar*.
-		
+	- [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity*](https://wiki.gnome.org/action/show/Projects/Zenity) for *vCoolor*.
+
+	- *Tagbar*.
+
+		- [Exuberant ctags](http://ctags.sourceforge.net/).
+		- `phpctags` (No need to install it manually, he's included with the plugin *tagbar-phpctags*).
+
 	- *Syntastic*:
 
 		- `gcc`*
