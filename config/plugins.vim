@@ -377,6 +377,8 @@ call plug#end()
 				let g:airline#extensions#tabline#enabled = 1
 				let g:airline#extensions#tabline#show_buffers = 1
 				let g:airline#extensions#tabline#buffer_idx_mode = 1
+				" Show splits and tab number in tabline
+					let g:airline#extensions#tabline#tab_nr_type = 2
 				" Configure the minimum number of buffers needed to show the tabline.
 					let g:airline#extensions#tabline#buffer_min_count = 2
 				" Configure the minimum number of tabs needed to show the tabline.
