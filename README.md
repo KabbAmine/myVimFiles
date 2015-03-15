@@ -29,7 +29,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `python`*
 		- `sh`*
 		- `jslint`    ->  `npm install -g jslint`
-		- `w3`* for html
+		- [`tidy5`](https://github.com/htacg/tidy-html5)
 		- `csslint`   -> `npm install -g csslint`
 		- `sass`      -> `gem install sass`
 		- `scss-lint` -> `gem install scss-lint`
