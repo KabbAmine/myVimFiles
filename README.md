@@ -51,10 +51,10 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 \* *Present by default, or easily installable in your distribution.*
 
-3. Fonts from [here](https://github.com/powerline/fonts):
+3. Fonts:
 
-	- 'DejaVu Sans Mono for Powerline' in Windows.
-	- 'Ubuntu Mono derivative powerline' in GNU/Linux.
+	- ['DejaVu Sans Mono for Powerline'](https://github.com/powerline/fonts) in Windows.
+	- ['Ubuntu Mono derivative powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
 
 ## Instructions
 

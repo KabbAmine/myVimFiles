@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-15
+" Last modification: 2015-03-16
 " ================================================================
 
 
@@ -79,6 +79,7 @@ endif
 		Plug 'tagbar-phpctags', { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
 	" Various
 		Plug 'AndrewRadev/splitjoin.vim'
+		call s:PlugInOs('ryanoasis/vim-webdevicons', '', 'unix')
 		Plug 'Chiel92/vim-autoformat', { 'on': 'AutoFormat' }
 		Plug 'godlygeek/tabular', { 'on': 'Tabular' }
 		Plug 'kshenoy/vim-signature'
@@ -553,6 +554,10 @@ call plug#end()
 " ******* (( php-documentor )) *******
 " {
 	let g:pdv_cfg_ClassTags = []
+" }
+" ******* (( vim-webdevicons )) *******
+" {
+	let g:webdevicons_enable_nerdtree = 0
 " }
 
 " ******* (( zeavim )) *******

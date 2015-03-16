@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-13
+" Last modification: 2015-03-16
 " ================================================================
 
 
@@ -85,8 +85,7 @@ if has("gui_running")
 	if g:hasWin
 		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
 	else
-		" set guifont=Monospace\ 10
-		set guifont=Ubuntu\ Mono\ derivative\ powerline\ 12
+		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Plus\ Nerd\ File\ Types\ 12
 	endif
 	set wak=no				" Don't use the ALT-keys for menus.
 	set linespace=5			" Number of pixel lines to use between lines.
