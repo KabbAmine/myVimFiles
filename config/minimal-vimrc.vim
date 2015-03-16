@@ -152,7 +152,6 @@ set softtabstop=4		" Number of spaces to insert for a <Tab>.
 set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
-set smartindent			" Do clever autoindenting.
 set copyindent			" Copy whitespace for indenting from previous line.
 
 

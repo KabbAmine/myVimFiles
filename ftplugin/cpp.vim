@@ -1,7 +1,5 @@
 " For C files.
-" Last modification: 2014-06-21
-
-" TODO
+" Last modification: 2015-03-16
 
 
 " =========== MAPPINGS =======================

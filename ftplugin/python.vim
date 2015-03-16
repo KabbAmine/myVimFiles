@@ -1,12 +1,13 @@
 " For Python files.
-" Last modification: 2014-11-28
+" Last modification: 2015-03-16
 
 " =========== VARIOUS =======================
 " Set indentation to 2.
 " {
-	setl expandtab
-	setl shiftwidth=2
-	setl softtabstop=2
+	set expandtab
+	set shiftwidth=2
+	set softtabstop=2
+	set expandtab
 " }
 
 " =========== MAPPINGS =======================
