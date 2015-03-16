@@ -36,6 +36,7 @@ endif
 " {
 	" For PHP
 		Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+		Plug 'rayburgemeestre/phpfolding.vim'
 		Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 		Plug 'StanAngeloff/php.vim', {'for': 'php'}
 		Plug 'sumpygump/php-documentor-vim', {'for': 'php'}
