@@ -408,8 +408,8 @@ call plug#end()
 	endif
 	let g:syntastic_mode_map = {
 				\ "mode": "active",
-				\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh"],
-				\ "passive_filetypes": ["vim", "sass", "scss"]
+				\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh", "scss"],
+				\ "passive_filetypes": ["vim", "sass"]
 				\ }
 " }
 
