@@ -1,7 +1,7 @@
-plugin
-spell
+/plugin
+/spell
 
-various/*
-!various/jsbeautify/
+/various/*
+/!various/jsbeautify/
 
-plugged/*
+/plugged/*
