@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-19
+" Last modification: 2015-03-20
 " ================================================================
 
 
@@ -90,7 +90,7 @@ Plug 'tagbar-phpctags'   , { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Chiel92/vim-autoformat'         , { 'on': 'AutoFormat' }
-Plug 'godlygeek/tabular'              , { 'on': 'Tabular' }
+Plug 'godlygeek/tabular'
 Plug 'kshenoy/vim-signature'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matchit.zip'
