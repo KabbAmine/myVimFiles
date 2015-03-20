@@ -313,6 +313,7 @@ let g:tagbar_autofocus = 1
 				\ ]
 				\ }
 " ******* (( airline )) {{{1
+let g:airline_theme = 'yowish'
 if has("gui_running") || exists("$TMUX")
 	if !exists('g:airline_symbols')
 		let g:airline_symbols = {}
