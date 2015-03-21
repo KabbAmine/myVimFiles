@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-20
+" Last modification: 2015-03-21
 " ================================================================
 
 
@@ -334,7 +334,6 @@ if has("gui_running") || exists("$TMUX")
 				let g:airline#extensions#tabline#tab_min_count = 2
 endif
 " ******* (( syntastic )) {{{1
-let g:syntastic_check_on_open = 1
 let g:syntastic_always_populate_loc_list = 1
 "Skip checks using :wq, :x, and :ZZ
 	let g:syntastic_check_on_wq = 0
@@ -466,6 +465,8 @@ let g:webdevicons_enable_nerdtree = 0
 let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
+" ******* (( gulp-vim )) {{{1
+let g:gv_rvm_hack = 1
 " ******* (( termivator )) {{{1
 let g:T_list_comm = {
 			\ "cmder": {
