@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-22
+" Last modification: 2015-03-24
 " ================================================================
 
 
@@ -425,7 +425,7 @@ else
 endif
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
-let g:clever_f_ignore_case = 1
+" let g:clever_f_ignore_case = 1
 let g:clever_f_smart_case = 1
 " Fix a direction of search (f & F)
 	let g:clever_f_fix_key_direction = 1
