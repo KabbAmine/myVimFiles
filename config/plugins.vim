@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-24
+" Last modification: 2015-03-26
 " ================================================================
 
 
@@ -352,8 +352,8 @@ if g:hasWin
 endif
 let g:syntastic_mode_map = {
 			\ "mode": "active",
-			\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh", "scss"],
-			\ "passive_filetypes": ["vim", "sass", "ruby"]
+			\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh"],
+			\ "passive_filetypes": ["vim", "sass", "scss", "ruby"]
 			\ }
 " ******* (( emmet )) {{{1
 " In INSERT & VISUAL modes only.
