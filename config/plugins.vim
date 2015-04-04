@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-03-31
+" Last modification: 2015-04-04
 " ================================================================
 
 
@@ -14,7 +14,6 @@ endif
 let s:myPlugs = [
 			\'gulp-vim',
 			\'lowly',
-			\'termivator',
 			\'test',
 			\'vCoolor',
 			\'vimSimpleLib',
@@ -150,15 +149,6 @@ vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:SignatureMap = {
 			\ 'ListLocalMarks'	 :	",m",
 			\ }
-" (( termivator )) {{{1
-" *** ;t	=> Terminal.
-" *** ;f	=> File manager.
-" *** ;g	=> Gitg.
-" *** ;h	=> Haroopad
-	nmap <silent> ;t :Tt<CR>
-	nmap <silent> ;f :Tf<CR>
-	nmap <silent> ;g :Tg<CR>
-	nmap <silent> ;h :Th<CR>
 " (( CtrlP )) & extensions {{{1
 	nmap <silent> !!   :CtrlPCmdPalette<CR>
 	nmap <silent> ,,f  :CtrlP<CR>
@@ -233,6 +223,15 @@ vmap <A-up> <Plug>MoveBlockUp
 vmap <A-down> <Plug>MoveBlockDown
 nmap <A-up> <Plug>MoveLineUp
 nmap <A-down> <Plug>MoveLineDown
+" (( vsl )) {{{1
+" *** ;t				=> Open terminal in pwd
+" *** ;;t				=> Open terminal in dir of current file
+" *** ;f				=> Open file manager in pwd
+" *** ;;f				=> Open file manager in dir of current file
+	nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
+	nmap <silent> ;;t :call vsl#general#lib#OpenTerm(expand('%:h:p'))<CR>
+	nmap <silent> ;f :call vsl#general#lib#OpenFM()<CR>
+	nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<CR>
 " }}}
 
 " =========== COMMANDS ==========================================
@@ -468,11 +467,6 @@ let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 let g:vcoolor_lowercase = 1
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
-" ******* (( termivator )) {{{1
-let g:T_list_comm = {
-			\ "cmder": {
-			\ "w": "start \"C:\\Program Files\\cmder\\Cmder.exe\" /START" }
-			\ }
 " }}}
 
 " =========== HACKS =======================
