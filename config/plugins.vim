@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-04
+" Last modification: 2015-04-06:
 " ================================================================
 
 
@@ -465,6 +465,11 @@ let g:webdevicons_enable_nerdtree = 0
 let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
+let g:vcoolor_disable_mappings = 1
+let g:vcoolor_map = '<A-c>'
+" let g:vcool_ins_rgb_map = ''
+" let g:vcool_ins_hsl_map = ''
+" let g:vcool_ins_rgba_map = ''
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 " }}}
