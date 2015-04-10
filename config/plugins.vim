@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-06:
+" Last modification: 2015-04-10
 " ================================================================
 
 
@@ -104,6 +104,7 @@ Plug 'sk1418/Join'                    , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-rvm'                  , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
 Plug 'Yggdroot/indentLine'
