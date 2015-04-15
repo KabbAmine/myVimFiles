@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-10
+" Last modification: 2015-04-15
 " ================================================================
 
 
@@ -88,6 +88,7 @@ Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
 Plug 'tagbar-phpctags'   , { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
+call s:PlugInOs('tpope/vim-eunuch' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Chiel92/vim-autoformat'         , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
