@@ -205,7 +205,7 @@ nmap <silent> <S-F5> :tabonly<CR>
 nnoremap <silent> <space> za
 vmap <silent> <space> :fold<CR>
 " Remove the highlighting of 'hlsearch' {{{1
-map <silent> <F6> :nohlsearch<CR>
+map <silent> <Esc><Esc> :nohlsearch<CR>
 " Operations on tabs {{{1
 " *** <C-t>			=> New tab.
 " *** <S-Tab>		=> Next tab.
