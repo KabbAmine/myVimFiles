@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-18
+" Last modification: 2015-04-24
 " ================================================================
 
 
@@ -36,9 +36,9 @@ endfunction
 " ========== VIM-PLUG ==============================================
 " Initialization {{{1
 if g:hasWin
-	call plug#begin($HOME.'/vimfiles/plugged')
+	call plug#begin($HOME . '/vimfiles/plugs')
 else
-	call plug#begin('~/.vim/plugged')
+	call plug#begin('~/.vim/plugs')
 endif
 " Plugins {{{1
 " For PHP {{{2
