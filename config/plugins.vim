@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-24
+" Last modification: 2015-04-26
 " ================================================================
 
 
@@ -388,7 +388,7 @@ endif
 " (( cmd-palette ))
 let g:ctrlp_cmdpalette_execute = 1
 " ******* (( vim-plug )) {{{1
-let g:plug_threads = g:hasWin ? 1 : 10
+let g:plug_threads = g:hasWin ? 5 : 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 " let g:clever_f_ignore_case = 1
