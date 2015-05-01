@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-26
+" Last modification: 2015-05-01
 " ================================================================
 
 
@@ -89,6 +89,7 @@ call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Chiel92/vim-autoformat'         , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-peekaboo'
 Plug 'kshenoy/vim-signature'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
