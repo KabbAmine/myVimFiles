@@ -54,7 +54,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 3. Fonts:
 
 	- ['DejaVu Sans Mono for Powerline'](https://github.com/powerline/fonts) in Windows.
-	- ['Droid Sans Mono for Powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
+	- [Ubuntu Mono derivative Powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
 
 ## Instructions
 
