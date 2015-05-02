@@ -354,7 +354,7 @@ let g:UltiSnipsEditSplit="vertical"
 " Personal snippets folder.
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " ******* (( gitgutter )) {{{1
-let g:gitgutter_enabled = 1
+if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( ctrlp & cie )) {{{1
 " Disable CtrlP default map.
 let g:ctrlp_map = ''
