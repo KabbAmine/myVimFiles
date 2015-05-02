@@ -83,7 +83,7 @@ Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
-Plug 'vim-php/tagbar-phpctags.vim'   , { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
+call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
