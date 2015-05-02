@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-01
+" Last modification: 2015-05-02
 " ================================================================
 
 
@@ -83,7 +83,7 @@ Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
-Plug 'tagbar-phpctags'   , { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
+Plug 'vim-php/tagbar-phpctags.vim'   , { 'do': 'chmod +x bin/phpctags', 'for': 'php'}
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
@@ -111,7 +111,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'ajh17/Spacegray.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
-Plug 'gosukiwi/vim-atom-dark'
 Plug 'mgutz/gosu-colors'
 Plug 'nanotech/jellybeans.vim'
 Plug 'noahfrederick/vim-hemisu'
