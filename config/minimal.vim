@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-02
+" Last modification: 2015-05-04
 " ================================================================
 
 
@@ -274,8 +274,6 @@ function! <SID>Ch()
 		setlocal ft=php
 	endif
 endfunction
-" autocmd! FileType php command! Ch :setlocal ft=html
-" autocmd! FileType html command! Ch :setlocal ft=php
 " Conversion between TABS ans SPACES {{{1
 command! TabToSpace :setlocal expandtab | %retab!
 command! SpaceToTab :setlocal noexpandtab | %retab!
