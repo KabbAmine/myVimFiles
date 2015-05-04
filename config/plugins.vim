@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-02
+" Last modification: 2015-05-04
 " ================================================================
 
 
@@ -54,6 +54,7 @@ Plug 'lilydjwg/colorizer'      , {'for': ['html', 'css', 'scss', 'php', 'xml', '
 Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'        , {'for': ['html', 'php', 'xml']}
 Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
+Plug 'shime/vim-livedown'      , {'on':  ['LivedownPreview', 'LivedownKill']}
 Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
 Plug 'leshill/vim-json'        , { 'for': 'json' }
@@ -96,7 +97,6 @@ Plug 'matze/vim-move'
 Plug 'mbbill/undotree'                , { 'on': 'UndotreeToggle' }
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
-Plug 'shime/vim-livedown'
 Plug 'Shougo/neocomplete.vim'
 Plug 'sk1418/Join'                    , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
