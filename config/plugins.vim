@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-04
+" Last modification: 2015-05-06
 " ================================================================
 
 
@@ -64,8 +64,9 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
 " For Git {{{2
-Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'PAntoine/vimgitlog'
+Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
 Plug 'FuzzyFinder'
 Plug 'L9'
