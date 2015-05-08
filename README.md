@@ -34,6 +34,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `sass`      -> `gem install sass`
 		- `scss-lint` -> `gem install scss-lint`
 		- `vint`      -> `pip install vim-vint`
+		- `jsonlint`  -> `npm install -g jsonlint`
 
 	- *Autoformat*:
 		

@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-07
+" Last modification: 2015-05-08
 " ================================================================
 
 
@@ -319,10 +319,11 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
-let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_html_checkers = ['tidy']
+let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_javac_checkers = ['javac']
 let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss_lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
 if g:hasWin
@@ -332,7 +333,7 @@ if g:hasWin
 endif
 let g:syntastic_mode_map = {
 			\ "mode": "active",
-			\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh"],
+			\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
 			\ "passive_filetypes": ["vim", "sass", "scss", "ruby"]
 			\ }
 " ******* (( emmet )) {{{1
