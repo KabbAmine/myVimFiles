@@ -50,7 +50,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 	- `g++`<sup>+</sup>
 	- `Evince`<sup>+</sup> in GNU/Linux to open generated pdf from Tex file compilation.
 
-<sup>+</sup> <small>*Present by default, or easily installable in your distribution.*</small>
+	<sup>+</sup> <small>*Present by default, or easily installable in your distribution.*</small>
 
 3. Fonts:
 
