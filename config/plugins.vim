@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-08
+" Last modification: 2015-05-11
 " ================================================================
 
 
@@ -230,7 +230,7 @@ command! GG :GitGutterToggle
 command! Gn :GitGutterNextHunk
 command! Gp :GitGutterPrevHunk
 " (( vimgitlog )) {{{1
-command! GitLog :call GITLOG_FlipWindows()
+command! GitLog :call GITLOG_ToggleWindows()
 " Set md files as a markdown files {{{1
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " }}}
