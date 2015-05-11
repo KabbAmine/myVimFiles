@@ -12,9 +12,9 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 1. For the plugins:
 	
-	- [Wmctrl](http://tomas.styblo.name/wmctrl/) for *vullscreen*.
+	- [Wmctrl<sup>+</sup>](http://tomas.styblo.name/wmctrl/) for *vullscreen*.
 
-	- [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity*](https://wiki.gnome.org/action/show/Projects/Zenity) for *vCoolor*.
+	- [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity<sup>+</sup>](https://wiki.gnome.org/action/show/Projects/Zenity) for *vCoolor*.
 
 	- *Tagbar*.
 
@@ -23,11 +23,11 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 	- *Syntastic*:
 
-		- `gcc`*
-		- `javac`*
-		- `php`*
-		- `python`*
-		- `sh`*
+		- `gcc`<sup>+</sup>
+		- `javac`<sup>+</sup>
+		- `php`<sup>+</sup>
+		- `python`<sup>+</sup>
+		- `shellcheck` & `sh`<sup>+</sup>
 		- `jslint`    ->  `npm install -g jslint`
 		- [`tidy5`](https://github.com/htacg/tidy-html5)
 		- `csslint`   -> `npm install -g csslint`
@@ -46,11 +46,11 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `npm -g livedown`
 
 2. For `~/.vim/ftplugin/` files (optional):
-	- `markdown`*
-	- `g++`*
-	- `Evince`* in GNU/Linux to open generated pdf from Tex file compilation.
+	- `markdown`<sup>+</sup>
+	- `g++`<sup>+</sup>
+	- `Evince`<sup>+</sup> in GNU/Linux to open generated pdf from Tex file compilation.
 
-\* *Present by default, or easily installable in your distribution.*
+<sup>+</sup> <small>*Present by default, or easily installable in your distribution.*</small>
 
 3. Fonts:
 

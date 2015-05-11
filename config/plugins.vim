@@ -326,6 +326,7 @@ let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss_lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
+let g:syntastic_sh_checkers = ['shellcheck', 'sh']
 if g:hasWin
 	let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
 	let g:syntastic_php_checkers = 'php'
