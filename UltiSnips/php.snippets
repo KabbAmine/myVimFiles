@@ -29,3 +29,28 @@ endsnippet
 snippet header "header(Loc...)" b
 header('Location$1');
 endsnippet
+
+snippet req "require" b
+require '${1:...}';
+endsnippet
+
+snippet constr "Construct" b
+public function __construct(${1:$param})
+{
+	${2:// Instructions};
+}
+endsnippet
+
+snippet pub "Public function" b
+public function ${1:name}(${2:$param})
+{
+	${3:// Instructions};
+}
+endsnippet
+
+snippet pubs "Public static function" b
+public static function ${1:name}(${2:$param})
+{
+	${3:// Instructions};
+}
+endsnippet
