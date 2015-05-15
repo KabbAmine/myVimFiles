@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-11
+" Last modification: 2015-05-15
 " ================================================================
 
 
@@ -85,7 +85,7 @@ Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
-call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
+call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
