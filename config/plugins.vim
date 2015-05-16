@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-15
+" Last modification: 2015-05-16
 " ================================================================
 
 
@@ -58,6 +58,7 @@ Plug 'shime/vim-livedown'      , {'on':  ['LivedownPreview', 'LivedownKill']}
 Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
 Plug 'leshill/vim-json'        , { 'for': 'json' }
+Plug 'marijnh/tern_for_vim'    , {'do': 'npm install', 'for': 'javascript'}
 Plug 'pangloss/vim-javascript' , { 'for': 'javascript' }
 " For Python {{{2
 Plug 'hdima/python-syntax' , { 'for': 'python' }
@@ -409,6 +410,7 @@ let g:vim_markdown_no_default_key_mappings=1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
+let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = expand(g:vimDir).'/various/neocomplete'
 inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
 inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
@@ -422,6 +424,7 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#sources#omni#input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 " ******* (( autoformat )) {{{1
 let g:formatprg_html = "html-beautify"
 let g:formatprg_args_expr_html = '"--indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
