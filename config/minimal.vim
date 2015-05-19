@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-04
+" Last modification: 2015-05-19
 " ================================================================
 
 
@@ -205,7 +205,11 @@ nmap <silent> <S-F5> :tabonly<CR>
 nnoremap <silent> <space> za
 vmap <silent> <space> :fold<CR>
 " Remove the highlighting of 'hlsearch' {{{1
-map <silent> <Esc><Esc> :nohlsearch<CR>
+if has('gui_running')
+	map <silent> <Esc><Esc> :nohlsearch<CR>
+else
+	map <silent> <F6> :nohlsearch<CR>
+endif
 " Operations on tabs {{{1
 " *** <C-t>			=> New tab.
 " *** <S-Tab>		=> Next tab.
