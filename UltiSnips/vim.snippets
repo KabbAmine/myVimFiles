@@ -18,6 +18,10 @@ nnoremap <unique> <script> <Plug>$1 <SID>${2:...}
 nnoremap <silent> <SID>$2 :call <SID>${3:functionName}<CR>
 endsnippet
 
+snippet ?: "Ternary" i
+${1:condition} ? ${2:true} : ${3:false}
+endsnippet
+
 snippet plug "Plugin for Vim-plug" b
 Plug '$1'
 endsnippet
