@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-16
+" Last modification: 2015-05-27
 " ================================================================
 
 
@@ -90,6 +90,7 @@ call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'         , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
