@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-27
+" Last modification: 2015-05-28
 " ================================================================
 
 
@@ -91,25 +91,26 @@ call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 
 call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
-Plug 'Chiel92/vim-autoformat'         , { 'on': 'AutoFormat' }
+Plug 'Chiel92/vim-autoformat'               , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
 Plug 'kshenoy/vim-signature'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
-Plug 'mbbill/undotree'                , { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree'                      , { 'on': 'UndotreeToggle' }
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
 Plug 'Shougo/neocomplete.vim'
-Plug 'sk1418/Join'                    , { 'on': 'Join' }
+Plug 'sk1418/Join'                          , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-rvm'                  , { 'on': 'Rvm' }
+Plug 'tpope/vim-rvm'                        , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
 Plug 'Yggdroot/indentLine'
+Plug 'zhaocai/GoldenView.Vim'               , {'on': 'ToggleGoldenViewAutoResize'}
 " Colorschemes {{{2
 Plug 'ajh17/Spacegray.vim'
 Plug 'altercation/vim-colors-solarized'
@@ -436,6 +437,9 @@ let g:colorizer_startup = 0
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-webdevicons )) {{{1
 let g:webdevicons_enable_nerdtree = 0
+" ******* (( GoldenView )) {{{1
+let g:goldenview__enable_at_startup = 0
+let g:goldenview__enable_default_mapping = 0
 " ******* (( zeavim )) {{{1
 let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1

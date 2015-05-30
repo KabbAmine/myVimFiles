@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-19
+" Last modification: 2015-05-30
 " ================================================================
 
 
@@ -283,6 +283,13 @@ command! TabToSpace :setlocal expandtab | %retab!
 command! SpaceToTab :setlocal noexpandtab | %retab!
 " Make the current file directory as the vim current directory {{{1
 command! Dir :cd %:p:h
+" Set line highlighting only in current buffer/split {{{1
+" http://superuser.com/a/393948
+augroup BgHighlight
+    autocmd!
+    autocmd WinEnter * set cul
+    autocmd WinLeave * set nocul
+augroup END
 " }}}
 
 " =========== ABBREVIATIONS ==============================
