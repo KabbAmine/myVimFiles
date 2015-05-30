@@ -107,6 +107,7 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rvm'                        , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
 Plug 'Yggdroot/indentLine'
