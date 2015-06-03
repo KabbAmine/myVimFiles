@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-28
+" Last modification: 2015-06-03
 " ================================================================
 
 
@@ -13,7 +13,7 @@ endif
 " List of my plugins {{{1
 let s:myPlugs = [
 			\'gulp-vim',
-			\'lowly',
+			\'vAction',
 			\'test',
 			\'vCoolor',
 			\'vimSimpleLib',
@@ -66,6 +66,7 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 Plug 'javacomplete' , { 'for': 'java' }
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
+Plug 'jaxbot/github-issues.vim'
 Plug 'PAntoine/vimgitlog'
 Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
@@ -114,13 +115,10 @@ Plug 'Yggdroot/indentLine'
 Plug 'zhaocai/GoldenView.Vim'               , {'on': 'ToggleGoldenViewAutoResize'}
 " Colorschemes {{{2
 Plug 'ajh17/Spacegray.vim'
-Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
 Plug 'mgutz/gosu-colors'
 Plug 'nanotech/jellybeans.vim'
-Plug 'noahfrederick/vim-hemisu'
 Plug 'reedes/vim-colors-pencil'
-Plug 'sjl/badwolf'
 Plug 'whatyouhide/vim-gotham'
 " My Plugins {{{2
 for s:p in s:myPlugs
@@ -438,6 +436,8 @@ let g:colorizer_startup = 0
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-webdevicons )) {{{1
 let g:webdevicons_enable_nerdtree = 0
+" ******* (( vim-peekaboo )) {{{1
+let g:peekaboo_compact = 1
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
@@ -449,6 +449,13 @@ let g:vcoolor_disable_mappings = 1
 let g:vcoolor_map = '<A-c>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
+" }}}
+
+" =========== ABBREVIATIONS =======================
+" For (( fugitive )) {{{1
+cab Gl Git log
+cab Gco Gcommit
+cab Gs Gstatus
 " }}}
 
 " =========== HACKS =======================
