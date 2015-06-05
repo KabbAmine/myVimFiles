@@ -89,30 +89,30 @@ Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
 call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
 " Various {{{2
-call s:PlugInOs('ryanoasis/vim-webdevicons' , '', 'unix')
+call s:PlugInOs('ryanoasis/vim-webdevicons' , ''                 , 'unix')
+call s:PlugInOs('Shougo/vimproc.vim'        , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
-Plug 'Chiel92/vim-autoformat'               , { 'on': 'AutoFormat' }
+Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
 Plug 'kshenoy/vim-signature'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
-Plug 'mbbill/undotree'                      , { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree'                 , { 'on': 'UndotreeToggle' }
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
 Plug 'Shougo/neocomplete.vim'
-Plug 'sk1418/Join'                          , { 'on': 'Join' }
+Plug 'sk1418/Join'                     , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rvm'                        , { 'on': 'Rvm' }
+Plug 'tpope/vim-rvm'                   , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
 Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim'               , {'on': 'ToggleGoldenViewAutoResize'}
+Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
 " Colorschemes {{{2
 Plug 'ajh17/Spacegray.vim'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
