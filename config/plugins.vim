@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-06-03
+" Last modification: 2015-06-05
 " ================================================================
 
 
@@ -453,8 +453,11 @@ let g:gv_rvm_hack = 1
 
 " =========== ABBREVIATIONS =======================
 " For (( fugitive )) {{{1
-cab Gl Git log
+cab Gb Git branch
+cab Gch Git checkout
 cab Gco Gcommit
+cab Gl Git log
+cab Gm Gmerge
 cab Gs Gstatus
 " }}}
 
