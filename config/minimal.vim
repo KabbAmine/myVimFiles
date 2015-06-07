@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-05-30
+" Last modification: 2015-06-07
 " ================================================================
 
 
@@ -180,6 +180,12 @@ endif
 " }}}
 
 " =========== MAPPING ==========================================
+" Remove the delay when escaping from insert-mode in terminal
+if !has('gui_running')
+	set timeoutlen=1000 ttimeoutlen=0
+endif
+
+" =========== MAPPINGS ==========================================
 " Text manipulation {{{1
 " *** NORMAL & VISUAL MODE
 	" *** <C-d>		=> Duplicate line.
