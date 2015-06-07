@@ -86,7 +86,7 @@ Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 " (( syntastic )) & linters {{{2
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
-Plug 'majutsushi/tagbar' , { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar'
 call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
 " Various {{{2
 call s:PlugInOs('ryanoasis/vim-webdevicons' , ''                 , 'unix')
@@ -303,7 +303,8 @@ if has("gui_running") || exists("$TMUX")
 	" Automatically populate the symbols dictionary with the powerline symbols.
 	let g:airline_powerline_fonts = 1
 	" Extensions.
-	let g:airline#extensions#tagbar#enabled = 0
+	let g:airline#extensions#tagbar#enabled = 1
+	" endif
 	" Tabline.
 	let g:airline#extensions#tabline#enabled = 1
 	let g:airline#extensions#tabline#show_buffers = 1
