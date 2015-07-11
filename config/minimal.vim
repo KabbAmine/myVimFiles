@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-06-07
+" Last modification: 2015-07-11
 " ================================================================
 
 
@@ -44,15 +44,6 @@ while c <= 'z'
 	exec "imap \e".c." <A-".c.">"
 	let c = nr2char(1+char2nr(c))
 endwhile
-" Show syntax highlighting groups for word under cursor {{{1
-" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
-nmap gh :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-	if !exists('*synstack')
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
 " }}}
 
 " ========== GUI ===============================================
@@ -180,10 +171,11 @@ endif
 " }}}
 
 " =========== MAPPING ==========================================
-" Remove the delay when escaping from insert-mode in terminal
+" Remove the delay when escaping from insert-mode in terminal {{{1
 if !has('gui_running')
 	set timeoutlen=1000 ttimeoutlen=0
 endif
+" }}}
 
 " =========== MAPPINGS ==========================================
 " Text manipulation {{{1
@@ -193,43 +185,43 @@ endif
 	" *** <A-d> => Duplicate line.
 	" *** <A-o> => Insert new line.
 	" *** <A-a> => Insert new line before.
-	" *** <A-"> => Change inside ", ', (, ...
 vnoremap <silent> <C-d> :t'><CR>
 nnoremap <silent> <C-d> yyp
 inoremap <silent> <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
 inoremap <silent> <A-o> <C-o>o
 inoremap <silent> <A-a> <C-o>O
-inoremap <silent> <A-'> <C-o>ci'
-inoremap <silent> <A-"> <C-o>ci"
-inoremap <silent> <A-(> <C-o>ci(
-inoremap <silent> <A-{> <C-o>ci{
-inoremap <silent> <A-[> <C-o>ci[
 " Apply the option 'only' {{{1
-nmap <silent> <F5> :only<CR>
-nmap <silent> <S-F5> :tabonly<CR>
+noremap <silent> gso :only<CR>
+noremap <silent> <F5> :tabonly<CR>
 " Open or close the fold {{{1
 nnoremap <silent> <space> za
 vmap <silent> <space> :fold<CR>
 " Remove the highlighting of 'hlsearch' {{{1
-if has('gui_running')
-	map <silent> <Esc><Esc> :nohlsearch<CR>
-else
-	map <silent> <F6> :nohlsearch<CR>
-endif
+nnoremap <silent> gdh :nohlsearch<CR>
 " Operations on tabs {{{1
 " *** <C-t>			=> New tab.
 " *** <S-Tab>		=> Next tab.
 map <silent> <C-t> :tabedit<CR>
 map <silent> <S-Tab> gt
 " Operations on buffers {{{1
-" *** <C-S-left>		=> Previous.
-" *** <C-S-right>		=> Next.
-" *** <C-q>				=> Delete buffer.
-map <silent> <C-S-left> :bp!<CR>
-map <silent> <C-S-right> :bn!<CR>
-nnoremap <silent> <C-q> :bd<CR>
+" *** <S-h>		=> Previous.
+" *** <S-l>		=> Next.
+" *** <S-q>		=> Delete buffer.
+nnoremap <silent> <S-h> :bp!<CR>
+nnoremap <silent> <S-l> :bn!<CR>
+nnoremap <silent> <S-q> :bd<CR>
 " Repeat the last command {{{1
 nnoremap zz @:
+" JK for escape {{{1
+inoremap jk <Esc>
+" For splits {{{1
+nnoremap <silent> gsv <C-w>v
+nnoremap <silent> gss <C-w>s
+nnoremap <silent> gs= <C-l>
+nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-l> <C-w>l
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -296,6 +288,15 @@ augroup BgHighlight
     autocmd WinEnter * set cul
     autocmd WinLeave * set nocul
 augroup END
+" Show syntax highlighting groups for word under cursor {{{1
+" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
+command! GetSyntax :call <SID>SynStack()
+function! <SID>SynStack()
+	if !exists('*synstack')
+		return
+	endif
+	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 " }}}
 
 " =========== ABBREVIATIONS ==============================

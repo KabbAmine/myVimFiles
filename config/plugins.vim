@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-06-05
+" Last modification: 2015-07-11
 " ================================================================
 
 
@@ -61,6 +61,7 @@ Plug 'leshill/vim-json'        , { 'for': 'json' }
 Plug 'marijnh/tern_for_vim'    , {'do': 'npm install', 'for': 'javascript'}
 Plug 'pangloss/vim-javascript' , { 'for': 'javascript' }
 " For Python {{{2
+Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'hdima/python-syntax' , { 'for': 'python' }
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
@@ -158,14 +159,12 @@ nmap <silent> ,F   :CtrlPFunky<CR>
 nmap <silent> ,l   :CtrlPLine %<CR>
 nmap <silent> ,r   :CtrlPMRUFiles<CR>
 nmap <silent> ,t   :CtrlPBufTag<CR>
-" narrow the list down with a word under cursor
-nnoremap <leader>f :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " (( FuzzyFinder )) {{{1
-nmap <silent> ,b :FufBookmarkDir<CR>
+nmap <silent> ,B :FufBookmarkDir<CR>
 nmap <silent> ,c :FufMruCmd<CR>
 nmap <silent> ,d :FufDir<CR>
 nmap <silent> ,f :FufFile<CR>
-nmap <silent> <C-space> :FufBuffer<CR>
+nmap <silent> ,b :FufBuffer<CR>
 " (( ultisnips )) {{{1
 nmap <C-F2> :UltiSnipsEdit<CR>
 " (( NERDTree ))  {{{1
@@ -177,9 +176,9 @@ nnoremap <silent> ,U :UndotreeToggle<CR>
 " (( tComment )) {{{1
 " *** \cc			=> Comment or uncomment a line.
 " *** \c{motion}	=> Comment or uncomment a specified motion.
-nmap <silent> <leader>cc <c-_><c-_>
-vmap <silent> <leader>cc <c-_><c-_>
-nmap <silent> <leader>c gc
+" nmap <silent> <leader>cc <c-_><c-_>
+" vmap <silent> <leader>cc <c-_><c-_>
+" nmap <silent> <leader>c gc
 " (( syntastic )) {{{1
 " *** <F8>		=> SyntasticCheck
 " *** <c-F8>	=> SyntasticReset
@@ -192,21 +191,6 @@ map <silent> ,E :Errors<CR>
 " *** <c-F4>	=> lnext.
 nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
-" (( splitjoin )) {{{1
-" Disable the default mapping.
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-" *** \s				=> Split code.
-" *** \j				=> Join code.
-nmap <silent> <Leader>j :SplitjoinJoin<CR>
-nmap <silent> <Leader>s :SplitjoinSplit<CR>
-" (( move )) {{{1
-" Disable default mapping.
-let g:move_map_keys = 0
-vmap <A-up> <Plug>MoveBlockUp
-vmap <A-down> <Plug>MoveBlockDown
-nmap <A-up> <Plug>MoveLineUp
-nmap <A-down> <Plug>MoveLineDown
 " (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
@@ -216,6 +200,10 @@ nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
 nmap <silent> ;;t :call vsl#general#lib#OpenTerm(expand('%:h:p'))<CR>
 nmap <silent> ;f :call vsl#general#lib#OpenFM()<CR>
 nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<CR>
+" (( zeavim )) {{{1
+nmap gz <Plug>Zeavim
+vmap gz <Plug>ZVVisSelection
+nmap gZ <Plug>ZVKeyDocset
 " }}}
 
 " =========== (AUTO)COMMANDS ==========================================
@@ -377,14 +365,14 @@ let g:ctrlp_open_multiple_files = 'rij'
 " Open new file in the current window.
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_prompt_mappings = {
-			\ 'PrtHistory(-1)':		  ['<c-down>'],
-			\ 'PrtHistory(1)':		  ['<c-up>'],
-			\ 'ToggleType(1)':		  ['<s-right>'],
-			\ 'ToggleType(-1)':		  ['<s-left>'],
-			\ 'CreateNewFile()':	  ['<c-n>'],
+			\ 'ToggleType(1)':		  ['<c-f>'],
+			\ 'ToggleType(-1)':		  ['<c-b>'],
 			\ 'MarkToOpen()':		  ['<c-z>'],
 			\ 'OpenMulti()':		  ['<c-o>'],
+			\ 'CreateNewFile()':	  ['<c-y>']
 			\ }
+			" \ 'PrtHistory(-1)':		  ['<c-down>'],
+			" \ 'PrtHistory(1)':		  ['<c-up>'],
 " MRU mode
 let g:ctrlp_mruf_save_on_update = 1
 " Use ag in CtrlP for listing files.
@@ -399,7 +387,6 @@ let g:ctrlp_cmdpalette_execute = 1
 let g:plug_threads = g:hasWin ? 5 : 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
-" let g:clever_f_ignore_case = 1
 let g:clever_f_smart_case = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
@@ -427,6 +414,12 @@ endif
 let g:neocomplete#sources#omni#input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+" For (( jedi-vim ))
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:neocomplete#force_omni_input_patterns.python =
+			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 " ******* (( autoformat )) {{{1
 let g:formatprg_html = "html-beautify"
 let g:formatprg_args_expr_html = '"--indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
@@ -443,6 +436,7 @@ let g:peekaboo_compact = 1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
 " ******* (( zeavim )) {{{1
+let g:zv_disable_mapping = 1
 let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
