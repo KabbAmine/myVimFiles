@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-11
+" Last modification: 2015-07-12
 " ================================================================
 
 
@@ -191,6 +191,8 @@ map <silent> ,E :Errors<CR>
 " *** <c-F4>	=> lnext.
 nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
+" (( emmet )) {{{1
+imap <expr> hj emmet#expandAbbrIntelligent("\<tab>")
 " (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
@@ -331,10 +333,10 @@ let g:syntastic_mode_map = {
 " ******* (( emmet )) {{{1
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
+let g:emmet_html5 = 1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
 autocmd FileType html,scss,css,php EmmetInstall
-let g:user_emmet_leader_key = '<c-e>'
 " ******* (( undotree )) {{{1
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
