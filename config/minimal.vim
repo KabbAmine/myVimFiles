@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-11
+" Last modification: 2015-07-15
 " ================================================================
 
 
@@ -197,7 +197,7 @@ noremap <silent> <F5> :tabonly<CR>
 nnoremap <silent> <space> za
 vmap <silent> <space> :fold<CR>
 " Remove the highlighting of 'hlsearch' {{{1
-nnoremap <silent> gdh :nohlsearch<CR>
+nnoremap <silent> hj :nohlsearch<CR>
 " Operations on tabs {{{1
 " *** <C-t>			=> New tab.
 " *** <S-Tab>		=> Next tab.
@@ -217,7 +217,7 @@ inoremap jk <Esc>
 " For splits {{{1
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
-nnoremap <silent> gs= <C-l>
+nnoremap <silent> gs= <C-w>=
 nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 nnoremap <silent> <C-h> <C-w>h

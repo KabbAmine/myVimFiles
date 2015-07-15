@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-12
+" Last modification: 2015-07-15
 " ================================================================
 
 
@@ -90,7 +90,7 @@ Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
 " Various {{{2
-call s:PlugInOs('ryanoasis/vim-webdevicons' , ''                 , 'unix')
+call s:PlugInOs('ryanoasis/vim-devicons' , ''                 , 'unix')
 call s:PlugInOs('Shougo/vimproc.vim'        , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
@@ -327,8 +327,8 @@ if g:hasWin
 endif
 let g:syntastic_mode_map = {
 			\ "mode": "active",
-			\ "active_filetypes": ["php", "html", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
-			\ "passive_filetypes": ["vim", "sass", "scss", "ruby"]
+			\ "active_filetypes": ["php", "sass", "scss", "html", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
+			\ "passive_filetypes": ["vim", "ruby"]
 			\ }
 " ******* (( emmet )) {{{1
 " In INSERT & VISUAL modes only.
@@ -336,7 +336,7 @@ let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
-autocmd FileType html,scss,css,php EmmetInstall
+autocmd FileType html,scss,css,jade EmmetInstall
 " ******* (( undotree )) {{{1
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
@@ -430,7 +430,7 @@ let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
 " ******* (( php-documentor )) {{{1
 let g:pdv_cfg_ClassTags = []
-" ******* (( vim-webdevicons )) {{{1
+" ******* (( vim-devicons )) {{{1
 let g:webdevicons_enable_nerdtree = 0
 " ******* (( vim-peekaboo )) {{{1
 let g:peekaboo_compact = 1
