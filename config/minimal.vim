@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-15
+" Last modification: 2015-07-17
 " ================================================================
 
 
@@ -222,6 +222,9 @@ nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 nnoremap <silent> <C-h> <C-w>h
 nnoremap <silent> <C-l> <C-w>l
+" For command line {{{1
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
