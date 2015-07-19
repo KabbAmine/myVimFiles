@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-17
+" Last modification: 2015-07-19
 " ================================================================
 
 
@@ -406,8 +406,8 @@ let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = expand(g:vimDir).'/various/neocomplete'
 inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
-inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<Up>"
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
 	let g:neocomplete#sources#omni#input_patterns = {}
