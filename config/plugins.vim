@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-19
+" Last modification: 2015-07-23
 " ================================================================
 
 
@@ -193,6 +193,8 @@ nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
 " (( emmet )) {{{1
 imap <expr> hj emmet#expandAbbrIntelligent("\<tab>")
+" (( tabular )) {{{1
+vmap <CR> :Tabular /
 " (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
