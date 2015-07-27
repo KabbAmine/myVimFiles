@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-23
+" Last modification: 2015-07-28
 " ================================================================
 
 
@@ -154,8 +154,8 @@ let g:SignatureMap = {
 			\ }
 " (( CtrlP )) & extensions {{{1
 nmap <silent> !!   :CtrlPCmdPalette<CR>
-nmap <silent> ,,f  :CtrlP<CR>
-nmap <silent> ,F   :CtrlPFunky<CR>
+nmap <silent> ,f  :CtrlP<CR>
+nmap <silent> ,,f   :CtrlPFunky<CR>
 nmap <silent> ,l   :CtrlPLine %<CR>
 nmap <silent> ,r   :CtrlPMRUFiles<CR>
 nmap <silent> ,t   :CtrlPBufTag<CR>
@@ -163,7 +163,7 @@ nmap <silent> ,t   :CtrlPBufTag<CR>
 nmap <silent> ,B :FufBookmarkDir<CR>
 nmap <silent> ,c :FufMruCmd<CR>
 nmap <silent> ,d :FufDir<CR>
-nmap <silent> ,f :FufFile<CR>
+nmap <silent> ,F :FufFile<CR>
 nmap <silent> ,b :FufBuffer<CR>
 " (( ultisnips )) {{{1
 nmap <C-F2> :UltiSnipsEdit<CR>
@@ -375,10 +375,12 @@ let g:ctrlp_prompt_mappings = {
 			\ 'ToggleType(-1)':		  ['<c-b>'],
 			\ 'MarkToOpen()':		  ['<c-z>'],
 			\ 'OpenMulti()':		  ['<c-o>'],
-			\ 'CreateNewFile()':	  ['<c-y>']
+			\ 'CreateNewFile()':	  ['<c-y>'],
+			\ 'PrtHistory(-1)':		  ['<c-j>'],
+			\ 'PrtHistory(1)':		  ['<c-k>'],
+			\ 'PrtSelectMove("j")':   ['<c-n>'],
+			\ 'PrtSelectMove("k")':   ['<c-p>']
 			\ }
-			" \ 'PrtHistory(-1)':		  ['<c-down>'],
-			" \ 'PrtHistory(1)':		  ['<c-up>'],
 " MRU mode
 let g:ctrlp_mruf_save_on_update = 1
 " Use ag in CtrlP for listing files.
