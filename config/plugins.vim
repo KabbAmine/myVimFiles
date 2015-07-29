@@ -192,7 +192,7 @@ map <silent> ,E :Errors<CR>
 nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
 " (( emmet )) {{{1
-imap <expr> hj emmet#expandAbbrIntelligent("\<tab>")
+imap <expr> jh emmet#expandAbbrIntelligent("\<tab>")
 " (( tabular )) {{{1
 vmap <CR> :Tabular /
 " (( vsl )) {{{1
