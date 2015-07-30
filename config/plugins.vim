@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-28
+" Last modification: 2015-07-31
 " ================================================================
 
 
@@ -13,8 +13,9 @@ endif
 " List of my plugins {{{1
 let s:myPlugs = [
 			\'gulp-vim',
-			\'vAction',
+			\'lazyList',
 			\'test',
+			\'vAction',
 			\'vCoolor',
 			\'vimSimpleLib',
 			\'vullScreen',
@@ -208,6 +209,9 @@ nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<CR>
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
+" (( lazyList )) {{{1
+nmap <silent> gll :LazyList<CR>
+nmap gli :LazyListI<CR>
 " }}}
 
 " =========== (AUTO)COMMANDS ==========================================
