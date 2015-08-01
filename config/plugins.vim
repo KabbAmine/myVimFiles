@@ -145,103 +145,22 @@ endif
 " }}}
 
 " =========== MAPPING ==========================================
-" (( php-documentor )) {{{1
-nnoremap <silent> <C-p> :call PhpDoc()<CR>
-inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
-vnoremap <silent> <C-p> :call PhpDocRange()<CR>
-" (( vim-signature )) {{{1
-let g:SignatureMap = {
-			\ 'ListLocalMarks'	 :	",m",
-			\ }
-" (( CtrlP )) & extensions {{{1
-nmap <silent> !!   :CtrlPCmdPalette<CR>
-nmap <silent> ,f  :CtrlP<CR>
-nmap <silent> ,,f   :CtrlPFunky<CR>
-nmap <silent> ,l   :CtrlPLine %<CR>
-nmap <silent> ,r   :CtrlPMRUFiles<CR>
-nmap <silent> ,t   :CtrlPBufTag<CR>
-" (( FuzzyFinder )) {{{1
-nmap <silent> ,B :FufBookmarkDir<CR>
-nmap <silent> ,c :FufMruCmd<CR>
-nmap <silent> ,d :FufDir<CR>
-nmap <silent> ,F :FufFile<CR>
-nmap <silent> ,b :FufBuffer<CR>
-" (( ultisnips )) {{{1
-nmap <C-F2> :UltiSnipsEdit<CR>
-" (( NERDTree ))  {{{1
-nmap <silent> ,N :NERDTreeToggle<CR>
-" (( tagbar )) {{{1
-nnoremap <silent> ,T :TagbarToggle<CR>
-" (( undotree )) {{{1
-nnoremap <silent> ,U :UndotreeToggle<CR>
-" (( tComment )) {{{1
-" *** \cc			=> Comment or uncomment a line.
-" *** \c{motion}	=> Comment or uncomment a specified motion.
-" nmap <silent> <leader>cc <c-_><c-_>
-" vmap <silent> <leader>cc <c-_><c-_>
-" nmap <silent> <leader>c gc
-" (( syntastic )) {{{1
-" *** <F8>		=> SyntasticCheck
-" *** <c-F8>	=> SyntasticReset
-" *** ,E		=> Display an errors window.
-map <silent> <F8> :SyntasticCheck<CR>
-map <silent> <c-F8> :SyntasticReset<CR>
-map <silent> ,E :Errors<CR>
 " Operations on current buffer (Move between errors in (( syntastic )) ) {{{1
 " *** <c-F3>	=> lprevious.
 " *** <c-F4>	=> lnext.
 nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
-" (( emmet )) {{{1
-imap <expr> jh emmet#expandAbbrIntelligent("\<tab>")
-" (( tabular )) {{{1
-vmap <CR> :Tabular /
-" (( vsl )) {{{1
-" *** ;t				=> Open terminal in pwd
-" *** ;;t				=> Open terminal in dir of current file
-" *** ;f				=> Open file manager in pwd
-" *** ;;f				=> Open file manager in dir of current file
-nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
-nmap <silent> ;;t :call vsl#general#lib#OpenTerm(expand('%:h:p'))<CR>
-nmap <silent> ;f :call vsl#general#lib#OpenFM()<CR>
-nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<CR>
-" (( zeavim )) {{{1
-nmap gz <Plug>Zeavim
-vmap gz <Plug>ZVVisSelection
-nmap gZ <Plug>ZVKeyDocset
-" (( lazyList )) {{{1
-nmap <silent> gll :LazyList<CR>
-nmap gli :LazyListI<CR>
-" }}}
-
-" =========== (AUTO)COMMANDS ==========================================
-" Short commands for (( vim-plug )) {{{1
-command! PI :PlugInstall
-command! PU :PlugUpdate
-command! PS :PlugStatus
-command! PC :PlugClean
-" (( gitgutter )) {{{1
-" *** :GG	=> Toggle GitGutter.
-" *** :Gn	=> Next diff.
-" *** :Gp	=> Previous diff.
-command! GG :GitGutterToggle
-command! Gn :GitGutterNextHunk
-command! Gp :GitGutterPrevHunk
-" (( vimgitlog )) {{{1
-command! GitLog :call GITLOG_ToggleWindows()
-" Set md files as a markdown files {{{1
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-" }}}
 
 " =========== OMNIFUNC ==============================
-" For (( javacomplete )) {{{1
-if has("autocmd")
-	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
-endif
 " }}}
 
-" =========== PLUGINS OPTIONS =======================
+" =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( FuzzyFinder )) {{{1
+nmap <silent> ,B :FufBookmarkDir<CR>
+nmap <silent> ,c :FufMruCmd<CR>
+nmap <silent> ,d :FufDir<CR>
+nmap <silent> ,F :FufFile<CR>
+nmap <silent> ,b :FufBuffer<CR>
 let g:fuf_modesDisable = ['mrufile']
 let g:fuf_mrufile_maxItem = 40
 let g:fuf_patternSeparator = '+'
@@ -256,6 +175,7 @@ let g:fuf_keyOpenTabpage = '<C-t>'
 " Define the directory for data files.
 execute "let g:fuf_dataDir = '".g:vimDir."/various/fuf-data/'"
 " ******* (( NERDTree )) {{{1
+nmap <silent> ,N :NERDTreeToggle<CR>
 if g:hasWin
 	let NERDTreeBookmarksFile='C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
 else
@@ -276,6 +196,7 @@ let NERDTreeHijackNetrw=1
 " ******* (( python-syntax )) {{{1
 let python_highlight_all=1
 " ******* (( tagbar )) & (( tagbar-phpctags )) {{{1
+nnoremap <silent> ,T :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 " Sort the elements by the order of appearance.
 let g:tagbar_sort = 0
@@ -313,6 +234,9 @@ if has("gui_running") || exists("$TMUX")
 	let g:airline#extensions#tabline#tab_min_count = 2
 endif
 " ******* (( syntastic )) {{{1
+map <silent> <F8> :SyntasticCheck<CR>
+map <silent> <c-F8> :SyntasticReset<CR>
+map <silent> ,E :Errors<CR>
 let g:syntastic_always_populate_loc_list = 1
 "Skip checks using :wq, :x, and :ZZ
 let g:syntastic_check_on_wq = 0
@@ -337,6 +261,7 @@ let g:syntastic_mode_map = {
 			\ "passive_filetypes": ["vim", "ruby"]
 			\ }
 " ******* (( emmet )) {{{1
+imap <expr> jh emmet#expandAbbrIntelligent("\<tab>")
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
@@ -344,6 +269,7 @@ let g:emmet_html5 = 1
 let g:user_emmet_install_global = 0
 autocmd FileType html,scss,css,jade EmmetInstall
 " ******* (( undotree )) {{{1
+nnoremap <silent> ,U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
 " ******* (( delimitmate )) {{{1
@@ -357,6 +283,7 @@ let delimitMate_expand_cr = 1
 " ******* (( vim-javascript )) {{{1
 let javascript_enable_domhtmlcss = 1
 " ******* (( ultisnips )) {{{1
+nmap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
@@ -364,8 +291,17 @@ let g:UltiSnipsEditSplit="vertical"
 " Personal snippets folder.
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " ******* (( gitgutter )) {{{1
+command! GG :GitGutterToggle
+command! Gn :GitGutterNextHunk
+command! Gp :GitGutterPrevHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( ctrlp & cie )) {{{1
+nmap <silent> !!   :CtrlPCmdPalette<CR>
+nmap <silent> ,f  :CtrlP<CR>
+nmap <silent> ,,f   :CtrlPFunky<CR>
+nmap <silent> ,l   :CtrlPLine %<CR>
+nmap <silent> ,r   :CtrlPMRUFiles<CR>
+nmap <silent> ,t   :CtrlPBufTag<CR>
 " Disable CtrlP default map.
 let g:ctrlp_map = ''
 let g:ctrlp_cache_dir = g:vimDir . '/various/ctrlp'
@@ -400,6 +336,10 @@ endif
 " (( cmd-palette ))
 let g:ctrlp_cmdpalette_execute = 1
 " ******* (( vim-plug )) {{{1
+command! PI :PlugInstall
+command! PU :PlugUpdate
+command! PS :PlugStatus
+command! PC :PlugClean
 let g:plug_threads = g:hasWin ? 5 : 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
@@ -407,6 +347,7 @@ let g:clever_f_smart_case = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
 " ******* (( vim-markdown )) {{{1
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " Disable folding.
 let g:vim_markdown_folding_disabled=1
 " Disable default mappings.
@@ -443,6 +384,9 @@ let g:formatprg_args_expr_html = '"--indent-size 2 --indent-inner-html true  --p
 let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
 " ******* (( php-documentor )) {{{1
+nnoremap <silent> <C-p> :call PhpDoc()<CR>
+inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
+vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
 let g:webdevicons_enable_nerdtree = 0
@@ -451,7 +395,30 @@ let g:peekaboo_compact = 1
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
+" ******* (( tabular )) {{{1
+vmap <CR> :Tabular /
+" ******* (( vimgitlog )) {{{1
+command! GitLog :call GITLOG_ToggleWindows()
+" ******* (( fugitive )) {{{1
+" some abbreviations
+cab gb git branch
+cab gch git checkout
+cab gco gcommit
+cab gl git log
+cab gm gmerge
+cab gs gstatus
+" ******* (( vim-signature )) {{{1
+let g:SignatureMap = {
+			\ 'ListLocalMarks'	 :	",m",
+			\ }
+" ******* (( javacomplete )) {{{1
+if has("autocmd")
+	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
+endif
 " ******* (( zeavim )) {{{1
+nmap gz <Plug>Zeavim
+vmap gz <Plug>ZVVisSelection
+nmap gZ <Plug>ZVKeyDocset
 let g:zv_disable_mapping = 1
 let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
@@ -460,16 +427,18 @@ let g:vcoolor_disable_mappings = 1
 let g:vcoolor_map = '<A-c>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
-" }}}
-
-" =========== ABBREVIATIONS =======================
-" For (( fugitive )) {{{1
-cab Gb Git branch
-cab Gch Git checkout
-cab Gco Gcommit
-cab Gl Git log
-cab Gm Gmerge
-cab Gs Gstatus
+" ******* (( vsl )) {{{1
+" *** ;t				=> Open terminal in pwd
+" *** ;;t				=> Open terminal in dir of current file
+" *** ;f				=> Open file manager in pwd
+" *** ;;f				=> Open file manager in dir of current file
+nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
+nmap <silent> ;;f :call vsl#general#lib#openfm(expand('%:h:p'))<cr>
+nmap <silent> ;f :call vsl#general#lib#openfm()<cr>
+nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
+" ******* (( lazyList )) {{{1
+nmap <silent> gll :LazyList<CR>
+nmap gli :LazyListI<CR>
 " }}}
 
 " =========== HACKS =======================
