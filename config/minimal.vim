@@ -224,6 +224,8 @@ nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 nnoremap <silent> <C-h> <C-w>h
 nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-Up> <C-w>+
+nnoremap <silent> <C-Down> <C-w>-
 nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
