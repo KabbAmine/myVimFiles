@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-31
+" Last modification: 2015-08-02
 " ================================================================
 
 
@@ -229,8 +229,6 @@ command! Gn :GitGutterNextHunk
 command! Gp :GitGutterPrevHunk
 " (( vimgitlog )) {{{1
 command! GitLog :call GITLOG_ToggleWindows()
-" (( delimitMate )) {{{1
-au FileType javascript let b:delimitMate_autoclose = 0
 " Set md files as a markdown files {{{1
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " }}}
@@ -349,7 +347,13 @@ autocmd FileType html,scss,css,jade EmmetInstall
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
 " ******* (( delimitmate )) {{{1
-let delimitMate_matchpairs = "(:),[:],{:}"
+" Skip CR expansion on pop-up
+imap <expr> <CR> pumvisible()
+			\ ? "\<C-Y>"
+			\ : "<Plug>delimitMateCR"
+imap <S-space> <Plug>delimitMateS-Tab
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr = 1
 " ******* (( vim-javascript )) {{{1
 let javascript_enable_domhtmlcss = 1
 " ******* (( ultisnips )) {{{1

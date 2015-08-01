@@ -219,6 +219,7 @@ vnoremap gk <Esc>
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
 nnoremap <silent> gs= <C-w>=
+nnoremap <silent> gsc <C-w>c
 nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 nnoremap <silent> <C-h> <C-w>h
