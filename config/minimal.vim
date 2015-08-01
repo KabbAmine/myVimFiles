@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-07-28
+" Last modification: 2015-08-02
 " ================================================================
 
 
@@ -223,8 +223,10 @@ nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 nnoremap <silent> <C-h> <C-w>h
 nnoremap <silent> <C-l> <C-w>l
-nnoremap <silent> <Up> <C-w>+
-nnoremap <silent> <Down> <C-w>-
+nnoremap <silent> <Up> <C-w>K
+nnoremap <silent> <Down> <C-w>J
+nnoremap <silent> <Right> <C-w>L
+nnoremap <silent> <Left> <C-w>H
 " For command line {{{1
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
