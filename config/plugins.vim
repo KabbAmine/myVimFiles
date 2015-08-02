@@ -261,22 +261,22 @@ let g:syntastic_mode_map = {
 			\ "passive_filetypes": ["vim", "ruby"]
 			\ }
 " ******* (( emmet )) {{{1
-imap <expr> jh emmet#expandAbbrIntelligent("\<tab>")
+" Enable emmet for specific files.
+let g:user_emmet_install_global = 0
+augroup emmet
+	autocmd!
+	autocmd FileType html,scss,css,jade EmmetInstall
+	au FileType html,scss,css,jade imap <buffer> <expr> jh emmet#expandAbbrIntelligent("\<tab>")
+augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
-" Enable emmet for specific files.
-let g:user_emmet_install_global = 0
-autocmd FileType html,scss,css,jade EmmetInstall
 " ******* (( undotree )) {{{1
 nnoremap <silent> ,U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
 " ******* (( delimitmate )) {{{1
 " Skip CR expansion on pop-up
-imap <expr> <CR> pumvisible()
-			\ ? "\<C-Y>"
-			\ : "<Plug>delimitMateCR"
 imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
