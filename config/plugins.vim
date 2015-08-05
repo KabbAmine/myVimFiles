@@ -293,6 +293,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 command! GG :GitGutterToggle
 command! Gn :GitGutterNextHunk
 command! Gp :GitGutterPrevHunk
+command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( ctrlp & cie )) {{{1
 nmap <silent> !!   :CtrlPCmdPalette<CR>
