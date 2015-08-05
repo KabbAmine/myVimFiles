@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-02
+" Last modification: 2015-08-05
 " ================================================================
 
 
@@ -102,6 +102,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
 Plug 'mbbill/undotree'                 , { 'on': 'UndotreeToggle' }
+Plug 'ntpeters/vim-airline-colornum'
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
 Plug 'Shougo/neocomplete.vim'
