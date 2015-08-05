@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-05
+" Last modification: 2015-08-06
 " ================================================================
 
 
@@ -93,7 +93,7 @@ Plug 'ntpeters/vim-airline-colornum'
 Plug 'Yggdroot/indentLine'
 Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
 " Various {{{2
-call s:PlugInOs('Shougo/vimproc.vim'        , "{ 'do': 'make' }" , 'unix')
+call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
@@ -104,9 +104,10 @@ Plug 'matze/vim-move'
 Plug 'mbbill/undotree'                 , { 'on': 'UndotreeToggle' }
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree' , { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'             , { 'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
+Plug 'tcd.vim'                         , {'on': 'Tcd'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
@@ -433,8 +434,8 @@ let g:gv_rvm_hack = 1
 " *** ;f				=> Open file manager in pwd
 " *** ;;f				=> Open file manager in dir of current file
 nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
-nmap <silent> ;;f :call vsl#general#lib#openfm(expand('%:h:p'))<cr>
-nmap <silent> ;f :call vsl#general#lib#openfm()<cr>
+nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
+nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
 nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
 nmap <silent> gll :LazyList<CR>
