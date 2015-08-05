@@ -77,10 +77,6 @@ Plug 'L9'
 " (( ultisnips )) {{{2
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-" (( airline )) {{{2
-Plug 'bling/vim-airline'
-" (( nerdtree )) {{{2
-Plug 'scrooloose/nerdtree' , { 'on': 'NERDTreeToggle' }
 " (( ctrlp )) {{{2
 Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP , more active repo.
 Plug 'fisadev/vim-ctrlp-cmdpalette' , { 'on': 'CtrlPCmdPalette' }
@@ -90,21 +86,26 @@ Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar'
 call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
-" Various {{{2
+" Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , ''                 , 'unix')
+Plug 'bling/vim-airline'
+Plug 'kshenoy/vim-signature'
+Plug 'ntpeters/vim-airline-colornum'
+Plug 'Yggdroot/indentLine'
+Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
+" Various {{{2
 call s:PlugInOs('Shougo/vimproc.vim'        , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
-Plug 'kshenoy/vim-signature'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
 Plug 'mbbill/undotree'                 , { 'on': 'UndotreeToggle' }
-Plug 'ntpeters/vim-airline-colornum'
 Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
+Plug 'scrooloose/nerdtree' , { 'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
@@ -114,8 +115,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rvm'                   , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
-Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
 " Colorschemes {{{2
 Plug 'ajh17/Spacegray.vim'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
