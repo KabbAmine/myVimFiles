@@ -15,7 +15,6 @@ let s:myPlugs = [
 			\'gulp-vim',
 			\'lazyList',
 			\'test',
-			\'vAction',
 			\'vCoolor',
 			\'vimSimpleLib',
 			\'vullScreen',
