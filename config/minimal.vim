@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-02
+" Last modification: 2015-08-05
 " ================================================================
 
 
@@ -79,7 +79,7 @@ set ruler			" Show cursor position below each window.
 " {{{1
 set showmatch						" Show matching brackets.
 set infercase						" Adjust case of a keyword completion match.
-set completeopt=menuone,preview				" Use only a popup menu for Insert mode completion without preview.
+set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
 set textwidth=0						" Don't insert automatically newlines
 if g:hasWin
 	set backspace=2					" Make backspace works normally in Win
