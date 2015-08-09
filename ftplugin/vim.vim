@@ -1,10 +1,7 @@
 " For Vim files.
-" Last modification: 2015-07-23
+" Last modification: 2015-08-09
 
 " =========== MAPPINGS =======================
-" Source the current file
-" {
-	" *** <F9>		=> Give right.
-		nnoremap <buffer> <F9> :so %<CR>
-" }
-	
+" <F9>  =>  Source the current file
+nnoremap <buffer> <F9> :so %<CR>
+
