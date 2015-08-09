@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-05
+" Last modification: 2015-08-09
 " ================================================================
 
 
@@ -233,6 +233,8 @@ nnoremap <silent> <Left> <C-w>H
 " For command line {{{1
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
+" Open command-line window
+cnoremap <S-space> <C-f>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -308,7 +310,12 @@ function! <SID>SynStack()
 	endif
 	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-" }}}
+" Write to file with sudo (Linux only)
+" http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
+if has('unix')
+	command! Sw :w !sudo tee % >/dev/null 
+endif
+" }}} 
 
 " =========== ABBREVIATIONS ==============================
 " No more rage (Idea from a generated vimrc {{{1
