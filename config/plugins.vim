@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-06
+" Last modification: 2015-08-14
 " ================================================================
 
 
@@ -438,8 +438,33 @@ nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
 nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
 nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
-nmap <silent> gll :LazyList<CR>
-nmap gli :LazyListI<CR>
+nnoremap gli :LazyList 
+vnoremap gli :LazyList 
+let g:lazylist_maps = [
+			\ 'gl',
+			\ {
+				\ 'l'  : '',
+				\ '*'  : '* ',
+				\ '-'   : '- ',
+				\ '2'  : '%2%. ',
+				\ '3'  : '%3%. ',
+				\ '4'  : '%4%. ',
+				\ '5'  : '%5%. ',
+				\ '6'  : '%6%. ',
+				\ '7'  : '%7%. ',
+				\ '8'  : '%8%. ',
+				\ '9'  : '%9%. ',
+				\ '.1' : '1.%1%. ',
+				\ '.2' : '2.%1%. ',
+				\ '.3' : '3.%1%. ',
+				\ '.4' : '4.%1%. ',
+				\ '.5' : '5.%1%. ',
+				\ '.6' : '6.%1%. ',
+				\ '.7' : '7.%1%. ',
+				\ '.8' : '8.%1%. ',
+				\ '.9' : '9.%1%. ',
+			\ }
+		\]
 " }}}
 
 " =========== HACKS =======================
