@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-14
+" Last modification: 2015-08-18
 " ================================================================
 
 
@@ -84,7 +84,7 @@ Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar'
-call s:PlugInOs('vim-scripts/tagbar-phpctags', "{'do': 'chmod +x bin/phpctags', 'for': 'php'}", 'unix')
+call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , ''                 , 'unix')
 Plug 'bling/vim-airline'
@@ -211,6 +211,10 @@ let g:tagbar_type_snippets = {
 			\ 's:snippets',
 			\ ]
 			\ }
+" (( tagbar-phpctags )) only in Linux
+if g:hasUnix
+	let g:tagbar_phpctags_bin = g:vimDir . '/plugs/tagbar-phpctags.vim/bin/phpctags'
+endif
 " ******* (( airline )) {{{1
 let g:airline_theme = 'yowish'
 if has("gui_running") || exists("$TMUX")
