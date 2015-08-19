@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-18
+" Last modification: 2015-08-19
 " ================================================================
 
 
@@ -54,7 +54,7 @@ Plug 'lilydjwg/colorizer'      , {'for': ['html', 'css', 'scss', 'php', 'xml', '
 Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'        , {'for': ['html', 'php', 'xml']}
 Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
-Plug 'shime/vim-livedown'      , {'on':  ['LivedownPreview', 'LivedownKill']}
+Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
 Plug 'leshill/vim-json'        , { 'for': 'json' }
