@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-26
+" Last modification: 2015-08-27
 " ================================================================
 
 
@@ -407,12 +407,12 @@ vmap <CR> :Tabular /
 command! GitLog :call GITLOG_ToggleWindows()
 " ******* (( fugitive )) {{{1
 " some abbreviations
-cab gb git branch
-cab gch git checkout
-cab gco gcommit
-cab gl git log
-cab gm gmerge
-cab gs gstatus
+cab Gb Git branch
+cab Gch Git checkout
+cab Gco Gcommit
+cab Gl Git log
+cab Gm Gmerge
+cab Gs Gstatus
 " ******* (( vim-signature )) {{{1
 let g:SignatureMap = {
 			\ 'ListLocalMarks'	 :	",m",
