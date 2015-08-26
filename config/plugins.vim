@@ -50,6 +50,7 @@ Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For HTML, CSS, jade, SASS & markdown {{{2
 Plug 'digitaltoad/vim-jade'    , {'for': 'jade'}
 Plug 'docunext/closetag.vim'   , {'for': ['html', 'php', 'xml']}
+Plug 'JulesWang/css.vim'       , {'for': 'css'}
 Plug 'lilydjwg/colorizer'      , {'for': ['html', 'css', 'scss', 'php', 'xml', 'vim']}
 Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'        , {'for': ['html', 'php', 'xml']}
@@ -57,14 +58,17 @@ Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
 Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
-Plug 'leshill/vim-json'        , { 'for': 'json' }
+Plug 'elzr/vim-json'           , {'for': 'json' }
 Plug 'marijnh/tern_for_vim'    , {'do': 'npm install', 'for': 'javascript'}
-Plug 'pangloss/vim-javascript' , { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript' , {'for': 'javascript' }
 " For Python {{{2
 Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'hdima/python-syntax' , { 'for': 'python' }
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
+" Other syntaxes {{{2
+Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
+Plug 'tejr/vim-tmux'             , {'for': 'tmux'}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'jaxbot/github-issues.vim'
@@ -421,6 +425,9 @@ let g:SignatureMap = {
 if has("autocmd")
 	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
 endif
+" ******* (( vim-json )) {{{1
+let g:vim_json_syntax_conceal = 0
+let g:vim_json_warnings = 0
 " ******* (( zeavim )) {{{1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
