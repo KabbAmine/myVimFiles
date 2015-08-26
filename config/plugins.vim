@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-19
+" Last modification: 2015-08-26
 " ================================================================
 
 
@@ -284,6 +284,7 @@ let g:undotree_WindowLayout = 'botright'
 imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
 " ******* (( vim-javascript )) {{{1
 let javascript_enable_domhtmlcss = 1
 " ******* (( ultisnips )) {{{1
