@@ -75,20 +75,19 @@ Plug 'jaxbot/github-issues.vim'
 Plug 'PAntoine/vimgitlog'
 Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
-Plug 'FuzzyFinder'
-Plug 'L9'
+Plug 'FuzzyFinder' | Plug 'L9'
 " (( ultisnips )) {{{2
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " (( ctrlp )) {{{2
-Plug 'ctrlpvim/ctrlp.vim'		" A fork of CtrlP , more active repo.
-Plug 'fisadev/vim-ctrlp-cmdpalette' , { 'on': 'CtrlPCmdPalette' }
-Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
+" A fork of CtrlP , more active repo.
+Plug 'ctrlpvim/ctrlp.vim'
+			\| Plug 'fisadev/vim-ctrlp-cmdpalette' , { 'on': 'CtrlPCmdPalette' }
+			\| Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 " (( syntastic )) & linters {{{2
 Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar'
-call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
+			\| call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , ''                 , 'unix')
 Plug 'bling/vim-airline'
