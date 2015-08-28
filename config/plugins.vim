@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-27
+" Last modification: 2015-08-29
 " ================================================================
 
 
@@ -196,6 +196,7 @@ let NERDTreeAutoDeleteBuffer=1
 let NERDTreeCaseSensitiveSort=1
 let NERDTreeDirArrows=1
 let NERDTreeHijackNetrw=1
+autocmd FileType nerdtree setlocal nolist
 " ******* (( python-syntax )) {{{1
 let python_highlight_all=1
 " ******* (( tagbar )) & (( tagbar-phpctags )) {{{1
@@ -398,7 +399,8 @@ inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
 vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
-let g:webdevicons_enable_nerdtree = 0
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
 " ******* (( vim-peekaboo )) {{{1
 let g:peekaboo_compact = 1
 " ******* (( GoldenView )) {{{1
