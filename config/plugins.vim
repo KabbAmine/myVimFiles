@@ -51,7 +51,7 @@ Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 Plug 'digitaltoad/vim-jade'    , {'for': 'jade'}
 Plug 'docunext/closetag.vim'   , {'for': ['html', 'php', 'xml']}
 Plug 'JulesWang/css.vim'       , {'for': 'css'}
-Plug 'lilydjwg/colorizer'      , {'for': ['html', 'css', 'scss', 'php', 'xml', 'vim']}
+Plug 'lilydjwg/colorizer'
 Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'        , {'for': ['html', 'php', 'xml']}
 Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
