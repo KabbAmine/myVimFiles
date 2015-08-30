@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-29
+" Last modification: 2015-08-30
 " ================================================================
 
 
@@ -58,9 +58,11 @@ Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
 Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
-Plug 'elzr/vim-json'           , {'for': 'json' }
-Plug 'marijnh/tern_for_vim'    , {'do': 'npm install', 'for': 'javascript'}
-Plug 'pangloss/vim-javascript' , {'for': 'javascript' }
+Plug 'elzr/vim-json'                          , {'for': 'json' }
+Plug 'gavocanov/vim-js-indent'                , {'for': 'javascript'}
+Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install', 'for': 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/yajs.vim'                        , {'for': 'javascript'}	" Js syntax
 " For Python {{{2
 Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'hdima/python-syntax' , { 'for': 'python' }
@@ -289,8 +291,8 @@ imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
-" ******* (( vim-javascript )) {{{1
-let javascript_enable_domhtmlcss = 1
+" ******* (( javascript-libraries-syntax )) {{{1
+let g:used_javascript_libs = 'jquery'
 " ******* (( ultisnips )) {{{1
 nmap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
