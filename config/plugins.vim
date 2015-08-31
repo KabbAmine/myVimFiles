@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-30
+" Last modification: 2015-08-31
 " ================================================================
 
 
@@ -266,7 +266,7 @@ if g:hasWin
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
 let g:syntastic_mode_map = {
-			\ "mode": "active",
+			\ "mode": "passive",
 			\ "active_filetypes": ["php", "sass", "scss", "html", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
 			\ "passive_filetypes": ["vim", "ruby"]
 			\ }
