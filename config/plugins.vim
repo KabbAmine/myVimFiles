@@ -223,6 +223,7 @@ if g:hasUnix
 endif
 " ******* (( airline )) {{{1
 let g:airline_theme = 'yowish'
+set noshowmode
 if has("gui_running") || exists("$TMUX")
 	if !exists('g:airline_symbols')
 		let g:airline_symbols = {}
