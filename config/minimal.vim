@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-09
+" Last modification: 2015-09-01
 " ================================================================
 
 
@@ -214,7 +214,7 @@ nnoremap <silent> <S-q> :bd<CR>
 nnoremap zz @:
 " JK for escape {{{1
 inoremap jk <Esc>
-vnoremap gk <Esc>
+inoremap JK <Esc>
 " For splits {{{1
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
