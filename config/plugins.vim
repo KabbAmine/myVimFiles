@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-31
+" Last modification: 2015-09-10
 " ================================================================
 
 
@@ -70,11 +70,11 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
 Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
+Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
 Plug 'tejr/vim-tmux'             , {'for': 'tmux'}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'jaxbot/github-issues.vim'
-Plug 'PAntoine/vimgitlog'
 Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
 Plug 'FuzzyFinder' | Plug 'L9'
@@ -102,7 +102,9 @@ call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
+Plug 'gastonsimone/vim-dokumentary'
 Plug 'godlygeek/tabular'
+Plug 'junegunn/vader.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
@@ -411,8 +413,6 @@ let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
 " ******* (( tabular )) {{{1
 vmap <CR> :Tabular /
-" ******* (( vimgitlog )) {{{1
-command! GitLog :call GITLOG_ToggleWindows()
 " ******* (( fugitive )) {{{1
 " some abbreviations
 cab Gb Git branch
@@ -432,6 +432,8 @@ endif
 " ******* (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
+" ******* (( tcomment )) {{{1
+call tcomment#DefineType('vader', '# %s')
 " ******* (( zeavim )) {{{1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
