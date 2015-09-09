@@ -1,0 +1,50 @@
+snippet giv "Given bloc" b
+Given ${1:filetype} (${2:comment}):
+  ${3:input text}
+endsnippet
+
+snippet do "Do block" b
+Do (${1:comment}):
+  ${2:keystrokes}
+endsnippet
+
+snippet exec "Execute block" b
+Execute ${1:lang} (${2:comment}):
+  ${3:vimscript}
+endsnippet
+
+snippet then "Then block" b
+Then $({1:comment}):
+  ${2:vimscript}
+endsnippet
+
+snippet exp "Expect bloc" b
+Expect ${1:filetype} (${2:comment}):
+  ${3:Expected output}
+endsnippet
+
+snippet bef "Before bloc" b
+Before (${1:comment}):
+  ${2:vim script}
+endsnippet
+
+snippet aft "After bloc" b
+After (${1:comment}):
+  ${2:vim script}
+endsnippet
+
+snippet inc "Include macro" b
+Include: ${1:vader file}
+endsnippet
+
+# snippet ass "Assert command" b
+# Assert ${1:boolean expr}${2:[, message]}
+# endsnippet
+#
+# snippet asse "Assert command" b
+# AssertEqual ${1:boolean expr}${2:[, message]}
+# endsnippet
+
+# AssertEqual <expected>, <got>[, message]
+# AssertNotEqual <unexpected>, <got>[, message]
+# AssertThrows <expr>
