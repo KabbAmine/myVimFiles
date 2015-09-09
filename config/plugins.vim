@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-08-31
+" Last modification: 2015-09-09
 " ================================================================
 
 
@@ -70,6 +70,7 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
 Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
+Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
 Plug 'tejr/vim-tmux'             , {'for': 'tmux'}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
@@ -103,6 +104,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
 Plug 'godlygeek/tabular'
+Plug 'junegunn/vader.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
@@ -432,6 +434,8 @@ endif
 " ******* (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
+" ******* (( tcomment )) {{{1
+call tcomment#DefineType('vader', '# %s')
 " ******* (( zeavim )) {{{1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
