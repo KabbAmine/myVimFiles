@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-10
+" Last modification: 2015-09-11
 " ================================================================
 
 
@@ -14,6 +14,7 @@ endif
 let s:myPlugs = [
 			\'gulp-vim',
 			\'lazyList',
+			\'mdHelper',
 			\'test',
 			\'vCoolor',
 			\'vimSimpleLib',
@@ -484,6 +485,8 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
+" ******* (( mdHelper )) {{{1
+" All mappings are in ftplugin/markdown.vim
 " }}}
 
 " =========== HACKS =======================
