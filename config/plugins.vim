@@ -14,6 +14,7 @@ endif
 let s:myPlugs = [
 			\'gulp-vim',
 			\'lazyList',
+			\'mdHelper',
 			\'test',
 			\'vCoolor',
 			\'vimSimpleLib',
@@ -486,6 +487,8 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
+" ******* (( mdHelper )) {{{1
+" All mappings are in ftplugin/markdown.vim
 " }}}
 
 " =========== HACKS =======================
