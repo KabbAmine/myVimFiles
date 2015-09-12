@@ -34,7 +34,7 @@ vnoremap <silent> <buffer> gim :Image 1<CR>
 nnoremap <silent> <buffer> gli :Link<CR>
 vnoremap <silent> <buffer> gli :Link 1<CR>
 " Lists & Blocks
-" nnoremap <silent> <buffer> gbq :MBlockQuote<CR>
-" vnoremap <silent> <buffer> gbq :MBlockQuote 1<CR>
-" nnoremap <silent> <buffer> gbc :MBlockCode<CR>
-" vnoremap <silent> <buffer> gbc :MBlockCode 1<CR>
+nnoremap <silent> <buffer> gbq :BlockQuote<CR>
+vnoremap <silent> <buffer> gbq :BlockQuote 1<CR>
+nnoremap <silent> <buffer> gbc :BlockCode<CR>
+vnoremap <silent> <buffer> gbc :BlockCode 1<CR>

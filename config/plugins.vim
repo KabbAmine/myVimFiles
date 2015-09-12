@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-11
+" Last modification: 2015-09-12
 " ================================================================
 
 
@@ -10,20 +10,8 @@ if g:hasWin
 else
 	let s:myPlugins = "$HOME/Projects/pluginsVim/"
 endif
-" List of my plugins {{{1
-let s:myPlugs = [
-			\'gulp-vim',
-			\'lazyList',
-			\'mdHelper',
-			\'test',
-			\'vCoolor',
-			\'vimSimpleLib',
-			\'vullScreen',
-			\'yowish',
-			\'zeavim'
-			\]
 " Useful variables & functions {{{1
-function! s:PlugInOs(link, param, os)
+function! s:PlugInOs(link, param, os) abort " {{{2
 	if has(a:os)
 		if !empty(a:param)
 			execute "Plug '".a:link."', ".a:param.""
@@ -32,7 +20,31 @@ function! s:PlugInOs(link, param, os)
 		endif
 	endif
 endfunction
-" }}}
+" My plugins {{{2
+let s:myPlugs = {
+			\'gulp-vim'     : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks']}",
+			\'lazyList'     : '',
+			\'mdHelper'     : '',
+			\'test'         : '',
+			\'vCoolor'      : '',
+			\'vimSimpleLib' : '',
+			\'vullScreen'   : '',
+			\'yowish'       : '',
+			\'zeavim'       : ''
+			\ }
+fun! s:MyPlugs(...) abort
+	let l:pn = keys(s:myPlugs)
+	let l:pl = values(s:myPlugs)
+	for l:i in range(0, len(l:pn) - 1)
+		if !empty(l:pl[l:i])
+			exec "Plug '" . s:myPlugins . l:pn[l:i] . "' ," . l:pl[l:i] . ""
+		else
+			exec "Plug '" . s:myPlugins . l:pn[l:i] . "'"
+		endif
+	endfor
+endfun
+" 2}}}
+" 1}}}
 
 " ========== VIM-PLUG ==============================================
 " Initialization {{{1
@@ -42,22 +54,13 @@ else
 	call plug#begin('~/.vim/plugs')
 endif
 " Plugins {{{1
+" Most syntaxes in one plugin {{{2
+Plug 'sheerun/vim-polyglot' , {'do': './build'}
 " For PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
-Plug 'StanAngeloff/php.vim'           , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
-" For HTML, CSS, jade, SASS & markdown {{{2
-Plug 'digitaltoad/vim-jade'    , {'for': 'jade'}
-Plug 'docunext/closetag.vim'   , {'for': ['html', 'php', 'xml']}
-Plug 'JulesWang/css.vim'       , {'for': 'css'}
-Plug 'lilydjwg/colorizer'
-Plug 'mattn/emmet-vim'
-Plug 'othree/html5.vim'        , {'for': ['html', 'php', 'xml']}
-Plug 'plasticboy/vim-markdown' , {'for': ['md', 'markdown']}
-Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
-Plug 'tpope/vim-haml'          , {'for': ['sass', 'scss', 'haml']}
 " For JavaScript {{{2
 Plug 'elzr/vim-json'                          , {'for': 'json' }
 Plug 'gavocanov/vim-js-indent'                , {'for': 'javascript'}
@@ -72,7 +75,11 @@ Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
 Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
 Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
-Plug 'tejr/vim-tmux'             , {'for': 'tmux'}
+" For web development {{{2
+Plug 'docunext/closetag.vim'   , {'for': ['html', 'php', 'xml']}
+Plug 'lilydjwg/colorizer'
+Plug 'mattn/emmet-vim'
+Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'jaxbot/github-issues.vim'
@@ -92,7 +99,7 @@ Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 			\| call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
 " Interface {{{2
-call s:PlugInOs('ryanoasis/vim-devicons' , ''                 , 'unix')
+call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'ntpeters/vim-airline-colornum'
@@ -105,7 +112,7 @@ Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'godlygeek/tabular'
-Plug 'junegunn/vader.vim'
+Plug 'junegunn/vader.vim', {'on': 'Vader'}
 Plug 'junegunn/vim-peekaboo'
 Plug 'matchit.zip'
 Plug 'matze/vim-move'
@@ -131,9 +138,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'whatyouhide/vim-gotham'
 " My Plugins {{{2
-for s:p in s:myPlugs
-	exec "Plug '" . s:myPlugins . s:p . "'"
-endfor
+call s:MyPlugs()
 " }}}
 " }}}
 " End {{{1
@@ -203,7 +208,7 @@ let NERDTreeDirArrows=1
 let NERDTreeHijackNetrw=1
 autocmd FileType nerdtree setlocal nolist
 " ******* (( python-syntax )) {{{1
-let python_highlight_all=1
+let python_highlight_all = 1
 " ******* (( tagbar )) & (( tagbar-phpctags )) {{{1
 nnoremap <silent> ,T :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
@@ -264,16 +269,17 @@ let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss_lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_sh_checkers = ['shellcheck', 'sh']
+let g:syntastic_jade_checkers = ['jade_lint']
 if g:hasWin
 	let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
 	let g:syntastic_php_checkers = 'php'
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
 let g:syntastic_mode_map = {
-			\ "mode": "passive",
-			\ "active_filetypes": ["php", "sass", "scss", "html", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
-			\ "passive_filetypes": ["vim", "ruby"]
+			\ "mode": "passive"
 			\ }
+" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
+" \ "passive_filetypes": ["vim", "ruby"]
 " ******* (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
@@ -362,8 +368,6 @@ let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
-" ******* (( vim-markdown )) {{{1
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " Disable folding.
 let g:vim_markdown_folding_disabled=1
 " Disable default mappings.
@@ -435,6 +439,8 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
 " ******* (( tcomment )) {{{1
 call tcomment#DefineType('vader', '# %s')
+" ******* (( polyglot )) {{{1
+let g:polyglot_disabled = ['json', 'javascript', 'python']
 " ******* (( zeavim )) {{{1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
