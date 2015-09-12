@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-01
+" Last modification: 2015-09-12
 " ================================================================
 
 
@@ -111,6 +111,7 @@ set ignorecase					" Do case insensitive matching.
 set smartcase					" Do smart case matching.
 set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
+set magic
 " }}}
 
 " ========== SYNTAX, HIGHLIGHTING AND SPELLING =================
@@ -178,6 +179,8 @@ endif
 " }}}
 
 " =========== MAPPINGS ==========================================
+" Make Y work as other capitals {{{1
+nnoremap Y y$
 " Text manipulation {{{1
 " *** NORMAL & VISUAL MODE
 	" *** <C-d>		=> Duplicate line.
@@ -238,8 +241,6 @@ cnoremap <S-space> <C-f>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
-" Make Y work as other capitals {{{1
-nnoremap Y y$
 " Make cursor line appear only in INSERT mode (Terminal only) {{{1
 if !empty($TERM)
 	autocmd InsertEnter * set cursorline
@@ -310,11 +311,18 @@ function! <SID>SynStack()
 	endif
 	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-" Write to file with sudo (Linux only)
+" Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
 if has('unix')
 	command! Sw :w !sudo tee % >/dev/null 
 endif
+" Set spelllang & spell in one command {{{1
+command! -nargs=? Spell call s:Spell(<f-args>)
+fun! s:Spell(...) abort
+	let l:l = exists('a:1') ? a:1 : 'fr'
+	execute 'setlocal spelllang=' . l:l
+	setlocal spell!
+endfun
 " }}} 
 
 " =========== ABBREVIATIONS ==============================
