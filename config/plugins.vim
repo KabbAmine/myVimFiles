@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-12
+" Last modification: 2015-09-13
 " ================================================================
 
 
@@ -73,6 +73,7 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
+Plug 'gabrielelana/vim-markdown' , {'for': 'markdown'}
 Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
 Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
 " For web development {{{2
@@ -106,7 +107,6 @@ Plug 'ntpeters/vim-airline-colornum'
 Plug 'Yggdroot/indentLine'
 Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
 " Various {{{2
-call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andy-morris/vim-indented-blocks'
 Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
@@ -121,6 +121,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'             , { 'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
+			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
 Plug 'tcd.vim'                         , {'on': 'Tcd'}
 Plug 'terryma/vim-multiple-cursors'
@@ -163,9 +164,7 @@ endif
 " *** <c-F4>	=> lnext.
 nmap <silent> <c-F3> :lprevious<CR>
 nmap <silent> <c-F4> :lnext<CR>
-
-" =========== OMNIFUNC ==============================
-" }}}
+" 1}}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( FuzzyFinder )) {{{1
@@ -240,7 +239,6 @@ if has("gui_running") || exists("$TMUX")
 	let g:airline_powerline_fonts = 1
 	" Extensions.
 	let g:airline#extensions#tagbar#enabled = 1
-	" endif
 	" Tabline.
 	let g:airline#extensions#tabline#enabled = 1
 	let g:airline#extensions#tabline#show_buffers = 1
@@ -296,7 +294,6 @@ nnoremap <silent> ,U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
 " ******* (( delimitmate )) {{{1
-" Skip CR expansion on pop-up
 imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
@@ -337,15 +334,15 @@ let g:ctrlp_open_multiple_files = 'rij'
 " Open new file in the current window.
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_prompt_mappings = {
-			\ 'ToggleType(1)':		  ['<c-f>'],
-			\ 'ToggleType(-1)':		  ['<c-b>'],
+			\ 'CreateNewFile()':	  ['<c-f>'],
 			\ 'MarkToOpen()':		  ['<c-z>'],
 			\ 'OpenMulti()':		  ['<c-o>'],
-			\ 'CreateNewFile()':	  ['<c-y>'],
 			\ 'PrtHistory(-1)':		  ['<c-j>'],
 			\ 'PrtHistory(1)':		  ['<c-k>'],
 			\ 'PrtSelectMove("j")':   ['<c-n>'],
-			\ 'PrtSelectMove("k")':   ['<c-p>']
+			\ 'PrtSelectMove("k")':   ['<c-p>'],
+			\ 'ToggleType(-1)':		  ['<c-b>'],
+			\ 'ToggleType(1)':		  ['<c-f>']
 			\ }
 " MRU mode
 let g:ctrlp_mruf_save_on_update = 1
@@ -378,17 +375,15 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = expand(g:vimDir).'/various/neocomplete'
-inoremap <expr><C-space>  neocomplete#start_manual_complete('omni')
-" inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Down>"
-" inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr><C-space> neocomplete#start_manual_complete('omni')
 " Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-	let g:neocomplete#sources#omni#input_patterns = {}
-endif
+" if !exists('g:neocomplete#sources#omni#input_patterns')
+" 	let g:neocomplete#sources#omni#input_patterns = {}
+" endif
 if !exists('g:neocomplete#force_omni_input_patterns')
 	let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php =
+let g:neocomplete#force_omni_input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 " For (( jedi-vim ))
@@ -440,7 +435,11 @@ let g:vim_json_warnings = 0
 " ******* (( tcomment )) {{{1
 call tcomment#DefineType('vader', '# %s')
 " ******* (( polyglot )) {{{1
-let g:polyglot_disabled = ['json', 'javascript', 'python']
+let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
+" ******* (( vim-markdown )) {{{1
+let g:markdown_include_jekyll_support = 0
+let g:markdown_enable_mappings = 0
+let g:markdown_enable_spell_checking = 0
 " ******* (( zeavim )) {{{1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
