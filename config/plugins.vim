@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-13
+" Last modification: 2015-09-23
 " ================================================================
 
 
@@ -22,9 +22,9 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 endfunction
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'     : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks']}",
+			\'gulp-vim'     : "{'on': ['Gulp', 'GulpExt', 'GulpTasks']}",
 			\'lazyList'     : '',
-			\'mdHelper'     : '',
+			\'mdHelper'     : "{'for': 'markdown'}",
 			\'test'         : '',
 			\'vCoolor'      : '',
 			\'vimSimpleLib' : '',
@@ -74,15 +74,15 @@ Plug 'hdima/python-syntax' , { 'for': 'python' }
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
 Plug 'gabrielelana/vim-markdown' , {'for': 'markdown'}
-Plug 'smancill/conky-syntax.vim' , {'for': 'conkyrc'}
 Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
 " For web development {{{2
-Plug 'docunext/closetag.vim'   , {'for': ['html', 'php', 'xml']}
-Plug 'lilydjwg/colorizer'
+Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
+Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-Plug 'shime/vim-livedown'      , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
+Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
+Plug 'cohama/agit.vim'          , {'on': 'Agit'}
 Plug 'jaxbot/github-issues.vim'
 Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
@@ -106,31 +106,32 @@ Plug 'kshenoy/vim-signature'
 Plug 'ntpeters/vim-airline-colornum'
 Plug 'Yggdroot/indentLine'
 Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
-" Various {{{2
+" Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'andy-morris/vim-indented-blocks'
-Plug 'Chiel92/vim-autoformat'          , { 'on': 'AutoFormat' }
-Plug 'gastonsimone/vim-dokumentary'
 Plug 'godlygeek/tabular'
-Plug 'junegunn/vader.vim', {'on': 'Vader'}
 Plug 'junegunn/vim-peekaboo'
-Plug 'matchit.zip'
 Plug 'matze/vim-move'
-Plug 'mbbill/undotree'                 , { 'on': 'UndotreeToggle' }
 Plug 'Raimondi/delimitMate'
-Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'             , { 'on': 'NERDTreeToggle' }
-Plug 'Shougo/neocomplete.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
-Plug 'tcd.vim'                         , {'on': 'Tcd'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rvm'                   , { 'on': 'Rvm' }
 Plug 'tpope/vim-surround'
+" Various {{{2
+Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
+Plug 'gastonsimone/vim-dokumentary'
+Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
+Plug 'matchit.zip'
+Plug 'mbbill/undotree'              , {'on': 'UndotreeToggle' }
+Plug 'rhysd/clever-f.vim'
+Plug 'scrooloose/nerdtree'          , {'on': 'NERDTreeToggle' }
+Plug 'Shougo/neocomplete.vim'
+			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
+Plug 'tcd.vim'                      , {'on': 'Tcd'}
+Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-rvm'                , {'on': 'Rvm' }
 " Colorschemes {{{2
 Plug 'ajh17/Spacegray.vim'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
@@ -440,12 +441,18 @@ let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 let g:markdown_include_jekyll_support = 0
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
+" ******* (( QuickRun )) {{{1
+let g:quickrun_no_default_key_mappings = 0
+nnoremap gr :QuickRun<CR>
+vnoremap gr :QuickRun<CR>
 " ******* (( zeavim )) {{{1
+let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
-let g:zv_disable_mapping = 1
-let g:zv_docsets_dir = '~/Important!/docsets_Zeal/'
+let g:zv_docsets_dir = has('unix') ?
+			\ '~/Important!/docsets_Zeal/' :
+			\ 'Z:/home/k-bag/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
@@ -462,6 +469,7 @@ nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
 nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
 nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
+let g:lazylist_omap = 'il'
 nnoremap gli :LazyList 
 vnoremap gli :LazyList 
 let g:lazylist_maps = [
