@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-23
+" Last modification: 2015-09-24
 " ================================================================
 
 
@@ -99,6 +99,13 @@ Plug 'scrooloose/syntastic'
 " (( tagbar )) {{{2
 Plug 'majutsushi/tagbar'
 			\| call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
+" (( textobj-user )) {{{2
+Plug 'kana/vim-textobj-user'
+			\| Plug 'jceb/vim-textobj-uri'
+			\| Plug 'kana/vim-textobj-datetime'
+			\| Plug 'kana/vim-textobj-entire'
+			\| Plug 'kana/vim-textobj-function'
+			\| Plug 'kana/vim-textobj-line'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline'
@@ -122,13 +129,13 @@ Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
+Plug 'kana/vim-tabpagecd'           , {'on': 'cd'}
 Plug 'matchit.zip'
 Plug 'mbbill/undotree'              , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'          , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
 			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
-Plug 'tcd.vim'                      , {'on': 'Tcd'}
 Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-rvm'                , {'on': 'Rvm' }
@@ -469,7 +476,7 @@ nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
 nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
 nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
-let g:lazylist_omap = 'il'
+let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList 
 vnoremap gli :LazyList 
 let g:lazylist_maps = [
