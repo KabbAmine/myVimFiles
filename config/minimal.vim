@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-12
+" Last modification: 2015-09-24
 " ================================================================
 
 
@@ -238,6 +238,8 @@ cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 " Open command-line window
 cnoremap <S-space> <C-f>
+" Sort in VISUAL mode {{{1
+vnoremap <leader>s	:!sort<CR>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
