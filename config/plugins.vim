@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-24
+" Last modification: 2015-09-27
 " ================================================================
 
 
@@ -460,7 +460,7 @@ vmap gz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
 let g:zv_docsets_dir = has('unix') ?
 			\ '~/Important!/docsets_Zeal/' :
-			\ 'Z:/home/k-bag/Important!/docsets_Zeal/'
+			\ 'Z:/k-bag/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
