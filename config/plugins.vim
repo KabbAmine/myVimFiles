@@ -28,6 +28,7 @@ let s:myPlugs = {
 			\'test'         : '',
 			\'vCoolor'      : '',
 			\'vimSimpleLib' : '',
+			\'vSourcePreview'       : '',
 			\'vullScreen'   : '',
 			\'yowish'       : '',
 			\'zeavim'       : ''
@@ -112,7 +113,7 @@ Plug 'bling/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'ntpeters/vim-airline-colornum'
 Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim'          , {'on': 'ToggleGoldenViewAutoResize'}
+Plug 'zhaocai/GoldenView.Vim'        , {'on': 'ToggleGoldenViewAutoResize'}
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -505,6 +506,9 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
+" ******* (( vSourcePreview )) {{{1
+let g:vsp_provider = {}
+" let g:vsp_provider.jade = {'cmd': 'jade', 'type': 'html'}
 " ******* (( mdHelper )) {{{1
 " All mappings are in ftplugin/markdown.vim
 " }}}
