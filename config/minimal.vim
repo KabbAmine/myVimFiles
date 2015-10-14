@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-24
+" Last modification: 2015-10-06
 " ================================================================
 
 
@@ -212,6 +212,7 @@ map <silent> <S-Tab> gt
 " *** <S-q>		=> Delete buffer.
 nnoremap <silent> <S-h> :bp!<CR>
 nnoremap <silent> <S-l> :bn!<CR>
+" For this mapping, check NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :bd<CR>
 " Repeat the last command {{{1
 nnoremap zz @:
@@ -240,6 +241,16 @@ cnoremap <C-j> <Down>
 cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
 vnoremap <leader>s	:!sort<CR>
+" Show syntax highlighting groups for word under cursor {{{1
+" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
+nnoremap gsy :call <SID>SynStack()<CR>
+command! GetSyntax :call <SID>SynStack()
+function! <SID>SynStack()
+	if !exists('*synstack')
+		return
+	endif
+	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -304,15 +315,6 @@ augroup BgHighlight
     autocmd WinEnter * set cul
     autocmd WinLeave * set nocul
 augroup END
-" Show syntax highlighting groups for word under cursor {{{1
-" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
-command! GetSyntax :call <SID>SynStack()
-function! <SID>SynStack()
-	if !exists('*synstack')
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
 " Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
 if has('unix')
