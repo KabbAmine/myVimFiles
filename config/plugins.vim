@@ -1,15 +1,12 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-09-27
+" Last modification: 2015-10-14
 " ================================================================
 
-
 " Personal vim plugins directory {{{1
-if g:hasWin
-	let s:myPlugins = "z:\\k-bag\\Projects\\pluginsVim\\"
-else
-	let s:myPlugins = "$HOME/Projects/pluginsVim/"
-endif
+let s:myPlugins = g:hasWin ?
+			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
+			\ '$HOME/Projects/pluginsVim/'
 " Useful variables & functions {{{1
 function! s:PlugInOs(link, param, os) abort " {{{2
 	if has(a:os)
@@ -22,17 +19,15 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 endfunction
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'     : "{'on': ['Gulp', 'GulpExt', 'GulpTasks']}",
-			\'lazyList'     : '',
-			\'mdHelper'     : "{'for': 'markdown'}",
-			\'test'         : '',
-			\'vCoolor'      : '',
-			\'vimSimpleLib' : '',
-			\'vSourcePreview'       : '',
-			\'vullScreen'   : '',
-			\'yowish'       : '',
-			\'zeavim'       : ''
-			\ }
+			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks']}",
+			\'lazyList'       : '',
+			\'mdHelper'       : "{'for' : 'markdown'}",
+			\'vCoolor'        : '',
+			\'vimSimpleLib'   : '',
+			\'vullScreen'     : '',
+			\'yowish'         : '',
+			\'zeavim'         : ''
+		\ }
 fun! s:MyPlugs(...) abort
 	let l:pn = keys(s:myPlugs)
 	let l:pl = values(s:myPlugs)
@@ -84,7 +79,7 @@ Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'          , {'on': 'Agit'}
-Plug 'jaxbot/github-issues.vim'
+" Plug 'jaxbot/github-issues.vim'
 Plug 'tpope/vim-fugitive'
 " (( fuzzyfinder )) {{{2
 Plug 'FuzzyFinder' | Plug 'L9'
@@ -109,9 +104,8 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'kana/vim-textobj-line'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
-Plug 'bling/vim-airline'
+Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
 Plug 'kshenoy/vim-signature'
-Plug 'ntpeters/vim-airline-colornum'
 Plug 'Yggdroot/indentLine'
 Plug 'zhaocai/GoldenView.Vim'        , {'on': 'ToggleGoldenViewAutoResize'}
 " Edition & moving {{{2
@@ -130,7 +124,7 @@ Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
-Plug 'kana/vim-tabpagecd'           , {'on': 'cd'}
+Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
 Plug 'mbbill/undotree'              , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
@@ -141,12 +135,7 @@ Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-rvm'                , {'on': 'Rvm' }
 " Colorschemes {{{2
-Plug 'ajh17/Spacegray.vim'
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
-Plug 'mgutz/gosu-colors'
-Plug 'nanotech/jellybeans.vim'
-Plug 'reedes/vim-colors-pencil'
-Plug 'whatyouhide/vim-gotham'
 " My Plugins {{{2
 call s:MyPlugs()
 " }}}
@@ -156,15 +145,11 @@ call plug#end()
 " }}}
 
 " ========== VARIOUS  ===========================================
-" Colorscheme {{{1
-if g:hasWin
-	colorscheme yowish
-elseif has("gui_running") || exists("$TMUX")
-	colorscheme yowish
-elseif exists("$TERM") && ($TERM =~ "^xterm")
-	set term=xterm-256color		" Force using 256 colors.
-	colorscheme yowish
+" Colors {{{1
+if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
+	set term=xterm-256color
 endif
+colorscheme yowish
 " }}}
 
 " =========== MAPPING ==========================================
@@ -196,7 +181,17 @@ let g:fuf_keyOpenTabpage = '<C-t>'
 " Define the directory for data files.
 execute "let g:fuf_dataDir = '".g:vimDir."/various/fuf-data/'"
 " ******* (( NERDTree )) {{{1
-nmap <silent> ,N :NERDTreeToggle<CR>
+nnoremap <silent> ,N :NERDTreeToggle<CR>
+" Close NERTree otherwise delete buffer
+" (The delete buffer is already mapped in config/minimal.vim)
+nnoremap <silent> <S-q> :call <SID>CloseNERDTree()<CR>
+fun! <SID>CloseNERDTree() abort
+	if exists('b:NERDTree')
+		execute 'NERDTreeClose'
+	else
+		execute ':bd'
+	endif
+endfun
 if g:hasWin
 	let NERDTreeBookmarksFile='C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
 else
@@ -240,25 +235,29 @@ endif
 " ******* (( airline )) {{{1
 let g:airline_theme = 'yowish'
 set noshowmode
-if has("gui_running") || exists("$TMUX")
-	if !exists('g:airline_symbols')
-		let g:airline_symbols = {}
-	endif
-	" Automatically populate the symbols dictionary with the powerline symbols.
-	let g:airline_powerline_fonts = 1
-	" Extensions.
-	let g:airline#extensions#tagbar#enabled = 1
-	" Tabline.
-	let g:airline#extensions#tabline#enabled = 1
-	let g:airline#extensions#tabline#show_buffers = 1
-	let g:airline#extensions#tabline#buffer_idx_mode = 1
-	" Show splits and tab number in tabline
-	let g:airline#extensions#tabline#tab_nr_type = 2
-	" Configure the minimum number of buffers needed to show the tabline.
-	let g:airline#extensions#tabline#buffer_min_count = 2
-	" Configure the minimum number of tabs needed to show the tabline.
-	let g:airline#extensions#tabline#tab_min_count = 2
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
 endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+" Automatically populate the symbols dictionary with the powerline symbols.
+let g:airline_powerline_fonts = 1
+" EXTENSIONS
+" Various
+let g:airline#extensions#hunks#non_zero_only = 0
+let g:airline#extensions#ctrlp#show_adjacent_modes = 0
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#wordcount#enabled = 0
+" Tabline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+" Show splits and tab number in tabline
+let g:airline#extensions#tabline#tab_nr_type = 2
+" Configure the minimum number of buffers needed to show the tabline
+let g:airline#extensions#tabline#buffer_min_count = 2
+" Configure the minimum number of tabs needed to show the tabline.
+let g:airline#extensions#tabline#tab_min_count = 2
 " ******* (( syntastic )) {{{1
 map <silent> <F8> :SyntasticCheck<CR>
 map <silent> <c-F8> :SyntasticReset<CR>
@@ -408,9 +407,9 @@ let g:formatprg_args_expr_html = '"--indent-size 2 --indent-inner-html true  --p
 let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
 " ******* (( php-documentor )) {{{1
-nnoremap <silent> <C-p> :call PhpDoc()<CR>
-inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
-vnoremap <silent> <C-p> :call PhpDocRange()<CR>
+" nnoremap <silent> <C-p> :call PhpDoc()<CR>
+" inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
+" vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -449,15 +448,18 @@ let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 let g:markdown_include_jekyll_support = 0
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
-" ******* (( QuickRun )) {{{1
+" ******* (( quickRun )) {{{1
 let g:quickrun_no_default_key_mappings = 0
-nnoremap gr :QuickRun<CR>
-vnoremap gr :QuickRun<CR>
+nnoremap gR :QuickRun<CR>
+vnoremap gR :QuickRun<CR>
+" ******* (( agit )) {{{1
+let g:agit_no_default_mappings = 1
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
+let g:zv_file_types = {'python': 'python 3'}
 let g:zv_docsets_dir = has('unix') ?
 			\ '~/Important!/docsets_Zeal/' :
 			\ 'Z:/k-bag/Important!/docsets_Zeal/'
@@ -506,9 +508,6 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
-" ******* (( vSourcePreview )) {{{1
-let g:vsp_provider = {}
-" let g:vsp_provider.jade = {'cmd': 'jade', 'type': 'html'}
 " ******* (( mdHelper )) {{{1
 " All mappings are in ftplugin/markdown.vim
 " }}}
@@ -516,11 +515,14 @@ let g:vsp_provider = {}
 " =========== HACKS =======================
 " Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict {{{1
 function! Multiple_cursors_before()
-	exe 'NeoCompleteLock'
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
 endfunction
-" Enable autocompletion again.
 function! Multiple_cursors_after()
-	exe 'NeoCompleteUnlock'
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
 endfunction
 " Refresh (( airline )), useful when vim config files are sourced
 if exists(':AirlineRefresh') ==# 2
