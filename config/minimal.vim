@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-06
+" Last modification: 2015-10-15
 " ================================================================
 
 
@@ -241,16 +241,8 @@ cnoremap <C-j> <Down>
 cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
 vnoremap <leader>s	:!sort<CR>
-" Show syntax highlighting groups for word under cursor {{{1
-" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
-nnoremap gsy :call <SID>SynStack()<CR>
-command! GetSyntax :call <SID>SynStack()
-function! <SID>SynStack()
-	if !exists('*synstack')
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+" Show syntax highlighting group for word under cursor {{{1
+nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
