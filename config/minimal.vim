@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-15
+" Last modification: 2015-10-17
 " ================================================================
 
 
@@ -93,6 +93,7 @@ set linebreak						" Wrap long lines at a character in 'breakat'.
 let &showbreak='░░░░ '				" String to put before wrapped screen lines.
 set scrolloff=3						" Number of screen lines to show around the cursor.
 set display=lastline				" Show the last line even if it doesn't fit.
+set lazyredraw						" Don't redraw while executing macros
 " Make stars and bars visible
 hi link HelpBar Normal
 hi link HelpStar Normal
