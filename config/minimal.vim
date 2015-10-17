@@ -1,12 +1,12 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-17
+" Last modification: 2015-10-18
 " ================================================================
 
 
 " ========== VARIOUS  ===========================================
-set nocompatible		" No compatible with Vi.
-
+" No compatible with Vi {{{1
+set nocompatible
 " Load indentation rules and plugins according to the detected filetype {{{1
 if has("autocmd")
 	filetype plugin indent on
@@ -46,8 +46,8 @@ while c <= 'z'
 endwhile
 " }}}
 
-" ========== GUI ===============================================
-" {{{1
+" ========== OPTIONS  ===========================================
+" ********* GUI {{{1
 if has('gui_running')
 	set guioptions-=T		" No toolbar in GVim.
 	set guioptions-=m		" No menu in GVim.
@@ -62,21 +62,12 @@ if has('gui_running')
 		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Plus\ Nerd\ File\ Types\ 12
 	endif
 endif
-" }}}
-
-" ========== MESSAGES & INFO ===================================
-" {{{1
+" ********* Messages & info{{{1
 set showcmd			" Show (partial) command in status line.
 set ruler			" Show cursor position below each window.
-" }}}
-
-" ========== SELECT TEXT =========================================
-" {{{1
+" ********* Select text {{{1
 " set clipboard=unnamedplus
-" }}}
-
-" ========== EDIT TEXT =========================================
-" {{{1
+" ********* Edit text {{{1
 set showmatch						" Show matching brackets.
 set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
@@ -84,10 +75,7 @@ set textwidth=0						" Don't insert automatically newlines
 if g:hasWin
 	set backspace=2					" Make backspace works normally in Win
 endif
-" }}}
-
-" ========== DISPLAY TEXT ======================================
-" {{{1
+" ********* Display text {{{1
 set number							" Show the line number for each line.
 set linebreak						" Wrap long lines at a character in 'breakat'.
 let &showbreak='░░░░ '				" String to put before wrapped screen lines.
@@ -104,43 +92,28 @@ else
 	set listchars=tab:╎\ ,trail:•,extends:#,nbsp:.
 endif
 set list
-" }}}
-
-" ========== MOVE, SEARCH & PATTERNS ===========================
-" {{{1
+" ********* Move, search & patterns {{{1
 set ignorecase					" Do case insensitive matching.
 set smartcase					" Do smart case matching.
 set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 set magic
-" }}}
-
-" ========== SYNTAX, HIGHLIGHTING AND SPELLING =================
-" {{{1
+" ********* Syntax, highlighting and spelling {{{1
 if has('gui_running')
 	set cursorline
 endif
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
-" }}}
-
-" ========== TABS & INDENTING ==================================
-" {{{1
+" ********* Tabs & indenting {{{1
 set tabstop=4			" Number of spaces a <Tab> in the text stands for.
 set softtabstop=4		" Number of spaces to insert for a <Tab>.
 set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
 set copyindent			" Copy whitespace for indenting from previous line.
-" }}}
-
-" ========== FOLDING ===========================================
-" {{{1
+" ********* Folding {{{1
 set foldcolumn=1			" Width of the column used to indicate fold.
-" }}}
-
-" ========== COMMAND LINE EDITING ==============================
-" {{{1
+" ********* Command line editing {{{1
 set wildmode=list:longest,full		" Command <Tab> completion, list matches, then longest common part, then all.
 set wildmenu						" Command-line completion shows a list of matches with TAB.
 " Enable the persistent undo.
@@ -148,32 +121,21 @@ if has('persistent_undo')
 	execute 'set undodir =' . g:vimDir . '/various/undodir/'
 	set undofile
 endif
-" }}}
-
-" ========== MULTI-BYTE CHARACTERS =============================
-" {{{1
+" ********* Multi-byte characters {{{1
 set encoding=utf-8
-" }}}
-
-" ========== MULTIPLE WINDOWS ==================================
-" {{{1
+" ********* Multiple windows {{{1
 set splitright						" A new window is put right of the current one.
 set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
 set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be used for a status line.
-" }}}
-
-" ========== SWAP FILE =========================================
-" {{{1
+" ********* Swap file {{{1
 " Set the swap file directories.
 if g:hasWin
 	execute 'set directory=' . g:vimDir . '\\various\\swap_dir,c:\\tmp,c:\\temp\\'
 else
 	execute 'set directory=' . g:vimDir . '/various/swap_dir,~/tmp,/var/tmp,/tmp\'
 endif
-" }}}
-
-" =========== MAPPING ==========================================
-" Remove the delay when escaping from insert-mode in terminal {{{1
+" ********* Mapping {{{1
+" Remove the delay when escaping from insert-mode in terminal
 if !has('gui_running')
 	set timeoutlen=1000 ttimeoutlen=0
 endif
