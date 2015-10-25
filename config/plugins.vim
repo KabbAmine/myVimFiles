@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-14
+" Last modification: 2015-10-20
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -19,7 +19,7 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 endfunction
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks']}",
+			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile']}",
 			\'lazyList'       : '',
 			\'mdHelper'       : "{'for' : 'markdown'}",
 			\'vCoolor'        : '',
@@ -123,6 +123,7 @@ Plug 'tpope/vim-surround'
 " Various {{{2
 Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
 Plug 'gastonsimone/vim-dokumentary'
+Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
 Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
@@ -467,6 +468,7 @@ let g:zv_docsets_dir = has('unix') ?
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
 let g:vcoolor_map = '<A-c>'
+let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 " ******* (( vsl )) {{{1
