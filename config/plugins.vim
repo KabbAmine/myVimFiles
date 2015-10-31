@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-20
+" Last modification: 2015-11-01
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -102,12 +102,14 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'kana/vim-textobj-entire'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kana/vim-textobj-line'
+			\| Plug 'rhysd/vim-textobj-anyblock'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
+Plug 'junegunn/goyo.vim'                                        , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
 Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim'        , {'on': 'ToggleGoldenViewAutoResize'}
+Plug 'zhaocai/GoldenView.Vim'                                   , {'on': 'ToggleGoldenViewAutoResize'}
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -133,6 +135,7 @@ Plug 'scrooloose/nerdtree'          , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
 			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
 Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-rvm'                , {'on': 'Rvm' }
 " Colorschemes {{{2
@@ -455,6 +458,8 @@ nnoremap gR :QuickRun<CR>
 vnoremap gR :QuickRun<CR>
 " ******* (( agit )) {{{1
 let g:agit_no_default_mappings = 1
+" ******* (( goyo )) {{{1
+let g:goyo_width = "80%"
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
