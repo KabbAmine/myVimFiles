@@ -427,11 +427,11 @@ let g:goldenview__enable_default_mapping = 0
 " ******* (( tabular )) {{{1
 vmap <CR> :Tabular /
 " ******* (( fugitive )) {{{1
-" some abbreviations
+" Some abbreviations
 cab Gb Git branch
 cab Gch Git checkout
 cab Gco Gcommit
-cab Gl Git log
+cab Gl Gllog
 cab Gm Gmerge
 cab Gs Gstatus
 cab Gst Git stash
