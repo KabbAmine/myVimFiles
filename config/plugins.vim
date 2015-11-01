@@ -433,6 +433,7 @@ cab Gco Gcommit
 cab Gl Git log
 cab Gm Gmerge
 cab Gs Gstatus
+cab Gst Git stash
 " ******* (( vim-signature )) {{{1
 let g:SignatureMap = {
 			\ 'ListLocalMarks'	 :	",m",
