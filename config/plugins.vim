@@ -115,6 +115,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
 Plug 'matze/vim-move'
+Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'Raimondi/delimitMate'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
@@ -286,10 +287,10 @@ if g:hasWin
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
 let g:syntastic_mode_map = {
-			\ "mode": "passive"
+			\ "mode": "passive",
 			\ }
-" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
-" \ "passive_filetypes": ["vim", "ruby"]
+			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
+			" \ "passive_filetypes": ["vim", "ruby"]
 " ******* (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
@@ -461,6 +462,12 @@ vnoremap gR :QuickRun<CR>
 let g:agit_no_default_mappings = 1
 " ******* (( goyo )) {{{1
 let g:goyo_width = "80%"
+" ******* (( vim-yankstack )) {{{1
+let g:yankstack_map_keys = 0
+nmap gp <Plug>yankstack_substitute_older_paste
+nmap gn <Plug>yankstack_substitute_newer_paste
+call yankstack#setup()
+nmap Y y$
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim

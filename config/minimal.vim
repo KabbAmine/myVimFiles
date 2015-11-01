@@ -143,7 +143,8 @@ endif
 
 " =========== MAPPINGS ==========================================
 " Make Y work as other capitals {{{1
-nnoremap Y y$
+" Check (( vim-yankstack )) in .config/plugins.vim
+" nnoremap Y y$
 " Text manipulation {{{1
 " *** NORMAL & VISUAL MODE
 	" *** <C-d>		=> Duplicate line.
