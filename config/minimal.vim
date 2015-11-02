@@ -214,8 +214,11 @@ nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 " =========== (AUTO)COMMANDS ==============================
 " Make cursor line appear only in INSERT mode (Terminal only) {{{1
 if !empty($TERM)
-	autocmd InsertEnter * set cursorline
-	autocmd InsertLeave * set nocursorline
+	augroup term
+		autocmd!
+		autocmd InsertEnter * set cursorline
+		autocmd InsertLeave * set nocursorline
+	augroup END
 endif
 " Commands for manipulating directories and deleting files {{{1
 " *** :CreD		=> Create directory(ies) (Or directories recursively)

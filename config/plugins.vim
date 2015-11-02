@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-01
+" Last modification: 2015-11-02
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -58,19 +58,19 @@ Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
-Plug 'elzr/vim-json'                          , {'for': 'json' }
-Plug 'gavocanov/vim-js-indent'                , {'for': 'javascript'}
-Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install', 'for': 'javascript'}
+Plug 'elzr/vim-json'
+Plug 'gavocanov/vim-js-indent'
+Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/yajs.vim'                        , {'for': 'javascript'}	" Js syntax
+Plug 'othree/yajs.vim'
 " For Python {{{2
 Plug 'davidhalter/jedi-vim', { 'for': 'python'}
-Plug 'hdima/python-syntax' , { 'for': 'python' }
+Plug 'hdima/python-syntax'
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
-Plug 'gabrielelana/vim-markdown' , {'for': 'markdown'}
-Plug 'stephpy/vim-yaml'          , {'for': 'yml'}
+Plug 'gabrielelana/vim-markdown'
+Plug 'stephpy/vim-yaml'
 " For web development {{{2
 Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
@@ -214,7 +214,11 @@ let NERDTreeAutoDeleteBuffer=1
 let NERDTreeCaseSensitiveSort=1
 let NERDTreeDirArrows=1
 let NERDTreeHijackNetrw=1
-autocmd FileType nerdtree setlocal nolist
+augroup NerdTree
+	autocmd!
+	autocmd FileType nerdtree setlocal nolist
+	autocmd WinEnter * if exists('b:NERDTree') | execute 'normal R' | endif
+augroup END
 " ******* (( python-syntax )) {{{1
 let python_highlight_all = 1
 " ******* (( tagbar )) & (( tagbar-phpctags )) {{{1
@@ -297,7 +301,7 @@ let g:user_emmet_install_global = 0
 augroup emmet
 	autocmd!
 	autocmd FileType html,scss,css,jade EmmetInstall
-	au FileType html,scss,css,jade imap <buffer> <expr> jh emmet#expandAbbrIntelligent("\<tab>")
+	autocmd FileType html,scss,css,jade imap <buffer> <expr> jh emmet#expandAbbrIntelligent("\<tab>")
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
@@ -400,7 +404,10 @@ let g:neocomplete#force_omni_input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 " For (( jedi-vim ))
-autocmd FileType python setlocal omnifunc=jedi#completions
+augroup jedi
+	autocmd!
+	autocmd FileType python setlocal omnifunc=jedi#completions
+augroup END
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:neocomplete#force_omni_input_patterns.python =
@@ -441,7 +448,10 @@ let g:SignatureMap = {
 			\ }
 " ******* (( javacomplete )) {{{1
 if has("autocmd")
-	autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
+	augroup javacomplete
+		autocmd!
+		autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
+	augroup END
 endif
 " ******* (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
