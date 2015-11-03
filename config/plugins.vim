@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-02
+" Last modification: 2015-11-03
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -114,10 +114,10 @@ Plug 'zhaocai/GoldenView.Vim'                                   , {'on': 'Toggle
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-peekaboo'
-Plug 'matze/vim-move'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'Raimondi/delimitMate'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
+Plug 't9md/vim-textmanip'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
@@ -478,6 +478,12 @@ nmap gp <Plug>yankstack_substitute_older_paste
 nmap gn <Plug>yankstack_substitute_newer_paste
 call yankstack#setup()
 nmap Y y$
+" ******* (( vim-textmanip )) {{{1
+let g:textmanip_enable_mappings = 1
+xmap <A-j> <Plug>(textmanip-move-down)
+xmap <A-k> <Plug>(textmanip-move-up)
+xmap <A-h> <Plug>(textmanip-move-left)
+xmap <A-l> <Plug>(textmanip-move-right)
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
