@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-03
+" Last modification: 2015-11-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -24,6 +24,7 @@ let s:myPlugs = {
 			\'mdHelper'       : "{'for' : 'markdown'}",
 			\'vCoolor'        : '',
 			\'vimSimpleLib'   : '',
+			\'vSourcePreview' : '',
 			\'vullScreen'     : '',
 			\'yowish'         : '',
 			\'zeavim'         : ''
@@ -64,7 +65,7 @@ Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 " For Python {{{2
-Plug 'davidhalter/jedi-vim', { 'for': 'python'}
+Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
@@ -89,6 +90,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " A fork of CtrlP , more active repo.
 Plug 'ctrlpvim/ctrlp.vim'
 			\| Plug 'fisadev/vim-ctrlp-cmdpalette' , { 'on': 'CtrlPCmdPalette' }
+			\| Plug 'mattn/ctrlp-register'         , { 'on': 'CtrlPRegister' }
 			\| Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
 " (( syntastic )) & linters {{{2
 Plug 'scrooloose/syntastic'
@@ -113,18 +115,17 @@ Plug 'zhaocai/GoldenView.Vim'                                   , {'on': 'Toggle
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
-Plug 'junegunn/vim-peekaboo'
+Plug 'matze/vim-move'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'Raimondi/delimitMate'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
-Plug 't9md/vim-textmanip'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
-Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
+" Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
@@ -249,6 +250,8 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+let g:airline_left_alt_sep = '⎢'
+let g:airline_right_alt_sep = '⎟'
 " Automatically populate the symbols dictionary with the powerline symbols.
 let g:airline_powerline_fonts = 1
 " EXTENSIONS
@@ -338,6 +341,7 @@ nmap <silent> ,,f   :CtrlPFunky<CR>
 nmap <silent> ,l   :CtrlPLine %<CR>
 nmap <silent> ,r   :CtrlPMRUFiles<CR>
 nmap <silent> ,t   :CtrlPBufTag<CR>
+imap <silent> <A-p> <Esc>:<C-U>CtrlPRegister<CR>
 " Disable CtrlP default map.
 let g:ctrlp_map = ''
 let g:ctrlp_cache_dir = g:vimDir . '/various/ctrlp'
@@ -426,8 +430,6 @@ let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
-" ******* (( vim-peekaboo )) {{{1
-let g:peekaboo_compact = 1
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
@@ -474,16 +476,10 @@ let g:agit_no_default_mappings = 1
 let g:goyo_width = "80%"
 " ******* (( vim-yankstack )) {{{1
 let g:yankstack_map_keys = 0
-nmap gp <Plug>yankstack_substitute_older_paste
 nmap gn <Plug>yankstack_substitute_newer_paste
+nmap gp <Plug>yankstack_substitute_older_paste
 call yankstack#setup()
 nmap Y y$
-" ******* (( vim-textmanip )) {{{1
-let g:textmanip_enable_mappings = 1
-xmap <A-j> <Plug>(textmanip-move-down)
-xmap <A-k> <Plug>(textmanip-move-up)
-xmap <A-h> <Plug>(textmanip-move-left)
-xmap <A-l> <Plug>(textmanip-move-right)
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
@@ -539,6 +535,20 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
+" ******* (( vSourcePreview )) {{{1
+nnoremap <silent> gP :VSPToggle<CR>
+vnoremap <silent> gP :VSPPreview<CR>
+let g:vsp_config = {
+			\ 'split'             : 'rightbelow vertical',
+			\ 'sync_scroll'       : 1,
+			\ 'update_after_ins'  : 1,
+			\ 'update_after_save' : 1,
+			\ 'auto_indent'       : 0
+			\ }
+let g:vsp_user_provider = {
+			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
+			\ 'python'     : { 'cmd': 'python3', 'type': '' }
+			\ }
 " ******* (( mdHelper )) {{{1
 " All mappings are in ftplugin/markdown.vim
 " }}}
