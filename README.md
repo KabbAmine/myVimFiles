@@ -1,61 +1,63 @@
 # MyVimFiles
 
-This repo contains my vim configuration that I've done and still doing with :heart: for more than 2 years now, and some other vim folders.
+This repo contains my vim configuration that I've done and still doing with :heart: for more than 2 years now.
 
-It works on both GNU/Linux and Windows (But may be better in GNU/Linux).
+It works on both GNU/Linux and Windows (But may be better on GNU/Linux).
 
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
 
-![My vim](.img/myVim.jpg)
+<div style="text-align:center"><img src=".img/myVim.jpg"></img></div>
 
 ## Requirements & external programs
 
 1. For the plugins:
 	
-	- [Wmctrl<sup>+</sup>](http://tomas.styblo.name/wmctrl/) for *vullscreen*.
+	- *Vullscreen*: [Wmctrl<sup>B</sup>](http://tomas.styblo.name/wmctrl/)
 
-	- [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity<sup>+</sup>](https://wiki.gnome.org/action/show/Projects/Zenity) for *vCoolor*.
+	- *vCoolor*: [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity<sup>B</sup>](https://wiki.gnome.org/action/show/Projects/Zenity)
 
-	- *Tagbar*.
-
-		- [Exuberant ctags](http://ctags.sourceforge.net/).
-		- `phpctags` (No need to install it manually, he's included with the plugin *tagbar-phpctags*).
+	- *Tagbar*: [Exuberant ctags](http://ctags.sourceforge.net/)
 
 	- *Syntastic*:
 
-		- `gcc`<sup>+</sup>
-		- `javac`<sup>+</sup>
-		- `php`<sup>+</sup>
-		- `python`<sup>+</sup>
-		- `shellcheck` & `sh`<sup>+</sup>
-		- `jslint`    ->  `npm install -g jslint`
+		- `csslint`<sup>N</sup>
+		- `gcc`<sup>B</sup>
+		- `javac`<sup>B</sup>
+		- `jslint`<sup>N</sup>
+		- `jsonlint`<sup>N</sup>
+		- `php`<sup>B</sup>
+		- `python`<sup>B</sup>
+		- `sass`<sup>R</sup>
+		- `scss-lint`<sup>R</sup>
+		- `shellcheck` & `sh`<sup>B</sup>
 		- [`tidy5`](https://github.com/htacg/tidy-html5)
-		- `csslint`   -> `npm install -g csslint`
-		- `sass`      -> `gem install sass`
-		- `scss-lint` -> `gem install scss-lint`
-		- `vint`      -> `pip install vim-vint`
-		- `jsonlint`  -> `npm install -g jsonlint`
+		- `vim-vint`<sup>P</sup>
 
 	- *Autoformat*:
 		
-		- For `html`, `css` & `javascript` -> `npm install -g js-beautify`.
+		- For `html`, `css` & `javascript` -> `js-beautify`<sup>N</sup>.
 		- `scss` uses `sass-convert` which is shipped with `sass`.
 	
-	- *vim-livedown*
-
-		- `npm -g livedown`
+	- *vim-livedown*: `livedown`<sup>N</sup>
 
 2. For `~/.vim/ftplugin/` files (optional):
-	- `markdown`<sup>+</sup>
-	- `g++`<sup>+</sup>
-	- `Evince`<sup>+</sup> in GNU/Linux to open generated pdf from Tex file compilation.
-
-	<sup>+</sup> <small>*Present by default, or easily installable in your distribution.*</small>
+	- `markdown`<sup>B</sup>
+	- `g++`<sup>B</sup>
+	- `Evince`<sup>B</sup> in GNU/Linux to open generated pdf from Tex file compilation.
 
 3. Fonts:
 
 	- ['DejaVu Sans Mono for Powerline'](https://github.com/powerline/fonts) in Windows.
 	- [Ubuntu Mono derivative Powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
+
+-----------------------------
+
+*<a id="B"><sup>B</sup></a> Present by default or easily installable on your system.*<br />
+*<a id="N"><sup>N</sup></a> A npm package: `sudo npm -g install npmPackage`*<br />
+*<a id="P"><sup>P</sup></a> A pip package: `sudo pip install pipPackage`*<br />
+*<a id="R"><sup>R</sup></a> A ruby gem: `gem install rubyGem`*<br />
+
+-----------------------------
 
 ## Instructions
 
@@ -75,4 +77,4 @@ Have fun :smile:
 
 ## Notes
 
-This configuration is a little personal (Commands & mappings) but well documented, so you can use most of it by changing a few things, just take a look on the files before using them.
+This configuration is a little personal (Commands & mappings) but well documented, so you can use most of it by changing a few things.
