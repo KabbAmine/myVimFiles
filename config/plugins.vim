@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-08
+" Last modification: 2015-11-09
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -19,7 +19,7 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 endfunction
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile']}",
+			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
 			\'lazyList'       : '',
 			\'mdHelper'       : "{'for' : 'markdown'}",
 			\'vCoolor'        : '',
@@ -496,6 +496,8 @@ let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
+let g:gv_ctrlp_cmd = 'GulpExt'
+nnoremap ,g :CtrlPGulp<CR>
 " ******* (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
