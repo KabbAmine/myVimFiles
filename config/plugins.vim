@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-09
+" Last modification: 2015-11-10
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -304,7 +304,13 @@ let g:user_emmet_install_global = 0
 augroup emmet
 	autocmd!
 	autocmd FileType html,scss,css,jade EmmetInstall
-	autocmd FileType html,scss,css,jade imap <buffer> <expr> jh emmet#expandAbbrIntelligent("\<tab>")
+	" autocmd FileType html,scss,css,jade imap <buffer> <expr> jhh emmet#expandAbbrIntelligent("\<tab>")
+	autocmd FileType html,scss,css,jade imap jha <plug>(emmet-anchorize-url)
+	autocmd FileType html,scss,css,jade imap jhc <plug>(emmet-code-pretty)
+	autocmd FileType html,scss,css,jade imap jhh <plug>(emmet-expand-abbr)
+	autocmd FileType html,scss,css,jade imap jhn <plug>(emmet-move-next)
+	autocmd FileType html,scss,css,jade imap jhN <plug>(emmet-move-prev)
+	autocmd FileType html,scss,css,jade imap jhu <plug>(emmet-update-tag)
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
