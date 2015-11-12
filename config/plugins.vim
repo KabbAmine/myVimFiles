@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-10
+" Last modification: 2015-11-12
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -474,8 +474,8 @@ let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
 " ******* (( quickRun )) {{{1
 let g:quickrun_no_default_key_mappings = 0
-nnoremap gR :QuickRun<CR>
-vnoremap gR :QuickRun<CR>
+nnoremap <silent> gR :QuickRun<CR>
+vnoremap <silent> gR :QuickRun<CR>
 " ******* (( agit )) {{{1
 let g:agit_no_default_mappings = 1
 " ******* (( goyo )) {{{1
