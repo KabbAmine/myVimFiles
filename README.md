@@ -28,7 +28,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `php`<sup>B</sup>
 		- `python`<sup>B</sup>
 		- `sass`<sup>R</sup>
-		- `scss-lint`<sup>R</sup>
+		- `scss_lint`<sup>R</sup>
 		- `shellcheck` & `sh`<sup>B</sup>
 		- [`tidy5`](https://github.com/htacg/tidy-html5)
 		- `vim-vint`<sup>P</sup>
