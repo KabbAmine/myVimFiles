@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-12
+" Last modification: 2015-11-14
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -79,9 +79,10 @@ Plug 'mattn/emmet-vim'
 Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/agit.vim'          , {'on': 'Agit'}
+Plug 'cohama/agit.vim'             , {'on': 'Agit'}
 " Plug 'jaxbot/github-issues.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
 " (( fuzzyfinder )) {{{2
 Plug 'FuzzyFinder' | Plug 'L9'
 " (( ultisnips )) {{{2
@@ -486,6 +487,18 @@ nmap gn <Plug>yankstack_substitute_newer_paste
 nmap gp <Plug>yankstack_substitute_older_paste
 call yankstack#setup()
 nmap Y y$
+" ******* (( nerdtree-git-plugin )) {{{1
+" let g:NERDTreeIndicatorMapCustom = {
+"     \ "Modified"  : "✹",
+"     \ "Staged"    : "✚",
+"     \ "Untracked" : "✭",
+"     \ "Renamed"   : "➜",
+"     \ "Unmerged"  : "═",
+"     \ "Deleted"   : "✖",
+"     \ "Dirty"     : "✗",
+"     \ "Clean"     : "✔︎",
+"     \ "Unknown"   : "?"
+"     \ }
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
