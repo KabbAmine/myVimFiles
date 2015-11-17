@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-10-20
+" Last modification: 2015-11-17
 " ================================================================
 
 
@@ -59,7 +59,8 @@ if has('gui_running')
 	if g:hasWin
 		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
 	else
-		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Plus\ Nerd\ File\ Types\ 12
+		" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 12
+		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
 	endif
 endif
 " ********* Messages & info{{{1

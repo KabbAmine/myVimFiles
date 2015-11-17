@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-14
+" Last modification: 2015-11-17
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -107,7 +107,7 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'kana/vim-textobj-line'
 			\| Plug 'rhysd/vim-textobj-anyblock'
 " Interface {{{2
-call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
+" call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
 Plug 'junegunn/goyo.vim'                                        , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
@@ -435,8 +435,11 @@ let g:colorizer_startup = 0
 " vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
+" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+" let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+" let g:DevIconsEnableFoldersOpenClose = 1
+" let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+" let g:webdevicons_enable_nerdtree = 0
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
