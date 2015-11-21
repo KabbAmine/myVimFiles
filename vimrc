@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-04-18
+" Last modification: 2015-11-22
 " ================================================================
 
 
@@ -8,7 +8,7 @@
 let g:hasUnix = has('unix')
 let g:hasWin = has('win32')
 " Stock the Location of vim's folder in a global variable.
-let g:vimDir = g:hasWin ? '$HOME/vimfiles' : '$HOME/.vim'
+let g:vimDir = g:hasWin ? expand('$HOME/vimfiles') : expand('$HOME/.vim')
 " }}}
 
 " Open personal config files for editing {{{1

@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-21
+" Last modification: 2015-11-22
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -126,7 +126,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
-" Plug 'Chiel92/vim-autoformat'       , {'on': 'AutoFormat' }
+" Plug 'Chiel92/vim-autoformat'     , {'on': 'AutoFormat' }
+Plug 'aperezdc/vim-template'        , {'on': 'Template'}
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
@@ -334,7 +335,8 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 let g:UltiSnipsEditSplit="vertical"
 " Personal snippets folder.
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips-snippets'
 " ******* (( gitgutter )) {{{1
 command! GG :GitGutterToggle
 command! Gn :GitGutterNextHunk
@@ -402,7 +404,7 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#data_directory = expand(g:vimDir).'/various/neocomplete'
+let g:neocomplete#data_directory = g:vimDir . '/various/neocomplete'
 inoremap <expr><C-space> neocomplete#start_manual_complete('omni')
 " Enable heavy omni completion.
 " if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -501,6 +503,12 @@ nmap Y y$
 "     \ "Clean"     : "✔︎",
 "     \ "Unknown"   : "?"
 "     \ }
+" ******* (( vim-template )) {{{1
+let g:templates_no_autocmd = 1
+let g:templates_directory = [g:vimDir . '/various/templates/']
+let g:templates_no_builtin_templates = 1
+let g:username = 'Kabbaj Amine'
+let g:email = 'amine.kabb@gmail.com'
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
@@ -588,12 +596,9 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
-" Refresh (( airline )) & (( devicons )), useful when vim config files are sourced {{{1
+" Refresh (( airline )), useful when vim config files are sourced {{{1
 if exists(':AirlineRefresh') ==# 2
 	silent AirlineRefresh
-endif
-if exists('g:loaded_webdevicons')
-    silent call webdevicons#refresh()
 endif
 " }}}
 

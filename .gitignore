@@ -2,6 +2,7 @@
 /spell
 
 /various/*
-/!various/jsbeautify/
+!/various/ultisnips-snippets/
+!/various/templates/
 
 /plugs/*
