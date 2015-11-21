@@ -509,7 +509,15 @@ let g:templates_directory = [g:vimDir . '/various/templates/']
 let g:templates_no_builtin_templates = 1
 let g:username = 'Kabbaj Amine'
 let g:email = 'amine.kabb@gmail.com'
-
+" Create/Edit the appropriate template file
+fun! <SID>EditTemplate(...) abort
+	let l:p = g:vimDir . '/various/templates/'
+	let l:e = expand('%:e')
+	if !empty(l:e)
+		silent execute 'rightbelow vertical split ' . l:p . '=template=.' . l:e
+	endif
+endfun
+nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
