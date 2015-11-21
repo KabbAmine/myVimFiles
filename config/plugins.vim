@@ -335,8 +335,8 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 let g:UltiSnipsEditSplit="vertical"
 " Personal snippets folder.
-" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips-snippets'
+let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips'
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/various/ultisnips']
 " ******* (( gitgutter )) {{{1
 command! GG :GitGutterToggle
 command! Gn :GitGutterNextHunk
@@ -509,6 +509,7 @@ let g:templates_directory = [g:vimDir . '/various/templates/']
 let g:templates_no_builtin_templates = 1
 let g:username = 'Kabbaj Amine'
 let g:email = 'amine.kabb@gmail.com'
+
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim

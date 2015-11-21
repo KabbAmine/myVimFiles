@@ -2,7 +2,7 @@
 /spell
 
 /various/*
-!/various/ultisnips-snippets/
+!/various/ultisnips/
 !/various/templates/
 
 /plugs/*
