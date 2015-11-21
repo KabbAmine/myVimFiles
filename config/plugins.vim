@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-17
+" Last modification: 2015-11-21
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -107,7 +107,7 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'kana/vim-textobj-line'
 			\| Plug 'rhysd/vim-textobj-anyblock'
 " Interface {{{2
-" call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
+call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
 Plug 'junegunn/goyo.vim'                                        , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
@@ -219,7 +219,7 @@ let NERDTreeHijackNetrw=1
 augroup NerdTree
 	autocmd!
 	autocmd FileType nerdtree setlocal nolist
-	autocmd WinEnter * if exists('b:NERDTree') | execute 'normal R' | endif
+	autocmd WinEnter * if exists('b:NERDTree') | silent execute 'normal R' | endif
 augroup END
 " ******* (( python-syntax )) {{{1
 let python_highlight_all = 1
@@ -435,10 +435,9 @@ let g:colorizer_startup = 0
 " vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
-" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-" let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 " let g:DevIconsEnableFoldersOpenClose = 1
-" let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 " let g:webdevicons_enable_nerdtree = 0
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
@@ -589,9 +588,12 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
-" Refresh (( airline )), useful when vim config files are sourced
+" Refresh (( airline )) & (( devicons )), useful when vim config files are sourced {{{1
 if exists(':AirlineRefresh') ==# 2
-	:AirlineRefresh
+	silent AirlineRefresh
+endif
+if exists('g:loaded_webdevicons')
+    silent call webdevicons#refresh()
 endif
 " }}}
 
