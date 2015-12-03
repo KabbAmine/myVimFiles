@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-22
+" Last modification: 2015-12-05
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -126,8 +126,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
-" Plug 'Chiel92/vim-autoformat'     , {'on': 'AutoFormat' }
 Plug 'aperezdc/vim-template'        , {'on': 'Template'}
+Plug 'Chiel92/vim-autoformat'       , {'on': 'Autoformat' }
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
@@ -359,6 +359,8 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_depth = 40
 let g:ctrlp_lazy_update = 1
+" <backspace> quits prompts if empty
+let g:ctrlp_brief_prompt = 1
 " Open multiple files in hidden buffers & jump to the 1st one.
 let g:ctrlp_open_multiple_files = 'rij'
 " Open new file in the current window.
@@ -395,10 +397,6 @@ let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
-" Disable folding.
-let g:vim_markdown_folding_disabled=1
-" Disable default mappings.
-let g:vim_markdown_no_default_key_mappings=1
 " ******* (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -426,8 +424,9 @@ let g:jedi#auto_vim_configuration = 0
 let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 " ******* (( autoformat )) {{{1
-let g:formatprg_html = "html-beautify"
-let g:formatprg_args_expr_html = '"--indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
+let g:formatters_html = ['htmlbeautify']
+let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
+let g:autoformat_verbosemode = 1
 " ******* (( colorizer )) {{{1
 let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
@@ -437,10 +436,9 @@ let g:colorizer_startup = 0
 " vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 " let g:DevIconsEnableFoldersOpenClose = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-" let g:webdevicons_enable_nerdtree = 0
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
@@ -474,6 +472,10 @@ call tcomment#DefineType('vader', '# %s')
 " ******* (( polyglot )) {{{1
 let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 " ******* (( vim-markdown )) {{{1
+" Disable folding.
+let g:vim_markdown_folding_disabled=1
+" Disable default mappings.
+let g:vim_markdown_no_default_key_mappings=1
 let g:markdown_include_jekyll_support = 0
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
@@ -518,6 +520,8 @@ fun! <SID>EditTemplate(...) abort
 	endif
 endfun
 nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
+" ******* (( vim-dispatch )) {{{1
+nnoremap !: :Start! 
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
@@ -547,8 +551,8 @@ nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
 nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
-nnoremap gli :LazyList 
-vnoremap gli :LazyList 
+nnoremap gli :LazyList ''<Left>
+vnoremap gli :LazyList ''<Left>
 let g:lazylist_maps = [
 			\ 'gl',
 			\ {
