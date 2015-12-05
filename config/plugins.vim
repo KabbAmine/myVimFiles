@@ -101,7 +101,6 @@ Plug 'majutsushi/tagbar'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'jceb/vim-textobj-uri'
-			\| Plug 'kana/vim-textobj-datetime'
 			\| Plug 'kana/vim-textobj-entire'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kana/vim-textobj-line'
@@ -117,7 +116,6 @@ Plug 'zhaocai/GoldenView.Vim'                                   , {'on': 'Toggle
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'matze/vim-move'
-Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'Raimondi/delimitMate'
 Plug 'sk1418/Join'                     , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
@@ -487,12 +485,6 @@ vnoremap <silent> gR :QuickRun<CR>
 let g:agit_no_default_mappings = 1
 " ******* (( goyo )) {{{1
 let g:goyo_width = "80%"
-" ******* (( vim-yankstack )) {{{1
-let g:yankstack_map_keys = 0
-nmap gn <Plug>yankstack_substitute_newer_paste
-nmap gp <Plug>yankstack_substitute_older_paste
-call yankstack#setup()
-nmap Y y$
 " ******* (( nerdtree-git-plugin )) {{{1
 " let g:NERDTreeIndicatorMapCustom = {
 "     \ "Modified"  : "✹",

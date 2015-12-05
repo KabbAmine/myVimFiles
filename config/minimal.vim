@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-11-17
+" Last modification: 2015-12-05
 " ================================================================
 
 
@@ -38,12 +38,15 @@ endif
 execute 'set viewdir=' . g:vimDir . '/various/view'
 " Make <Alt> works in terminal. {{{1
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459
-let c='a'
-while c <= 'z'
-	exec "set <A-".c.">=\e".c
-	exec "imap \e".c." <A-".c.">"
-	let c = nr2char(1+char2nr(c))
-endwhile
+if !empty($TERM)
+	let c = 'a'
+	while c <=# 'z'
+		exec "set <A-" . c . ">=\e" . c
+		exec "inoremap \e" . c . " <A-" . c . ">"
+		let c = nr2char(1+char2nr(c))
+	endwhile
+	unlet c
+endif
 " }}}
 
 " ========== OPTIONS  ===========================================
@@ -144,8 +147,7 @@ endif
 
 " =========== MAPPINGS ==========================================
 " Make Y work as other capitals {{{1
-" Check (( vim-yankstack )) in .config/plugins.vim
-" nnoremap Y y$
+nnoremap Y y$
 " Text manipulation {{{1
 " *** NORMAL & VISUAL MODE
 	" *** <C-d>		=> Duplicate line.
@@ -167,10 +169,7 @@ vmap <silent> <space> :fold<CR>
 " Remove the highlighting of 'hlsearch' {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
 " Operations on tabs {{{1
-" *** <C-t>			=> New tab.
-" *** <S-Tab>		=> Next tab.
 map <silent> <C-t> :tabedit<CR>
-map <silent> <S-Tab> gt
 " Operations on buffers {{{1
 " *** <S-h>		=> Previous.
 " *** <S-l>		=> Next.
@@ -180,7 +179,7 @@ nnoremap <silent> <S-l> :bn!<CR>
 " For this mapping, check NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :bd<CR>
 " Repeat the last command {{{1
-nnoremap zz @:
+nnoremap !z @:
 " JK for escape {{{1
 inoremap jk <Esc>
 inoremap JK <Esc>
@@ -207,7 +206,7 @@ cnoremap <C-l> <C-Right>
 " Open command-line window
 cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
-vnoremap <leader>s	:!sort<CR>
+vnoremap <leader>s :!sort<CR>
 " Show syntax highlighting group for word under cursor {{{1
 nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 " }}}
@@ -251,8 +250,6 @@ function! <SID>Indent()
 	endif
 endfunction
 " Shortcuts for vim doc {{{1
-" *** :Hl	=>	local-additions
-" *** :Fl	=>	function-list
 command! Hl :help local-additions
 command! Fl :help function-list
 " Change file type between PHP and HTML files {{{1
@@ -303,18 +300,19 @@ cab wQ wq
 cab WQ wq
 cab W w
 cab Q q
-cab git Git
-cab G Git
 " }}}
 
 " =========== OMNIFUNC ==============================
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion {{{1
-if has("autocmd") && exists("+omnifunc")
-	autocmd! Filetype *
-		\	if &omnifunc == "" |
-		\		setlocal omnifunc=syntaxcomplete#Complete |
-		\	endif
-endif
+augroup omni
+	autocmd!
+	if has("autocmd") && exists("+omnifunc")
+		autocmd! Filetype *
+					\	if &omnifunc == "" |
+					\		setlocal omnifunc=syntaxcomplete#Complete |
+					\	endif
+	endif
+augroup END
 " }}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
