@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-05
+" Last modification: 2015-12-10
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -540,7 +540,7 @@ nnoremap ,g :CtrlPGulp<CR>
 nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
 nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
 nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
-nmap <silent> ;;t :call vsl#general#lib#openterm(expand('%:h:p'))<cr>
+nmap <silent> ;;t :call vsl#general#lib#OpenTerm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
