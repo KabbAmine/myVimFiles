@@ -1,7 +1,5 @@
 snippet change "Github changelog block" b
-v${1} <small>(`!p
-from datetime import date
-snip.rv = date.today().strftime("%Y-%m-%d")`)</small>
+v${1} <small>(`!v strftime('%Y-%m-%d')`)</small>
 ------------------------------
 
 * ${2}
