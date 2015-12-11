@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-10
+" Last modification: 2015-12-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -108,10 +108,11 @@ Plug 'kana/vim-textobj-user'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
-Plug 'junegunn/goyo.vim'                                        , {'on': 'Goyo'}
+Plug 'junegunn/goyo.vim'      , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
+Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
 Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim'                                   , {'on': 'ToggleGoldenViewAutoResize'}
+Plug 'zhaocai/GoldenView.Vim' , {'on': 'ToggleGoldenViewAutoResize'}
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -514,6 +515,25 @@ endfun
 nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
 " ******* (( vim-dispatch )) {{{1
 nnoremap !: :Start! 
+" ******* (( vim-choosewin )) {{{1
+nnoremap ,w :ChooseWin<CR>
+let g:choosewin_overlay_enable = 1
+let g:choosewin_label = 'FJGHDKSLQMERIU'
+let g:choosewin_blink_on_land = 0      " Don't blink when a window is selected
+let g:choosewin_statusline_replace = 0 " Don't replace statusline
+let g:choosewin_keymap = {}
+let g:choosewin_keymap = {
+	      \ '0':     '<NOP>',
+	      \ '[':     '<NOP>',
+	      \ ']':     '<NOP>',
+	      \ '$':     '<NOP>',
+	      \ 'x':     '<NOP>',
+	      \ ';':     '<NOP>',
+	      \ '-':     '<NOP>',
+	      \ 's':     '<NOP>',
+	      \ 'S':     '<NOP>',
+	      \ "\<CR>": '<NOP>',
+	      \ }
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
