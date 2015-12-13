@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-11
+" Last modification: 2015-12-13
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -551,6 +551,7 @@ let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 let g:gv_ctrlp_cmd = 'GulpExt'
+let g:gv_use_dispatch = 0
 nnoremap ,g :CtrlPGulp<CR>
 " ******* (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
