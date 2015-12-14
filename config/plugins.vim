@@ -534,6 +534,12 @@ let g:choosewin_keymap = {
 	      \ 'S':     '<NOP>',
 	      \ "\<CR>": '<NOP>',
 	      \ }
+" ******* (( vim-rvm )) {{{1
+" Enable rvm default ruby version in GUI start
+augroup Rvm
+	autocmd!
+	autocmd GUIEnter * Rvm
+augroup END
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
