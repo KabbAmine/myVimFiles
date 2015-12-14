@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-13
+" Last modification: 2015-12-14
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -285,7 +285,7 @@ let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_javac_checkers = ['javac']
 let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_json_checkers = ['jsonlint']
-let g:syntastic_scss_checkers = ['scss_lint', 'sass']
+let g:syntastic_scss_checkers = ['scss-lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_sh_checkers = ['shellcheck', 'sh']
 let g:syntastic_jade_checkers = ['jade_lint']
