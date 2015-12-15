@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-14
+" Last modification: 2015-12-15
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -18,10 +18,10 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 	endif
 endfunction
 " My plugins {{{2
+			" \'mdHelper'       : "{'for' : 'markdown'}",
 let s:myPlugs = {
 			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
 			\'lazyList'       : '',
-			\'mdHelper'       : "{'for' : 'markdown'}",
 			\'vCoolor'        : '',
 			\'vimSimpleLib'   : '',
 			\'vSourcePreview' : '',
@@ -48,11 +48,12 @@ endfun
 if g:hasWin
 	call plug#begin($HOME . '/vimfiles/plugs')
 else
-	call plug#begin('~/.vim/plugs')
+	call plug#begin($HOME . '/.vim/plugs')
 endif
 " Plugins {{{1
 " Most syntaxes in one plugin {{{2
-Plug 'sheerun/vim-polyglot' , {'do': './build'}
+call s:PlugInOs('sheerun/vim-polyglot' , "{'do': './build'}" , 'unix')
+call s:PlugInOs('sheerun/vim-polyglot' , ''                  , 'win32')
 " For PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'rayburgemeestre/phpfolding.vim'
@@ -125,6 +126,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
+call s:PlugInOs('benmills/vimux'    , ''              , 'unix')
+call s:PlugInOs('tpope/vim-rvm'     , "{'on': 'Rvm'}" , 'unix')
 Plug 'aperezdc/vim-template'        , {'on': 'Template'}
 Plug 'Chiel92/vim-autoformat'       , {'on': 'Autoformat' }
 Plug 'gastonsimone/vim-dokumentary'
@@ -140,7 +143,6 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-rvm'                , {'on': 'Rvm' }
 " Colorschemes {{{2
 Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
 " My Plugins {{{2
@@ -435,9 +437,11 @@ let g:colorizer_startup = 0
 " vnoremap <silent> <C-p> :call PhpDocRange()<CR>
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
-" let g:DevIconsEnableFoldersOpenClose = 1
-let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+if g:hasUnix
+	" let g:DevIconsEnableFoldersOpenClose = 1
+	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+endif
 " ******* (( GoldenView )) {{{1
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
@@ -514,7 +518,9 @@ fun! <SID>EditTemplate(...) abort
 endfun
 nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
 " ******* (( vim-dispatch )) {{{1
-nnoremap !: :Start! 
+if g:hasWin
+	nnoremap !: :Start! 
+endif
 " ******* (( vim-choosewin )) {{{1
 nnoremap ,w :ChooseWin<CR>
 let g:choosewin_overlay_enable = 1
@@ -536,17 +542,28 @@ let g:choosewin_keymap = {
 	      \ }
 " ******* (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
-augroup Rvm
-	autocmd!
-	autocmd GUIEnter * Rvm
-augroup END
+if g:hasUnix
+	augroup Rvm
+		autocmd!
+		autocmd GUIEnter * Rvm
+	augroup END
+endif
+" ******* (( vimux )) {{{1
+if g:hasUnix
+	let g:VimuxHeight = '50'
+	let g:VimuxOrientation = 'h'
+	let g:VimuxUseNearest = 0		" Split window by default
+	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
+	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
+	nnoremap !: :VimuxRunCommand ''<Left>
+endif
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
 vmap gz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
 let g:zv_file_types = {'python': 'python 3'}
-let g:zv_docsets_dir = has('unix') ?
+let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
 			\ 'Z:/k-bag/Important!/docsets_Zeal/'
 " ******* (( vcoolor )) {{{1
@@ -556,8 +573,11 @@ let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
-let g:gv_ctrlp_cmd = 'GulpExt'
 let g:gv_use_dispatch = 0
+let g:gv_custom_cmd = g:hasUnix ?
+			\ 'VimuxRunCommand %s' :
+			\ 'Start! %s'
+let g:gv_ctrlp_cmd = 'GulpExt'
 nnoremap ,g :CtrlPGulp<CR>
 " ******* (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
