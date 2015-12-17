@@ -45,11 +45,9 @@ endfun
 
 " ========== VIM-PLUG ==============================================
 " Initialization {{{1
-if g:hasWin
-	call plug#begin($HOME . '/vimfiles/plugs')
-else
-	call plug#begin($HOME . '/.vim/plugs')
-endif
+let s:plug_home = g:vimDir . '/plugs'
+call plug#begin(s:plug_home)
+unlet s:plug_home
 " Plugins {{{1
 " Most syntaxes in one plugin {{{2
 call s:PlugInOs('sheerun/vim-polyglot' , "{'do': './build'}" , 'unix')
@@ -392,7 +390,7 @@ command! PI :PlugInstall
 command! PU :PlugUpdate
 command! PS :PlugStatus
 command! PC :PlugClean
-let g:plug_threads = g:hasWin ? 5 : 10
+let g:plug_threads = g:hasUnix ? 10 : 1
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
