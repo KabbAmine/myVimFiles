@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-15
+" Last modification: 2015-12-17
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -556,6 +556,11 @@ if g:hasUnix
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
 	nnoremap !: :VimuxRunCommand ''<Left>
+endif
+" ******* (( vimproc )) {{{1
+if g:hasUnix
+	" Open arg with default system command
+	command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
 endif
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
