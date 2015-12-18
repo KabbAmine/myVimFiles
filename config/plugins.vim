@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-17
+" Last modification: 2015-12-18
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -390,7 +390,7 @@ command! PI :PlugInstall
 command! PU :PlugUpdate
 command! PS :PlugStatus
 command! PC :PlugClean
-let g:plug_threads = g:hasUnix ? 10 : 1
+let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
