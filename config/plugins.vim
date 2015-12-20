@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-18
+" Last modification: 2015-12-20
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -577,8 +577,9 @@ let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 let g:gv_use_dispatch = 0
+" let g:gv_return_2_prompt = 0
 let g:gv_custom_cmd = g:hasUnix ?
-			\ 'VimuxRunCommand %s' :
+			\ ['VimuxRunCommand "clear && %s"', 1] :
 			\ 'Start! %s'
 let g:gv_ctrlp_cmd = 'GulpExt'
 nnoremap ,g :CtrlPGulp<CR>
