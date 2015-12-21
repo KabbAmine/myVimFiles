@@ -1,10 +1,12 @@
 # MyVimFiles
 
-This repo contains my vim configuration that I've done and still doing with :heart: for more than 2 years now.
+My vim configuration that I've done and still doing with :heart: for more than 2 years now.
 
 It works on both GNU/Linux and Windows (But may be better on GNU/Linux).
 
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
+
+*This configuration works also on neovim.*
 
 <div style="text-align:center"><img src=".img/myVim.jpg"></img></div>
 
@@ -65,6 +67,8 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 mkdir -pv ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
 ln -s ~/.vim/vimrc ~/.vimrc		# Not required
+" For Neovim
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
 ```
 
 Then in Vim:

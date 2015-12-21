@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-05
+" Last modification: 2015-12-21
 " ================================================================
 
 
@@ -16,7 +16,11 @@ if has("syntax")
 	syntax on
 endif
 " What to write in Viminfo and his location {{{1
-execute "set vi='100,<50,s10,h,n" . g:vimDir . "/various/viminfo"
+if g:isNvim
+	execute "set shada='100,<50,s10,h,n" . g:vimDir . "/various/shada"
+else
+	execute "set vi='100,<50,s10,h,n" . g:vimDir . "/various/viminfo"
+endif
 " Add the file systags to the tags option {{{1
 execute 'set tags+=' . g:vimDir . '/various/systags'
 " Using a dark background {{{1
@@ -126,7 +130,9 @@ if has('persistent_undo')
 	set undofile
 endif
 " ********* Multi-byte characters {{{1
-set encoding=utf-8
+if !g:isNvim
+	set encoding=utf-8
+endif
 " ********* Multiple windows {{{1
 set splitright						" A new window is put right of the current one.
 set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
