@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-20
+" Last modification: 2015-12-22
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -69,7 +69,7 @@ Plug 'hdima/python-syntax'
 " For Java {{{2
 Plug 'javacomplete' , { 'for': 'java' }
 " Other syntaxes {{{2
-Plug 'gabrielelana/vim-markdown'
+" Plug 'gabrielelana/vim-markdown'
 Plug 'stephpy/vim-yaml'
 " For web development {{{2
 Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
