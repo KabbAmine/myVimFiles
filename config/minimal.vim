@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-21
+" Last modification: 2015-12-22
 " ================================================================
 
 
@@ -215,6 +215,9 @@ cnoremap <S-space> <C-f>
 vnoremap <leader>s :!sort<CR>
 " Show syntax highlighting group for word under cursor {{{1
 nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
+" Move by paragraph ({ & } are quite difficult to reach azerty)
+nnoremap J }
+nnoremap K {
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================

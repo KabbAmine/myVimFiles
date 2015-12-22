@@ -128,7 +128,6 @@ call s:PlugInOs('benmills/vimux'    , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'     , "{'on': 'Rvm'}" , 'unix')
 Plug 'aperezdc/vim-template'        , {'on': 'Template'}
 Plug 'Chiel92/vim-autoformat'       , {'on': 'Autoformat' }
-Plug 'gastonsimone/vim-dokumentary'
 Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
 Plug 'kana/vim-tabpagecd'
