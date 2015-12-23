@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-22
+" Last modification: 2015-12-23
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -137,7 +137,7 @@ Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'          , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
 			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
-Plug 'thinca/vim-quickrun'          , {'on': 'QuickRun'}
+Plug 'thinca/vim-quickrun'          , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 " Colorschemes {{{2
@@ -483,6 +483,23 @@ let g:markdown_enable_spell_checking = 0
 let g:quickrun_no_default_key_mappings = 0
 nnoremap <silent> gR :QuickRun<CR>
 vnoremap <silent> gR :QuickRun<CR>
+" QuickRun on save file
+nnoremap gaR :call <SID>AutoQR()<CR>
+fun! <SID>AutoQR() abort
+	if !exists('#AQR')
+		augroup AQR
+			autocmd!
+			autocmd BufWritePost * :QuickRun
+		augroup END
+		echo "QuickRun auto update enabled"
+	else
+		augroup AQR
+			autocmd!
+		augroup END
+		augroup! AQR
+		echo "QuickRun auto update disabled"
+	endif
+endfun
 " ******* (( agit )) {{{1
 let g:agit_no_default_mappings = 1
 " ******* (( goyo )) {{{1
