@@ -99,6 +99,7 @@ Plug 'majutsushi/tagbar'
 			\| call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
+			\| Plug 'glts/vim-textobj-comment'
 			\| Plug 'jceb/vim-textobj-uri'
 			\| Plug 'kana/vim-textobj-entire'
 			\| Plug 'kana/vim-textobj-function'
