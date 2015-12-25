@@ -216,9 +216,12 @@ cnoremap <S-space> <C-f>
 vnoremap <leader>s :!sort<CR>
 " Show syntax highlighting group for word under cursor {{{1
 nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
-" Move by paragraph ({ & } are quite difficult to reach azerty)
+" Move by paragraph ({ & } are quite difficult to reach azerty) {{{1
 nnoremap J }
 nnoremap K {
+" Make j and k move to the next row, not file line {{{1
+nnoremap j gj
+nnoremap k gk
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
