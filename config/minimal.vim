@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-25
+" Last modification: 2015-12-27
 " ================================================================
 
 
@@ -204,6 +204,19 @@ nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
+" Toggle zoom for a split
+" Idea from https://github.com/rselk/vim-max-split
+nnoremap <silent>gsz :call <SID>ZoomWin()<CR>
+function! <SID>ZoomWin(...) abort
+	if !exists('w:zoomed')
+		let w:zoomed = 1
+		wincmd _
+		wincmd |
+	else
+		wincmd =
+		unlet! w:zoomed
+	endif
+endfunction
 " For command line {{{1
 cnoremap jk <C-c>
 cnoremap <C-k> <Up>
