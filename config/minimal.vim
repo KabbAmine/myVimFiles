@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-27
+" Last modification: 2015-12-31
 " ================================================================
 
 
@@ -261,9 +261,6 @@ else
 	command! -complete=file -nargs=+ SCreD :!sudo mkdir -pv <args> 
 	command! -complete=file -nargs=+ Del :!rm -Irv <args> 
 endif
-" Define the file type {{{1
-" *** :Ft <FileType>
-command! -complete=filetype -nargs=1 Ft :set ft=<args>
 " Specify indentation (ts,sts,sw) {{{1
 " *** :Indent
 command! Indent :call <SID>Indent()
