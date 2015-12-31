@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-23
+" Last modification: 2015-12-31
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -66,11 +66,10 @@ Plug 'othree/yajs.vim'
 " For Python {{{2
 Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
-" For Java {{{2
-Plug 'javacomplete' , { 'for': 'java' }
-" Other syntaxes {{{2
+" Other syntaxes & related-syntax plugins {{{2
 " Plug 'gabrielelana/vim-markdown'
-Plug 'stephpy/vim-yaml'
+Plug 'javacomplete'           , {'for': 'java'}
+Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For web development {{{2
 Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
@@ -105,6 +104,9 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kana/vim-textobj-line'
 			\| Plug 'rhysd/vim-textobj-anyblock'
+" (( operator-user )) {{{2
+Plug 'kana/vim-operator-user'
+			\| Plug 'haya14busa/vim-operator-flashy'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
@@ -471,7 +473,7 @@ let g:vim_json_warnings = 0
 " ******* (( tcomment )) {{{1
 call tcomment#DefineType('vader', '# %s')
 " ******* (( polyglot )) {{{1
-let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
+let g:polyglot_disabled = ['json', 'javascript', 'python']
 " ******* (( vim-markdown )) {{{1
 " Disable folding.
 let g:vim_markdown_folding_disabled=1
@@ -577,6 +579,10 @@ if g:hasUnix
 	" Open arg with default system command
 	command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
 endif
+" ******* (( vim-operator-flashy )) {{{1
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
+let g:operator#flashy#group = 'Statement'
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
