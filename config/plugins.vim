@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-31
+" Last modification: 2016-01-04
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -19,12 +19,13 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 endfunction
 " My plugins {{{2
 			" \'mdHelper'       : "{'for' : 'markdown'}",
+			" \'vSourcePreview' : '',
 let s:myPlugs = {
 			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
 			\'lazyList'       : '',
+			\'vcml'           : '',
 			\'vCoolor'        : '',
 			\'vimSimpleLib'   : '',
-			\'vSourcePreview' : '',
 			\'vullScreen'     : '',
 			\'yowish'         : '',
 			\'zeavim'         : ''
@@ -64,7 +65,7 @@ Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 " For Python {{{2
-Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
+" Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
 " Other syntaxes & related-syntax plugins {{{2
 " Plug 'gabrielelana/vim-markdown'
@@ -416,12 +417,12 @@ let g:neocomplete#force_omni_input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 " For (( jedi-vim ))
-augroup jedi
-	autocmd!
-	autocmd FileType python setlocal omnifunc=jedi#completions
-augroup END
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
+" augroup jedi
+" 	autocmd!
+" 	autocmd FileType python setlocal omnifunc=jedi#completions
+" augroup END
+" let g:jedi#completions_enabled = 0
+" let g:jedi#auto_vim_configuration = 0
 let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 " ******* (( autoformat )) {{{1
@@ -572,7 +573,20 @@ if g:hasUnix
 	let g:VimuxUseNearest = 0		" Split window by default
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
-	nnoremap !: :VimuxRunCommand ''<Left>
+	nnoremap <silent> !: :call <SID>CmdForVimux()<CR>
+	fun! <SID>CmdForVimux() abort
+		" A better vimux prompt command
+		let b:vimuxLastCmd = exists('b:vimuxLastCmd') ? b:vimuxLastCmd : ''
+		echohl Statement
+		let l:uc = input('Command> ', b:vimuxLastCmd, 'file')
+		echohl None
+		if !empty(l:uc)
+			let b:vimuxLastCmd = l:uc
+			let l:c = printf('cd %s && clear; %s', getcwd(), l:uc)
+			silent execute printf("VimuxRunCommand '%s'", l:c)
+			redraw!
+		endif
+	endfun
 endif
 " ******* (( vimproc )) {{{1
 if g:hasUnix
@@ -646,21 +660,19 @@ let g:lazylist_maps = [
 			\ }
 		\]
 " ******* (( vSourcePreview )) {{{1
-nnoremap <silent> gP :VSPToggle<CR>
-vnoremap <silent> gP :VSPPreview<CR>
-let g:vsp_config = {
-			\ 'split'             : 'rightbelow vertical',
-			\ 'sync_scroll'       : 1,
-			\ 'update_after_ins'  : 1,
-			\ 'update_after_save' : 1,
-			\ 'auto_indent'       : 0
-			\ }
-let g:vsp_user_provider = {
-			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
-			\ 'python'     : { 'cmd': 'python3', 'type': '' }
-			\ }
-" ******* (( mdHelper )) {{{1
-" All mappings are in ftplugin/markdown.vim
+" nnoremap <silent> gP :VSPToggle<CR>
+" vnoremap <silent> gP :VSPPreview<CR>
+" let g:vsp_config = {
+" 			\ 'split'             : 'rightbelow vertical',
+" 			\ 'sync_scroll'       : 1,
+" 			\ 'update_after_ins'  : 1,
+" 			\ 'update_after_save' : 1,
+" 			\ 'auto_indent'       : 0
+" 			\ }
+" let g:vsp_user_provider = {
+" 			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
+" 			\ 'python'     : { 'cmd': 'python3', 'type': '' }
+" 			\ }
 " }}}
 
 " =========== HACKS =======================
