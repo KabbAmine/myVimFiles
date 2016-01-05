@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-04
+" Last modification: 2016-01-05
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -120,8 +120,9 @@ Plug 'zhaocai/GoldenView.Vim' , {'on': 'ToggleGoldenViewAutoResize'}
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'matze/vim-move'
+Plug 'mhinz/vim-grepper'            , {'on': ['<plug>(GrepperOperator)', 'Grepper']}
 Plug 'Raimondi/delimitMate'
-Plug 'sk1418/Join'                     , { 'on': 'Join' }
+Plug 'sk1418/Join'                  , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
@@ -161,14 +162,6 @@ if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 endif
 colorscheme yowish
 " }}}
-
-" =========== MAPPING ==========================================
-" Operations on current buffer (Move between errors in (( syntastic )) ) {{{1
-" *** <c-F3>	=> lprevious.
-" *** <c-F4>	=> lnext.
-nmap <silent> <c-F3> :lprevious<CR>
-nmap <silent> <c-F4> :lnext<CR>
-" 1}}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( FuzzyFinder )) {{{1
@@ -275,9 +268,14 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 " Configure the minimum number of tabs needed to show the tabline.
 let g:airline#extensions#tabline#tab_min_count = 2
 " ******* (( syntastic )) {{{1
-map <silent> <F8> :SyntasticCheck<CR>
-map <silent> <c-F8> :SyntasticReset<CR>
-map <silent> ,E :Errors<CR>
+nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
+function! <SID>SyntasticToggle() abort
+	SyntasticToggle
+	if g:syntastic_mode_map.mode ==# 'active'
+		SyntasticCheck
+	endif
+endfunction
+nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_always_populate_loc_list = 1
 "Skip checks using :wq, :x, and :ZZ
 let g:syntastic_check_on_wq = 0
@@ -597,6 +595,14 @@ endif
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Statement'
+" ******* (( vim-grepper )) {{{1
+nmap gG <plug>(GrepperOperator)
+nnoremap ,G :Grepper!<CR>
+let g:grepper = {
+			\ 'switch': 1,
+			\ 'jump': 1,
+			\ 'tools': ['ag', 'git', 'ack', 'grep']
+			\ }
 " ******* (( zeavim )) {{{1
 let g:zv_disable_mapping = 1
 nmap gz <Plug>Zeavim
