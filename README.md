@@ -27,6 +27,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `javac`<sup>B</sup>
 		- `jslint`<sup>N</sup>
 		- `jsonlint`<sup>N</sup>
+		- `pep8`<sup>P</sup>
 		- `php`<sup>B</sup>
 		- `python`<sup>B</sup>
 		- `sass`<sup>R</sup>
