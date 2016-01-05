@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2015-12-31
+" Last modification: 2016-01-05
 " ================================================================
 
 
@@ -235,6 +235,11 @@ nnoremap K {
 " Make j and k move to the next row, not file line {{{1
 nnoremap j gj
 nnoremap k gk
+" Mappings for location/quickfix list window {{{1
+nnoremap <C-F3> :lprevious<CR>
+nnoremap <C-F4> :lnext<CR>
+nnoremap <S-F3> :cprevious<CR>
+nnoremap <S-F4> :cnext<CR>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
