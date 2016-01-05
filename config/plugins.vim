@@ -65,7 +65,7 @@ Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 " For Python {{{2
-" Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
+Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
 " Other syntaxes & related-syntax plugins {{{2
 " Plug 'gabrielelana/vim-markdown'
@@ -129,20 +129,20 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
-call s:PlugInOs('benmills/vimux'    , ''              , 'unix')
-call s:PlugInOs('tpope/vim-rvm'     , "{'on': 'Rvm'}" , 'unix')
-Plug 'aperezdc/vim-template'        , {'on': 'Template'}
-Plug 'Chiel92/vim-autoformat'       , {'on': 'Autoformat' }
+call s:PlugInOs('benmills/vimux' , ''              , 'unix')
+call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
+Plug 'aperezdc/vim-template'     , {'on': 'Template'}
+Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat' }
 Plug 'google/vim-searchindex'
-Plug 'junegunn/vader.vim'           , {'on': 'Vader', 'for': 'vader'}
+Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
-Plug 'mbbill/undotree'              , {'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'          , {'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim'   , "{ 'do': 'make' }" , 'unix')
-Plug 'thinca/vim-quickrun'          , {'on': ['QuickRun', 'AutoQR']}
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
+Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 " Colorschemes {{{2
@@ -283,7 +283,8 @@ let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_javac_checkers = ['javac']
+let g:syntastic_java_checkers = ['javac']
+let g:syntastic_python_checkers = ['pep8', 'python']
 let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss-lint', 'sass']
@@ -414,15 +415,16 @@ endif
 let g:neocomplete#force_omni_input_patterns.php =
 			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-" For (( jedi-vim ))
-" augroup jedi
-" 	autocmd!
-" 	autocmd FileType python setlocal omnifunc=jedi#completions
-" augroup END
-" let g:jedi#completions_enabled = 0
-" let g:jedi#auto_vim_configuration = 0
 let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+" ******* (( jedi-vim )) {{{1
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#use_splits_not_buffers = "left"
+augroup jedi
+	autocmd!
+	autocmd FileType python setlocal omnifunc=jedi#completions
+augroup END
 " ******* (( autoformat )) {{{1
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
@@ -491,7 +493,7 @@ fun! <SID>AutoQR() abort
 	if !exists('#AQR')
 		augroup AQR
 			autocmd!
-			autocmd BufWritePost * :QuickRun
+			autocmd BufWritePost,WinEnter * :QuickRun
 		augroup END
 		echo "QuickRun auto update enabled"
 	else
