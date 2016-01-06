@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-05
+" Last modification: 2016-01-06
 " ================================================================
 
 
@@ -252,20 +252,35 @@ if !empty($TERM)
 	augroup END
 endif
 " Commands for manipulating directories and deleting files {{{1
-" *** :CreD		=> Create directory(ies) (Or directories recursively)
-" *** :SCreD	=> Same as last command but with high privileges (Unix).
-" *** :DelD		=> Delete directory(ies) in windows.
-" *** :DelF		=> Delete file(s) in windows.
-" *** :Del		=> Delete file(s) or folder(s).
-if g:hasWin
-	command! -complete=file -nargs=+ CreD :!MD <args>
-	command! -complete=file -nargs=+ DelD :!RD /S <args> 
-	command! -complete=file -nargs=+ DelF :!DEL /P <args> 
-else
-	command! -complete=file -nargs=+ CreD :!mkdir -pv <args> 
-	command! -complete=file -nargs=+ SCreD :!sudo mkdir -pv <args> 
-	command! -complete=file -nargs=+ Del :!rm -Irv <args> 
-endif
+" *** :Mkdir => Create directory(ies) (Or directories recursively)
+" *** :Rm    => Delete file(s) or directory(ies)
+command! -nargs=+ -complete=file Mkdir :call <SID>MakeDir(<f-args>)
+command! -nargs=+ -complete=file Rm    :call <SID>Delete(<f-args>)
+function! <SID>Delete(...) abort
+	for l:f in a:000
+		if filereadable(l:f)
+			if delete(l:f) ==# 0
+				echohl Statement | echo l:f . ' was deleted' | echohl None
+			endif
+		elseif isdirectory(l:f)
+			let l:cmd = has('unix') ?
+						\ 'rm -vr %s' :
+						\ 'RD /S %s'
+			echo system(printf(l:cmd, escape(l:f, ' ')))
+		endif
+	endfor
+endfunction
+function! <SID>MakeDir(...) abort
+	for l:d in a:000
+		if !isdirectory(l:d)
+			call mkdir(l:d, "p")
+			echohl Statement | echo l:d . '/ was created' | echohl None
+		else
+			echohl Error | echo l:d . '/ exists already' | echohl None
+		endif
+	endfor
+endfunction
+" 2}}}
 " Specify indentation (ts,sts,sw) {{{1
 " *** :Indent
 command! Indent :call <SID>Indent()
