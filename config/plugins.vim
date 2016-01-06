@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-05
+" Last modification: 2016-01-06
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -395,9 +395,11 @@ command! PC :PlugClean
 let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
-let g:clever_f_smart_case = 1
+" Target signs ( ([{"... ) with f;
+let g:clever_f_chars_match_any_signs = ';'
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
+let g:clever_f_smart_case = 1
 " ******* (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
