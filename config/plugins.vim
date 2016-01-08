@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-06
+" Last modification: 2016-01-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -160,6 +160,8 @@ call plug#end()
 if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 	set term=xterm-256color
 endif
+let g:yowish = {}
+let g:yowish.term_italic = 0
 colorscheme yowish
 " }}}
 
@@ -240,7 +242,7 @@ if g:hasUnix
 	let g:tagbar_phpctags_bin = g:vimDir . '/plugs/tagbar-phpctags.vim/bin/phpctags'
 endif
 " ******* (( airline )) {{{1
-let g:airline_theme = 'yowish'
+let g:airline_theme = 'yowishU'
 set noshowmode
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -267,6 +269,11 @@ let g:airline#extensions#tabline#tab_nr_type = 2
 let g:airline#extensions#tabline#buffer_min_count = 2
 " Configure the minimum number of tabs needed to show the tabline.
 let g:airline#extensions#tabline#tab_min_count = 2
+" Whitespace
+" Formatting of the warning messages
+let g:airline#extensions#whitespace#trailing_format = 'trailing[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
+let g:airline#extensions#whitespace#long_format = 'l[%s]'
 " ******* (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! <SID>SyntasticToggle() abort
@@ -476,15 +483,7 @@ let g:vim_json_warnings = 0
 " ******* (( tcomment )) {{{1
 call tcomment#DefineType('vader', '# %s')
 " ******* (( polyglot )) {{{1
-let g:polyglot_disabled = ['json', 'javascript', 'python']
-" ******* (( vim-markdown )) {{{1
-" Disable folding.
-let g:vim_markdown_folding_disabled=1
-" Disable default mappings.
-let g:vim_markdown_no_default_key_mappings=1
-let g:markdown_include_jekyll_support = 0
-let g:markdown_enable_mappings = 0
-let g:markdown_enable_spell_checking = 0
+let g:polyglot_disabled = ['html', 'markdown', 'json', 'javascript', 'python']
 " ******* (( quickRun )) {{{1
 let g:quickrun_no_default_key_mappings = 0
 nnoremap <silent> gR :QuickRun<CR>
