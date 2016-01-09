@@ -259,6 +259,7 @@ let g:airline#extensions#hunks#non_zero_only = 0
 let g:airline#extensions#ctrlp#show_adjacent_modes = 0
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#syntastic#enabled = 0
 " Tabline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
@@ -271,7 +272,7 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 let g:airline#extensions#tabline#tab_min_count = 2
 " Whitespace
 " Formatting of the warning messages
-let g:airline#extensions#whitespace#trailing_format = 'trailing[%s]'
+let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
 let g:airline#extensions#whitespace#long_format = 'l[%s]'
 " ******* (( syntastic )) {{{1
@@ -280,12 +281,23 @@ function! <SID>SyntasticToggle() abort
 	SyntasticToggle
 	if g:syntastic_mode_map.mode ==# 'active'
 		SyntasticCheck
+	else
+		SyntasticReset
 	endif
 endfunction
 nnoremap <silent> ,E :Errors<CR>
-let g:syntastic_always_populate_loc_list = 1
-"Skip checks using :wq, :x, and :ZZ
 let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_mode_map = { 'mode': 'passive' }
+			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
+			" \ "passive_filetypes": ["vim", "ruby"]
+let g:syntastic_error_symbol = "❌"
+let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_style_error_symbol = "♇"
+let g:syntastic_style_warning_symbol = "♇"
+" The cursor will jump to the first error detected (1|2|3)
+let g:syntastic_auto_jump = 1
+" Checkers
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
@@ -303,11 +315,6 @@ if g:hasWin
 	let g:syntastic_php_checkers = 'php'
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
-let g:syntastic_mode_map = {
-			\ 'mode': 'passive',
-			\ }
-			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
-			" \ "passive_filetypes": ["vim", "ruby"]
 " ******* (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
