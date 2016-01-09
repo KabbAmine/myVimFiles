@@ -8,11 +8,11 @@
 " No compatible with Vi {{{1
 set nocompatible
 " Load indentation rules and plugins according to the detected filetype {{{1
-if has("autocmd")
+if has('autocmd')
 	filetype plugin indent on
 endif
 " Enables syntax highlighting {{{1
-if has("syntax")
+if has('syntax')
 	syntax on
 endif
 " What to write in Viminfo and his location {{{1
@@ -28,11 +28,11 @@ set background=dark
 " General theme for tty {{{1
 colo delek
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen. {{{1
-if exists("$TMUX")
+if exists('$TMUX')
 	set t_ut=
 endif
 " Tmux will send xterm-style keys when its xterm-keys option is on. {{{1
-if &term =~ '^screen'
+if &term =~# '^screen'
 	execute "set <xUp>=\e[1;*A"
 	execute "set <xDown>=\e[1;*B"
 	execute "set <xRight>=\e[1;*C"
@@ -43,13 +43,13 @@ execute 'set viewdir=' . g:vimDir . '/various/view'
 " Make <Alt> works in terminal. {{{1
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459
 if !empty($TERM)
-	let c = 'a'
-	while c <=# 'z'
-		exec "set <A-" . c . ">=\e" . c
-		exec "inoremap \e" . c . " <A-" . c . ">"
-		let c = nr2char(1+char2nr(c))
+	let s:c = 'a'
+	while s:c <=# 'z'
+		exec 'set <A-' . s:c . '>=\e' . s:c
+		exec 'inoremap \e' . s:c . ' <A-' . s:c . '>'
+		let s:c = nr2char(1+char2nr(s:c))
 	endwhile
-	unlet c
+	unlet s:c
 endif
 " }}}
 
@@ -284,7 +284,7 @@ endfunction
 function! <SID>MakeDir(...) abort
 	for l:d in a:000
 		if !isdirectory(l:d)
-			call mkdir(l:d, "p")
+			call mkdir(l:d, 'p')
 			echohl Statement | echo l:d . '/ was created' | echohl None
 		else
 			echohl Error | echo l:d . '/ exists already' | echohl None
@@ -360,9 +360,9 @@ cab Q q
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion {{{1
 augroup omni
 	autocmd!
-	if has("autocmd") && exists("+omnifunc")
+	if has('autocmd') && exists('+omnifunc')
 		autocmd! Filetype *
-					\	if &omnifunc == "" |
+					\	if &omnifunc ==# "" |
 					\		setlocal omnifunc=syntaxcomplete#Complete |
 					\	endif
 	endif

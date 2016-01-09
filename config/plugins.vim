@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-08
+" Last modification: 2016-01-09
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -304,7 +304,7 @@ if g:hasWin
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
 let g:syntastic_mode_map = {
-			\ "mode": "passive",
+			\ 'mode': 'passive',
 			\ }
 			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
 			" \ "passive_filetypes": ["vim", "ruby"]
@@ -338,10 +338,10 @@ let delimitMate_matchpairs = "(:),[:],{:}"
 let g:used_javascript_libs = 'jquery'
 " ******* (( ultisnips )) {{{1
 nmap <C-F2> :UltiSnipsEdit<CR>
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
+let g:UltiSnipsEditSplit='vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/various/ultisnips']
@@ -429,7 +429,7 @@ let g:neocomplete#force_omni_input_patterns.python =
 " ******* (( jedi-vim )) {{{1
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#use_splits_not_buffers = 'left'
 augroup jedi
 	autocmd!
 	autocmd FileType python setlocal omnifunc=jedi#completions
@@ -471,7 +471,7 @@ let g:SignatureMap = {
 			\ 'ListLocalMarks'	 :	",m",
 			\ }
 " ******* (( javacomplete )) {{{1
-if has("autocmd")
+if has('autocmd')
 	augroup javacomplete
 		autocmd!
 		autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
@@ -496,19 +496,19 @@ fun! <SID>AutoQR() abort
 			autocmd!
 			autocmd BufWritePost,WinEnter * :QuickRun
 		augroup END
-		echo "QuickRun auto update enabled"
+		echo 'QuickRun auto update enabled'
 	else
 		augroup AQR
 			autocmd!
 		augroup END
 		augroup! AQR
-		echo "QuickRun auto update disabled"
+		echo 'QuickRun auto update disabled'
 	endif
 endfun
 " ******* (( agit )) {{{1
 let g:agit_no_default_mappings = 1
 " ******* (( goyo )) {{{1
-let g:goyo_width = "80%"
+let g:goyo_width = '80%'
 " ******* (( nerdtree-git-plugin )) {{{1
 " let g:NERDTreeIndicatorMapCustom = {
 "     \ "Modified"  : "✹",
