@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-09
+" Last modification: 2016-01-10
 " ================================================================
 
 
@@ -219,8 +219,8 @@ function! <SID>ZoomWin(...) abort
 endfunction
 " For command line {{{1
 cnoremap jk <C-c>
-cnoremap <C-k> <Up>
-cnoremap <C-j> <Down>
+cnoremap <C-n> <Up>
+cnoremap <C-p> <Down>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
 " Open command-line window
