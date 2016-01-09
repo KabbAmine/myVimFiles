@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-06
+" Last modification: 2016-01-09
 " ================================================================
 
 
@@ -240,6 +240,17 @@ nnoremap <C-F3> :lprevious<CR>
 nnoremap <C-F4> :lnext<CR>
 nnoremap <S-F3> :cprevious<CR>
 nnoremap <S-F4> :cnext<CR>
+" TIPS from https://github.com/mhinz/vim-galore {{{1
+" n/N always search forward/backward {{{2
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+" Quickly edit macro or register content in scmdline-window {{{2
+" "q\r
+nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+" Don't lose selection when (un)indenting {{{2
+vnoremap <  <gv
+vnoremap >  >gv
+" 2}}}
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
