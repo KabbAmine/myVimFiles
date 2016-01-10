@@ -219,10 +219,11 @@ function! <SID>ZoomWin(...) abort
 endfunction
 " For command line {{{1
 cnoremap jk <C-c>
-cnoremap <C-n> <Up>
-cnoremap <C-p> <Down>
-cnoremap <C-h> <C-Left>
-cnoremap <C-l> <C-Right>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-j> <C-Left>
+cnoremap <C-k> <C-Right>
+cnoremap <C-l> <Del>
 " Open command-line window
 cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
