@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-09
+" Last modification: 2016-01-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -8,7 +8,7 @@ let s:myPlugins = g:hasWin ?
 			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
 			\ '$HOME/Projects/pluginsVim/'
 " Useful variables & functions {{{1
-function! s:PlugInOs(link, param, os) abort " {{{2
+fun! s:PlugInOs(link, param, os) abort " {{{2
 	if has(a:os)
 		if !empty(a:param)
 			execute "Plug '".a:link."', ".a:param.""
@@ -16,7 +16,21 @@ function! s:PlugInOs(link, param, os) abort " {{{2
 			execute "Plug '".a:link."'"
 		endif
 	endif
-endfunction
+endfun
+fun! <SID>CmdForDispatcher(cmd) abort " {{{2
+	" A wrapper to use with dispatcher plugins (Vimux, dispatch...)
+	" e.g of a:cmd: "VimuxRunCommand '%s'"
+	let g:last_dispatcher_cmd = exists('g:last_dispatcher_cmd') ? g:last_dispatcher_cmd : ''
+	echohl Statement
+	let l:uc = input('Command> ', g:last_dispatcher_cmd, 'file')
+	echohl None
+	if !empty(l:uc)
+		let g:last_dispatcher_cmd = l:uc
+		let l:c = printf('cd %s && clear; %s', getcwd(), l:uc)
+		silent execute printf(a:cmd, l:c)
+		redraw!
+	endif
+endfun
 " My plugins {{{2
 			" \'mdHelper'       : "{'for' : 'markdown'}",
 			" \'vSourcePreview' : '',
@@ -545,7 +559,7 @@ endfun
 nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
 " ******* (( vim-dispatch )) {{{1
 if g:hasWin
-	nnoremap !: :Start! 
+	nnoremap <silent> !: :call <SID>CmdForDispatcher('Start! -wait=always %s')<CR>
 endif
 " ******* (( vim-choosewin )) {{{1
 nnoremap ,w :ChooseWin<CR>
@@ -581,20 +595,7 @@ if g:hasUnix
 	let g:VimuxUseNearest = 0		" Split window by default
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
-	nnoremap <silent> !: :call <SID>CmdForVimux()<CR>
-	fun! <SID>CmdForVimux() abort
-		" A better vimux prompt command
-		let b:vimuxLastCmd = exists('b:vimuxLastCmd') ? b:vimuxLastCmd : ''
-		echohl Statement
-		let l:uc = input('Command> ', b:vimuxLastCmd, 'file')
-		echohl None
-		if !empty(l:uc)
-			let b:vimuxLastCmd = l:uc
-			let l:c = printf('cd %s && clear; %s', getcwd(), l:uc)
-			silent execute printf("VimuxRunCommand '%s'", l:c)
-			redraw!
-		endif
-	endfun
+	nnoremap <silent> !: :call <SID>CmdForDispatcher("VimuxRunCommand '%s'")<CR>
 endif
 " ******* (( vimproc )) {{{1
 if g:hasUnix
