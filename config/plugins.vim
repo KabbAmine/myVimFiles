@@ -310,7 +310,7 @@ let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_style_error_symbol = "♇"
 let g:syntastic_style_warning_symbol = "♇"
 " The cursor will jump to the first error detected (1|2|3)
-let g:syntastic_auto_jump = 1
+let g:syntastic_auto_jump = 2
 " Checkers
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
