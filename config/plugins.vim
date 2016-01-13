@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-11
+" Last modification: 2016-01-13
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -615,10 +615,10 @@ let g:grepper = {
 			\ 'tools': ['ag', 'git', 'ack', 'grep']
 			\ }
 " ******* (( zeavim )) {{{1
-let g:zv_disable_mapping = 1
-nmap gz <Plug>Zeavim
-vmap gz <Plug>ZVVisSelection
+nmap gzz <Plug>Zeavim
+vmap gzz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
+nmap gz <Plug>ZVMotion
 let g:zv_file_types = {'python': 'python 3'}
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
