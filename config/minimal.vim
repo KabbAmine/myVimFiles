@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-10
+" Last modification: 2016-01-13
 " ================================================================
 
 
@@ -248,9 +248,6 @@ nnoremap <expr> N  'nN'[v:searchforward]
 " Quickly edit macro or register content in scmdline-window {{{2
 " "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-" Don't lose selection when (un)indenting {{{2
-vnoremap <  <gv
-vnoremap >  >gv
 " 2}}}
 " }}}
 
