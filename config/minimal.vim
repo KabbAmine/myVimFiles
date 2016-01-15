@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-13
+" Last modification: 2016-01-15
 " ================================================================
 
 
@@ -215,6 +215,12 @@ cnoremap <C-l> <Del>
 cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
 vnoremap <leader>s :!sort<CR>
+nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
+function! <SID>Sort(...) abort
+	let l:cmd = printf('%d,%d:!sort', line("'["), line("']"))
+	echomsg l:cmd
+	execute l:cmd
+endfunction
 " Show syntax highlighting group for word under cursor {{{1
 nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
 " Move by paragraph ({ & } are quite difficult to reach azerty) {{{1
