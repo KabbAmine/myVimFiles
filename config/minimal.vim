@@ -42,7 +42,7 @@ endif
 execute 'set viewdir=' . g:vimDir . '/various/view'
 " Make <Alt> works in terminal. {{{1
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459
-if !empty($TERM)
+if !empty($TERM) && !g:isNvim
 	let s:c = 'a'
 	while s:c <=# 'z'
 		exec 'set <A-' . s:c . '>=\e' . s:c
@@ -204,19 +204,6 @@ nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
-" Toggle zoom for a split
-" Idea from https://github.com/rselk/vim-max-split
-nnoremap <silent>gsz :call <SID>ZoomWin()<CR>
-function! <SID>ZoomWin(...) abort
-	if !exists('w:zoomed')
-		let w:zoomed = 1
-		wincmd _
-		wincmd |
-	else
-		wincmd =
-		unlet! w:zoomed
-	endif
-endfunction
 " For command line {{{1
 cnoremap jk <C-c>
 cnoremap <C-p> <Up>
