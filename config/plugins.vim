@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-17
+" Last modification: 2016-01-18
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -148,6 +148,7 @@ Plug 'tpope/vim-surround'
 " Various {{{2
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
+Plug 'rhysd/vim-grammarous'
 Plug 'aperezdc/vim-template'     , {'on': 'Template'}
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat' }
 Plug 'google/vim-searchindex'
@@ -641,6 +642,24 @@ let g:grepper = {
 			\ }
 " ******* (( vim-surround )) {{{1
 nmap S ys
+" ******* (( vim-grammarous )) {{{1
+let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
+" Check comments only except for help & markdown
+let g:grammarous#default_comments_only_filetypes = {
+            \ '*' : 1,
+			\ 'help' : 0,
+			\ 'markdown' : 0,
+            \ }
+let g:grammarous#hooks = {}
+" gn/gp for moving to errors only when GrammarCheck in enabled
+function! g:grammarous#hooks.on_check(errs)
+	nmap <buffer> gn <Plug>(grammarous-move-to-next-error)
+	nmap <buffer> gp <Plug>(grammarous-move-to-previous-error)
+endfunction
+function! g:grammarous#hooks.on_reset(errs)
+	nunmap <buffer> gn
+	nunmap <buffer> gp
+endfunction
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
