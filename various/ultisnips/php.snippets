@@ -34,6 +34,19 @@ snippet req "require" b
 require '${1:...}';
 endsnippet
 
+snippet class "Class" 
+${1:namespace ${2};}
+
+/**
+ * class ${3}
+ */
+class $3() {
+
+	${4}
+}
+
+endsnippet
+
 snippet constr "Construct" b
 public function __construct(${1:$param})
 {
