@@ -72,7 +72,7 @@ call s:PlugInOs('sheerun/vim-polyglot' , "{'do': './build'}" , 'unix')
 call s:PlugInOs('sheerun/vim-polyglot' , ''                  , 'win32')
 " For PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'rayburgemeestre/phpfolding.vim'
+Plug 'rayburgemeestre/phpfolding.vim' , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
@@ -660,6 +660,8 @@ function! g:grammarous#hooks.on_reset(errs)
 	nunmap <buffer> gn
 	nunmap <buffer> gp
 endfunction
+" ******* (( phpfolding )) {{{1
+let g:DisableAutoPHPFolding = 1
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
