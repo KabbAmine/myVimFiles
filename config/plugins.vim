@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-13
+" Last modification: 2016-01-17
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -35,14 +35,17 @@ endfun
 			" \'mdHelper'       : "{'for' : 'markdown'}",
 			" \'vSourcePreview' : '',
 let s:myPlugs = {
-			\'gulp-vim'       : "{'on'  : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
-			\'lazyList'       : '',
-			\'vcml'           : '',
-			\'vCoolor'        : '',
-			\'vimSimpleLib'   : '',
-			\'vullScreen'     : '',
-			\'yowish'         : '',
-			\'zeavim'         : ''
+			\'gulp-vim'     : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
+			\'lazyList'     : '',
+			\'vcml'         : '',
+			\'vCoolor'      : '',
+			\'vim-livedown' : '',
+			\'vimSimpleLib' : '',
+			\'vTemplate'    : '',
+			\'vullScreen'   : '',
+			\'vZoom'        : "{'on' : '<Plug>(vzoom)'}",
+			\'yowish'       : '',
+			\'zeavim'       : ''
 		\ }
 fun! s:MyPlugs(...) abort
 	let l:pn = keys(s:myPlugs)
@@ -89,10 +92,10 @@ Plug 'othree/csscomplete.vim' , {'for': 'css'}
 Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
+" Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/agit.vim'             , {'on': 'Agit'}
+Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
 " Plug 'jaxbot/github-issues.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
@@ -477,7 +480,28 @@ endif
 let g:goldenview__enable_at_startup = 0
 let g:goldenview__enable_default_mapping = 0
 " ******* (( tabular )) {{{1
-vmap <CR> :Tabular /
+vmap <CR><CR> :Tabularize /
+vmap <silent> <CR>: :Tabularize /^[^:]*\zs<CR>
+vmap <silent> <CR>, :Tabularize /^[^,]*\zs,/l1r1<CR>
+" This was better using autocmd, but I had a ******* strange behavior so I used
+" a more simple approach
+function! <SID>AutoTabularize(pattern) abort
+	let l:ip = getpos('.')
+	exe ':Tabularize /' . a:pattern
+	call setpos('.', l:ip)
+endfunction
+command! TabularAutoToggle :call <SID>TabularAutoToggle()
+function! <SID>TabularAutoToggle() abort
+	if !exists('g:tabular_auto_state')
+		echo "TabularAuto enabled"
+		let g:tabular_auto_state = 1
+		inoremap <silent> \| \|<Esc>:call <SID>AutoTabularize('\|')<CR>A
+	else
+		echo "TabularAuto disabled"
+		iunmap \|
+		unlet! g:tabular_auto_state
+	endif
+endfunction
 " ******* (( fugitive )) {{{1
 " Some abbreviations
 cab Gb Git branch
@@ -527,7 +551,10 @@ fun! <SID>AutoQR() abort
 	endif
 endfun
 " ******* (( agit )) {{{1
-let g:agit_no_default_mappings = 1
+" let g:agit_no_default_mappings = 1
+" nnoremap D <Plug>(agit-diff)
+" nnoremap q <Plug>(agit-exit)
+" nnoremap R <Plug>(agit-reload)
 " ******* (( goyo )) {{{1
 let g:goyo_width = '80%'
 " ******* (( nerdtree-git-plugin )) {{{1
@@ -605,21 +632,24 @@ endif
 " ******* (( vim-operator-flashy )) {{{1
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
-let g:operator#flashy#group = 'Statement'
+let g:operator#flashy#group = 'Search'
 " ******* (( vim-grepper )) {{{1
 nmap gG <plug>(GrepperOperator)
-nnoremap ,G :Grepper!<CR>
+nnoremap ,G :Grepper -jump<CR>
 let g:grepper = {
-			\ 'switch': 1,
-			\ 'jump': 1,
 			\ 'tools': ['ag', 'git', 'ack', 'grep']
 			\ }
+" ******* (( vim-surround )) {{{1
+nmap S ys
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
 nmap gZ <Plug>ZVKeyDocset
 nmap gz <Plug>ZVMotion
-let g:zv_file_types = {'python': 'python 3'}
+let g:zv_file_types = {
+			\ 'python': 'python 3',
+			\ 'help'  : 'vim'
+		\ }
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
 			\ 'Z:/k-bag/Important!/docsets_Zeal/'
@@ -676,6 +706,14 @@ let g:lazylist_maps = [
 				\ '.9' : '9.%1%. ',
 			\ }
 		\]
+" ******* (( vZoom )) {{{1
+nmap gsz <Plug>(vzoom)
+" ******* (( vTemplate )) {{{1
+let g:vtemplate = {}
+let g:vtemplate = {
+			\ 'box': g:vimDir . '/various/vtemplates',
+			\ 'mkdir_box': 1
+		\ }
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
 " vnoremap <silent> gP :VSPPreview<CR>
