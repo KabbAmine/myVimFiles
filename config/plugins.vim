@@ -323,6 +323,7 @@ let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_java_checkers = ['javac']
 let g:syntastic_python_checkers = ['pep8', 'python']
 let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss-lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
