@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-18
+" Last modification: 2016-01-19
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -41,7 +41,7 @@ let s:myPlugs = {
 			\'vCoolor'      : '',
 			\'vim-livedown' : '',
 			\'vimSimpleLib' : '',
-			\'vTemplate'    : '',
+			\'vBox'    : '',
 			\'vullScreen'   : '',
 			\'vZoom'        : "{'on' : '<Plug>(vzoom)'}",
 			\'yowish'       : '',
@@ -647,10 +647,10 @@ nmap S ys
 let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
 " Check comments only except for help & markdown
 let g:grammarous#default_comments_only_filetypes = {
-            \ '*' : 1,
-			\ 'help' : 0,
-			\ 'markdown' : 0,
-            \ }
+			\ 'vim' : 1,
+			\ 'sh' : 1
+		\ }
+			" \ '*' : 1,
 let g:grammarous#hooks = {}
 " gn/gp for moving to errors only when GrammarCheck in enabled
 function! g:grammarous#hooks.on_check(errs)
@@ -730,11 +730,10 @@ let g:lazylist_maps = [
 		\]
 " ******* (( vZoom )) {{{1
 nmap gsz <Plug>(vzoom)
-" ******* (( vTemplate )) {{{1
-let g:vtemplate = {}
-let g:vtemplate = {
-			\ 'box': g:vimDir . '/various/vtemplates',
-			\ 'mkdir_box': 1
+" ******* (( vBox )) {{{1
+let g:vbox = {}
+let g:vbox = {
+			\ 'dir': g:vimDir . '/various/vtemplates'
 		\ }
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
