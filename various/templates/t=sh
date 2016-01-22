@@ -1,0 +1,23 @@
+####################################################
+#					%FILE%
+####################################################
+
+# CREATION     : %DATE%
+# MODIFICATION : %DATE%
+# MAINTAINER   : %USER% <%MAIL%>
+
+# DESCRIPTION
+# - %_%
+
+# USAGE
+
+####################################################
+
+#!/bin/bash
+DEFAULT_IFS=$IFS
+IFS='
+'
+
+
+
+IFS=$DEFAULT_IFS
