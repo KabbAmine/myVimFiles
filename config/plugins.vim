@@ -84,7 +84,6 @@ Plug 'othree/yajs.vim'
 Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
 " Other syntaxes & related-syntax plugins {{{2
-" Plug 'gabrielelana/vim-markdown'
 Plug 'javacomplete'           , {'for': 'java'}
 Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For web development {{{2
@@ -715,19 +714,22 @@ let g:lazylist_maps = [
 nmap gsz <Plug>(vzoom)
 " ******* (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
-let g:vbox = {'dir': g:vimDir . '/various/templates'}
+let g:vbox = {
+			\ 'dir': g:vimDir . '/various/templates',
+			\ 'empty_buffer_only': 0
+		\ }
 let g:vbox.variables = {
 			\ '%NAME%'     : 'Kabbaj Amine',
 			\ '%MAIL%'     : 'amine.kabb@gmail.com',
 			\ '%LICENSE%'  : 'MIT',
 			\ '%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
-			\ '%YEAR%'    : 'f=strftime("%Y")'
+			\ '%YEAR%'     : 'f=strftime("%Y")'
 		\ }
 augroup VBoxAuto
 	autocmd!
-	autocmd BufNewFile README.md  :VBTemplate
-	autocmd BufNewFile LICENSE    :VBTemplate license-MIT
-	autocmd BufNewFile *.sh       :VBTemplate
+	autocmd BufNewFile README.md                    :VBTemplate
+	autocmd BufNewFile LICENSE                      :VBTemplate license-MIT
+	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js  :VBTemplate
 augroup END
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
