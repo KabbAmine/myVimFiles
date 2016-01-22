@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-22
+" Last modification: 2016-01-23
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -177,7 +177,7 @@ if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 endif
 let g:yowish = {}
 let g:yowish.term_italic = 0
-colorscheme yowish
+" The colorscheme is applied in the end of the file
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
@@ -425,8 +425,6 @@ command! PC :PlugClean
 let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
-" Target signs ( ([{"... ) with f;
-let g:clever_f_chars_match_any_signs = ';'
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case = 1
@@ -527,7 +525,7 @@ let g:vim_json_warnings = 0
 " ******* (( tcomment )) {{{1
 call tcomment#DefineType('vader', '# %s')
 " ******* (( polyglot )) {{{1
-let g:polyglot_disabled = ['html', 'markdown', 'json', 'javascript', 'python']
+let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 " ******* (( quickRun )) {{{1
 let g:quickrun_no_default_key_mappings = 0
 nnoremap <silent> gR :QuickRun<CR>
@@ -764,5 +762,7 @@ if exists(':AirlineRefresh') ==# 2
 	silent AirlineRefresh
 endif
 " }}}
+
+colorscheme yowish
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:

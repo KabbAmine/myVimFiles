@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-15
+" Last modification: 2016-01-23
 " ================================================================
 
 
@@ -218,7 +218,6 @@ vnoremap <leader>s :!sort<CR>
 nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
 function! <SID>Sort(...) abort
 	let l:cmd = printf('%d,%d:!sort', line("'["), line("']"))
-	echomsg l:cmd
 	execute l:cmd
 endfunction
 " Show syntax highlighting group for word under cursor {{{1
@@ -265,7 +264,7 @@ function! <SID>Delete(...) abort
 				echohl Statement | echo l:f . ' was deleted' | echohl None
 			endif
 		elseif isdirectory(l:f)
-			let l:cmd = has('unix') ?
+			let l:cmd = g:hasUnix ?
 						\ 'rm -vr %s' :
 						\ 'RD /S %s'
 			echo system(printf(l:cmd, escape(l:f, ' ')))
@@ -321,8 +320,8 @@ augroup BgHighlight
 augroup END
 " Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
-if has('unix')
-	command! Sw :w !sudo tee % >/dev/null 
+if g:hasUnix
+	command! Sw :w !sudo tee % >/dev/null
 endif
 " Set spelllang & spell in one command {{{1
 command! -nargs=? Spell call s:Spell(<f-args>)
