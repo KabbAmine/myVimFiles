@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-19
+" Last modification: 2016-01-22
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -39,7 +39,6 @@ let s:myPlugs = {
 			\'lazyList'     : '',
 			\'vcml'         : '',
 			\'vCoolor'      : '',
-			\'vim-livedown' : '',
 			\'vimSimpleLib' : '',
 			\'vBox'    : '',
 			\'vullScreen'   : '',
@@ -92,7 +91,7 @@ Plug 'othree/csscomplete.vim' , {'for': 'css'}
 Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-" Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
+Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
@@ -149,7 +148,6 @@ Plug 'tpope/vim-surround'
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'rhysd/vim-grammarous'
-Plug 'aperezdc/vim-template'     , {'on': 'Template'}
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat' }
 Plug 'google/vim-searchindex'
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
@@ -571,21 +569,6 @@ let g:goyo_width = '80%'
 "     \ "Clean"     : "✔︎",
 "     \ "Unknown"   : "?"
 "     \ }
-" ******* (( vim-template )) {{{1
-let g:templates_no_autocmd = 1
-let g:templates_directory = [g:vimDir . '/various/templates/']
-let g:templates_no_builtin_templates = 1
-let g:username = 'Kabbaj Amine'
-let g:email = 'amine.kabb@gmail.com'
-" Create/Edit the appropriate template file
-fun! <SID>EditTemplate(...) abort
-	let l:p = g:vimDir . '/various/templates/'
-	let l:e = expand('%:e')
-	if !empty(l:e)
-		silent execute 'rightbelow vertical split ' . l:p . '=template=.' . l:e
-	endif
-endfun
-nnoremap <silent> <S-f2> :call <SID>EditTemplate()<CR>
 " ******* (( vim-dispatch )) {{{1
 if g:hasWin
 	nnoremap <silent> !: :call <SID>CmdForDispatcher('Start! -wait=always %s')<CR>
@@ -731,10 +714,21 @@ let g:lazylist_maps = [
 " ******* (( vZoom )) {{{1
 nmap gsz <Plug>(vzoom)
 " ******* (( vBox )) {{{1
-let g:vbox = {}
-let g:vbox = {
-			\ 'dir': g:vimDir . '/various/vtemplates'
+nnoremap <S-F2> :VBEdit 
+let g:vbox = {'dir': g:vimDir . '/various/templates'}
+let g:vbox.variables = {
+			\ '%NAME%'     : 'Kabbaj Amine',
+			\ '%MAIL%'     : 'amine.kabb@gmail.com',
+			\ '%LICENSE%'  : 'MIT',
+			\ '%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
+			\ '%YEAR%'    : 'f=strftime("%Y")'
 		\ }
+augroup VBoxAuto
+	autocmd!
+	autocmd BufNewFile README.md  :VBTemplate
+	autocmd BufNewFile LICENSE    :VBTemplate license-MIT
+	autocmd BufNewFile *.sh       :VBTemplate
+augroup END
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
 " vnoremap <silent> gP :VSPPreview<CR>
