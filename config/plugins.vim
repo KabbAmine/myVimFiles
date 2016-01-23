@@ -721,11 +721,12 @@ let g:vbox.variables = {
 			\ '%MAIL%'     : 'amine.kabb@gmail.com',
 			\ '%LICENSE%'  : 'MIT',
 			\ '%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
-			\ '%YEAR%'     : 'f=strftime("%Y")'
+			\ '%YEAR%'     : 'f=strftime("%Y")',
+			\ '%REPO%'     : 'https://github.com/KabbAmine/'
 		\ }
 augroup VBoxAuto
 	autocmd!
-	autocmd BufNewFile README.md                    :VBTemplate
+	autocmd BufNewFile README.md,CHANGELOG.md       :VBTemplate
 	autocmd BufNewFile LICENSE                      :VBTemplate license-MIT
 	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js  :VBTemplate
 augroup END
