@@ -211,8 +211,6 @@ cnoremap <C-n> <Down>
 cnoremap <C-j> <C-Left>
 cnoremap <C-k> <C-Right>
 cnoremap <C-l> <Del>
-" Open command-line window
-cnoremap <S-space> <C-f>
 " Sort in VISUAL mode {{{1
 vnoremap <leader>s :!sort<CR>
 nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
@@ -297,15 +295,7 @@ endfunction
 command! Hl :help local-additions
 command! Fl :help function-list
 " Change file type between PHP and HTML files {{{1
-" *** :Ch
-command! Ch :call <SID>Ch()
-function! <SID>Ch()
-	if &ft ==# 'php'
-		setlocal ft=html
-	elseif &ft ==# 'html'
-		setlocal ft=php
-	endif
-endfunction
+command! Ch :execute 'setf ' . (&ft ==# 'php' ? 'html' : 'php')
 " Conversion between TABS ans SPACES {{{1
 command! TabToSpace :setlocal expandtab | %retab!
 command! SpaceToTab :setlocal noexpandtab | %retab!
@@ -352,9 +342,9 @@ augroup omni
 	autocmd!
 	if has('autocmd') && exists('+omnifunc')
 		autocmd! Filetype *
-					\	if &omnifunc ==# "" |
-					\		setlocal omnifunc=syntaxcomplete#Complete |
-					\	endif
+					\ if &omnifunc ==# '' |
+					\	setlocal omnifunc=syntaxcomplete#Complete |
+					\ endif
 	endif
 augroup END
 " }}}
