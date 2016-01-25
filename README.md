@@ -38,7 +38,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 	- *Autoformat*:
 		
-		- For `html`, `css` & `javascript` -> `js-beautify`<sup>N</sup>.
+		- For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>.
 		- `scss` uses `sass-convert` which is shipped with `sass`.
 	
 	- *vim-livedown*: `livedown`<sup>N</sup>
