@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-25
+" Last modification: 2016-01-27
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -10,11 +10,8 @@ let s:myPlugins = g:hasWin ?
 " Useful variables & functions {{{1
 fun! s:PlugInOs(link, param, os) abort " {{{2
 	if has(a:os)
-		if !empty(a:param)
-			execute "Plug '".a:link."', ".a:param.""
-		else
-			execute "Plug '".a:link."'"
-		endif
+		let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
+		exe printf("Plug '%s'%s", a:link, l:opt)
 	endif
 endfun
 fun! <SID>CmdForDispatcher(cmd) abort " {{{2
@@ -32,8 +29,6 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 	endif
 endfun
 " My plugins {{{2
-			" \'mdHelper'       : "{'for' : 'markdown'}",
-			" \'vSourcePreview' : '',
 let s:myPlugs = {
 			\'gulp-vim'      : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
 			\'lazyList'      : '',
@@ -46,15 +41,12 @@ let s:myPlugs = {
 			\'yowish'        : '',
 			\'zeavim'        : ''
 		\ }
-fun! s:MyPlugs(...) abort
+fun! s:MyPlugs() abort
 	let l:pn = keys(s:myPlugs)
 	let l:pl = values(s:myPlugs)
 	for l:i in range(0, len(l:pn) - 1)
-		if !empty(l:pl[l:i])
-			exec "Plug '" . s:myPlugins . l:pn[l:i] . "' ," . l:pl[l:i] . ""
-		else
-			exec "Plug '" . s:myPlugins . l:pn[l:i] . "'"
-		endif
+		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
+		exec printf("Plug '%s'%s", expand(s:myPlugins) . l:pn[l:i], l:opt)
 	endfor
 endfun
 " 2}}}
@@ -71,7 +63,7 @@ call s:PlugInOs('sheerun/vim-polyglot' , "{'do': './build'}" , 'unix')
 call s:PlugInOs('sheerun/vim-polyglot' , ''                  , 'win32')
 " For PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'rayburgemeestre/phpfolding.vim' , {'for': 'php'}
+Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
@@ -88,14 +80,13 @@ Plug 'hdima/python-syntax'
 Plug 'javacomplete'           , {'for': 'java'}
 Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For web development {{{2
-Plug 'docunext/closetag.vim'       , {'for': ['html', 'php', 'xml']}
-Plug 'lilydjwg/colorizer'          , {'on': 'ColorToggle'}
+Plug 'docunext/closetag.vim' , {'for': ['html', 'php', 'xml']}
+Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-Plug 'shime/vim-livedown'          , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
+Plug 'shime/vim-livedown'    , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
-" Plug 'jaxbot/github-issues.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
 " (( fuzzyfinder )) {{{2
@@ -185,10 +176,10 @@ colo yowish
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( FuzzyFinder )) {{{1
 nmap <silent> ,B :FufBookmarkDir<CR>
+nmap <silent> ,b :FufBuffer<CR>
 nmap <silent> ,c :FufMruCmd<CR>
 nmap <silent> ,d :FufDir<CR>
 nmap <silent> ,F :FufFile<CR>
-nmap <silent> ,b :FufBuffer<CR>
 let g:fuf_modesDisable = ['mrufile']
 let g:fuf_mrufile_maxItem = 40
 let g:fuf_patternSeparator = '+'
@@ -377,14 +368,14 @@ command! Gp :GitGutterPrevHunk
 command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( ctrlp & cie )) {{{1
-nmap <silent> !!   :CtrlPCmdPalette<CR>
-nmap <silent> ,f  :CtrlP<CR>
-nmap <silent> ,,f   :CtrlPFunky<CR>
-nmap <silent> ,l   :CtrlPLine %<CR>
-nmap <silent> ,r   :CtrlPMRUFiles<CR>
-nmap <silent> ,t   :CtrlPBufTag<CR>
-nmap <silent> ,y   :CtrlPRegister<CR>
-imap <silent> <A-p> <Esc>:<C-U>CtrlPRegister<CR>
+nmap <silent> !!           :CtrlPCmdPalette<CR>
+nmap <silent> ,f           :CtrlP<CR>
+nmap <silent> ,,f          :CtrlPFunky<CR>
+nmap <silent> ,l           :CtrlPLine %<CR>
+nmap <silent> ,r           :CtrlPMRUFiles<CR>
+nmap <silent> ,t           :CtrlPBufTag<CR>
+nmap <silent> ,y           :CtrlPRegister<CR>
+imap <silent> <A-p> <Esc>  :<C-U>CtrlPRegister<CR>
 " Disable CtrlP default map.
 let g:ctrlp_map = ''
 let g:ctrlp_cache_dir = g:vimDir . '/various/ctrlp'
@@ -453,7 +444,11 @@ let g:neocomplete#force_omni_input_patterns.python =
 " ******* (( jedi-vim )) {{{1
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_splits_not_buffers = 'left'
+let g:jedi#goto_command = 'gd'
+let g:jedi#documentation_command = 'gk'
+let g:jedi#usages_command = 'gD'
+" Don't use, buggy as hell
+let g:jedi#rename_command = 'gr'
 augroup jedi
 	autocmd!
 	autocmd FileType python setlocal omnifunc=jedi#completions
@@ -676,6 +671,15 @@ augroup JsDoc
 	autocmd Filetype javascript inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
 augroup END
 " Check doc when needed!!!
+" ******* (( tern_for_vim )) {{{1
+let tern_show_signature_in_pum = 1
+augroup Tern
+	autocmd!
+	autocmd Filetype javascript nmap <buffer> gk :TernDoc<CR>
+	autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
+	autocmd Filetype javascript nmap <buffer> gD :TernRefs<CR>
+	autocmd Filetype javascript nmap <buffer> gr :TernRename<CR>
+augroup END
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
