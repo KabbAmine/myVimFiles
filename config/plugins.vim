@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-23
+" Last modification: 2016-01-25
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -22,7 +22,7 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 	" e.g of a:cmd: "VimuxRunCommand '%s'"
 	let g:last_dispatcher_cmd = exists('g:last_dispatcher_cmd') ? g:last_dispatcher_cmd : ''
 	echohl Statement
-	let l:uc = input('Command> ', g:last_dispatcher_cmd, 'file')
+	let l:uc = input('Command> ', g:last_dispatcher_cmd, 'history')
 	echohl None
 	if !empty(l:uc)
 		let g:last_dispatcher_cmd = l:uc
@@ -35,16 +35,16 @@ endfun
 			" \'mdHelper'       : "{'for' : 'markdown'}",
 			" \'vSourcePreview' : '',
 let s:myPlugs = {
-			\'gulp-vim'     : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
-			\'lazyList'     : '',
-			\'vcml'         : '',
-			\'vCoolor'      : '',
-			\'vimSimpleLib' : '',
-			\'vBox'    : '',
-			\'vullScreen'   : '',
-			\'vZoom'        : "{'on' : '<Plug>(vzoom)'}",
-			\'yowish'       : '',
-			\'zeavim'       : ''
+			\'gulp-vim'      : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
+			\'lazyList'      : '',
+			\'vBox'          : '',
+			\'vcml'          : '',
+			\'vCoolor'       : '',
+			\'vimSimpleLib'  : '',
+			\'vullScreen'    : '',
+			\'vZoom'         : "{'on' : '<Plug>(vzoom)'}",
+			\'yowish'        : '',
+			\'zeavim'        : ''
 		\ }
 fun! s:MyPlugs(...) abort
 	let l:pn = keys(s:myPlugs)
@@ -77,6 +77,7 @@ Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
 Plug 'elzr/vim-json'
 Plug 'gavocanov/vim-js-indent'
+Plug 'heavenshell/vim-jsdoc'
 Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
@@ -125,7 +126,8 @@ Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
-Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
+" Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
+Plug 'bling/vim-airline'
 Plug 'junegunn/goyo.vim'      , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
 Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
@@ -177,7 +179,7 @@ if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 endif
 let g:yowish = {}
 let g:yowish.term_italic = 0
-" The colorscheme is applied in the end of the file
+colo yowish
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
@@ -338,12 +340,12 @@ augroup emmet
 	autocmd!
 	autocmd FileType html,scss,css,jade EmmetInstall
 	" autocmd FileType html,scss,css,jade imap <buffer> <expr> jhh emmet#expandAbbrIntelligent("\<tab>")
-	autocmd FileType html,scss,css,jade imap jha <plug>(emmet-anchorize-url)
-	autocmd FileType html,scss,css,jade imap jhc <plug>(emmet-code-pretty)
-	autocmd FileType html,scss,css,jade imap jhh <plug>(emmet-expand-abbr)
-	autocmd FileType html,scss,css,jade imap jhn <plug>(emmet-move-next)
-	autocmd FileType html,scss,css,jade imap jhN <plug>(emmet-move-prev)
-	autocmd FileType html,scss,css,jade imap jhu <plug>(emmet-update-tag)
+	autocmd FileType html,scss,css,jade imap <buffer> jha <plug>(emmet-anchorize-url)
+	autocmd FileType html,scss,css,jade imap <buffer> jhc <plug>(emmet-code-pretty)
+	autocmd FileType html,scss,css,jade imap <buffer> jhh <plug>(emmet-expand-abbr)
+	autocmd FileType html,scss,css,jade imap <buffer> jhn <plug>(emmet-move-next)
+	autocmd FileType html,scss,css,jade imap <buffer> jhN <plug>(emmet-move-prev)
+	autocmd FileType html,scss,css,jade imap <buffer> jhu <plug>(emmet-update-tag)
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
@@ -381,6 +383,7 @@ nmap <silent> ,,f   :CtrlPFunky<CR>
 nmap <silent> ,l   :CtrlPLine %<CR>
 nmap <silent> ,r   :CtrlPMRUFiles<CR>
 nmap <silent> ,t   :CtrlPBufTag<CR>
+nmap <silent> ,y   :CtrlPRegister<CR>
 imap <silent> <A-p> <Esc>:<C-U>CtrlPRegister<CR>
 " Disable CtrlP default map.
 let g:ctrlp_map = ''
@@ -459,13 +462,21 @@ augroup END
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
 let g:autoformat_verbosemode = 1
+" Make =ie autoformat for some ft
+augroup Autoformat
+	autocmd!
+	autocmd Filetype html,json,css,javascript,scss nmap <buffer> =ie :Autoformat<CR>
+augroup END
 " ******* (( colorizer )) {{{1
 let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
 " ******* (( php-documentor )) {{{1
-" nnoremap <silent> <C-p> :call PhpDoc()<CR>
-" inoremap <silent> <C-p> <C-o>:call PhpDoc()<CR>
-" vnoremap <silent> <C-p> :call PhpDocRange()<CR>
+augroup PhpDoc
+	autocmd!
+	autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
+	autocmd Filetype php inoremap <buffer> <silent> <C-d> <C-o>:call PhpDoc()<CR>
+	autocmd Filetype php vnoremap <buffer> <silent> <C-d> :call PhpDocRange()<CR>
+augroup END
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
 if g:hasUnix
@@ -548,10 +559,19 @@ fun! <SID>AutoQR() abort
 	endif
 endfun
 " ******* (( agit )) {{{1
-" let g:agit_no_default_mappings = 1
-" nnoremap D <Plug>(agit-diff)
-" nnoremap q <Plug>(agit-exit)
-" nnoremap R <Plug>(agit-reload)
+let g:agit_no_default_mappings = 1
+augroup Agit
+	autocmd!
+	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> ch <Plug>(agit-git-checkout)
+	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> P <Plug>(agit-print-commitmsg)
+	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> q <Plug>(agit-exit)
+	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> R <Plug>(agit-reload)
+	autocmd Filetype agit,agit_stat nmap <buffer> D <Plug>(agit-diff)
+	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
+	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
+	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
+	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
+augroup END
 " ******* (( goyo )) {{{1
 let g:goyo_width = '80%'
 " ******* (( nerdtree-git-plugin )) {{{1
@@ -617,10 +637,11 @@ nmap Y <Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Search'
 " ******* (( vim-grepper )) {{{1
 nmap gG <plug>(GrepperOperator)
-nnoremap ,G :Grepper -jump<CR>
+nnoremap ,g :Grepper -jump<CR>
 let g:grepper = {
-			\ 'tools': ['ag', 'git', 'ack', 'grep']
-			\ }
+			\ 'tools': ['ag', 'git', 'ack', 'grep'],
+			\ 'jump': 0
+		\ }
 " ******* (( vim-surround )) {{{1
 nmap S ys
 " ******* (( vim-grammarous )) {{{1
@@ -643,6 +664,18 @@ function! g:grammarous#hooks.on_reset(errs)
 endfunction
 " ******* (( phpfolding )) {{{1
 let g:DisableAutoPHPFolding = 1
+" ******* (( indentLine )) {{{1
+let g:indentLine_showFirstIndentLevel = 1
+" ******* (( vim-markdown )) {{{1
+" Enable syntax highlighting in codeblocks for some file types
+let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
+" ******* (( vim-jsdoc )) {{{1
+augroup JsDoc
+	autocmd!
+	autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
+	autocmd Filetype javascript inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
+augroup END
+" Check doc when needed!!!
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -668,7 +701,7 @@ let g:gv_custom_cmd = g:hasUnix ?
 			\ ['VimuxRunCommand "clear && %s"', 1] :
 			\ 'Start! %s'
 let g:gv_ctrlp_cmd = 'GulpExt'
-nnoremap ,g :CtrlPGulp<CR>
+nnoremap ,G :CtrlPGulp<CR>
 " ******* (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
@@ -691,21 +724,9 @@ let g:lazylist_maps = [
 				\ 't'   : '- [ ] ',
 				\ '2'  : '%2%. ',
 				\ '3'  : '%3%. ',
-				\ '4'  : '%4%. ',
-				\ '5'  : '%5%. ',
-				\ '6'  : '%6%. ',
-				\ '7'  : '%7%. ',
-				\ '8'  : '%8%. ',
-				\ '9'  : '%9%. ',
 				\ '.1' : '1.%1%. ',
 				\ '.2' : '2.%1%. ',
 				\ '.3' : '3.%1%. ',
-				\ '.4' : '4.%1%. ',
-				\ '.5' : '5.%1%. ',
-				\ '.6' : '6.%1%. ',
-				\ '.7' : '7.%1%. ',
-				\ '.8' : '8.%1%. ',
-				\ '.9' : '9.%1%. ',
 			\ }
 		\]
 " ******* (( vZoom )) {{{1
@@ -763,7 +784,5 @@ if exists(':AirlineRefresh') ==# 2
 	silent AirlineRefresh
 endif
 " }}}
-
-colorscheme yowish
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
