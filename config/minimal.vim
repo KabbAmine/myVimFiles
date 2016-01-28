@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-23
+" Last modification: 2016-01-28
 " ================================================================
 
 
@@ -238,6 +238,31 @@ nnoremap <expr> N  'nN'[v:searchforward]
 " Quickly edit macro or register content in scmdline-window {{{2
 " "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+" 2}}}
+" Open URL {{{1
+let g:netrw_nogx = 1
+nnoremap <silent> gx :call <SID>OpenURL()<CR>
+function! <SID>OpenURL() abort " {{{2
+	" Open the current URL
+	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
+
+	let l:cl = getline('.')
+	let l:url = matchstr(l:cl, '[a-z]*:\/\/[^ >,;]*')
+	if l:cl =~# '^Plug' || l:cl =~# 'call s:PlugInOs'
+		let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 : match(l:cl, "'", 0, 2) - 1]
+		let l:url = printf('https://github.com/%s', l:pn)
+	endif
+	if !empty(l:url)
+		let l:url = substitute(l:url, "'", '', 'g')
+		let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
+					\ ' && wmctrl -ia ' . v:windowid : ''
+		exe 'silent :!' . (g:hasUnix ?
+					\ 'x-www-browser ' . l:url :
+					\ 'start cmd /c ' . l:url
+				\ ) . l:wmctrl
+		if !has('gui_running') | redraw! | endif
+	endif
+endfunction
 " 2}}}
 " }}}
 
