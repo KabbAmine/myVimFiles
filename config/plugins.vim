@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-27
+" Last modification: 2016-01-28
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -37,7 +37,7 @@ let s:myPlugs = {
 			\'vCoolor'       : '',
 			\'vimSimpleLib'  : '',
 			\'vullScreen'    : '',
-			\'vZoom'         : "{'on' : '<Plug>(vzoom)'}",
+			\'vZoom'         : "{'on' : ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
 			\'yowish'        : '',
 			\'zeavim'        : ''
 		\ }
@@ -118,7 +118,7 @@ Plug 'kana/vim-operator-user'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'junegunn/goyo.vim'      , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
 Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
@@ -206,19 +206,15 @@ fun! <SID>CloseNERDTree() abort
 	endif
 endfun
 if g:hasWin
-	let NERDTreeBookmarksFile='C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
+	let NERDTreeBookmarksFile = 'C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
 else
-	let NERDTreeBookmarksFile='/home/k-bag/.vim/various/NERDTreeBookmarks'
+	let NERDTreeBookmarksFile = '/home/k-bag/.vim/various/NERDTreeBookmarks'
 endif
-" Ignore the following files.
-let NERDTreeIgnore=['\~$', '\.class$']
-" Remove a buffer when a file is being deleted or renamed.
-let NERDTreeAutoDeleteBuffer=1
+let NERDTreeIgnore = ['\~$', '\.class$']
 " Single-clic for folder nodes and double for files.
 let NERDTreeMouseMode=2
 " Automatically remove a buffer when his file is being deleted/renamed via the menu.
 let NERDTreeAutoDeleteBuffer=1
-" Case sensitive sorting.
 let NERDTreeCaseSensitiveSort=1
 let NERDTreeDirArrows=1
 let NERDTreeHijackNetrw=1
@@ -250,6 +246,7 @@ if g:hasUnix
 	let g:tagbar_phpctags_bin = g:vimDir . '/plugs/tagbar-phpctags.vim/bin/phpctags'
 endif
 " ******* (( airline )) {{{1
+let g:loaded_airline_themes=1
 let g:airline_theme = 'yowishU'
 set noshowmode
 if !exists('g:airline_symbols')
@@ -751,9 +748,9 @@ let g:vbox.variables = {
 		\ }
 augroup VBoxAuto
 	autocmd!
-	autocmd BufNewFile README.md,CHANGELOG.md       :VBTemplate
-	autocmd BufNewFile LICENSE                      :VBTemplate license-MIT
-	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js  :VBTemplate
+	autocmd BufNewFile README.md,CHANGELOG.md,.tern-project  :VBTemplate
+	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
+	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js           :VBTemplate
 augroup END
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
