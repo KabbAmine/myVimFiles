@@ -123,7 +123,6 @@ Plug 'junegunn/goyo.vim'      , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
 Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
 Plug 'Yggdroot/indentLine'
-Plug 'zhaocai/GoldenView.Vim' , {'on': 'ToggleGoldenViewAutoResize'}
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -476,9 +475,6 @@ if g:hasUnix
 	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 endif
-" ******* (( GoldenView )) {{{1
-let g:goldenview__enable_at_startup = 0
-let g:goldenview__enable_default_mapping = 0
 " ******* (( tabular )) {{{1
 vmap <CR><CR> :Tabularize /
 vmap <silent> <CR>: :Tabularize /^[^:]*\zs<CR>
@@ -732,6 +728,8 @@ let g:lazylist_maps = [
 		\]
 " ******* (( vZoom )) {{{1
 nmap gsz <Plug>(vzoom)
+let g:vzoom = {}
+let g:vzoom.equalise_windows = 1
 " ******* (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
