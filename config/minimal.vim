@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-28
+" Last modification: 2016-01-29
 " ================================================================
 
 
@@ -156,14 +156,18 @@ endif
 nnoremap Y y$
 " Text manipulation {{{1
 " *** NORMAL & VISUAL MODE
-	" *** <C-d>		=> Duplicate line.
+	" *** yd		=> Duplicate line.
 " *** INSERT MODE
 	" *** <A-d> => Duplicate line.
 	" *** <A-o> => Insert new line.
 	" *** <A-a> => Insert new line before.
-vnoremap <silent> <C-d> :t'><CR>
-nnoremap <silent> <C-d> yyp
-inoremap <silent> <A-d> <Esc>mxyyp`x:delmarks x<CR>:sleep 100m<CR>a
+function! <SID>Duplicate(...) abort " {{{2
+	let l:ip = getpos('.') | silent .t. | call setpos('.', l:ip)
+endfunction
+" 2 }}}
+nnoremap <silent> yd :call <SID>Duplicate()<CR>
+vnoremap <silent> yd :t'><CR>gv<Esc>
+inoremap <silent> <A-d> <Esc>:call <SID>Duplicate()<CR>a
 inoremap <silent> <A-o> <C-o>o
 inoremap <silent> <A-a> <C-o>O
 " Apply the option 'only' {{{1
