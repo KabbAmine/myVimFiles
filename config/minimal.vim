@@ -196,6 +196,8 @@ inoremap JK <Esc>
 " For splits {{{1
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
+nnoremap <silent> gsnv :vnew<CR>
+nnoremap <silent> gsns :split +enew<CR>
 nnoremap <silent> gs= <C-w>=
 nnoremap <silent> gsc <C-w>c
 nnoremap <silent> <C-j> <C-w>j
