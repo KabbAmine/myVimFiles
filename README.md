@@ -1,27 +1,20 @@
 # MyVimFiles
 
-My vim configuration that I've done and still doing with :heart: for more than 2 years now.
+My configuration for the best program of the world :heart:  
+I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-It works on both GNU/Linux and Windows (But may be better on GNU/Linux).
+![My vim](.img/myVim.png)
 
-I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:.
+*It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and is compatible with neovim*
 
-*This configuration works also on neovim.*
-
-<div style="text-align:center"><img src=".img/myVim.jpg"></img></div>
-
-## Requirements & external programs
+## Requirements
 
 1. For the plugins:
-	
-	- *Vullscreen*: [Wmctrl<sup>B</sup>](http://tomas.styblo.name/wmctrl/)
-
-	- *vCoolor*: [Yad](http://sourceforge.net/projects/yad-dialog/) or [Zenity<sup>B</sup>](https://wiki.gnome.org/action/show/Projects/Zenity)
-
-	- *Tagbar*: [Exuberant ctags](http://ctags.sourceforge.net/)
-
+	- *Autoformat*:
+		- For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>
+		- `scss` uses `sass-convert` which is shipped with `sass`<sup>R</sup>
+	- *CtrlP* & *vim-grepper*: `Ag`<sup>B</sup>
 	- *Syntastic*:
-
 		- `csslint`<sup>N</sup>
 		- `gcc`<sup>B</sup>
 		- `javac`<sup>B</sup>
@@ -30,26 +23,16 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `pep8`<sup>P</sup>
 		- `php`<sup>B</sup>
 		- `python`<sup>B</sup>
-		- `sass`<sup>R</sup>
+		- `sass`
 		- `scss_lint`<sup>R</sup>
 		- `shellcheck` & `sh`<sup>B</sup>
 		- [`tidy5`](https://github.com/htacg/tidy-html5)
 		- `vim-vint`<sup>P</sup>
-
-	- *Autoformat*:
-		
-		- For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>.
-		- `scss` uses `sass-convert` which is shipped with `sass`.
-	
+	- *Tagbar*: [Exuberant ctags](http://ctags.sourceforge.net/)
+	- *vCoolor*: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 	- *vim-livedown*: `livedown`<sup>N</sup>
-
-2. For `~/.vim/ftplugin/` files (optional):
-	- `markdown`<sup>B</sup>
-	- `g++`<sup>B</sup>
-	- `Evince`<sup>B</sup> in GNU/Linux to open generated pdf from Tex file compilation.
-
-3. Fonts:
-
+	- *Vullscreen*: [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/)
+2. Fonts:
 	- ['DejaVu Sans Mono for Powerline'](https://github.com/powerline/fonts) in Windows.
 	- [Ubuntu Mono derivative Powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
 
@@ -64,22 +47,25 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 ## Instructions
 
-```
+```sh
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
-mkdir -pv ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
-ln -s ~/.vim/vimrc ~/.vimrc		# Not required
-" For Neovim
-ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+mkdir -pv ~/.vim/various/templates ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
+# Not mandatory
+ln -s ~/.vim/vimrc ~/.vimrc
+# For Neovim
+ln -s ~/.vim "$XDG_CONFIG_HOME/nvim"
 ```
 
 Then in Vim:
 
-```
-:PU		# Upgrade vim-plug
-:PI		# Install all the plugins
+```vim
+" Update vim-plug
+PlugUpgrade
+" Install all the plugins
+PlugInstall
 ```
 Have fun :smile:
 
 ## Notes
 
-This configuration is a little personal (Commands & mappings) but well documented, so you can use most of it by changing a few things.
+Note to myself, make a bootstrap-like script.
