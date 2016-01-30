@@ -249,34 +249,39 @@ set noshowmode
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
+" Automatically populate the symbols dictionary with the powerline symbols.
+let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep = '⎢'
 let g:airline_right_alt_sep = '⎟'
-" Automatically populate the symbols dictionary with the powerline symbols.
-let g:airline_powerline_fonts = 1
+let g:airline_mode_map = {
+			\ '__' : '-',
+			\ 'n'  : 'N',
+			\ 'i'  : 'I',
+			\ 'R'  : 'R',
+			\ 'c'  : 'C',
+			\ 'v'  : 'V',
+			\ 'V'  : 'V-L',
+			\ '' : 'V',
+			\ 's'  : 'S',
+			\ 'S'  : 'S',
+			\ '' : 'S',
+		\ }
+" Enable only those extensions
+let g:airline_extensions = ['branch', 'hunks', 'ctrlp', 'tabline']
 " EXTENSIONS
-" Various
-let g:airline#extensions#hunks#non_zero_only = 0
 let g:airline#extensions#ctrlp#show_adjacent_modes = 0
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline#extensions#syntastic#enabled = 0
-" Tabline
-let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Show splits and tab number in tabline
 let g:airline#extensions#tabline#tab_nr_type = 2
-" Configure the minimum number of buffers needed to show the tabline
 let g:airline#extensions#tabline#buffer_min_count = 2
-" Configure the minimum number of tabs needed to show the tabline.
 let g:airline#extensions#tabline#tab_min_count = 2
-" Whitespace
-" Formatting of the warning messages
-let g:airline#extensions#whitespace#trailing_format = 't[%s]'
-let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
-let g:airline#extensions#whitespace#long_format = 'l[%s]'
+" Formatting of the whitespace warning messages
+" let g:airline#extensions#whitespace#trailing_format = 't[%s]'
+" let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
+" let g:airline#extensions#whitespace#long_format = 'l[%s]'
 " ******* (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! <SID>SyntasticToggle() abort
@@ -770,10 +775,6 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
-" Refresh (( airline )), useful when vim config files are sourced {{{1
-if exists(':AirlineRefresh') ==# 2
-	silent AirlineRefresh
-endif
 " }}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
