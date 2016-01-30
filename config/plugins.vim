@@ -406,10 +406,6 @@ endif
 " (( cmd-palette ))
 let g:ctrlp_cmdpalette_execute = 1
 " ******* (( vim-plug )) {{{1
-command! PI :PlugInstall
-command! PU :PlugUpdate
-command! PS :PlugStatus
-command! PC :PlugClean
 let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
