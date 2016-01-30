@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-28
+" Last modification: 2016-01-31
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -117,9 +117,7 @@ Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
-" Plug 'bling/vim-airline' | Plug 'ntpeters/vim-airline-colornum'
 Plug 'vim-airline/vim-airline'
-Plug 'junegunn/goyo.vim'      , {'on': 'Goyo'}
 Plug 'kshenoy/vim-signature'
 Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
 Plug 'Yggdroot/indentLine'
@@ -560,8 +558,6 @@ augroup Agit
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
 augroup END
-" ******* (( goyo )) {{{1
-let g:goyo_width = '80%'
 " ******* (( nerdtree-git-plugin )) {{{1
 " let g:NERDTreeIndicatorMapCustom = {
 "     \ "Modified"  : "✹",
