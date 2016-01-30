@@ -166,7 +166,7 @@ function! <SID>Duplicate(...) abort " {{{2
 endfunction
 " 2 }}}
 nnoremap <silent> yd :call <SID>Duplicate()<CR>
-vnoremap <silent> yd :t'><CR>gv<Esc>
+vnoremap <silent> <C-d> :t'><CR>gv<Esc>
 inoremap <silent> <A-d> <Esc>:call <SID>Duplicate()<CR>a
 inoremap <silent> <A-o> <C-o>o
 inoremap <silent> <A-a> <C-o>O
