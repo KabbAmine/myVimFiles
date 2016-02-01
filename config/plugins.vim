@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-31
+" Last modification: 2016-02-07
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -30,7 +30,7 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 endfun
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'      : "{'on' : ['Gulp', 'GulpExt', 'GulpTasks', 'GulpFile', 'CtrlPGulp']}",
+			\'gulp-vim'      : '',
 			\'lazyList'      : '',
 			\'vBox'          : '',
 			\'vcml'          : '',
@@ -77,57 +77,46 @@ Plug 'othree/yajs.vim'
 Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
 " Other syntaxes & related-syntax plugins {{{2
-Plug 'javacomplete'           , {'for': 'java'}
 Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For web development {{{2
 Plug 'docunext/closetag.vim' , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
 Plug 'shime/vim-livedown'    , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
-" For Git {{{2
+" For Git & github {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
-" (( fuzzyfinder )) {{{2
-Plug 'FuzzyFinder' | Plug 'L9'
 " (( ultisnips )) {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" (( ctrlp )) {{{2
-" A fork of CtrlP , more active repo.
-Plug 'ctrlpvim/ctrlp.vim'
-			\| Plug 'fisadev/vim-ctrlp-cmdpalette' , { 'on': 'CtrlPCmdPalette' }
-			\| Plug 'mattn/ctrlp-register'         , { 'on': 'CtrlPRegister' }
-			\| Plug 'tacahiroy/ctrlp-funky'        , { 'on': 'CtrlPFunky' }
-" (( syntastic )) & linters {{{2
+" (( Unite )) {{{2
+Plug 'Shougo/unite.vim'
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
+			\| Plug 'Shougo/neomru.vim'
+			\| Plug 'Shougo/neoyank.vim'
+			\| Plug 'Shougo/unite-outline'
+			\| Plug 'tacroe/unite-mark'
+" (( syntastic )) {{{2
 Plug 'scrooloose/syntastic'
-" (( tagbar )) {{{2
-Plug 'majutsushi/tagbar'
-			\| call s:PlugInOs('vim-php/tagbar-phpctags.vim', "{'do': 'make'}", 'unix')
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
-			\| Plug 'jceb/vim-textobj-uri'
 			\| Plug 'kana/vim-textobj-entire'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kana/vim-textobj-line'
-			\| Plug 'rhysd/vim-textobj-anyblock'
 " (( operator-user )) {{{2
 Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Interface {{{2
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'vim-airline/vim-airline'
-Plug 'kshenoy/vim-signature'
-Plug 't9md/vim-choosewin'     , {'on': ['ChooseWin', 'ChooseWinSwapStay', 'ChooseWinSwap']}
 Plug 'Yggdroot/indentLine'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'matze/vim-move'
-Plug 'mhinz/vim-grepper'            , {'on': ['<plug>(GrepperOperator)', 'Grepper']}
 Plug 'Raimondi/delimitMate'
-Plug 'sk1418/Join'                  , { 'on': 'Join' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
 Plug 'tomtom/tcomment_vim'
@@ -146,12 +135,9 @@ Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
+			\| Plug 'Shougo/neco-vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-eunuch'
-" Colorschemes {{{2
-Plug 'chriskempson/tomorrow-theme' , { 'rtp': 'vim' }
 " My Plugins {{{2
 call s:MyPlugs()
 " }}}
@@ -165,31 +151,11 @@ call plug#end()
 if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 	set term=xterm-256color
 endif
-let g:yowish = {}
-let g:yowish.term_italic = 0
+let g:yowish = {'term_italic': 0}
 colo yowish
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
-" ******* (( FuzzyFinder )) {{{1
-nmap <silent> ,B :FufBookmarkDir<CR>
-nmap <silent> ,b :FufBuffer<CR>
-nmap <silent> ,c :FufMruCmd<CR>
-nmap <silent> ,d :FufDir<CR>
-nmap <silent> ,F :FufFile<CR>
-let g:fuf_modesDisable = ['mrufile']
-let g:fuf_mrufile_maxItem = 40
-let g:fuf_patternSeparator = '+'
-" Cancel the <Ctrl-s> shortcut to use it in next command.
-let g:fuf_keyPrevPattern = ''
-let g:fuf_keyOpenSplit = '<C-s>'
-let g:fuf_keyOpenVsplit = '<C-v>'
-let g:fuf_buffer_keyDelete = '<C-d>'
-" Cancel the <Ctrl-t> shortcut to use it in next command.
-let g:fuf_keyNextMode = '<>'
-let g:fuf_keyOpenTabpage = '<C-t>'
-" Define the directory for data files.
-execute "let g:fuf_dataDir = '".g:vimDir."/various/fuf-data/'"
 " ******* (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
@@ -222,26 +188,6 @@ augroup NerdTree
 augroup END
 " ******* (( python-syntax )) {{{1
 let python_highlight_all = 1
-" ******* (( tagbar )) & (( tagbar-phpctags )) {{{1
-nnoremap <silent> ,T :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-" Sort the elements by the order of appearance.
-let g:tagbar_sort = 0
-" Define the ctags location for windows.
-if g:hasWin
-	let g:tagbar_ctags_bin = 'C:\Program Files\ctags58\ctags.exe'
-endif
-" Get a simple list of ((ultisnips)) snippets in snippet files.
-let g:tagbar_type_snippets = {
-			\ 'ctagstype' : 'snippets',
-			\ 'kinds' : [
-			\ 's:snippets',
-			\ ]
-			\ }
-" (( tagbar-phpctags )) only in Linux
-if g:hasUnix
-	let g:tagbar_phpctags_bin = g:vimDir . '/plugs/tagbar-phpctags.vim/bin/phpctags'
-endif
 " ******* (( airline )) {{{1
 let g:loaded_airline_themes=1
 let g:airline_theme = 'yowishU'
@@ -269,9 +215,8 @@ let g:airline_mode_map = {
 			\ '' : 'S',
 		\ }
 " Enable only those extensions
-let g:airline_extensions = ['branch', 'hunks', 'ctrlp', 'tabline']
+let g:airline_extensions = ['branch', 'hunks', 'tabline', 'unite']
 " EXTENSIONS
-let g:airline#extensions#ctrlp#show_adjacent_modes = 0
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Show splits and tab number in tabline
@@ -350,13 +295,13 @@ let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
 " ******* (( javascript-libraries-syntax )) {{{1
-let g:used_javascript_libs = 'jquery'
+" let g:used_javascript_libs = 'jquery'
 " ******* (( ultisnips )) {{{1
-nmap <C-F2> :UltiSnipsEdit<CR>
+nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
-let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/various/ultisnips']
@@ -366,50 +311,148 @@ command! Gn :GitGutterNextHunk
 command! Gp :GitGutterPrevHunk
 command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
-" ******* (( ctrlp & cie )) {{{1
-nmap <silent> !!           :CtrlPCmdPalette<CR>
-nmap <silent> ,f           :CtrlP<CR>
-nmap <silent> ,,f          :CtrlPFunky<CR>
-nmap <silent> ,l           :CtrlPLine %<CR>
-nmap <silent> ,r           :CtrlPMRUFiles<CR>
-nmap <silent> ,t           :CtrlPBufTag<CR>
-nmap <silent> ,y           :CtrlPRegister<CR>
-imap <silent> <A-p> <Esc>  :<C-U>CtrlPRegister<CR>
-" Disable CtrlP default map.
-let g:ctrlp_map = ''
-let g:ctrlp_cache_dir = g:vimDir . '/various/ctrlp'
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
-let g:ctrlp_lazy_update = 1
-" <backspace> quits prompts if empty
-let g:ctrlp_brief_prompt = 1
-" Open multiple files in hidden buffers & jump to the 1st one.
-let g:ctrlp_open_multiple_files = 'rij'
-" Open new file in the current window.
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_prompt_mappings = {
-			\ 'CreateNewFile()':	  ['<c-f>'],
-			\ 'MarkToOpen()':		  ['<c-z>'],
-			\ 'OpenMulti()':		  ['<c-o>'],
-			\ 'PrtHistory(-1)':		  ['<c-j>'],
-			\ 'PrtHistory(1)':		  ['<c-k>'],
-			\ 'PrtSelectMove("j")':   ['<c-n>'],
-			\ 'PrtSelectMove("k")':   ['<c-p>'],
-			\ 'ToggleType(-1)':		  ['<c-b>'],
-			\ 'ToggleType(1)':		  ['<c-f>']
-			\ }
-" MRU mode
-let g:ctrlp_mruf_save_on_update = 1
-" Use ag in CtrlP for listing files.
-" P.S: Remove option -U make ag respect .gitignore.
+" ******* (( Unite )) & plugins {{{1
+" SETTINGS {{{2
+let g:unite_data_directory = g:vimDir . '/various/unite'
+" let g:unite_enable_auto_select = 0
+let g:unite_quick_match_table = {
+			\ '0': 29,
+			\ '1': 20,
+			\ '2': 21,
+			\ '3': 22,
+			\ '4': 23,
+			\ '5': 24,
+			\ '6': 25,
+			\ '7': 26,
+			\ '8': 27,
+			\ '9': 28,
+			\ 'a': 8,
+			\ 'd': 4,
+			\ 'e': 2,
+			\ 'f': 0,
+			\ 'g': 12,
+			\ 'h': 17,
+			\ 'i': 3,
+			\ 'j': 1,
+			\ 'k': 5,
+			\ 'l': 7,
+			\ 'm': 9,
+			\ 'o': 18,
+			\ 'p': 19,
+			\ 'q': 10,
+			\ 'r': 13,
+			\ 's': 6,
+			\ 't': 14,
+			\ 'u': 16,
+			\ 'w': 11,
+			\ 'y': 15,
+		\ }
+call unite#custom#source(
+			\ 'command, neomru/file, buffer',
+			\ 'matchers', 'matcher_fuzzy')
+" Default profile
+"	* toggle: Close unite buffer if already exists
+call unite#custom#profile('default', 'context', {
+			\ 'start_insert'      : 1,
+			\ 'force_redraw'      : 1,
+			\ 'no_empty'          : 1,
+			\ 'toggle'            : 1,
+			\ 'vertical_preview'  : 1,
+			\ 'winheight'         : 20,
+			\ 'prompt'            : '▸ ',
+			\ 'prompt_focus'      : 1,
+			\ 'candidate_icon'    : '  ▫ ',
+			\ 'marked_icon'       : '  ▪ ',
+			\ 'no_hide_icon'      : 1
+		\ })
+" Grep unite source.
+call unite#custom#profile('source/grep', 'context', {
+			\ 'no_start_insert'  : 1,
+			\ 'empty'            : 1,
+			\ 'no_resize'        : 1,
+			\ 'auto_preview'     : 0
+		\ })
 if executable('ag')
-	let g:ctrlp_user_command =
-				\ 'ag %s -U -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+	let g:unite_source_rec_async_command =
+				\ ['ag', '-U', '-i', '--nocolor', '--nogroup', '--ignore',
+				\ '.git', '--ignore', '".DS_Store"', '--ignore', '".node_modules"',
+				\ '--hidden', '-g', '']
+	let g:unite_source_grep_command = 'ag'
+	let g:unite_source_grep_default_opts =
+				\ '-i -U --column --nocolor --nogroup --ignore ' .
+				\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
+	let g:unite_source_grep_recursive_opt = ''
 endif
-" (( cmd-palette ))
-let g:ctrlp_cmdpalette_execute = 1
+" PLUGINS {{{2
+let g:neomru#file_mru_path = g:vimDir . '/various/unite/neomru/file'
+let g:neomru#directory_mru_path = g:vimDir . '/various/unite/neomru/directory'
+let g:neoyank#file = g:vimDir . '/various/unite/neoyank/file'
+let g:unite_source_outline_ctags_program = '/usr/bin/ctags'
+" let g:unite_source_outline_filetype_options = {
+" 			\ '*': {
+" 			\   'auto_update': 1,
+" 			\   'auto_update_event': 'write'
+" 			\ }
+" 		\ }
+" MAPPINGS {{{2
+" If its a git project use file_rec/git otherwise use file_rec/async (vimproc)
+function! <SID>Unite(name, source, ...) abort
+	" Return unite command with different sources depending of git:
+	"	Unite -buffer-name=a:name a:source/git
+	"	Unite -buffer-name=a:name a:source
+	" a:1 is 2nd part of source when git is not used (e.g. '/async')
+	" a:2 is options (e.g. ':.')
+	let l:args = exists('a:2') ? a:2 : ''
+	let l:source = ' ' . (isdirectory(getcwd() . '/.git') ?
+				\ a:source . '/git' . l:args
+				\ : a:source . (exists('a:1') ? a:1 : '') . l:args
+			\ )
+	execute ':Unite -buffer-name=' . a:name . l:source
+endfunction
+inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
+nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
+nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
+nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
+nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
+nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
+nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert grep:.<CR>
+nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
+nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
+nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
+nnoremap <silent> ,m :Unite -buffer-name=Marks mark<CR>
+nnoremap <silent> ,r :Unite -buffer-name=Recent -empty neomru/file<CR>
+nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
+nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
+nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
+" Inside unite buffers
+augroup UniteMaps
+	autocmd!
+	autocmd FileType unite call s:unite_my_settings()
+augroup END
+function! s:unite_my_settings() " {{{3
+	" NORMAL
+	nunmap <buffer> <C-h>
+	" nunmap <buffer> <C-j>
+	nunmap <buffer> <C-k>
+	nunmap <buffer> <C-l>
+	nmap <silent> <buffer> <F5> <Plug>(unite_redraw)
+	nmap <silent> <buffer> <Esc> <Plug>(unite_exit)
+	nmap <silent> <buffer> ? <Plug>(unite_quick_help)
+	nnoremap <silent><buffer><expr> cd unite#do_action('cd')
+	nnoremap <silent><buffer><expr> s unite#do_action('split')
+	nnoremap <silent><buffer><expr> v unite#do_action('vsplit')
+	" INSERT
+	imap <silent> <buffer> <C-space> <Plug>(unite_toggle_mark_current_candidate)
+	imap <silent> <buffer> <Esc> <Plug>(unite_exit)
+	imap <silent> <buffer> <F5> <Plug>(unite_redraw)
+	imap <silent> <buffer> jk <Plug>(unite_insert_leave)
+	imap <silent> <buffer> <Tab> <Plug>(unite_complete)
+	inoremap <silent><buffer><expr> <C-s>
+				\ unite#smart_map('<C-s>', unite#do_action('split'))
+	inoremap <silent><buffer><expr> <C-v>
+				\ unite#smart_map('<C-v>', unite#do_action('vsplit'))
+endfunction " 3}}}
+" " 1}}}
 " ******* (( vim-plug )) {{{1
 let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
@@ -423,11 +466,8 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = g:vimDir . '/various/neocomplete'
-inoremap <expr><C-space> neocomplete#start_manual_complete('omni')
-" Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-" 	let g:neocomplete#sources#omni#input_patterns = {}
-" endif
+inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
+			\ neocomplete#start_manual_complete()
 if !exists('g:neocomplete#force_omni_input_patterns')
 	let g:neocomplete#force_omni_input_patterns = {}
 endif
@@ -506,17 +546,6 @@ cab Gl Gllog
 cab Gm Gmerge
 cab Gs Gstatus
 cab Gst Git stash
-" ******* (( vim-signature )) {{{1
-let g:SignatureMap = {
-			\ 'ListLocalMarks'	 :	",m",
-			\ }
-" ******* (( javacomplete )) {{{1
-if has('autocmd')
-	augroup javacomplete
-		autocmd!
-		autocmd! Filetype java setlocal omnifunc=javacomplete#Complete
-	augroup END
-endif
 " ******* (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
@@ -575,25 +604,6 @@ augroup END
 if g:hasWin
 	nnoremap <silent> !: :call <SID>CmdForDispatcher('Start! -wait=always %s')<CR>
 endif
-" ******* (( vim-choosewin )) {{{1
-nnoremap ,w :ChooseWin<CR>
-let g:choosewin_overlay_enable = 1
-let g:choosewin_label = 'FJGHDKSLQMERIU'
-let g:choosewin_blink_on_land = 0      " Don't blink when a window is selected
-let g:choosewin_statusline_replace = 0 " Don't replace statusline
-let g:choosewin_keymap = {}
-let g:choosewin_keymap = {
-	      \ '0':     '<NOP>',
-	      \ '[':     '<NOP>',
-	      \ ']':     '<NOP>',
-	      \ '$':     '<NOP>',
-	      \ 'x':     '<NOP>',
-	      \ ';':     '<NOP>',
-	      \ '-':     '<NOP>',
-	      \ 's':     '<NOP>',
-	      \ 'S':     '<NOP>',
-	      \ "\<CR>": '<NOP>',
-	      \ }
 " ******* (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
 if g:hasUnix
@@ -620,13 +630,6 @@ endif
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Search'
-" ******* (( vim-grepper )) {{{1
-nmap gG <plug>(GrepperOperator)
-nnoremap ,g :Grepper -jump<CR>
-let g:grepper = {
-			\ 'tools': ['ag', 'git', 'ack', 'grep'],
-			\ 'jump': 0
-		\ }
 " ******* (( vim-surround )) {{{1
 nmap S ys
 " ******* (( vim-grammarous )) {{{1
@@ -690,12 +693,10 @@ let g:vcool_ins_rgb_map = '<A-r>'
 " ******* (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 let g:gv_use_dispatch = 0
-" let g:gv_return_2_prompt = 0
+let g:gv_unite_cmd = 'GulpExt'
 let g:gv_custom_cmd = g:hasUnix ?
 			\ ['VimuxRunCommand "clear && %s"', 1] :
 			\ 'Start! %s'
-let g:gv_ctrlp_cmd = 'GulpExt'
-nnoremap ,G :CtrlPGulp<CR>
 " ******* (( vsl )) {{{1
 " *** ;t				=> Open terminal in pwd
 " *** ;;t				=> Open terminal in dir of current file
@@ -761,7 +762,7 @@ augroup END
 " 			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
 " 			\ 'python'     : { 'cmd': 'python3', 'type': '' }
 " 			\ }
-" }}}
+" 1}}}
 
 " =========== HACKS =======================
 " Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict {{{1
