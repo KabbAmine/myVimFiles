@@ -5,7 +5,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 
 ![My vim](.img/myVim.png)
 
-*It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and is compatible with neovim*
+*It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and is compatible with neovim (Need more testing after the commits of 2016-02-07)*
 
 ## Requirements
 
@@ -13,7 +13,7 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 	- *Autoformat*:
 		- For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>
 		- `scss` uses `sass-convert` which is shipped with `sass`<sup>R</sup>
-	- *CtrlP* & *vim-grepper*: `Ag`<sup>B</sup>
+	- *Unite*: `Ag`<sup>B</sup>
 	- *Syntastic*:
 		- `csslint`<sup>N</sup>
 		- `gcc`<sup>B</sup>
@@ -28,7 +28,6 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- `shellcheck` & `sh`<sup>B</sup>
 		- [`tidy5`](https://github.com/htacg/tidy-html5)
 		- `vim-vint`<sup>P</sup>
-	- *Tagbar*: [Exuberant ctags](http://ctags.sourceforge.net/)
 	- *vCoolor*: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 	- *vim-livedown*: `livedown`<sup>N</sup>
 	- *Vullscreen*: [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/)
