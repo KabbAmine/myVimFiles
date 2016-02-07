@@ -388,16 +388,16 @@ let g:neomru#file_mru_path = g:vimDir . '/various/unite/neomru/file'
 let g:neomru#directory_mru_path = g:vimDir . '/various/unite/neomru/directory'
 let g:neoyank#file = g:vimDir . '/various/unite/neoyank/file'
 let g:unite_source_outline_ctags_program = '/usr/bin/ctags'
-" let g:unite_source_outline_filetype_options = {
-" 			\ '*': {
-" 			\   'auto_update': 1,
-" 			\   'auto_update_event': 'write'
-" 			\ }
-" 		\ }
+let g:unite_source_outline_filetype_options = {
+			\ '*': {
+			\   'auto_update': 1,
+			\   'auto_update_event': 'write'
+			\ }
+		\ }
 " MAPPINGS {{{2
-" If its a git project use file_rec/git otherwise use file_rec/async (vimproc)
 function! <SID>Unite(name, source, ...) abort
-	" Return unite command with different sources depending of git:
+	" Return unite command with different sources depending of .git directory
+	" presence:
 	"	Unite -buffer-name=a:name a:source/git
 	"	Unite -buffer-name=a:name a:source
 	" a:1 is 2nd part of source when git is not used (e.g. '/async')
@@ -432,7 +432,6 @@ augroup END
 function! s:unite_my_settings() " {{{3
 	" NORMAL
 	nunmap <buffer> <C-h>
-	" nunmap <buffer> <C-j>
 	nunmap <buffer> <C-k>
 	nunmap <buffer> <C-l>
 	nmap <silent> <buffer> <F5> <Plug>(unite_redraw)
@@ -452,7 +451,7 @@ function! s:unite_my_settings() " {{{3
 	inoremap <silent><buffer><expr> <C-v>
 				\ unite#smart_map('<C-v>', unite#do_action('vsplit'))
 endfunction " 3}}}
-" " 1}}}
+" 1}}}
 " ******* (( vim-plug )) {{{1
 let g:plug_threads = 10
 " ******* (( clever-f )) {{{1
@@ -634,7 +633,6 @@ let g:operator#flashy#group = 'Search'
 nmap S ys
 " ******* (( vim-grammarous )) {{{1
 let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
-" Check comments only except for help & markdown
 let g:grammarous#default_comments_only_filetypes = {
 			\ 'vim' : 1,
 			\ 'sh' : 1
@@ -697,15 +695,6 @@ let g:gv_unite_cmd = 'GulpExt'
 let g:gv_custom_cmd = g:hasUnix ?
 			\ ['VimuxRunCommand "clear && %s"', 1] :
 			\ 'Start! %s'
-" ******* (( vsl )) {{{1
-" *** ;t				=> Open terminal in pwd
-" *** ;;t				=> Open terminal in dir of current file
-" *** ;f				=> Open file manager in pwd
-" *** ;;f				=> Open file manager in dir of current file
-nmap <silent> ;t :call vsl#general#lib#OpenTerm()<CR>
-nmap <silent> ;;f :call vsl#general#lib#OpenFM(expand('%:h:p'))<cr>
-nmap <silent> ;f :call vsl#general#lib#OpenFM()<cr>
-nmap <silent> ;;t :call vsl#general#lib#OpenTerm(expand('%:h:p'))<cr>
 " ******* (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>

@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-06
+" Last modification: 2016-02-07
 " ================================================================
 
 
@@ -272,6 +272,24 @@ endfunction
 " 2}}}
 " For marks {{{1
 nnoremap <silent> m<space> :delmarks!<CR>
+" Open here terminal/file manager {{{1
+nnoremap <silent> ;t   :call <SID>OpenHere('t')<CR>
+nnoremap <silent> ;;t  :call <SID>OpenHere('t', expand('%:h:p'))<CR>
+nnoremap <silent> ;f   :call <SID>OpenHere('f')<CR>
+nnoremap <silent> ;;f  :call <SID>OpenHere('f', expand('%:h:p'))<CR>
+function! <SID>OpenHere(type, ...) abort " {{{2
+	" type: (t)erminal, (f)ilemanager
+	" a:1: Location (pwd by default)
+	let l:cmd = {
+				\ 't': (has('unix') ?
+					\ 'exo-open --launch TerminalEmulator --working-directory %s &' :
+					\ 'start cmd /k cd %s'),
+				\ 'f': (has('unix') ?
+					\ 'xdg-open %s &' :
+					\ 'start explorer %s')
+				\ }
+	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
+endfunction " 2}}}
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
