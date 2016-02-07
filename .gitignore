@@ -4,5 +4,6 @@
 /various/*
 !/various/ultisnips/
 !/various/templates/
+!/various/vimproc_win32.dll
 
 /plugs/*

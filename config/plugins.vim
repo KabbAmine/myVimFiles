@@ -92,11 +92,12 @@ Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " (( Unite )) {{{2
 Plug 'Shougo/unite.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
 			\| Plug 'Shougo/unite-outline'
 			\| Plug 'tacroe/unite-mark'
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
+			\| call s:PlugInOs('Shougo/vimproc.vim', '', 'win32')
 " (( syntastic )) {{{2
 Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
@@ -372,17 +373,15 @@ call unite#custom#profile('source/grep', 'context', {
 			\ 'no_resize'        : 1,
 			\ 'auto_preview'     : 0
 		\ })
-if executable('ag')
-	let g:unite_source_rec_async_command =
-				\ ['ag', '-U', '-i', '--nocolor', '--nogroup', '--ignore',
-				\ '.git', '--ignore', '".DS_Store"', '--ignore', '".node_modules"',
-				\ '--hidden', '-g', '']
-	let g:unite_source_grep_command = 'ag'
-	let g:unite_source_grep_default_opts =
-				\ '-i -U --column --nocolor --nogroup --ignore ' .
-				\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
-	let g:unite_source_grep_recursive_opt = ''
-endif
+let g:unite_source_rec_async_command =
+			\ ['ag', '-U', '-i', '--nocolor', '--nogroup', '--ignore',
+			\ '.git', '--ignore', '".DS_Store"', '--ignore', '".node_modules"',
+			\ '--hidden', '-g', '']
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+			\ '-i -U --column --nocolor --nogroup --ignore ' .
+			\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
+let g:unite_source_grep_recursive_opt = ''
 " PLUGINS {{{2
 let g:neomru#file_mru_path = g:vimDir . '/various/unite/neomru/file'
 let g:neomru#directory_mru_path = g:vimDir . '/various/unite/neomru/directory'
@@ -621,9 +620,10 @@ if g:hasUnix
 	nnoremap <silent> !: :call <SID>CmdForDispatcher("VimuxRunCommand '%s'")<CR>
 endif
 " ******* (( vimproc )) {{{1
-if g:hasUnix
-	" Open arg with default system command
-	command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
+" Open arg with default system command
+command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
+if g:hasWin
+	let g:vimproc#dll_path = g:vimDir . '/various/vimproc_win32.dll'
 endif
 " ******* (( vim-operator-flashy )) {{{1
 map y <Plug>(operator-flashy)
