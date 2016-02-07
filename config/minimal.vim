@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-29
+" Last modification: 2016-02-06
 " ================================================================
 
 
@@ -270,6 +270,8 @@ function! <SID>OpenURL() abort " {{{2
 	endif
 endfunction
 " 2}}}
+" For marks {{{1
+nnoremap <silent> m<space> :delmarks!<CR>
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
