@@ -16,7 +16,7 @@ upd_plugins=true
 cd "$script_dir" &&
 
 # Installation of vim plugins from github
-vim_plugs=('junegunn/vader.vim' %HERE%) &&
+vim_plugs=('junegunn/vader.vim' %_%) &&
 echo -e "${yellow}INSTALLATION OF PLUGINS${white}" &&
 for gl in ${vim_plugs[*]}; do
 	p=$(echo $gl | cut -d '/' -f 2)
