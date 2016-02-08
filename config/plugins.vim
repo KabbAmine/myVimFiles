@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-07
+" Last modification: 2016-02-09
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -92,27 +92,31 @@ Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " (( Unite )) {{{2
 Plug 'Shougo/unite.vim'
+			\| call s:PlugInOs('Shougo/vimproc.vim' , "{ 'do': 'make' }" , 'unix')
+			\| call s:PlugInOs('Shougo/vimproc.vim' , ''                 , 'win32')
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
 			\| Plug 'Shougo/unite-outline'
 			\| Plug 'tacroe/unite-mark'
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{ 'do': 'make' }", 'unix')
-			\| call s:PlugInOs('Shougo/vimproc.vim', '', 'win32')
 " (( syntastic )) {{{2
 Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
 			\| Plug 'kana/vim-textobj-entire'
+			\| Plug 'kana/vim-textobj-fold'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kana/vim-textobj-line'
+			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
+			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
+			\| Plug 'whatyouhide/vim-textobj-xmlattr'        , {'for': ['xml', 'html']}
 " (( operator-user )) {{{2
 Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Interface {{{2
-call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
+call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -402,10 +406,9 @@ function! <SID>Unite(name, source, ...) abort
 	" a:1 is 2nd part of source when git is not used (e.g. '/async')
 	" a:2 is options (e.g. ':.')
 	let l:args = exists('a:2') ? a:2 : ''
-	let l:source = ' ' . (isdirectory(getcwd() . '/.git') ?
-				\ a:source . '/git' . l:args
-				\ : a:source . (exists('a:1') ? a:1 : '') . l:args
-			\ )
+	let l:source = isdirectory(getcwd() . '/.git') ?
+				\ ' ' . a:source . '/git' . l:args :
+				\ ' ' . a:source . (exists('a:1') ? a:1 : '') . l:args
 	execute ':Unite -buffer-name=' . a:name . l:source
 endfunction
 inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
@@ -445,10 +448,8 @@ function! s:unite_my_settings() " {{{3
 	imap <silent> <buffer> <F5> <Plug>(unite_redraw)
 	imap <silent> <buffer> jk <Plug>(unite_insert_leave)
 	imap <silent> <buffer> <Tab> <Plug>(unite_complete)
-	inoremap <silent><buffer><expr> <C-s>
-				\ unite#smart_map('<C-s>', unite#do_action('split'))
-	inoremap <silent><buffer><expr> <C-v>
-				\ unite#smart_map('<C-v>', unite#do_action('vsplit'))
+	inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+	inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
 endfunction " 3}}}
 " 1}}}
 " ******* (( vim-plug )) {{{1
@@ -508,9 +509,10 @@ augroup END
 let g:pdv_cfg_ClassTags = []
 " ******* (( vim-devicons )) {{{1
 if g:hasUnix
-	" let g:DevIconsEnableFoldersOpenClose = 1
+	let g:DevIconsEnableFoldersOpenClose = 1
 	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+	let g:webdevicons_enable_airline_statusline = 0
 endif
 " ******* (( tabular )) {{{1
 vmap <CR><CR> :Tabularize /
