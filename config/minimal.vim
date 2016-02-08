@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-07
+" Last modification: 2016-02-08
 " ================================================================
 
 
@@ -254,7 +254,7 @@ function! <SID>OpenURL() abort " {{{2
 
 	let l:cl = getline('.')
 	let l:url = matchstr(l:cl, '[a-z]*:\/\/[^ >,;]*')
-	if l:cl =~# '^Plug' || l:cl =~# 'call s:PlugInOs'
+	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
 		let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 : match(l:cl, "'", 0, 2) - 1]
 		let l:url = printf('https://github.com/%s', l:pn)
 	endif
