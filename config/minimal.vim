@@ -263,9 +263,10 @@ function! <SID>OpenURL() abort " {{{2
 		let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
 					\ ' && wmctrl -ia ' . v:windowid : ''
 		exe 'silent :!' . (g:hasUnix ?
-					\ 'x-www-browser ' . l:url :
-					\ 'start cmd /c ' . l:url
-				\ ) . l:wmctrl
+						\ 'x-www-browser ' . l:url :
+						\ 'start cmd /c ' . l:url)
+					\ . l:wmctrl
+					\ . (has('unix') ? ' &' : '')
 		if !has('gui_running') | redraw! | endif
 	endif
 endfunction
