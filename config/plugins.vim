@@ -113,10 +113,6 @@ Plug 'kana/vim-textobj-user'
 " (( operator-user )) {{{2
 Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
-" Interface {{{2
-Plug 'vim-airline/vim-airline'
-Plug 'Yggdroot/indentLine'
-call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
@@ -143,6 +139,10 @@ Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
+" Interface {{{2
+Plug 'vim-airline/vim-airline'
+Plug 'Yggdroot/indentLine'
+call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
 call s:MyPlugs()
 " }}}
@@ -163,6 +163,7 @@ colo yowish
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
+nnoremap <silent> ,n :NERDTreeFocus<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q> :call <SID>CloseNERDTree()<CR>
@@ -180,16 +181,17 @@ else
 endif
 let NERDTreeIgnore = ['\~$', '\.class$']
 " Single-clic for folder nodes and double for files.
-let NERDTreeMouseMode=2
-" Automatically remove a buffer when his file is being deleted/renamed via the menu.
-let NERDTreeAutoDeleteBuffer=1
-let NERDTreeCaseSensitiveSort=1
-let NERDTreeDirArrows=1
-let NERDTreeHijackNetrw=1
+let NERDTreeMouseMode = 2
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeCaseSensitiveSort = 1
+let NERDTreeDirArrows = 1
+let NERDTreeHijackNetrw = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeChDirMode = 2
 augroup NerdTree
 	autocmd!
 	autocmd FileType nerdtree setlocal nolist
-	autocmd WinEnter * if exists('b:NERDTree') | silent execute 'normal R' | endif
+	" autocmd WinEnter * if exists('b:NERDTree') | silent execute 'normal R' | endif
 augroup END
 " ******* (( python-syntax )) {{{1
 let python_highlight_all = 1
@@ -387,9 +389,9 @@ let g:unite_source_grep_default_opts =
 			\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
 let g:unite_source_grep_recursive_opt = ''
 " PLUGINS {{{2
-let g:neomru#file_mru_path = g:vimDir . '/various/unite/neomru/file'
-let g:neomru#directory_mru_path = g:vimDir . '/various/unite/neomru/directory'
-let g:neoyank#file = g:vimDir . '/various/unite/neoyank/file'
+let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
+let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
+let g:neoyank#file = g:unite_data_directory . '/neoyank/file'
 let g:unite_source_outline_ctags_program = '/usr/bin/ctags'
 let g:unite_source_outline_filetype_options = {
 			\ '*': {
