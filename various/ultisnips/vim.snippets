@@ -1,3 +1,10 @@
+snippet aug "agroup" b
+augroup ${1}
+	autocmd!
+	${2}
+augroup END
+endsnippet
+
 snippet fun! "Function!" b
 function! ${1}(${2}) ${3:abort} " {{{1
 	${5}
