@@ -438,12 +438,14 @@ function! s:unite_my_settings() " {{{3
 	nunmap <buffer> <C-h>
 	nunmap <buffer> <C-k>
 	nunmap <buffer> <C-l>
+	nunmap <buffer> <space>
 	nmap <silent> <buffer> <F5> <Plug>(unite_redraw)
 	nmap <silent> <buffer> <Esc> <Plug>(unite_exit)
 	nmap <silent> <buffer> ? <Plug>(unite_quick_help)
 	nnoremap <silent><buffer><expr> cd unite#do_action('cd')
 	nnoremap <silent><buffer><expr> s unite#do_action('split')
 	nnoremap <silent><buffer><expr> v unite#do_action('vsplit')
+	nmap <silent> <buffer> <space> <Plug>(unite_toggle_mark_current_candidate)k
 	" INSERT
 	imap <silent> <buffer> <C-space> <Plug>(unite_toggle_mark_current_candidate)
 	imap <silent> <buffer> <Esc> <Plug>(unite_exit)
