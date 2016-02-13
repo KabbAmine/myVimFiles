@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-09
+" Last modification: 2016-02-13
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -136,7 +136,7 @@ Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
-			\| Plug 'Shougo/neco-vim'
+			\| Plug 'Shougo/neco-vim'    , {'for': 'vim'}
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
