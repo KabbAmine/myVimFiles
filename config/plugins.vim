@@ -390,7 +390,8 @@ let g:unite_source_grep_recursive_opt = ''
 let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
 let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
 let g:neoyank#file = g:unite_data_directory . '/neoyank/file'
-let g:unite_source_outline_ctags_program = '/usr/bin/ctags'
+let g:unite_source_outline_ctags_program = has('unix') ?
+			\ '/usr/bin/ctags' : 'C:\Program Files\ctags58\ctags.exe'
 let g:unite_source_outline_filetype_options = {
 			\ '*': {
 			\   'auto_update': 1,
