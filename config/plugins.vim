@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-13
+" Last modification: 2016-02-15
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -116,7 +116,6 @@ Plug 'kana/vim-operator-user'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
-Plug 'matze/vim-move'
 Plug 'Raimondi/delimitMate'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
