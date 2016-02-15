@@ -30,16 +30,15 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 endfun
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'      : '',
-			\'lazyList'      : '',
-			\'vBox'          : '',
-			\'vcml'          : '',
-			\'vCoolor'       : '',
-			\'vimSimpleLib'  : '',
-			\'vullScreen'    : '',
-			\'vZoom'         : "{'on' : ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
-			\'yowish'        : '',
-			\'zeavim'        : ''
+			\'gulp-vim'    : '',
+			\'lazyList'    : '',
+			\'vBox'        : '',
+			\'vcml'        : '',
+			\'vCoolor'     : '',
+			\'vullScreen'  : '',
+			\'vZoom'       : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
+			\'yowish'      : '',
+			\'zeavim'      : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
 		\ }
 fun! s:MyPlugs() abort
 	let l:pn = keys(s:myPlugs)
