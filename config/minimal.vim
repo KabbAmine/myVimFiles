@@ -292,11 +292,11 @@ function! <SID>OpenHere(type, ...) abort " {{{2
 	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
 endfunction " 2}}}
 " Move current line or visual selection {{{1
-nnoremap <silent> <A-k> :call Move(-1)<CR>
-nnoremap <silent> <A-j> :call Move(1)<CR>
-vnoremap <silent> <A-k> :call Move(-1)<CR>gv
-vnoremap <silent> <A-j> :call Move(1)<CR>gv
-function! Move(to) range " {{{2
+nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>
+nnoremap <silent> <A-j> :call <SID>Move(1)<CR>
+vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
+vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv
+function! <SID>Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
 	let fl = a:firstline | let ll = a:lastline
 	execute printf(':%d,%dm%d', fl, ll, (a:to ==# -1 ? fl - 2 : ll + 1))
