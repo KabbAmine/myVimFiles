@@ -154,6 +154,17 @@ endif
 set showtabline=1	" Only if there are at least 2 tabs
 " }}}
 
+" =========== DEFAULT PLUGINS ===================================
+" Disable non-used default plugins {{{1
+let g:loaded_2html_plugin = 1
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_tarPlugin= 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_zipPlugin = 1
+" }}}
+
 " =========== MAPPINGS ==========================================
 " Make Y work as other capitals {{{1
 nnoremap Y y$
@@ -249,7 +260,6 @@ nnoremap <expr> N  'nN'[v:searchforward]
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 " 2}}}
 " Open URL {{{1
-let g:netrw_nogx = 1
 nnoremap <silent> gx :call <SID>OpenURL()<CR>
 function! <SID>OpenURL() abort " {{{2
 	" Open the current URL
