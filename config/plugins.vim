@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-15
+" Last modification: 2016-02-21
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -220,14 +220,14 @@ let g:airline_mode_map = {
 			\ '' : 'S',
 		\ }
 " Enable only those extensions
-let g:airline_extensions = ['branch', 'hunks', 'tabline', 'unite']
+let g:airline_extensions = ['branch', 'hunks', 'unite', 'syntastic']
 " EXTENSIONS
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+" let g:airline#extensions#tabline#show_buffers = 2
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Show splits and tab number in tabline
-let g:airline#extensions#tabline#tab_nr_type = 2
-let g:airline#extensions#tabline#buffer_min_count = 2
-let g:airline#extensions#tabline#tab_min_count = 2
+" let g:airline#extensions#tabline#tab_nr_type = 2
+" let g:airline#extensions#tabline#buffer_min_count = 2
+" let g:airline#extensions#tabline#tab_min_count = 2
 " Formatting of the whitespace warning messages
 " let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 " let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
@@ -245,7 +245,9 @@ endfunction
 nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_mode_map = { 'mode': 'passive' }
+" For status line
+let g:syntastic_stl_format = '%E{Err. %e}%B{, }%W{War. %w}'
+let g:syntastic_mode_map = {'mode': 'passive'}
 			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
 			" \ "passive_filetypes": ["vim", "ruby"]
 let g:syntastic_error_symbol = "❌"
@@ -259,7 +261,6 @@ let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_java_checkers = ['javac']
 let g:syntastic_python_checkers = ['pep8', 'python']
 let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
@@ -267,7 +268,6 @@ let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['scss-lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_sh_checkers = ['shellcheck', 'sh']
-let g:syntastic_jade_checkers = ['jade_lint']
 if g:hasWin
 	let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
 	let g:syntastic_php_checkers = 'php'
@@ -416,10 +416,11 @@ inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append hi
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
-nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
+nnoremap <silent> ,f :Unite -buffer-name=Files file_rec/async<CR>
+" nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert grep:.<CR>
-nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
+nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -no-quit grep:.<CR>
+" nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
 nnoremap <silent> ,m :Unite -buffer-name=Marks mark<CR>
