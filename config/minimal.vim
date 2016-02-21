@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-15
+" Last modification: 2016-02-21
 " ================================================================
 
 
@@ -112,6 +112,7 @@ if has('gui_running')
 endif
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
+set synmaxcol=200			" Max column to look for syntax items
 " ********* Tabs & indenting {{{1
 set tabstop=4			" Number of spaces a <Tab> in the text stands for.
 set softtabstop=4		" Number of spaces to insert for a <Tab>.
@@ -149,6 +150,8 @@ endif
 if !has('gui_running')
 	set timeoutlen=1000 ttimeoutlen=0
 endif
+" ********* Multiple tab pages {{{1
+set showtabline=1	" Only if there are at least 2 tabs
 " }}}
 
 " =========== MAPPINGS ==========================================
