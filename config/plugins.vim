@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-21
+" Last modification: 2016-02-23
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -116,9 +116,8 @@ Plug 'kana/vim-operator-user'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
 Plug 'Raimondi/delimitMate'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'tommcdo/vim-exchange'
-Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Various {{{2
@@ -232,6 +231,7 @@ let g:airline_extensions = ['branch', 'hunks', 'unite', 'syntastic']
 " let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 " let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
 " let g:airline#extensions#whitespace#long_format = 'l[%s]'
+" let g:airline#extensions#whitespace#mixed_indent_file_format = 'mf[%s]'
 " ******* (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! <SID>SyntasticToggle() abort
@@ -553,8 +553,11 @@ cab Gst Git stash
 " ******* (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
-" ******* (( tcomment )) {{{1
-call tcomment#DefineType('vader', '# %s')
+" ******* (( vim-commentary )) {{{1
+augroup Commentary
+	autocmd!
+	autocmd FileType vader setlocal commentstring=#\ %s
+augroup END
 " ******* (( polyglot )) {{{1
 let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 " ******* (( quickRun )) {{{1
@@ -758,19 +761,5 @@ augroup END
 " 			\ 'python'     : { 'cmd': 'python3', 'type': '' }
 " 			\ }
 " 1}}}
-
-" =========== HACKS =======================
-" Disable (( neocomplete )) before (( multiple-cursors )) to avoid conflict {{{1
-function! Multiple_cursors_before()
-  if exists(':NeoCompleteLock')==2
-    exe 'NeoCompleteLock'
-  endif
-endfunction
-function! Multiple_cursors_after()
-  if exists(':NeoCompleteUnlock')==2
-    exe 'NeoCompleteUnlock'
-  endif
-endfunction
-" }}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
