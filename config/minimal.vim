@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-21
+" Last modification: 2016-02-23
 " ================================================================
 
 
@@ -314,6 +314,12 @@ function! <SID>Move(to) range " {{{2
 	let fl = a:firstline | let ll = a:lastline
 	execute printf(':%d,%dm%d', fl, ll, (a:to ==# -1 ? fl - 2 : ll + 1))
 endfunction " 2}}}
+" Mimic multiple cursor behavior with <C-n>, useful with gn {{{1
+" - \V literal string (very no magic)
+" - \C case match
+" - Use register x in visual mode
+nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
+vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
