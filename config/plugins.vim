@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-23
+" Last modification: 2016-02-24
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -219,14 +219,15 @@ let g:airline_mode_map = {
 			\ '' : 'S',
 		\ }
 " Enable only those extensions
-let g:airline_extensions = ['branch', 'hunks', 'unite', 'syntastic']
+let g:airline_extensions = ['tabline', 'branch', 'hunks', 'unite', 'syntastic']
 " EXTENSIONS
-" let g:airline#extensions#tabline#show_buffers = 2
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Show splits and tab number in tabline
-" let g:airline#extensions#tabline#tab_nr_type = 2
-" let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#tab_nr_type = 2
+let g:airline#extensions#tabline#buffer_min_count = 2
 " let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#show_splits = 0
 " Formatting of the whitespace warning messages
 " let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 " let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
@@ -319,7 +320,7 @@ if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( Unite )) & plugins {{{1
 " SETTINGS {{{2
 let g:unite_data_directory = g:vimDir . '/various/unite'
-" let g:unite_enable_auto_select = 0
+let g:unite_enable_auto_select = 0
 let g:unite_quick_match_table = {
 			\ '0': 29,
 			\ '1': 20,
@@ -414,7 +415,7 @@ function! <SID>Unite(name, source, ...) abort
 endfunction
 inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
-nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
+nnoremap <silent> <S-space> :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
 nnoremap <silent> ,f :Unite -buffer-name=Files file_rec/async<CR>
 " nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
