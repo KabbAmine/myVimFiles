@@ -279,14 +279,14 @@ endif
 let g:user_emmet_install_global = 0
 augroup emmet
 	autocmd!
-	autocmd FileType html,scss,css,jade EmmetInstall
-	" autocmd FileType html,scss,css,jade imap <buffer> <expr> jhh emmet#expandAbbrIntelligent("\<tab>")
-	autocmd FileType html,scss,css,jade imap <buffer> jha <plug>(emmet-anchorize-url)
-	autocmd FileType html,scss,css,jade imap <buffer> jhc <plug>(emmet-code-pretty)
-	autocmd FileType html,scss,css,jade imap <buffer> jhh <plug>(emmet-expand-abbr)
-	autocmd FileType html,scss,css,jade imap <buffer> jhn <plug>(emmet-move-next)
-	autocmd FileType html,scss,css,jade imap <buffer> jhN <plug>(emmet-move-prev)
-	autocmd FileType html,scss,css,jade imap <buffer> jhu <plug>(emmet-update-tag)
+	autocmd FileType html,scss,css,pug EmmetInstall
+	" autocmd FileType html,scss,css,pug imap <buffer> <expr> jhh emmet#expandAbbrIntelligent("\<tab>")
+	autocmd FileType html,scss,css,pug imap <buffer> jha <plug>(emmet-anchorize-url)
+	autocmd FileType html,scss,css,pug imap <buffer> jhc <plug>(emmet-code-pretty)
+	autocmd FileType html,scss,css,pug imap <buffer> jhh <plug>(emmet-expand-abbr)
+	autocmd FileType html,scss,css,pug imap <buffer> jhn <plug>(emmet-move-next)
+	autocmd FileType html,scss,css,pug imap <buffer> jhN <plug>(emmet-move-prev)
+	autocmd FileType html,scss,css,pug imap <buffer> jhu <plug>(emmet-update-tag)
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
