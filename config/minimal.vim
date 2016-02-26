@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-23
+" Last modification: 2016-02-26
 " ================================================================
 
 
@@ -45,9 +45,9 @@ execute 'set viewdir=' . g:vimDir . '/various/view'
 if !empty($TERM) && !g:isNvim
 	let s:c = 'a'
 	while s:c <=# 'z'
-		exec 'set <A-' . s:c . '>=\e' . s:c
-		exec 'inoremap \e' . s:c . ' <A-' . s:c . '>'
-		let s:c = nr2char(1+char2nr(s:c))
+		exec "set <A-" . s:c . ">=\e" . s:c
+		exec "imap \e" . s:c . " <A-" . s:c . ">"
+		let s:c = nr2char(1 + char2nr(s:c))
 	endwhile
 	unlet s:c
 endif
