@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-24
+" Last modification: 2016-02-25
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -417,7 +417,7 @@ inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append hi
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
 nnoremap <silent> <S-space> :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
-nnoremap <silent> ,f :Unite -buffer-name=Files file_rec/async<CR>
+nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
 " nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
 nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -no-quit grep:.<CR>
