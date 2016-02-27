@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-26
+" Last modification: 2016-02-27
 " ================================================================
 
 
@@ -331,12 +331,14 @@ if !empty($TERM)
 		autocmd InsertLeave * set nocursorline
 	augroup END
 endif
-" Commands for manipulating directories and deleting files {{{1
-" *** :Mkdir => Create directory(ies) (Or directories recursively)
-" *** :Rm    => Delete file(s) or directory(ies)
-command! -nargs=+ -complete=file Mkdir :call <SID>MakeDir(<f-args>)
-command! -nargs=+ -complete=file Rm    :call <SID>Delete(<f-args>)
-function! <SID>Delete(...) abort
+" Commands for folders & files {{{1
+" *** :Mkdir  => Create directory(ies) (Or directories recursively)
+" *** :Rm     => Delete file(s) or directory(ies)
+" *** :Rename => Rename/move the current file
+command! -nargs=+ -complete=file Mkdir  :call <SID>MakeDir(<f-args>)
+command! -nargs=+ -complete=file Rm     :call <SID>Delete(<f-args>)
+command! -nargs=1 -complete=file Rename :call <SID>Rename(<f-args>)
+function! <SID>Delete(...) abort " {{{2
 	for l:f in a:000
 		if filereadable(l:f)
 			if delete(l:f) ==# 0
@@ -349,8 +351,8 @@ function! <SID>Delete(...) abort
 			echo system(printf(l:cmd, escape(l:f, ' ')))
 		endif
 	endfor
-endfunction
-function! <SID>MakeDir(...) abort
+endfunction " 2}}}
+function! <SID>MakeDir(...) abort " {{{2
 	for l:d in a:000
 		if !isdirectory(l:d)
 			call mkdir(l:d, 'p')
@@ -359,8 +361,19 @@ function! <SID>MakeDir(...) abort
 			echohl Error | echo l:d . '/ exists already' | echohl None
 		endif
 	endfor
-endfunction
-" 2}}}
+endfunction " 2}}}
+function! <SID>Rename(to) abort " {{{2
+	let l:file = expand('%:p')
+	if !filereadable(l:file)
+		echohl Error | echo 'Not a valid file' | echohl None
+	else
+		let l:buf = expand('%')
+		silent execute 'saveas ' . a:to
+		silent execute 'bdelete! ' . l:buf
+		call delete(l:file)
+		echohl Statement | echo 'Renamed to "' . a:to . '"' | echohl None
+	endif
+endfunction " 2}}}
 " Specify indentation (ts,sts,sw) {{{1
 " *** :Indent
 command! Indent :call <SID>Indent()
