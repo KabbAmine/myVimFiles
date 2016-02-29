@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-25
+" Last modification: 2016-02-29
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -102,13 +102,9 @@ Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
-			\| Plug 'kana/vim-textobj-entire'
-			\| Plug 'kana/vim-textobj-fold'
 			\| Plug 'kana/vim-textobj-function'
-			\| Plug 'kana/vim-textobj-line'
 			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
-			\| Plug 'whatyouhide/vim-textobj-xmlattr'        , {'for': ['xml', 'html']}
 " (( operator-user )) {{{2
 Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
@@ -123,18 +119,19 @@ Plug 'tpope/vim-surround'
 " Various {{{2
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
-Plug 'rhysd/vim-grammarous'
-Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat' }
+Plug 'Chiel92/vim-autoformat' , {'on': 'Autoformat' }
 Plug 'google/vim-searchindex'
-Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
+Plug 'iwataka/airnote.vim'    , {'on': ['Note', 'NoteDelete']}
+Plug 'junegunn/vader.vim'     , {'on': 'Vader', 'for': 'vader'}
 Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
-Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree'        , {'on': 'UndotreeToggle' }
 Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle' }
+Plug 'rhysd/vim-grammarous'
+Plug 'scrooloose/nerdtree'    , {'on': 'NERDTreeToggle' }
 Plug 'Shougo/neocomplete.vim'
-			\| Plug 'Shougo/neco-vim'    , {'for': 'vim'}
-Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
+			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
+Plug 'thinca/vim-quickrun'    , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
 Plug 'vim-airline/vim-airline'
@@ -681,6 +678,12 @@ augroup Tern
 	autocmd Filetype javascript nmap <buffer> gD :TernRefs<CR>
 	autocmd Filetype javascript nmap <buffer> gr :TernRename<CR>
 augroup END
+" ******* (( airnote )) {{{1
+let g:airnote_path = expand(g:vimDir . '/various/memos')
+let g:airnote_date_format = '%d %b %Y %X'
+let g:airnote_open_prompt = 'Open note > '
+let g:airnote_delete_prompt = 'Delete note > '
+let g:airnote_default_open_cmd = 'vsplit'
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
