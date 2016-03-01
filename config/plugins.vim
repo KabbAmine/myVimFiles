@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-29
+" Last modification: 2016-03-01
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -147,7 +147,7 @@ call plug#end()
 
 " ========== VARIOUS  ===========================================
 " Colors {{{1
-if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
+if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
 	set term=xterm-256color
 endif
 let g:yowish = {'term_italic': 0}
@@ -515,6 +515,7 @@ if g:hasUnix
 	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 	let g:webdevicons_enable_airline_statusline = 0
+	let g:webdevicons_enable_unite = 0
 endif
 " ******* (( tabular )) {{{1
 vmap <CR><CR> :Tabularize /
@@ -661,7 +662,7 @@ let g:DisableAutoPHPFolding = 1
 let g:indentLine_showFirstIndentLevel = 1
 " ******* (( vim-markdown )) {{{1
 " Enable syntax highlighting in codeblocks for some file types
-let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
+" let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
 " ******* (( vim-jsdoc )) {{{1
 augroup JsDoc
 	autocmd!
