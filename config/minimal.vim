@@ -190,8 +190,9 @@ noremap <silent> <F5> :tabonly<CR>
 " Open or close the fold {{{1
 nnoremap <silent> <space> za
 vmap <silent> <space> :fold<CR>
-" Remove the highlighting of 'hlsearch' {{{1
+" For searching {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
+nnoremap !/ /\<\><left><left>
 " Operations on tabs {{{1
 map <silent> <C-t> :tabedit<CR>
 " Operations on buffers {{{1
