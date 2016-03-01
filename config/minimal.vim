@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-02-27
+" Last modification: 2016-03-01
 " ================================================================
 
 
@@ -264,7 +264,6 @@ nnoremap <silent> gx :call <SID>OpenURL()<CR>
 function! <SID>OpenURL() abort " {{{2
 	" Open the current URL
 	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
-
 	let l:cl = getline('.')
 	let l:url = matchstr(l:cl, '[a-z]*:\/\/[^ >,;]*')
 	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
@@ -311,8 +310,17 @@ vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
 vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv
 function! <SID>Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
-	let fl = a:firstline | let ll = a:lastline
-	execute printf(':%d,%dm%d', fl, ll, (a:to ==# -1 ? fl - 2 : ll + 1))
+	if foldlevel(line('.')) !=# 0
+		normal! zR
+	endif
+	let l:fl = a:firstline | let l:ll = a:lastline
+	let l:to = a:to ==# -1 ?
+				\ l:fl - 2 :
+				\ (l:ll + 1 >=# line('$') ? line('$') : l:ll + 1)
+	execute printf(':%d,%dm%d', l:fl, l:ll, l:to)
+	if foldlevel(line('.')) !=# 0
+		normal! zMza
+	endif
 endfunction " 2}}}
 " Mimic multiple cursor behavior with <C-n>, useful with gn {{{1
 " - \V literal string (very no magic)
@@ -320,6 +328,89 @@ endfunction " 2}}}
 " - Use register x in visual mode
 nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
+" Text objects {{{1
+" All ***
+"	- ie     : Entire file
+"	- il     : Current line
+"	- i./a.  : Inside/around dots
+" Markdown ***
+"	 - ic/ac       : Inside/around code block
+" Css/Scss ***
+"	 - iv       : Value
+"	 - ifu/afu  : Inside/around a selector block
+" Sh ***
+"	 - ifu/afu  : Inside/around a function
+" Vim ***
+"	 - iz/az    : Inside/around Fold
+"	 - iau/aau  : Inside/around an augroup
+"	 - if/af    : Inside/around a function
+let s:to = {
+			\ '_' : [
+				\ ['ie', 'ggVG'],
+				\ ['il', '^vg_'],
+				\ ['i.', 'F.WvEf.ge'],
+				\ ['a.', 'F.vEf.']
+			\ ],
+			\ 'markdown' : [
+				\ ['ic', 'i=```/```'],
+				\ ['ac', 'a=```/```'],
+			\ ],
+			\ 'scss,css' : [
+				\ ['iv', '^f:wvt;'],
+				\ ['if', 'i={/}'],
+				\ ['af', '{jV}k'],
+			\ ],
+			\ 'sh' : [
+				\ ['if', 'i=() {/}'],
+				\ ['af', 'a=() {/}'],
+			\ ],
+			\ 'vim' : [
+				\ ['iz', '[zjV]zk'],
+				\ ['az', '[zV]z'],
+				\ ['ia', 'i=augroup/augroup'],
+				\ ['aa', 'a=augroup/augroup'],
+			\ ]
+		\ }
+" For all file types {{{2
+for [s:k, s:m] in s:to._
+	execute 'onoremap <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
+	execute 'vnoremap <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
+endfor
+function! <SID>GetSelection(pattern) abort " {{{2
+	" i/a : inside/around
+	let l:type = a:pattern[0]
+	let l:pat = [
+				\ a:pattern[match(a:pattern, "=") + 1 : match(a:pattern, "/") - 1],
+				\ a:pattern[match(a:pattern, "/", 0, 1) + 1 :],
+				\ ]
+	let l:s = search(l:pat[0], 'cbn', 1)
+	let l:e = search(l:pat[1], 'cn', line('$'))
+	if l:s !=# 0 && l:e !=# 0
+		if l:type ==# 'i'
+			let l:s += 1
+			let l:e -= 1
+		endif
+		execute printf('normal! %dGV%dG', l:s, l:e)
+	endif
+endfunction
+augroup MyTextObjects " {{{2
+	autocmd!
+	for s:ft in keys(s:to)
+		if s:ft !=# '_'
+			for [s:k, s:m] in s:to[s:ft]
+				if s:m =~# '^\(i\|a\)='
+					execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :call <SID>GetSelection("' . s:m . '")<CR>'
+					execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>call <SID>GetSelection("' . s:m . '")<CR>'
+				else
+					execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
+					execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
+				endif
+			endfor
+		endif
+	endfor
+augroup END
+unlet! s:to s:k s:m s:ft " {{{2
+" 2}}}
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
