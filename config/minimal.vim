@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-01
+" Last modification: 2016-03-02
 " ================================================================
 
 
@@ -338,6 +338,7 @@ vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 "	 - ic/ac       : Inside/around code block
 " Css/Scss ***
 "	 - iv       : Value
+"	 - iP       : Property
 "	 - ifu/afu  : Inside/around a selector block
 " Sh ***
 "	 - ifu/afu  : Inside/around a function
@@ -358,6 +359,7 @@ let s:to = {
 			\ ],
 			\ 'scss,css' : [
 				\ ['iv', '^f:wvt;'],
+				\ ['iP', '^vt:'],
 				\ ['if', 'i={/}'],
 				\ ['af', '{jV}k'],
 			\ ],
