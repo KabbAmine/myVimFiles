@@ -329,6 +329,12 @@ endfunction " 2}}}
 " - Use register x in visual mode
 nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
+" Use c for manipulating + register {{{1
+vnoremap cy "+y
+nnoremap cy "+y
+nnoremap cY "+y$
+nnoremap cp "+p
+nnoremap cP "+P
 " Text objects {{{1
 " All ***
 "	- ie     : Entire file
