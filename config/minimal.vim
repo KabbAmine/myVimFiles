@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-02
+" Last modification: 2016-03-03
 " ================================================================
 
 
@@ -311,16 +311,14 @@ vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
 vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv
 function! <SID>Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
-	if foldlevel(line('.')) !=# 0
-		normal! zR
-	endif
 	let l:fl = a:firstline | let l:ll = a:lastline
 	let l:to = a:to ==# -1 ?
 				\ l:fl - 2 :
 				\ (l:ll + 1 >=# line('$') ? line('$') : l:ll + 1)
 	execute printf(':%d,%dm%d', l:fl, l:ll, l:to)
-	if foldlevel(line('.')) !=# 0
-		normal! zMza
+	let l:cl = line('.')
+	if foldlevel(l:cl) !=# 0
+		execute 'normal! ' . repeat('za', foldlevel(l:cl))
 	endif
 endfunction " 2}}}
 " Mimic multiple cursor behavior with <C-n>, useful with gn {{{1
@@ -330,71 +328,81 @@ endfunction " 2}}}
 nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 " Use c for manipulating + register {{{1
-vnoremap cy "+y
+vnoremap Cy "+y
+vnoremap Cp "+p
+vnoremap CP "+P
 nnoremap cy "+y
 nnoremap cY "+y$
 nnoremap cp "+p
 nnoremap cP "+P
 " Text objects {{{1
 " All ***
-"	- ie     : Entire file
-"	- il     : Current line
-"	- i./a.  : Inside/around dots
+"	- ie         : Entire file
+"	- il         : Current line without whitespace
+"	- i{X}/a{X}  : Inside/around {X}
+"					* dots
+"					* underscores
+"					* stars
 " Markdown ***
-"	 - ic/ac       : Inside/around code block
-" Css/Scss ***
-"	 - iv       : Value
-"	 - iP       : Property
-"	 - ifu/afu  : Inside/around a selector block
+"	 - it     : Inside a list mark
+"	 - ic/ac  : Inside/around code block
+" Scss/Css ***
+"	 - iV     : Value
+"	 - iP     : Property
+"	 - if/af  : Inside/around a selector block
 " Sh ***
-"	 - ifu/afu  : Inside/around a function
+"	 - if/af  : Inside/around a function
 " Vim ***
 "	 - iz/az    : Inside/around Fold
-"	 - iau/aau  : Inside/around an augroup
-"	 - if/af    : Inside/around a function
 let s:to = {
 			\ '_' : [
 				\ ['ie', 'ggVG'],
 				\ ['il', '^vg_'],
 				\ ['i.', 'F.WvEf.ge'],
-				\ ['a.', 'F.vEf.']
+				\ ['a.', 'F.vEf.'],
+				\ ['i_', 'T_vt_'],
+				\ ['a_', 'F_vf_'],
+				\ ['i*', 'T*vt*'],
+				\ ['a*', 'F*vf*'],
 			\ ],
 			\ 'markdown' : [
-				\ ['ic', 'i=```/```'],
-				\ ['ac', 'a=```/```'],
+				\ ['it', '^f[lvt]'],
+				\ ['ic', 'i=\v^\s*`{3}\w*$=\v^\s*`{3}$'],
+				\ ['ac', 'a=\v^\s*`{3}\w*$=\v^\s*`{3}$'],
 			\ ],
 			\ 'scss,css' : [
-				\ ['iv', '^f:wvt;'],
-				\ ['iP', '^vt:'],
-				\ ['if', 'i={/}'],
-				\ ['af', '{jV}k'],
+				\ ['iV', '^f:wvt;'],
+				\ ['iP', '^f:Bvt:'],
+				\ ['if', '][kvi{V'],
+				\ ['af', '][kva{Vo[]j'],
 			\ ],
 			\ 'sh' : [
-				\ ['if', 'i=() {/}'],
-				\ ['af', 'a=() {/}'],
+				\ ['if', 'vi{V'],
+				\ ['af', 'va{V'],
 			\ ],
 			\ 'vim' : [
 				\ ['iz', '[zjV]zk'],
 				\ ['az', '[zV]z'],
-				\ ['ia', 'i=augroup/augroup'],
-				\ ['aa', 'a=augroup/augroup'],
 			\ ]
 		\ }
-" For all file types {{{2
-for [s:k, s:m] in s:to._
-	execute 'onoremap <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
-	execute 'vnoremap <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
-endfor
-function! <SID>GetSelection(pattern) abort " {{{2
-	" i/a : inside/around
-	let l:type = a:pattern[0]
-	let l:pat = [
-				\ a:pattern[match(a:pattern, "=") + 1 : match(a:pattern, "/") - 1],
-				\ a:pattern[match(a:pattern, "/", 0, 1) + 1 :],
-				\ ]
-	let l:s = search(l:pat[0], 'cbn', 1)
-	let l:e = search(l:pat[1], 'cn', line('$'))
-	if l:s !=# 0 && l:e !=# 0
+function! <SID>GetBlock(pattern) abort " {{{2
+	let l:type = a:pattern[0] " i/a : inside/around
+	let l:pat1 = a:pattern[match(a:pattern, '=', 0, 1) + 1 : match(a:pattern, '=', 0, 2) - 1]
+	let l:pat2 = a:pattern[match(a:pattern, '=', 0, 2) + 1 :]
+	let l:cl = line('.')
+	if getline(l:cl) =~# l:pat2
+		" We are on 2nd pattern
+		let l:s = search(l:pat1, 'nb')
+		let l:e = l:cl
+	elseif getline(l:cl) =~# l:pat1
+		" We are on 1st pattern
+		let l:s = l:cl
+		let l:e = search(l:pat2, 'nw')
+	else
+		let l:s = search(l:pat1, 'bn', 1)
+		let l:e = search(l:pat2, 'wn')
+	endif
+	if l:s !=# 0 && l:e !=# 0 && l:cl >=# l:s && l:cl <=# l:e
 		if l:type ==# 'i'
 			let l:s += 1
 			let l:e -= 1
@@ -402,20 +410,24 @@ function! <SID>GetSelection(pattern) abort " {{{2
 		execute printf('normal! %dGV%dG', l:s, l:e)
 	endif
 endfunction
+" For all file types {{{2
+for [s:k, s:m] in s:to._
+	execute 'onoremap <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
+	execute 'vnoremap <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
+endfor
+call remove(s:to, '_')
 augroup MyTextObjects " {{{2
 	autocmd!
 	for s:ft in keys(s:to)
-		if s:ft !=# '_'
-			for [s:k, s:m] in s:to[s:ft]
-				if s:m =~# '^\(i\|a\)='
-					execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :call <SID>GetSelection("' . s:m . '")<CR>'
-					execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>call <SID>GetSelection("' . s:m . '")<CR>'
-				else
-					execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
-					execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
-				endif
-			endfor
-		endif
+		for [s:k, s:m] in s:to[s:ft]
+			if s:m =~# '^\(i\|a\)='
+				execute "autocmd FileType " . s:ft . " onoremap <buffer> <silent> " . s:k . " :call <SID>GetBlock('" . s:m . "')<CR>"
+				execute "autocmd FileType " . s:ft . " vnoremap <buffer> <silent> " . s:k . " :<C-u>call <SID>GetBlock('" . s:m . "')<CR>"
+			else
+				execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
+				execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
+			endif
+		endfor
 	endfor
 augroup END
 unlet! s:to s:k s:m s:ft " {{{2
