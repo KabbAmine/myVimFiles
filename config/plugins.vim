@@ -391,6 +391,7 @@ function! s:filters.filter(candidates, context)
 	for candidate in a:candidates
 		let l:num = candidate.action__buffer_nr
 		let l:name = bufname(l:num)
+		let l:name = !empty(l:name) ? l:name : '[NO NAME]'
 		let l:path = fnamemodify(l:name, ':p:h')
 		let l:modified = getbufvar(l:name, '&modified') ==# 1 ? '➕' : ' '
 		let candidate.abbr = printf('%-*s %s %2s %s',
@@ -398,7 +399,7 @@ function! s:filters.filter(candidates, context)
 					\ l:modified,
 					\ l:num,
 					\ fnamemodify(l:path, ':.')
-				\ )
+					\ )
 	endfor
 	return a:candidates
 endfunction
