@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-03
+" Last modification: 2016-03-04
 " ================================================================
 
 
@@ -138,6 +138,7 @@ endif
 set splitright						" A new window is put right of the current one.
 set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
 set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be used for a status line.
+set hidden
 " ********* Swap file {{{1
 " Set the swap file directories.
 if g:hasWin
@@ -432,6 +433,27 @@ augroup MyTextObjects " {{{2
 augroup END
 unlet! s:to s:k s:m s:ft " {{{2
 " 2}}}
+" List & choose buffers {{{1
+" nnoremap ,b :call <SID>ListBuffers()<CR>
+function! <SID>ListBuffers() abort " {{{2
+	redir => l:bufs
+		silent buffers
+	redir END
+	let l:bufsL = []
+	for l:b in split(l:bufs[1:], "\n")
+		let l:bn = matchstr(l:b, '\d\+')
+		let l:bs = matchstr(l:b, '+')
+		let l:bf = pathshorten(substitute(matchstr(l:b, '".*"'), '"', '', 'g'))
+		call add(l:bufsL, printf("  %2d %2s  %s", l:bn, l:bs, l:bf))
+	endfor
+	echohl Function | echo 'Buffers:' | echohl None
+	echo join(l:bufsL, "\n")
+	echohl Statement
+	let l:buf = input('> ', '', 'buffer')
+	echohl None
+	execute 'silent b! ' . l:buf
+	redraw
+endfunction
 " }}}
 
 " =========== (AUTO)COMMANDS ==============================
