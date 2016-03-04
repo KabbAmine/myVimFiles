@@ -255,8 +255,8 @@ nnoremap <S-F3> :cprevious<CR>
 nnoremap <S-F4> :cnext<CR>
 " TIPS from https://github.com/mhinz/vim-galore {{{1
 " n/N always search forward/backward {{{2
-nnoremap <expr> n  'Nn'[v:searchforward]
-nnoremap <expr> N  'nN'[v:searchforward]
+" nnoremap <expr> n  'Nn'[v:searchforward]
+" nnoremap <expr> N  'nN'[v:searchforward]
 " Quickly edit macro or register content in scmdline-window {{{2
 " "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
