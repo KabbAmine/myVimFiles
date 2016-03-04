@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-01
+" Last modification: 2016-03-04
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -316,6 +316,7 @@ command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( Unite )) & plugins {{{1
 " SETTINGS {{{2
+" General {{{3
 let g:unite_data_directory = g:vimDir . '/various/unite'
 let g:unite_enable_auto_select = 0
 let g:unite_quick_match_table = {
@@ -368,7 +369,7 @@ call unite#custom#profile('default', 'context', {
 			\ 'marked_icon'       : '  ▪ ',
 			\ 'no_hide_icon'      : 1
 		\ })
-" Grep unite source.
+" Grep unite source {{{3
 call unite#custom#profile('source/grep', 'context', {
 			\ 'no_start_insert'  : 1,
 			\ 'empty'            : 1,
@@ -384,6 +385,26 @@ let g:unite_source_grep_default_opts =
 			\ '-i -U --column --nocolor --nogroup --ignore ' .
 			\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
 let g:unite_source_grep_recursive_opt = ''
+" Converters for source {{{3
+let s:filters = {'name' : 'buffer_simple_format'}
+function! s:filters.filter(candidates, context)
+	for candidate in a:candidates
+		let l:num = candidate.action__buffer_nr
+		let l:name = bufname(l:num)
+		let l:path = fnamemodify(l:name, ':p:h')
+		let l:modified = getbufvar(l:name, '&modified') ==# 1 ? '➕' : ' '
+		let candidate.abbr = printf('%-*s %s %2s %s',
+					\ 15, fnamemodify(l:name, ':p:t'),
+					\ l:modified,
+					\ l:num,
+					\ fnamemodify(l:path, ':.')
+				\ )
+	endfor
+	return a:candidates
+endfunction
+call unite#define_filter(s:filters)
+unlet s:filters
+call unite#custom#source('buffer', 'converters', 'buffer_simple_format')
 " PLUGINS {{{2
 let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
 let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
@@ -412,7 +433,7 @@ function! <SID>Unite(name, source, ...) abort
 endfunction
 inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
-nnoremap <silent> <S-space> :Unite -buffer-name=Buffers buffer<CR>
+nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
 nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
 " nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
