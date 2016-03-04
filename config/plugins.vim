@@ -93,6 +93,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Shougo/unite.vim'
 			\| call s:PlugInOs('Shougo/vimproc.vim' , "{ 'do': 'make' }" , 'unix')
 			\| call s:PlugInOs('Shougo/vimproc.vim' , ''                 , 'win32')
+			\| Plug 'kopischke/unite-spell-suggest'
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
 			\| Plug 'Shougo/unite-outline'
@@ -119,19 +120,19 @@ Plug 'tpope/vim-surround'
 " Various {{{2
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
-Plug 'Chiel92/vim-autoformat' , {'on': 'Autoformat' }
+Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
 Plug 'google/vim-searchindex'
-Plug 'iwataka/airnote.vim'    , {'on': ['Note', 'NoteDelete']}
-Plug 'junegunn/vader.vim'     , {'on': 'Vader', 'for': 'vader'}
+Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
+Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
-Plug 'mbbill/undotree'        , {'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-grammarous'
-Plug 'scrooloose/nerdtree'    , {'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-Plug 'thinca/vim-quickrun'    , {'on': ['QuickRun', 'AutoQR']}
+Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
 Plug 'vim-airline/vim-airline'
@@ -448,6 +449,7 @@ nnoremap <silent> ,r :Unite -buffer-name=Recent -empty neomru/file<CR>
 nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
 nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
+nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
 " Inside unite buffers
 augroup UniteMaps
 	autocmd!
