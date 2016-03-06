@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-06
+" Last modification: 2016-03-07
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -371,21 +371,13 @@ call unite#custom#profile('default', 'context', {
 			\ 'marked_icon'       : '  ▪ ',
 			\ 'no_hide_icon'      : 1,
 		\ })
-" Grep unite source {{{3
-call unite#custom#profile('source/grep', 'context', {
-			\ 'no_start_insert'  : 1,
-			\ 'empty'            : 1,
-			\ 'no_resize'        : 1,
-			\ 'auto_preview'     : 0
-		\ })
+" Use ag {{{3
 let g:unite_source_rec_async_command =
-			\ ['ag', '-U', '-i', '--nocolor', '--nogroup', '--ignore',
-			\ '.git', '--ignore', '".DS_Store"', '--ignore', '".node_modules"',
+			\ ['ag', '-i', '--nocolor', '--nogroup', '--ignore', '".node_modules"',
 			\ '--hidden', '-g', '']
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts =
-			\ '-i -U --column --nocolor --nogroup --ignore ' .
-			\ '''.git'' --ignore ''.DS_Store'' --ignore ''.node_modules'''
+			\ '-i --column --nocolor --nogroup --ignore ".node_modules"'
 let g:unite_source_grep_recursive_opt = ''
 " Converters for source {{{3
 let s:filters = {'name' : 'buffer_simple_format'}
@@ -441,13 +433,13 @@ nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
 nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
 " nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-nnoremap <silent> ,g :Unite -buffer-name=Grep -resume -no-start-insert -no-quit grep:.<CR>
+nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep:.<CR>
 " nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
 nnoremap <silent> ,m :Unite -buffer-name=Marks mark<CR>
 nnoremap <silent> ,r :Unite -buffer-name=Recent -empty neomru/file<CR>
-nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
+nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -keep-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
 nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
@@ -706,10 +698,20 @@ augroup Tern
 augroup END
 " ******* (( airnote )) {{{1
 let g:airnote_path = expand(g:vimDir . '/various/memos')
+let g:airnote_suffix = 'md'
 let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
 let g:airnote_delete_prompt = 'Delete note > '
 let g:airnote_default_open_cmd = 'vsplit'
+" Auto-generate the date when the file is saved
+augroup Airnote
+	autocmd!
+	execute printf(
+				\ 'autocmd BufWrite %s/*.%s :call setline(1,  "> " . strftime(g:airnote_date_format))',
+				\ g:airnote_path,
+				\ g:airnote_suffix
+			\ )
+augroup END
 " ******* (( vim-signjk-motion )) {{{1
 nmap gj <Plug>(signjk-j)
 nmap gk <Plug>(signjk-k)
