@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-04
+" Last modification: 2016-03-06
 " ================================================================
 
 
@@ -329,13 +329,15 @@ endfunction " 2}}}
 nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 " Use c for manipulating + register {{{1
-vnoremap Cy "+y
-vnoremap Cp "+p
-vnoremap CP "+P
-nnoremap cy "+y
-nnoremap cY "+y$
+nnoremap cd "+d
 nnoremap cp "+p
 nnoremap cP "+P
+nnoremap cy "+y
+nnoremap cY "+y$
+vnoremap Cd "+d
+vnoremap Cp "+p
+vnoremap CP "+P
+vnoremap Cy "+y
 " Text objects {{{1
 " All ***
 "	- ie         : Entire file
