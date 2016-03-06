@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-04
+" Last modification: 2016-03-06
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -112,6 +112,8 @@ Plug 'kana/vim-operator-user'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular'
+Plug 'haya14busa/vim-signjk-motion',
+			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
@@ -158,7 +160,6 @@ colo yowish
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
 " ******* (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
-nnoremap <silent> ,n :NERDTreeFocus<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q> :call <SID>CloseNERDTree()<CR>
@@ -368,7 +369,7 @@ call unite#custom#profile('default', 'context', {
 			\ 'prompt_focus'      : 1,
 			\ 'candidate_icon'    : '  ▫ ',
 			\ 'marked_icon'       : '  ▪ ',
-			\ 'no_hide_icon'      : 1
+			\ 'no_hide_icon'      : 1,
 		\ })
 " Grep unite source {{{3
 call unite#custom#profile('source/grep', 'context', {
@@ -434,13 +435,13 @@ function! <SID>Unite(name, source, ...) abort
 	execute ':Unite -buffer-name=' . a:name . l:source
 endfunction
 inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
-nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -no-start-insert -quick-match -default-action=cd bookmark:_<CR>
+nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
 nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
 " nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -no-quit grep:.<CR>
+nnoremap <silent> ,g :Unite -buffer-name=Grep -resume -no-start-insert -no-quit grep:.<CR>
 " nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
@@ -709,6 +710,12 @@ let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
 let g:airnote_delete_prompt = 'Delete note > '
 let g:airnote_default_open_cmd = 'vsplit'
+" ******* (( vim-signjk-motion )) {{{1
+nmap gj <Plug>(signjk-j)
+nmap gk <Plug>(signjk-k)
+" To use with an operator (c/d/v...)
+omap L <Plug>(textobj-signjk-lines)
+vmap L <Plug>(textobj-signjk-lines)
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -743,6 +750,7 @@ let g:lazylist_maps = [
 				\ 'l'  : '',
 				\ '*'  : '* ',
 				\ '-'   : '- ',
+				\ '+'   : '+ ',
 				\ 't'   : '- [ ] ',
 				\ '2'  : '%2%. ',
 				\ '3'  : '%3%. ',
