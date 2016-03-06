@@ -1,9 +1,8 @@
-/plugin
-/spell
+spell/
 
-/various/*
-!/various/ultisnips/
-!/various/templates/
-!/various/vimproc_win32.dll
+various/*
+!various/ultisnips/
+!various/templates/
+!various/vimproc_win32.dll
 
-/plugs/*
+plugs/
