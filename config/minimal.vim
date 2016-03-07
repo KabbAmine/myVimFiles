@@ -457,6 +457,7 @@ function! <SID>ListBuffers() abort " {{{2
 	redraw
 endfunction
 " }}}
+" 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
 " Make cursor line appear only in INSERT mode (Terminal only) {{{1
