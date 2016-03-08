@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-06
+" Last modification: 2016-03-08
 " ================================================================
 
 
@@ -280,7 +280,7 @@ function! <SID>OpenURL() abort " {{{2
 						\ 'x-www-browser ' . l:url :
 						\ 'start cmd /c ' . l:url)
 					\ . l:wmctrl
-					\ . (has('unix') ? ' &' : '')
+					\ . (has('unix') ? ' 2> /dev/null &' : '')
 		if !has('gui_running') | redraw! | endif
 	endif
 endfunction
@@ -297,13 +297,14 @@ function! <SID>OpenHere(type, ...) abort " {{{2
 	" a:1: Location (pwd by default)
 	let l:cmd = {
 				\ 't': (has('unix') ?
-					\ 'exo-open --launch TerminalEmulator --working-directory %s &' :
+					\ 'exo-open --launch TerminalEmulator --working-directory %s 2> /dev/null &' :
 					\ 'start cmd /k cd %s'),
 				\ 'f': (has('unix') ?
-					\ 'xdg-open %s &' :
+					\ 'xdg-open %s 2> /dev/null &' :
 					\ 'start explorer %s')
 				\ }
 	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
+	if !has('gui_running') | redraw! | endif
 endfunction " 2}}}
 " Move current line or visual selection {{{1
 nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>
