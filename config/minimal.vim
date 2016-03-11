@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-08
+" Last modification: 2016-03-11
 " ================================================================
 
 
@@ -345,6 +345,7 @@ vnoremap Cy "+y
 "	- il         : Current line without whitespace
 "	- i{X}/a{X}  : Inside/around {X}
 "					* dots
+"					* commas
 "					* underscores
 "					* stars
 " Markdown ***
@@ -368,6 +369,8 @@ let s:to = {
 				\ ['a_', 'F_vf_'],
 				\ ['i*', 'T*vt*'],
 				\ ['a*', 'F*vf*'],
+				\ ['i,', 'T,vt,'],
+				\ ['a,', 'F,vf,'],
 			\ ],
 			\ 'markdown' : [
 				\ ['it', '^f[lvt]'],
@@ -436,11 +439,11 @@ augroup MyTextObjects " {{{2
 augroup END
 unlet! s:to s:k s:m s:ft " {{{2
 " 2}}}
-" List & choose buffers {{{1
-" nnoremap ,b :call <SID>ListBuffers()<CR>
-function! <SID>ListBuffers() abort " {{{2
+" A simple buffer lister {{{1
+command! Ls :call s:Buffers()
+function! s:Buffers() abort " {{{2
 	redir => l:bufs
-		silent buffers
+	silent buffers
 	redir END
 	let l:bufsL = []
 	for l:b in split(l:bufs[1:], "\n")
@@ -453,11 +456,26 @@ function! <SID>ListBuffers() abort " {{{2
 	echo join(l:bufsL, "\n")
 	echohl Statement
 	let l:buf = input('> ', '', 'buffer')
-	echohl None
-	execute 'silent b! ' . l:buf
+	if empty(l:buf)
+		return 0
+	endif
 	redraw
-endfunction
-" }}}
+	echo '(t)ab, (s)plit, (v)split, (d)elete > '
+	echohl None
+	let l:action = nr2char(getchar())
+	if l:action ==# 'v'
+		let l:c = 'botright vsplit'
+	elseif l:action ==# 's'
+		let l:c = 'split'
+	elseif l:action ==# 't'
+		let l:c = 'tabedit!'
+	elseif l:action ==# 'd'
+		let l:c = 'bd!'
+	else
+		let l:c = 'buffer!'
+	endif
+	execute printf('silent %s %s', l:c, l:buf)
+endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
