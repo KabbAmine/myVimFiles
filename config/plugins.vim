@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-07
+" Last modification: 2016-03-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -19,7 +19,7 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 	" e.g of a:cmd: "VimuxRunCommand '%s'"
 	let g:last_dispatcher_cmd = exists('g:last_dispatcher_cmd') ? g:last_dispatcher_cmd : ''
 	echohl Statement
-	let l:uc = input('Command> ', g:last_dispatcher_cmd, 'history')
+	let l:uc = input('Command> ', g:last_dispatcher_cmd)
 	echohl None
 	if !empty(l:uc)
 		let g:last_dispatcher_cmd = l:uc
