@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-11
+" Last modification: 2016-03-17
 " ================================================================
 
 
@@ -61,6 +61,7 @@ if has('gui_running')
 	set guioptions-=e		" Apply normal tabline in Gvim.
 	set guioptions-=L
 	set guioptions-=l
+	set guioptions+=c		" No more dialogs
 	set wak=no				" Don't use the ALT-keys for menus.
 	set linespace=5			" Number of pixel lines to use between lines.
 	if g:hasWin
@@ -280,7 +281,7 @@ function! <SID>OpenURL() abort " {{{2
 						\ 'x-www-browser ' . l:url :
 						\ 'start cmd /c ' . l:url)
 					\ . l:wmctrl
-					\ . (has('unix') ? ' 2> /dev/null &' : '')
+					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
 		if !has('gui_running') | redraw! | endif
 	endif
 endfunction
@@ -296,10 +297,10 @@ function! <SID>OpenHere(type, ...) abort " {{{2
 	" type: (t)erminal, (f)ilemanager
 	" a:1: Location (pwd by default)
 	let l:cmd = {
-				\ 't': (has('unix') ?
+				\ 't': (g:hasUnix ?
 					\ 'exo-open --launch TerminalEmulator --working-directory %s 2> /dev/null &' :
 					\ 'start cmd /k cd %s'),
-				\ 'f': (has('unix') ?
+				\ 'f': (g:hasUnix ?
 					\ 'xdg-open %s 2> /dev/null &' :
 					\ 'start explorer %s')
 				\ }
