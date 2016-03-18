@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-17
+" Last modification: 2016-03-18
 " ================================================================
 
 
@@ -571,7 +571,15 @@ fun! s:Spell(...) abort
 	execute 'setlocal spelllang=' . l:l
 	setlocal spell!
 endfun
-" }}} 
+" Enable marker folding for some ft {{{1
+augroup AutoFold
+	autocmd!
+	autocmd FileType javascript,sh,css
+				\ setlocal foldmethod=marker
+				\| setlocal foldmarker={,}
+				\| normal! zR
+augroup END
+" }}}
 
 " =========== ABBREVIATIONS ==============================
 " No more rage (Idea from a generated vimrc {{{1
