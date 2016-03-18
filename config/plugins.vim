@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-11
+" Last modification: 2016-03-17
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -509,7 +509,7 @@ augroup END
 " ******* (( autoformat )) {{{1
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
-let g:autoformat_verbosemode = 1
+" let g:autoformat_verbosemode = 1
 " Make =ie autoformat for some ft
 augroup Autoformat
 	autocmd!
