@@ -813,8 +813,7 @@ endfunction " 2}}}
 function! LightLineFiletype() abort " {{{2
 	return winwidth(0) <# 55 ?
 				\ '' :
-				\ (winwidth(0) ># 85 && strlen(&filetype) ?
-					\ &filetype . ' ' . WebDevIconsGetFileTypeSymbol()  : '')
+				\ (winwidth(0) ># 85 && strlen(&filetype) ? &filetype : '')
 endfunction " 2}}}
 function! LightLineFileencoding() abort " {{{2
 	return winwidth(0) <# 55 ?
