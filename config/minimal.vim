@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-18
+" Last modification: 2016-03-19
 " ================================================================
 
 
@@ -349,6 +349,7 @@ vnoremap Cy "+y
 "					* commas
 "					* underscores
 "					* stars
+"					* #
 " Markdown ***
 "	 - it     : Inside a list mark
 "	 - ic/ac  : Inside/around code block
@@ -372,6 +373,8 @@ let s:to = {
 				\ ['a*', 'F*vf*'],
 				\ ['i,', 'T,vt,'],
 				\ ['a,', 'F,vf,'],
+				\ ['i#', 'T#vt#'],
+				\ ['#,', 'F#vf#'],
 			\ ],
 			\ 'markdown' : [
 				\ ['it', '^f[lvt]'],
