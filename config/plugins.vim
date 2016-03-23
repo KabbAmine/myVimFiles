@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-20
+" Last modification: 2016-03-23
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -31,6 +31,7 @@ endfun
 " My plugins {{{2
 let s:myPlugs = {
 			\'gulp-vim'    : '',
+			\'imgPrev'    : "{'on': ['<Plug>(imgprev-preview)', 'ImgPrev']}",
 			\'lazyList'    : '',
 			\'vBox'        : '',
 			\'vcml'        : '',
@@ -137,8 +138,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
-Plug 'itchyny/lightline.vim'
-" Plug 'vim-airline/vim-airline'
+" Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
@@ -192,47 +192,6 @@ augroup NerdTree
 augroup END
 " ******* (( python-syntax )) {{{1
 let python_highlight_all = 1
-" ******* (( airline )) {{{1
-" let g:loaded_airline_themes=1
-" let g:airline_theme = 'yowishU'
-" set noshowmode
-" if !exists('g:airline_symbols')
-" 	let g:airline_symbols = {}
-" endif
-" " Automatically populate the symbols dictionary with the powerline symbols.
-" let g:airline_powerline_fonts = 1
-" let g:airline_left_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_left_alt_sep = '⎢'
-" let g:airline_right_alt_sep = '⎟'
-" let g:airline_mode_map = {
-" 			\ '__' : '-',
-" 			\ 'n'  : 'N',
-" 			\ 'i'  : 'I',
-" 			\ 'R'  : 'R',
-" 			\ 'c'  : 'C',
-" 			\ 'v'  : 'V',
-" 			\ 'V'  : 'V-L',
-" 			\ '' : 'V',
-" 			\ 's'  : 'S',
-" 			\ 'S'  : 'S',
-" 			\ '' : 'S',
-" 		\ }
-" " Enable only those extensions
-" let g:airline_extensions = ['tabline', 'branch', 'hunks', 'unite', 'syntastic']
-" " EXTENSIONS
-" let g:airline#extensions#tabline#show_buffers = 1
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-" " Show splits and tab number in tabline
-" let g:airline#extensions#tabline#tab_nr_type = 2
-" let g:airline#extensions#tabline#buffer_min_count = 2
-" " let g:airline#extensions#tabline#tab_min_count = 2
-" let g:airline#extensions#tabline#show_splits = 0
-" " Formatting of the whitespace warning messages
-" " let g:airline#extensions#whitespace#trailing_format = 't[%s]'
-" " let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
-" " let g:airline#extensions#whitespace#long_format = 'l[%s]'
-" " let g:airline#extensions#whitespace#mixed_indent_file_format = 'mf[%s]'
 " ******* (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! <SID>SyntasticToggle() abort
@@ -246,7 +205,6 @@ endfunction
 nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
 " For status line
 let g:syntastic_stl_format = '%E{Err. %e}%B{, }%W{War. %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
@@ -541,6 +499,7 @@ endif
 vmap <CR><CR> :Tabularize /
 vmap <silent> <CR>: :Tabularize /^[^:]*\zs<CR>
 vmap <silent> <CR>, :Tabularize /^[^,]*\zs,/l1r1<CR>
+vmap <silent> <CR>. :Tabularize /^[^.]*\zs./l1r1<CR>
 " This was better using autocmd, but I had a ******* strange behavior so I used
 " a more simple approach
 function! <SID>AutoTabularize(pattern) abort
@@ -680,6 +639,7 @@ endfunction
 let g:DisableAutoPHPFolding = 1
 " ******* (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
 " ******* (( vim-markdown )) {{{1
 " Enable syntax highlighting in codeblocks for some file types
 " let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
@@ -721,105 +681,6 @@ nmap gk <Plug>(signjk-k)
 " To use with an operator (c/d/v...)
 omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
-" ******* (( lightline )) {{{1
-set noshowmode
-let g:lightline = {
-			\ 'colorscheme': 'yowish',
-			\ 'enable': {'statusline': 1, 'tabline': 1},
-			\ 'active': {
-					\ 'left'   : [['mode', 'paste'], ['gitgutter', 'fugitive'], ['filename']],
-					\ 'right'  : [['percent', 'lineinfo'], ['filetype', 'fileencoding']],
-			\ },
-			\ 'inactive': {
-					\ 'left'   : [['filename']],
-					\ 'right'  : [['percent']],
-			\ },
-			\ 'tabline': {
-					\ 'left'   : [['tabs']],
-					\ 'right'  : [['close']],
-			\ },
-			\ 'component_function': {
-				\ 'fileencoding'  : 'LightLineFileencoding',
-				\ 'fileformat'    : 'LightLineFileformat',
-				\ 'filename'      : 'LightLineFilename',
-				\ 'filetype'      : 'LightLineFiletype',
-				\ 'fugitive'      : 'LightLineFugitive',
-				\ 'gitgutter'     : 'LightLineGitGutter',
-				\ 'mode'          : 'LightLineMode',
-			\ },
-			\ 'component_expand': {
-				\ 'syntastic'     : 'SyntasticStatuslineFlag',
-			\ },
-			\ 'component_type': {
-				\ 'syntastic': 'error'
-			\ },
-			\ 'subseparator'  : {'left': '', 'right': ''},
-			\ 'separator'     : {'left': '', 'right': ''},
-			\ 'mode_map' : {
-					\ 'n'      : 'N',
-					\ 'i'      : 'I',
-					\ 'R'      : 'R',
-					\ 'v'      : 'V',
-					\ 'V'      : 'V-L',
-					\ 'c'      : 'C',
-					\ "\<C-v>" : 'V-B',
-					\ 's'      : 'S',
-					\ 'S'      : 'S-L',
-					\ "\<C-s>" : 'S-B',
-					\ '?'      : ''
-			\ },
-		\ }
-function! LightLineGitGutter() abort " {{{2
-	if exists('g:gitgutter_enabled') && !empty(LightLineFugitive())
-		let l:h = GitGutterGetHunkSummary()
-		return printf("+%d ~%d -%d", l:h[0], l:h[1], l:h[2])
-	else
-		return ''
-	endif
-endfunction " 2}}}
-function! LightLineFugitive() abort " {{{2
-	return exists('*fugitive#head') && !empty(fugitive#head()) ?
-				\ ' ' . fugitive#head() : ''
-endfunction " 2}}}
-function! LightLineFilename() abort " {{{2
-	if &ft ==# 'unite'
-		return unite#get_status_string()
-	else
-		if !empty(expand('%:t'))
-			let l:fn = winwidth(0) <# 55 ?
-						\ expand('%:t') :
-						\ (winwidth(0) ># 85 ? expand('%:.') : pathshorten(expand('%:.')))
-		else
-			let l:fn = '[No Name]'
-		endif
-		return
-					\ l:fn .
-					\ (&readonly ? ' ' : '') .
-					\ (&modified ? ' +' : '')
-	endif
-endfunction " 2}}}
-function! LightLineMode() abort " {{{2
-	if &ft =~# '\v^(nerdtree|undotree)'
-		return toupper(&ft[0]) . &ft[1:]
-	else
-		return lightline#mode()
-	endif
-endfunction " 2}}}
-function! LightLineFileformat() abort " {{{2
-	return winwidth(0) <# 55 ?
-				\ '' :
-				\ (winwidth(0) ># 85 ? &fileformat : &fileformat[0])
-endfunction " 2}}}
-function! LightLineFiletype() abort " {{{2
-	return winwidth(0) <# 55 ?
-				\ '' :
-				\ (winwidth(0) ># 85 && strlen(&filetype) ? &filetype : '')
-endfunction " 2}}}
-function! LightLineFileencoding() abort " {{{2
-	return winwidth(0) <# 55 ?
-				\ '' :
-				\ (winwidth(0) ># 85 ? (strlen(&fenc) ? &fenc : &enc) : '')
-endfunction " 2}}}
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -887,6 +748,14 @@ augroup VBoxAuto
 	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
 	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js           :VBTemplate
 augroup END
+" ******* (( imgPrev )) {{{1
+nmap gi <Plug>(imgprev-preview)
+let g:imgprev = {
+			\ 'gif': {
+				\ 'prg'  : 'gpicview',
+				\ 'args' : '',
+			\ },
+		\ }
 " ******* (( vSourcePreview )) {{{1
 " nnoremap <silent> gP :VSPToggle<CR>
 " vnoremap <silent> gP :VSPPreview<CR>
