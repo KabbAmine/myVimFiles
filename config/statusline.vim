@@ -53,9 +53,9 @@ endfunction
 " Highlighting {{{1
 hi! link StatusLineNC Conceal
 call s:Hi('SL1'   , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1-I' , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1-R' , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SL1-V' , s:SL.colors['blue']             , s:SL.colors['background']       , 'bold')
+call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
+call s:Hi('SL1V' , s:SL.colors['blue']             , s:SL.colors['background']       , 'bold')
 call s:Hi('SL2'   , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
 call s:Hi('SL3'   , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
 hi! link SL4 Search
@@ -127,6 +127,10 @@ function! SLRvm() abort " {{{1
 	return exists('*rvm#statusline()') && !empty(rvm#statusline()) ?
 				\ ' ' . matchstr(rvm#statusline(), '\d.*[^\]]') : ''
 endfunction
+function! SLSyntastic() abort " {{{1
+	return exists('*SyntasticStatuslineFlag()') && !empty(SyntasticStatuslineFlag()) ?
+				\ SyntasticStatuslineFlag() : ''
+endfunction
 " 1}}}
 
 " Helpers
@@ -136,15 +140,15 @@ function! ResetColors() abort " {{{1
 endfunction
 function! VisualModesColors() abort " {{{1
 	setl updatetime=1
-	hi! link SL1 SL1-V
+	hi! link SL1 SL1V
 endfunction
 function! InsertReplaceModesColors(mode) abort " {{{1
 	if a:mode ==# 'i'
-		hi! link SL1 SL1-I
+		hi! link SL1 SL1I
 	elseif a:mode ==# 'r'
-		hi! link SL1 SL1-R
+		hi! link SL1 SL1R
 	else
-		hi! link SL1 SL1-V
+		hi! link SL1 SL1V
 	endif
 endfunction
 function! ToggleItem(func) abort " {{{1
@@ -167,7 +171,7 @@ function! SLInit() abort " {{{1
 	set statusline+=%#SL2#%(%{SLFiletype()}\ ⎟%)						" Filetype
 	set statusline+=\ %p%%\ %l:%c\ ⎟									" Percentage & line:column
 	set statusline+=%(\ %{SLFileencoding()}[%{SLFileformat()}]%)		" Encoding & format
-	set statusline+=%(\ %#ErrorMsg#\ %{SyntasticStatuslineFlag()}\ %)	" Syntastic
+	set statusline+=%(\ %#ErrorMsg#\ %{SLSyntastic()}\ %)	" Syntastic
 
 	set statusline+=%(\ %#SL4#%)
 
