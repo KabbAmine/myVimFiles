@@ -139,7 +139,6 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
-" Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
@@ -157,6 +156,7 @@ if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
 endif
 let g:yowish = {'term_italic': 0}
 colo yowish
+hi! link TabLineSel Search
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
