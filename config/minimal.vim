@@ -98,7 +98,7 @@ hi link HelpStar Normal
 if g:hasWin
 	set listchars=tab:\|\ ,trail:~,extends:>,precedes:<
 else
-	set listchars=tab:╎\ ,trail:•,extends:#,nbsp:.
+	set listchars=tab:\│\ ,trail:•,extends:#,nbsp:.
 endif
 set list
 " ********* Move, search & patterns {{{1
@@ -374,7 +374,7 @@ let s:to = {
 				\ ['i,', 'T,vt,'],
 				\ ['a,', 'F,vf,'],
 				\ ['i#', 'T#vt#'],
-				\ ['#,', 'F#vf#'],
+				\ ['a#', 'F#vf#'],
 			\ ],
 			\ 'markdown' : [
 				\ ['it', '^f[lvt]'],
