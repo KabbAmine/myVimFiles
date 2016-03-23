@@ -12,6 +12,13 @@
 
 set noshowmode
 
+" Get default CursorLineNR Highlighting {{{1
+redir => s:defaultCursorLineNr
+	silent hi CursorLineNR
+redir END
+let s:defaultCursorLineNr = matchstr(s:defaultCursorLineNr, 't.*')
+" 1}}}
+
 " Configuration " {{{1
 let s:SL  = {
 			\ 'colorscheme': 'yowish',
@@ -158,10 +165,12 @@ endfunction
 function! s:ResetColors() abort " {{{1
 	setl updatetime=4000
 	call s:Hi('SL1', s:SL.colors['yellow'], s:SL.colors['background'], 'bold')
+	execute 'hi CursorLineNR ' . s:defaultCursorLineNr
 endfunction
 function! <SID>VisualModesColors() abort " {{{1
 	setl updatetime=1
 	hi! link SL1 SL1V
+	hi! link CursorLineNR SL1
 endfunction
 function! <SID>InsertReplaceModesColors(mode) abort " {{{1
 	if a:mode ==# 'i'
@@ -171,6 +180,7 @@ function! <SID>InsertReplaceModesColors(mode) abort " {{{1
 	else
 		hi! link SL1 SL1V
 	endif
+	hi! link CursorLineNR SL1
 endfunction
 function! <SID>SLToggleItem(func, var) abort " {{{1
 	let l:item = printf("%%(%%{%s}\\ ⎟%%)", a:func)
