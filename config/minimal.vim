@@ -108,9 +108,7 @@ set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 set magic
 " ********* Syntax, highlighting and spelling {{{1
-if has('gui_running')
-	set cursorline
-endif
+set cursorline
 set hlsearch				" Highlight all matches for the last used search pattern.
 set spelllang=fr			" List of accepted languages.
 set synmaxcol=200			" Max column to look for syntax items
@@ -484,13 +482,13 @@ endfunction " 2}}}
 
 " =========== (AUTO)COMMANDS ==============================
 " Make cursor line appear only in INSERT mode (Terminal only) {{{1
-if !empty($TERM)
-	augroup term
-		autocmd!
-		autocmd InsertEnter * set cursorline
-		autocmd InsertLeave * set nocursorline
-	augroup END
-endif
+" if !empty($TERM)
+" 	augroup term
+" 		autocmd!
+" 		autocmd InsertEnter * set cursorline
+" 		autocmd InsertLeave * set nocursorline
+" 	augroup END
+" endif
 " Commands for folders & files {{{1
 " *** :Mkdir  => Create directory(ies) (Or directories recursively)
 " *** :Rm     => Delete file(s) or directory(ies)
