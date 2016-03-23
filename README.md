@@ -3,7 +3,7 @@
 My configuration for the best program of the world :heart:  
 I'm not a vim master, but my configuration works great for me so feel free to use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-![My vim](.img/myVim.png)
+![My vim](.img/myVim.jpg)
 
 *It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and is compatible with neovim (Need more testing after the commits of 2016-02-07)*
 
