@@ -3,6 +3,13 @@
 " Last modification: 2016-03-23
 " ===============================================================
 
+" The used plugins are:
+" * Unite
+" * GitGutter
+" * Fugitive
+" * Rvm
+" * Syntastic
+
 set noshowmode
 
 " Configuration " {{{1
@@ -52,13 +59,13 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 endfunction
 " Highlighting {{{1
 hi! link StatusLineNC Conceal
-call s:Hi('SL1'   , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SL1V' , s:SL.colors['blue']             , s:SL.colors['background']       , 'bold')
-call s:Hi('SL2'   , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
-call s:Hi('SL3'   , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
-hi! link SL4 Search
+call s:Hi('SL1'  , s:SL.colors['yellow']          , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
+call s:Hi('SL1V' , s:SL.colors['blue']            , s:SL.colors['background']      , 'bold')
+call s:Hi('SL2'  , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']        , 'none')
+call s:Hi('SL3'  , s:SL.colors['backgroundLight'] , s:SL.colors['text']            , 'none')
+call s:Hi('SL4'  , s:SL.colors['yellow']          , s:SL.colors['backgroundLight'] , 'none')
 " 1}}}
 
 " General items
@@ -81,7 +88,7 @@ function! SLBuffersNr() abort " {{{1
 	return l:bNr ># 1 ? l:bNr : ''
 endfunction
 function! SLHiGroup() abort " {{{1
-	return ' ➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name') . ' '
+	return ' ➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
 	if &ft =~# '\v^(nerdtree|undotree)'
@@ -91,6 +98,13 @@ function! SLMode() abort " {{{1
 endfunction
 function! SLPaste() abort " {{{1
 	return &paste ? '[PASTE]' : ''
+endfunction
+function! SLPython() abort " {{{1
+	let l:p = executable('python') ?
+				\ system('python --version')[7:-2] : ''
+	let l:p3 = executable('python3') ?
+				\ system('python3 --version')[7:-2] : ''
+	return printf(' [py %s  %s]', l:p, l:p3)
 endfunction
 " 1}}}
 
@@ -123,9 +137,16 @@ function! SLFugitive() abort " {{{1
 	return exists('*fugitive#head') && !empty(fugitive#head()) ?
 				\ '  ' . fugitive#head() : ''
 endfunction
-function! SLRvm() abort " {{{1
-	return exists('*rvm#statusline()') && !empty(rvm#statusline()) ?
-				\ ' ' . matchstr(rvm#statusline(), '\d.*[^\]]') : ''
+function! SLRuby() abort " {{{1
+	if has('gui_running')
+		let l:r = exists('*rvm#statusline()') && !empty(rvm#statusline()) ?
+					\ matchstr(rvm#statusline(), '\d.*[^\]]') : ''
+	elseif executable('ruby')
+		let l:r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
+	else
+		let l:r = ''
+	endif
+	return printf(' [ruby %s]', l:r)
 endfunction
 function! SLSyntastic() abort " {{{1
 	return exists('*SyntasticStatuslineFlag()') && !empty(SyntasticStatuslineFlag()) ?
@@ -134,15 +155,15 @@ endfunction
 " 1}}}
 
 " Helpers
-function! ResetColors() abort " {{{1
+function! s:ResetColors() abort " {{{1
 	setl updatetime=4000
 	call s:Hi('SL1', s:SL.colors['yellow'], s:SL.colors['background'], 'bold')
 endfunction
-function! VisualModesColors() abort " {{{1
+function! <SID>VisualModesColors() abort " {{{1
 	setl updatetime=1
 	hi! link SL1 SL1V
 endfunction
-function! InsertReplaceModesColors(mode) abort " {{{1
+function! <SID>InsertReplaceModesColors(mode) abort " {{{1
 	if a:mode ==# 'i'
 		hi! link SL1 SL1I
 	elseif a:mode ==# 'r'
@@ -151,17 +172,17 @@ function! InsertReplaceModesColors(mode) abort " {{{1
 		hi! link SL1 SL1V
 	endif
 endfunction
-function! ToggleItem(func) abort " {{{1
-	let l:item = printf("%%(%%{%s}%%)", a:func)
-	if exists('g:sl_toggle_status')
-		unlet! g:sl_toggle_status
-		execute "set statusline-=\\ " . l:item . "\\ "
+function! <SID>SLToggleItem(func, var) abort " {{{1
+	let l:item = printf("%%(%%{%s}\\ ⎟%%)", a:func)
+	if exists('g:{a:var}')
+		execute 'unlet! g:{a:var}'
+		execute "set statusline-=" . l:item
 	else
-		let g:sl_toggle_status = 1
-		execute "set statusline+=\\ " . l:item . "\\ "
+		execute 'let g:{a:var} = 1'
+		execute "set statusline+=" . l:item
 	endif
 endfunction
-function! SLInit() abort " {{{1
+function! <SID>SLInit() abort " {{{1
 	let &statusline = ''
 	set statusline+=%#SL1#\ %-{SLMode()}\ %(%{SLPaste()}\ %)			" Mode & paste
 	set statusline+=%#SL2#%(\ %{SLGitGutter()}\ %{SLFugitive()}\ %)		" GitGutter & git branch
@@ -170,28 +191,31 @@ function! SLInit() abort " {{{1
 	let &statusline .= '%='
 	set statusline+=%#SL2#%(%{SLFiletype()}\ ⎟%)						" Filetype
 	set statusline+=\ %p%%\ %l:%c\ ⎟									" Percentage & line:column
-	set statusline+=%(\ %{SLFileencoding()}[%{SLFileformat()}]%)		" Encoding & format
+	set statusline+=%(\ %{SLFileencoding()}[%{SLFileformat()}]\ %)		" Encoding & format
 	set statusline+=%(\ %#ErrorMsg#\ %{SLSyntastic()}\ %)	" Syntastic
 
-	set statusline+=%(\ %#SL4#%)
+	set statusline+=%(%#SL4#%)
 
 	augroup SLColor
 		autocmd!
-		autocmd InsertEnter *  :call InsertReplaceModesColors(v:insertmode)
-		autocmd InsertLeave *  :call ResetColors()
-		autocmd CursorHold *   :call ResetColors()
+		autocmd InsertEnter *  :call <SID>InsertReplaceModesColors(v:insertmode)
+		autocmd InsertLeave *  :call s:ResetColors()
+		autocmd CursorHold *   :call s:ResetColors()
 	augroup END
-	nnoremap <silent> v :call VisualModesColors()<CR>v
-	nnoremap <silent> V :call VisualModesColors()<CR>V
-	nnoremap <silent> <C-v> :call VisualModesColors()<CR><C-v>
+
+	nnoremap <silent> v :call <SID>VisualModesColors()<CR>v
+	nnoremap <silent> V :call <SID>VisualModesColors()<CR>V
+	nnoremap <silent> <C-v> :call <SID>VisualModesColors()<CR><C-v>
 endfunction
 " 1}}}
 
 " Mappings {{{1
-nnoremap <silent> gsH :call ToggleItem("SLHiGroup()")<CR>
-nnoremap <silent> gsR :call ToggleItem("SLRvm()")<CR>
+nnoremap <silent> gsH  :call <SID>SLToggleItem("SLHiGroup()", "sl_hi")<CR>
+nnoremap <silent> gsR  :call <SID>SLToggleItem("SLRuby()", "sl_ruby")<CR>
+nnoremap <silent> gsP  :call <SID>SLToggleItem("SLPython()", "sl_python")<CR>
+
 " 1}}}
 
-call SLInit()
+call <SID>SLInit()
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
