@@ -100,7 +100,8 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'Shougo/unite-outline'
 			\| Plug 'tacroe/unite-mark'
 " (( syntastic )) {{{2
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic',
+			\ {'on': ['SyntasticReset', 'SyntasticCheck', 'SyntasticToggle', 'SyntasticInfo']}
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -112,7 +113,7 @@ Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'Raimondi/delimitMate'
