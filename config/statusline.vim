@@ -72,7 +72,7 @@ call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']         
 call s:Hi('SL1V' , s:SL.colors['blue']            , s:SL.colors['background']      , 'bold')
 call s:Hi('SL2'  , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']        , 'none')
 call s:Hi('SL3'  , s:SL.colors['backgroundLight'] , s:SL.colors['text']            , 'none')
-call s:Hi('SL4'  , s:SL.colors['yellow']          , s:SL.colors['backgroundLight'] , 'none')
+call s:Hi('SL4'  , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
 " 1}}}
 
 " General items
