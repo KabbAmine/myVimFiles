@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-01-31
+" Last modification: 2016-03-23
 " ================================================================
 
 
@@ -38,6 +38,8 @@ augroup END
 execute 'source ' . g:vimDir . '/config/minimal.vim'
 " Plugins files.
 execute 'source ' . g:vimDir . '/config/plugins.vim'
+" Custom statusline (Nee the plugins file above)
+execute 'source ' . g:vimDir . '/config/statusline.vim'
 " }}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
