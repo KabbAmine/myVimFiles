@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-23
+" Last modification: 2016-03-24
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -335,11 +335,10 @@ call unite#custom#profile('default', 'context', {
 		\ })
 " Use ag {{{3
 let g:unite_source_rec_async_command =
-			\ ['ag', '-i', '--nocolor', '--nogroup', '--ignore', '".node_modules"',
-			\ '--hidden', '-g', '']
+			\ ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts =
-			\ '-i --column --nocolor --nogroup --ignore ".node_modules"'
+			\ '-i --column --nocolor --nogroup'
 let g:unite_source_grep_recursive_opt = ''
 " Converters for source {{{3
 let s:filters = {'name' : 'buffer_simple_format'}
@@ -457,8 +456,9 @@ let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 " ******* (( jedi-vim )) {{{1
-let g:jedi#completions_enabled = 0
+let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 0
+" let g:jedi#force_py_version = 3
 let g:jedi#goto_command = 'gd'
 let g:jedi#documentation_command = 'gk'
 let g:jedi#usages_command = 'gD'
