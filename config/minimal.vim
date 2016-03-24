@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-19
+" Last modification: 2016-03-24
 " ================================================================
 
 
@@ -481,13 +481,12 @@ endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
-" Make cursor line appear only in INSERT mode (Terminal only) {{{1
-" if !empty($TERM)
-" 	augroup term
-" 		autocmd!
-" 		autocmd InsertEnter * set cursorline
-" 		autocmd InsertLeave * set nocursorline
-" 	augroup END
+" Make cursor line appear only in active window {{{1
+	augroup CursorLine
+		autocmd!
+		autocmd WinEnter * set cursorline
+		autocmd WinLeave * set nocursorline
+	augroup END
 " endif
 " Commands for folders & files {{{1
 " *** :Mkdir  => Create directory(ies) (Or directories recursively)
