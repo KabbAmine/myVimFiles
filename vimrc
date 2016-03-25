@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-23
+" Last modification: 2016-03-26
 " ================================================================
 
 
@@ -30,15 +30,15 @@ command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
 " Automatically source vimrc & vim config files on save  {{{1
 augroup resource
 	autocmd!
-	autocmd bufwritepost $MYVIMRC nested source $MYVIMRC
-	execute 'autocmd bufwritepost ' . expand(g:vimDir) . '/config/* nested source $MYVIMRC'
+	autocmd bufwritepost $MYVIMRC source $MYVIMRC
+	execute 'autocmd bufwritepost ' . expand(g:vimDir) . '/config/* source $MYVIMRC'
 augroup END
 " Source external files {{{1
 " Minimal vimrc.
 execute 'source ' . g:vimDir . '/config/minimal.vim'
 " Plugins files.
 execute 'source ' . g:vimDir . '/config/plugins.vim'
-" Custom statusline (Nee the plugins file above)
+" Custom statusline (Need the plugins file above)
 execute 'source ' . g:vimDir . '/config/statusline.vim'
 " }}}
 
