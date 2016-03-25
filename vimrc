@@ -23,6 +23,7 @@ let g:vimDir = g:hasWin ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g') : 
 command! Ev :e! $MYVIMRC
 execute 'command! Evm :e! ' . g:vimDir . '/config/minimal.vim'
 execute 'command! Evp :e! ' . g:vimDir . '/config/plugins.vim'
+execute 'command! Evs :e! ' . g:vimDir . '/config/statusline.vim'
 command! Eb :e! $HOME/.dotfiles/bash/bashrc
 command! Eba :e! $HOME/.dotfiles/bash/bash_aliases
 command! Ebf :e! $HOME/.dotfiles/bash/bash_functions
