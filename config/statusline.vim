@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-23
+" Last modification: 2016-03-24
 " ===============================================================
 
 " The used plugins are:
@@ -10,13 +10,18 @@
 " * Rvm
 " * Syntastic
 
+" TODO
+" * A better logic
+" * Helpers
+" * Refactoring
+
 set noshowmode
 
-" Get default CursorLineNR Highlighting {{{1
+" Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
 	silent hi CursorLineNR
 redir END
-let s:defaultCursorLineNr = matchstr(s:defaultCursorLineNr, 't.*')
+let s:defaultCursorLineNr = matchstr(s:defaultCursorLineNr, 'term.*')
 " 1}}}
 
 " Configuration " {{{1
@@ -50,8 +55,8 @@ let s:SL  = {
 " 1}}}
 
 function! s:Hi(group, bg, fg, opt) abort " {{{1
-	let l:bg = empty(a:bg) ? ['NONE', 'NONE' ] : a:bg
-	let l:fg = empty(a:fg) ? ['NONE', 'NONE'] : a:fg
+	let l:bg = type(a:bg) ==# type('') ? ['NONE', 'NONE' ] : a:bg
+	let l:fg = type(a:fg) ==# type('') ? ['NONE', 'NONE'] : a:fg
 	let l:opt = empty(a:opt) ? ['NONE', 'NONE'] : [a:opt, a:opt]
 	let l:mode = ['gui', 'cterm']
 	let l:cmd = 'hi ' . a:group
@@ -66,12 +71,12 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 endfunction
 " Highlighting {{{1
 hi! link StatusLineNC Conceal
-call s:Hi('SL1'  , s:SL.colors['yellow']          , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
-call s:Hi('SL1V' , s:SL.colors['blue']            , s:SL.colors['background']      , 'bold')
-call s:Hi('SL2'  , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']        , 'none')
-call s:Hi('SL3'  , s:SL.colors['backgroundLight'] , s:SL.colors['text']            , 'none')
+call s:Hi('SL1'  , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
+call s:Hi('SL1V' , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
+call s:Hi('SL2'  , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
+call s:Hi('SL3'  , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
 call s:Hi('SL4'  , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
 " 1}}}
 
@@ -192,6 +197,17 @@ function! <SID>SLToggleItem(func, var) abort " {{{1
 		execute "set statusline+=" . l:item
 	endif
 endfunction
+function! <SID>RefreshStatusLine() abort " {{{1
+	let l:cw = winnr()
+	for l:w in range(1, winnr('$'))
+		if l:w !=# l:cw
+			call setwinvar(l:w, '&statusline', ' %F%=%{SLFiletype()} ')
+			hi! link StatusLineNC SL2
+		else
+			call <SID>SLInit()
+		endif
+	endfor
+endfunction
 function! <SID>SLInit() abort " {{{1
 	let &statusline = ''
 	set statusline+=%#SL1#\ %-{SLMode()}\ %(%{SLPaste()}\ %)			" Mode & paste
@@ -202,20 +218,22 @@ function! <SID>SLInit() abort " {{{1
 	set statusline+=%#SL2#%(%{SLFiletype()}\ ⎟%)						" Filetype
 	set statusline+=\ %p%%\ %l:%c\ ⎟									" Percentage & line:column
 	set statusline+=%(\ %{SLFileencoding()}[%{SLFileformat()}]\ %)		" Encoding & format
-	set statusline+=%(\ %#ErrorMsg#\ %{SLSyntastic()}\ %)	" Syntastic
+	set statusline+=%(\ %#ErrorMsg#\ %{SLSyntastic()}\ %)				" Syntastic
 
 	set statusline+=%(%#SL4#%)
 
 	augroup SLColor
 		autocmd!
-		autocmd InsertEnter *  :call <SID>InsertReplaceModesColors(v:insertmode)
-		autocmd InsertLeave *  :call s:ResetColors()
-		autocmd CursorHold *   :call s:ResetColors()
+		autocmd InsertEnter * :call <SID>InsertReplaceModesColors(v:insertmode)
+		autocmd InsertLeave * :call s:ResetColors()
+		autocmd CursorHold  * :call s:ResetColors()
+		autocmd WinEnter    * :call <SID>RefreshStatusLine()
 	augroup END
 
 	nnoremap <silent> v :call <SID>VisualModesColors()<CR>v
 	nnoremap <silent> V :call <SID>VisualModesColors()<CR>V
 	nnoremap <silent> <C-v> :call <SID>VisualModesColors()<CR><C-v>
+
 endfunction
 " 1}}}
 
