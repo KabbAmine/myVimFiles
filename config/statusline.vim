@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-24
+" Last modification: 2016-03-26
 " ===============================================================
 
 " The used plugins are:
@@ -10,23 +10,21 @@
 " * Rvm
 " * Syntastic
 
-" TODO
-" * A better logic
-" * Helpers
-" * Refactoring
-
 set noshowmode
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
 	silent hi CursorLineNR
 redir END
-let s:defaultCursorLineNr = matchstr(s:defaultCursorLineNr, 'term.*')
+let s:defaultCursorLineNr = substitute(matchstr(s:defaultCursorLineNr, 'term.*'), "\n", '', 'g')
 " 1}}}
 
 " Configuration " {{{1
 let s:SL  = {
-			\ 'colorscheme': 'yowish',
+			\ 'apply': {
+				\ 'unite': 'unite#get_status_string()'
+			\ },
+			\ 'ignore': ['nerdree', 'undotree'],
 			\ 'colors': {
 				\ 'background'       : ['#222222','235'],
 				\ 'backgroundLight'  : ['#393939','236'],
@@ -55,9 +53,9 @@ let s:SL  = {
 " 1}}}
 
 function! s:Hi(group, bg, fg, opt) abort " {{{1
-	let l:bg = type(a:bg) ==# type('') ? ['NONE', 'NONE' ] : a:bg
-	let l:fg = type(a:fg) ==# type('') ? ['NONE', 'NONE'] : a:fg
-	let l:opt = empty(a:opt) ? ['NONE', 'NONE'] : [a:opt, a:opt]
+	let l:bg = type(a:bg) ==# type('') ? ['none', 'none' ] : a:bg
+	let l:fg = type(a:fg) ==# type('') ? ['none', 'none'] : a:fg
+	let l:opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
 	let l:mode = ['gui', 'cterm']
 	let l:cmd = 'hi ' . a:group
 	for l:i in (range(0, len(l:mode)-1))
@@ -70,17 +68,21 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 	execute l:cmd
 endfunction
 " Highlighting {{{1
-hi! link StatusLineNC Conceal
-call s:Hi('SL1'  , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1I' , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1R' , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SL1V' , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
-call s:Hi('SL2'  , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
-call s:Hi('SL3'  , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
-call s:Hi('SL4'  , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
+call s:Hi('SL1'      , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1I'     , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1R'     , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
+call s:Hi('SL1V'     , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
+call s:Hi('SL2'      , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
+call s:Hi('SL3'      , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
+call s:Hi('SL4'      , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
+call s:Hi('Modified' , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']     , 'bold')
+hi! link StatusLine SL1
 " 1}}}
 
 " General items
+function! SLModified() abort " {{{1
+	return (&modified ? '+' : '')
+endfunction
 function! SLFileformat() abort " {{{1
 	return winwidth(0) <# 55 ? '' :
 				\ (winwidth(0) ># 85 ? &fileformat : &fileformat[0])
@@ -103,9 +105,6 @@ function! SLHiGroup() abort " {{{1
 	return ' ➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
-	if &ft =~# '\v^(nerdtree|undotree)'
-		return toupper(&ft[0]) . &ft[1:]
-	endif
 	return '▸ ' . get(s:SL.modes, mode())
 endfunction
 function! SLPaste() abort " {{{1
@@ -116,7 +115,7 @@ function! SLPython() abort " {{{1
 				\ system('python --version')[7:-2] : ''
 	let l:p3 = executable('python3') ?
 				\ system('python3 --version')[7:-2] : ''
-	return printf(' [py %s  %s]', l:p, l:p3)
+	return printf(' [py %s - %s]', l:p, l:p3)
 endfunction
 " 1}}}
 
@@ -134,8 +133,7 @@ function! SLFilename() abort " {{{1
 	endif
 	return
 				\ l:fn .
-				\ (&readonly ? ' ' : '') .
-				\ (&modified ? ' +' : '')
+				\ (&readonly ? ' ' : '')
 endfunction
 function! SLGitGutter() abort " {{{1
 	if exists('g:gitgutter_enabled') && !empty(SLFugitive())
@@ -167,81 +165,86 @@ endfunction
 " 1}}}
 
 " Helpers
-function! s:ResetColors() abort " {{{1
+function! SetSL() abort " {{{1
+	let l:mode = ' %-{SLMode()} %(%{SLPaste()} %)'	" Mode & paste
+	let l:sl = ''
+	if has_key(s:SL.apply, &ft)
+		let l:sl .= l:mode
+		let l:sl .= ' %{' . get(s:SL.apply, &ft) . '}'
+	elseif &ft !~# join(s:SL.ignore, '|')
+		" LEFT SIDE
+		let l:sl .= l:mode
+		let l:sl .= '%#SL2#'
+		let l:sl .= '%( %{SLGitGutter()}'			" GitGutter
+		let l:sl .= ' %{SLFugitive()} %)'			" Git branch
+		let l:sl .= '%#SL3#'
+		let l:sl .= ' %{SLFilename()}'				" Filename
+		let l:sl .= '%#Modified#%( %{SLModified()}%)%#SL3#'		" Modified
+		let l:sl .= '%( ⎢%{SLBuffersNr()}⎟%)'		" Number of buffers
+		" RIGHT SIDE
+		let l:sl .= '%='
+		let l:sl .= '%#SL2#'
+		let l:sl .= '%(%{SLFiletype()} ⎟%)'			" Filetype
+		let l:sl .= ' %p%% %l:%c ⎟'					" Percentage & line:column
+		let l:sl .= '%( %{SLFileencoding()}'
+		let l:sl .= '[%{SLFileformat()}] %)'		" Encoding & format
+		let l:sl .= '%( %#ErrorMsg# %{SLSyntastic()} %)'	" Syntastic
+		" Toggling part
+		let l:sl .= '%(%#SL4#%)'
+	endif
+	return l:sl
+endfunction
+function! s:SetColorModeIR(mode) abort " {{{1
+	if a:mode ==# 'i'
+		hi! link StatusLine SL1I
+	elseif a:mode ==# 'r'
+		hi! link StatusLine SL1R
+	else
+		hi! link StatusLine SL1V
+	endif
+	hi! link CursorLineNR StatusLine
+endfunction
+function! s:SetColorModeV() abort " {{{1
+	setl updatetime=1
+	hi! link StatusLine SL1V
+	hi! link CursorLineNR StatusLine
+endfunction
+function! s:ResetColorMode() abort " {{{1
 	setl updatetime=4000
 	call s:Hi('SL1', s:SL.colors['yellow'], s:SL.colors['background'], 'bold')
 	execute 'hi CursorLineNR ' . s:defaultCursorLineNr
+	hi! link StatusLine SL1
 endfunction
-function! <SID>VisualModesColors() abort " {{{1
-	setl updatetime=1
-	hi! link SL1 SL1V
-	hi! link CursorLineNR SL1
-endfunction
-function! <SID>InsertReplaceModesColors(mode) abort " {{{1
-	if a:mode ==# 'i'
-		hi! link SL1 SL1I
-	elseif a:mode ==# 'r'
-		hi! link SL1 SL1R
-	else
-		hi! link SL1 SL1V
-	endif
-	hi! link CursorLineNR SL1
-endfunction
-function! <SID>SLToggleItem(func, var) abort " {{{1
-	let l:item = printf("%%(%%{%s}\\ ⎟%%)", a:func)
-	if exists('g:{a:var}')
-		execute 'unlet! g:{a:var}'
-		execute "set statusline-=" . l:item
-	else
-		execute 'let g:{a:var} = 1'
-		execute "set statusline+=" . l:item
-	endif
-endfunction
-function! <SID>RefreshStatusLine() abort " {{{1
-	let l:cw = winnr()
-	for l:w in range(1, winnr('$'))
-		if l:w !=# l:cw
-			call setwinvar(l:w, '&statusline', ' %F%=%{SLFiletype()} ')
-			hi! link StatusLineNC SL2
+function! <SID>ToggleSLItem(funcref, var) abort " {{{1
+	if exists('*' . a:funcref)
+		let l:item = '%(%{' . a:funcref . '} ⎟%)'
+		if exists('g:{a:var}')
+			unlet! g:{a:var}
+			execute "set statusline-=" . escape(l:item, ' ')
 		else
-			call <SID>SLInit()
+			let g:{a:var} = 1
+			execute "set statusline+=" . escape(l:item, ' ')
 		endif
-	endfor
+	endif
 endfunction
 function! <SID>SLInit() abort " {{{1
-	let &statusline = ''
-	set statusline+=%#SL1#\ %-{SLMode()}\ %(%{SLPaste()}\ %)			" Mode & paste
-	set statusline+=%#SL2#%(\ %{SLGitGutter()}\ %{SLFugitive()}\ %)		" GitGutter & git branch
-	set statusline+=%#SL3#\ %{SLFilename()}%(\ ⎢%{SLBuffersNr()}⎟%)		" Filename & number of buffers
-
-	let &statusline .= '%='
-	set statusline+=%#SL2#%(%{SLFiletype()}\ ⎟%)						" Filetype
-	set statusline+=\ %p%%\ %l:%c\ ⎟									" Percentage & line:column
-	set statusline+=%(\ %{SLFileencoding()}[%{SLFileformat()}]\ %)		" Encoding & format
-	set statusline+=%(\ %#ErrorMsg#\ %{SLSyntastic()}\ %)				" Syntastic
-
-	set statusline+=%(%#SL4#%)
-
+	let &statusline = SetSL()
 	augroup SLColor
 		autocmd!
-		autocmd InsertEnter * :call <SID>InsertReplaceModesColors(v:insertmode)
-		autocmd InsertLeave * :call s:ResetColors()
-		autocmd CursorHold  * :call s:ResetColors()
-		autocmd WinEnter    * :call <SID>RefreshStatusLine()
+		autocmd InsertEnter * :call s:SetColorModeIR(v:insertmode)
+		autocmd InsertLeave * :call s:ResetColorMode()
+		autocmd CursorHold  * :call s:ResetColorMode()
 	augroup END
-
-	nnoremap <silent> v :call <SID>VisualModesColors()<CR>v
-	nnoremap <silent> V :call <SID>VisualModesColors()<CR>V
-	nnoremap <silent> <C-v> :call <SID>VisualModesColors()<CR><C-v>
-
+	nnoremap <silent> v :call <SID>SetColorModeV()<CR>v
+	nnoremap <silent> V :call <SID>SetColorModeV()<CR>V
+	nnoremap <silent> <C-v> :call <SID>SetColorModeV()<CR><C-v>
 endfunction
 " 1}}}
 
 " Mappings {{{1
-nnoremap <silent> gsH  :call <SID>SLToggleItem("SLHiGroup()", "sl_hi")<CR>
-nnoremap <silent> gsR  :call <SID>SLToggleItem("SLRuby()", "sl_ruby")<CR>
-nnoremap <silent> gsP  :call <SID>SLToggleItem("SLPython()", "sl_python")<CR>
-
+nnoremap <silent> gsH  :call <SID>ToggleSLItem("SLHiGroup()", "sl_hi")<CR>
+nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
+nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
 " 1}}}
 
 call <SID>SLInit()
