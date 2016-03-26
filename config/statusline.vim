@@ -115,7 +115,11 @@ function! SLPython() abort " {{{1
 				\ system('python --version')[7:-2] : ''
 	let l:p3 = executable('python3') ?
 				\ system('python3 --version')[7:-2] : ''
-	return printf(' [py %s - %s]', l:p, l:p3)
+	return printf('[py %s - %s]', l:p, l:p3)
+endfunction
+function! SLSpell() abort " {{{1
+	return &spell ?
+				\ toupper(&spelllang[0]) . &spelllang[1:] : ''
 endfunction
 " 1}}}
 
@@ -156,7 +160,7 @@ function! SLRuby() abort " {{{1
 	else
 		let l:r = ''
 	endif
-	return printf(' [ruby %s]', l:r)
+	return printf('[ruby %s]', l:r)
 endfunction
 function! SLSyntastic() abort " {{{1
 	return exists('*SyntasticStatuslineFlag()') && !empty(SyntasticStatuslineFlag()) ?
@@ -185,6 +189,7 @@ function! SetSL() abort " {{{1
 		let l:sl .= '%='
 		let l:sl .= '%#SL2#'
 		let l:sl .= '%(%{SLFiletype()} ⎟%)'			" Filetype
+		let l:sl .= '%( %{SLSpell()} ⎟%)'			" Spell
 		let l:sl .= ' %p%% %l:%c ⎟'					" Percentage & line:column
 		let l:sl .= '%( %{SLFileencoding()}'
 		let l:sl .= '[%{SLFileformat()}] %)'		" Encoding & format
@@ -217,7 +222,7 @@ function! s:ResetColorMode() abort " {{{1
 endfunction
 function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 	if exists('*' . a:funcref)
-		let l:item = '%(%{' . a:funcref . '} ⎟%)'
+		let l:item = '%( %{' . a:funcref . '}⎟ %)'
 		if exists('g:{a:var}')
 			unlet! g:{a:var}
 			execute "set statusline-=" . escape(l:item, ' ')
@@ -245,6 +250,7 @@ endfunction
 nnoremap <silent> gsH  :call <SID>ToggleSLItem("SLHiGroup()", "sl_hi")<CR>
 nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
 nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
+nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
 " 1}}}
 
 call <SID>SLInit()
