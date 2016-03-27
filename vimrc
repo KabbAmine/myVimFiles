@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-26
+" Last modification: 2016-03-27
 " ================================================================
 
 
@@ -23,6 +23,7 @@ let g:vimDir = g:hasWin ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g') : 
 command! Ev :e! $MYVIMRC
 execute 'command! Evm :e! ' . g:vimDir . '/config/minimal.vim'
 execute 'command! Evp :e! ' . g:vimDir . '/config/plugins.vim'
+execute 'command! Evt :e! ' . g:vimDir . '/config/tabline.vim'
 execute 'command! Evs :e! ' . g:vimDir . '/config/statusline.vim'
 command! Eb :e! $HOME/.dotfiles/bash/bashrc
 command! Eba :e! $HOME/.dotfiles/bash/bash_aliases
@@ -34,12 +35,10 @@ augroup resource
 	autocmd bufwritepost $MYVIMRC source $MYVIMRC
 	execute 'autocmd bufwritepost ' . expand(g:vimDir) . '/config/* source $MYVIMRC'
 augroup END
-" Source external files {{{1
-" Minimal vimrc.
+" Source files {{{1
 execute 'source ' . g:vimDir . '/config/minimal.vim'
-" Plugins files.
+execute 'source ' . g:vimDir . '/config/tabline.vim'
 execute 'source ' . g:vimDir . '/config/plugins.vim'
-" Custom statusline (Need the plugins file above)
 execute 'source ' . g:vimDir . '/config/statusline.vim'
 " }}}
 
