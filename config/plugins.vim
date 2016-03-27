@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-24
+" Last modification: 2016-03-27
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -387,7 +387,7 @@ function! <SID>Unite(name, source, ...) abort
 				\ ' ' . a:source . (exists('a:1') ? a:1 : '') . l:args
 	execute ':Unite -buffer-name=' . a:name . l:source
 endfunction
-inoremap <silent> <A-p> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
+inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
