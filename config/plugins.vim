@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-27
+" Last modification: 2016-03-28
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -169,7 +169,7 @@ fun! <SID>CloseNERDTree() abort
 	if exists('b:NERDTree')
 		execute 'NERDTreeClose'
 	else
-		execute ':bd'
+		execute 'silent :bd'
 	endif
 endfun
 if g:hasWin
@@ -207,7 +207,8 @@ nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 " For status line
-let g:syntastic_stl_format = '%E{Err. %e}%B{, }%W{War. %w}'
+" let g:syntastic_stl_format = '%E{Err. %e}%B{, }%W{War. %w}'
+let g:syntastic_stl_format = '%E{❌ %e}%B{, }%W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
 			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
 			" \ "passive_filetypes": ["vim", "ruby"]

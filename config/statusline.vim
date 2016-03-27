@@ -1,14 +1,14 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-27
+" Last modification: 2016-03-28
 " ===============================================================
 
 " The used plugins are:
-" * Unite
-" * GitGutter
 " * Fugitive
+" * GitGutter
 " * Rvm
 " * Syntastic
+" * Unite
 
 set noshowmode
 
@@ -156,8 +156,12 @@ function! SLRuby() abort " {{{1
 	return printf('[ruby %s]', l:r)
 endfunction
 function! SLSyntastic() abort " {{{1
-	return exists('*SyntasticStatuslineFlag()') && !empty(SyntasticStatuslineFlag()) ?
-				\ SyntasticStatuslineFlag() : ''
+	if exists('g:syntastic_mode_map') && g:syntastic_mode_map.mode ==# 'active'
+			return !empty(SyntasticStatuslineFlag()) ?
+							\ SyntasticStatuslineFlag() : ' '
+	else
+		return ''
+	endif
 endfunction
 " 1}}}
 
