@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-26
+" Last modification: 2016-03-27
 " ===============================================================
 
 " The used plugins are:
@@ -21,10 +21,10 @@ let s:defaultCursorLineNr = substitute(matchstr(s:defaultCursorLineNr, 'term.*')
 
 " Configuration " {{{1
 let s:SL  = {
+			\ 'separator': '│',
 			\ 'apply': {
-				\ 'unite': 'unite#get_status_string()'
+				\ 'unite': 'unite#get_status_string()',
 			\ },
-			\ 'ignore': ['nerdree', 'undotree'],
 			\ 'colors': {
 				\ 'background'       : ['#222222','235'],
 				\ 'backgroundLight'  : ['#393939','236'],
@@ -80,6 +80,21 @@ hi! link StatusLine SL1
 " 1}}}
 
 " General items
+function! SLFilename() abort " {{{1
+	if has_key(s:SL.apply, &ft)
+		return call(get(s:SL.apply, &ft)[:-3], [])
+	endif
+	if !empty(expand('%:t'))
+		let l:fn = winwidth(0) <# 55 ?
+					\ expand('%:t') :
+					\ (winwidth(0) ># 85 ? expand('%:.') : pathshorten(expand('%:.')))
+	else
+		let l:fn = '[No Name]'
+	endif
+	return
+				\ l:fn .
+				\ (&readonly ? ' ' : '')
+endfunction
 function! SLModified() abort " {{{1
 	return (&modified ? '+' : '')
 endfunction
@@ -94,15 +109,8 @@ function! SLFileencoding() abort " {{{1
 	return winwidth(0) <# 55 ? '' :
 				\ (strlen(&fenc) ? &fenc : &enc)
 endfunction
-function! SLBuffersNr() abort " {{{1
-	redir => l:bs
-		silent ls
-	redir END
-	let l:bNr = len(split(l:bs, "\n"))
-	return l:bNr ># 1 ? l:bNr : ''
-endfunction
 function! SLHiGroup() abort " {{{1
-	return ' ➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
+	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
 	return '▸ ' . get(s:SL.modes, mode())
@@ -124,21 +132,6 @@ endfunction
 " 1}}}
 
 " From Plugins
-function! SLFilename() abort " {{{1
-	if &ft ==# 'unite'
-		return unite#get_status_string()
-	endif
-	if !empty(expand('%:t'))
-		let l:fn = winwidth(0) <# 55 ?
-					\ expand('%:t') :
-					\ (winwidth(0) ># 85 ? expand('%:.') : pathshorten(expand('%:.')))
-	else
-		let l:fn = '[No Name]'
-	endif
-	return
-				\ l:fn .
-				\ (&readonly ? ' ' : '')
-endfunction
 function! SLGitGutter() abort " {{{1
 	if exists('g:gitgutter_enabled') && !empty(SLFugitive())
 		let l:h = GitGutterGetHunkSummary()
@@ -170,33 +163,36 @@ endfunction
 
 " Helpers
 function! SetSL() abort " {{{1
-	let l:mode = ' %-{SLMode()} %(%{SLPaste()} %)'	" Mode & paste
 	let l:sl = ''
-	if has_key(s:SL.apply, &ft)
-		let l:sl .= l:mode
-		let l:sl .= ' %{' . get(s:SL.apply, &ft) . '}'
-	elseif &ft !~# join(s:SL.ignore, '|')
-		" LEFT SIDE
-		let l:sl .= l:mode
-		let l:sl .= '%#SL2#'
-		let l:sl .= '%( %{SLGitGutter()}'			" GitGutter
-		let l:sl .= ' %{SLFugitive()} %)'			" Git branch
-		let l:sl .= '%#SL3#'
-		let l:sl .= ' %{SLFilename()}'				" Filename
-		let l:sl .= '%#Modified#%( %{SLModified()}%)%#SL3#'		" Modified
-		let l:sl .= '%( ⎢%{SLBuffersNr()}⎟%)'		" Number of buffers
-		" RIGHT SIDE
-		let l:sl .= '%='
-		let l:sl .= '%#SL2#'
-		let l:sl .= '%(%{SLFiletype()} ⎟%)'			" Filetype
-		let l:sl .= '%( %{SLSpell()} ⎟%)'			" Spell
-		let l:sl .= ' %p%% %l:%c ⎟'					" Percentage & line:column
-		let l:sl .= '%( %{SLFileencoding()}'
-		let l:sl .= '[%{SLFileformat()}] %)'		" Encoding & format
-		let l:sl .= '%( %#ErrorMsg# %{SLSyntastic()} %)'	" Syntastic
-		" Toggling part
-		let l:sl .= '%(%#SL4#%)'
-	endif
+
+	" LEFT SIDE
+	let l:sl .= ' %-{SLMode()} %(%{SLPaste()}%)'
+
+	let l:sl .= '%(%#SL2#'
+	let l:sl .= ' %{SLGitGutter()}'
+	let l:sl .= ' %{SLFugitive()}'
+	let l:sl .= '%)'
+
+	let l:sl .= ' %#SL3#%{SLFilename()}'
+	let l:sl .= '%(%#Modified# %{SLModified()}%)'
+
+	" RIGHT SIDE
+	let l:sl .= '%='
+
+	let l:sl .= '%#SL2#'
+	let l:sl .= '%(%{SLFiletype()} ' . s:SL.separator . '%)'
+	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
+	" Percentage & line:column
+	let l:sl .= ' %p%% %l:%c ' . s:SL.separator
+	let l:sl .= '%('
+	let l:sl .= ' %{SLFileencoding()}'
+	let l:sl .= ' [%{SLFileformat()}] '
+	let l:sl .= '%)'
+
+	let l:sl .= '%(%#ErrorMsg# %{SLSyntastic()} %)'
+
+	" Toggling part
+	let l:sl .= '%#SL4#'
 	return l:sl
 endfunction
 function! s:SetColorModeIR(mode) abort " {{{1
@@ -222,7 +218,7 @@ function! s:ResetColorMode() abort " {{{1
 endfunction
 function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 	if exists('*' . a:funcref)
-		let l:item = '%( %{' . a:funcref . '}⎟ %)'
+		let l:item = '%( %{' . a:funcref . '} ' . s:SL.separator . '%)'
 		if exists('g:{a:var}')
 			unlet! g:{a:var}
 			execute "set statusline-=" . escape(l:item, ' ')
@@ -251,6 +247,7 @@ nnoremap <silent> gsH  :call <SID>ToggleSLItem("SLHiGroup()", "sl_hi")<CR>
 nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
 nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
 nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
+nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
 " 1}}}
 
 call <SID>SLInit()
