@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-25
+" Last modification: 2016-03-27
 " ================================================================
 
 
@@ -199,10 +199,10 @@ map <silent> <C-t> :tabedit<CR>
 " *** <S-h>		=> Previous.
 " *** <S-l>		=> Next.
 " *** <S-q>		=> Delete buffer.
-nnoremap <silent> <S-h> :bp!<CR>
-nnoremap <silent> <S-l> :bn!<CR>
+nnoremap <silent> <S-h> :silent bp!<CR>
+nnoremap <silent> <S-l> :silent bn!<CR>
 " For this mapping, check NERDTree settings in config/plugins.vim
-nnoremap <silent> <S-q> :bd<CR>
+nnoremap <silent> <S-q> :silent bd<CR>
 " Repeat the last command {{{1
 nnoremap !z @:
 " JK for escape {{{1
