@@ -1,12 +1,6 @@
 " For PHP files.
-" Last modification: 2016-01-18
+" Last modification: 2016-03-28
 
-" =========== VARIOUS =======================
-" Set indentation to 4 {{{1
-	setlocal ts=4
-	setlocal sts=4
-	setlocal sw=4
-	set noexpandtab
-" }}}
-
-" vim:ft=vim:fdm=marker:fmr={{{,}}}:
+" =========== MAPPINGS =======================
+" ; add ; to the end of the line
+inoremap <buffer> ; <C-o>A;
