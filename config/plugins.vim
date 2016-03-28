@@ -169,7 +169,7 @@ fun! <SID>CloseNERDTree() abort
 	if exists('b:NERDTree')
 		execute 'NERDTreeClose'
 	else
-		execute 'silent :bd'
+		execute ':bd'
 	endif
 endfun
 if g:hasWin
@@ -204,6 +204,7 @@ function! <SID>SyntasticToggle() abort
 	endif
 endfunction
 nnoremap <silent> ,E :Errors<CR>
+let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 " For status line
@@ -366,7 +367,7 @@ call unite#custom#source('buffer', 'converters', 'buffer_simple_format')
 let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
 let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
 let g:neoyank#file = g:unite_data_directory . '/neoyank/file'
-let g:unite_source_outline_ctags_program = has('unix') ?
+let g:unite_source_outline_ctags_program = g:hasUnix ?
 			\ '/usr/bin/ctags' : 'C:\Program Files\ctags58\ctags.exe'
 let g:unite_source_outline_filetype_options = {
 			\ '*': {
