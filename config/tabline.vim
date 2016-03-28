@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-27
+" Last modification: 2016-03-28
 " =================================================
 
 " Lines
@@ -73,5 +73,7 @@ augroup END
 " 1}}}
 
 call TLInit()
+" Replace the default <F5> mapping
+nnoremap <F5> :tabonly\|call TLInit()<CR>
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:

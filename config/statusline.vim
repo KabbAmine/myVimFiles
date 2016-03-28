@@ -129,9 +129,9 @@ function! SLSpell() abort " {{{1
 endfunction
 function! SLIndentation() abort " {{{1
 	if &expandtab
-		return 'sp.' . &shiftwidth
+		return 's' . &shiftwidth
 	else
-		return 'tb.' . &shiftwidth
+		return 't' . &shiftwidth
 	endif
 endfunction
 " 1}}}
