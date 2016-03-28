@@ -3,14 +3,12 @@
 " Last modification: 2016-03-28
 " ===============================================================
 
-" The used plugins are:
+" The used plugins are (They are not mandatory):
 " * Fugitive
 " * GitGutter
 " * Rvm
 " * Syntastic
 " * Unite
-
-set noshowmode
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
@@ -129,6 +127,13 @@ function! SLSpell() abort " {{{1
 	return &spell ?
 				\ toupper(&spelllang[0]) . &spelllang[1:] : ''
 endfunction
+function! SLIndentation() abort " {{{1
+	if &expandtab
+		return 'sp.' . &shiftwidth
+	else
+		return 'tb.' . &shiftwidth
+	endif
+endfunction
 " 1}}}
 
 " From Plugins
@@ -145,9 +150,8 @@ function! SLFugitive() abort " {{{1
 				\ '  ' . fugitive#head() : ''
 endfunction
 function! SLRuby() abort " {{{1
-	if has('gui_running')
-		let l:r = exists('*rvm#statusline()') && !empty(rvm#statusline()) ?
-					\ matchstr(rvm#statusline(), '\d.*[^\]]') : ''
+	if g:hasGui && exists('*rvm#statusline()') && !empty(rvm#statusline())
+		let l:r = matchstr(rvm#statusline(), '\d.*[^\]]')
 	elseif executable('ruby')
 		let l:r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
 	else
@@ -185,6 +189,7 @@ function! SetSL() abort " {{{1
 
 	let l:sl .= '%#SL2#'
 	let l:sl .= '%(%{SLFiletype()} ' . s:SL.separator . '%)'
+	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
 	" Percentage & line:column
 	let l:sl .= ' %p%% %l:%c ' . s:SL.separator
@@ -233,6 +238,8 @@ function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 	endif
 endfunction
 function! <SID>SLInit() abort " {{{1
+	set noshowmode
+	set laststatus=2
 	let &statusline = SetSL()
 	augroup SLColor
 		autocmd!
