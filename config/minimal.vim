@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-27
+" Last modification: 2016-03-28
 " ================================================================
 
 
@@ -55,7 +55,7 @@ endif
 
 " ========== OPTIONS  ===========================================
 " ********* GUI {{{1
-if has('gui_running')
+if g:hasGui
 	set guioptions-=T		" No toolbar in GVim.
 	set guioptions-=m		" No menu in GVim.
 	set guioptions-=e		" Apply normal tabline in Gvim.
@@ -67,13 +67,13 @@ if has('gui_running')
 	if g:hasWin
 		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
 	else
-		" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 12
 		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
 	endif
 endif
 " ********* Messages & info{{{1
 set showcmd			" Show (partial) command in status line.
 set ruler			" Show cursor position below each window.
+set confirm			" Start a dialog when a command fails
 " ********* Select text {{{1
 " set clipboard=unnamedplus
 " ********* Edit text {{{1
@@ -92,8 +92,8 @@ set scrolloff=3						" Number of screen lines to show around the cursor.
 set display=lastline				" Show the last line even if it doesn't fit.
 set lazyredraw						" Don't redraw while executing macros
 " Make stars and bars visible
-hi link HelpBar Normal
-hi link HelpStar Normal
+hi! link HelpBar Normal
+hi! link HelpStar Normal
 " Format of highlighting for tabs, whitespace... using 'list'.
 if g:hasWin
 	set listchars=tab:\|\ ,trail:~,extends:>,precedes:<
@@ -119,6 +119,12 @@ set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
 set copyindent			" Copy whitespace for indenting from previous line.
+" For filetypes
+augroup Indentation
+	autocmd!
+	autocmd FileType html,css,scss,pug,vader,python,ruby
+				\ setl ts=2 sts=2 sw=2 expandtab
+augroup END
 " ********* Folding {{{1
 set foldcolumn=1			" Width of the column used to indicate fold.
 " ********* Command line editing {{{1
@@ -135,8 +141,6 @@ if !g:isNvim
 endif
 " ********* Multiple windows {{{1
 set splitright						" A new window is put right of the current one.
-set laststatus=2					" 0, 1 or 2; when to use a status line for the last window.
-set statusline=%<%f\ %y\ %h%m%r%a%=%-14.(%l,%c%V%)\ %P	" Alternate format to be used for a status line.
 set hidden
 " ********* Swap file {{{1
 " Set the swap file directories.
@@ -147,11 +151,9 @@ else
 endif
 " ********* Mapping {{{1
 " Remove the delay when escaping from insert-mode in terminal
-if !has('gui_running')
+if !g:hasGui
 	set timeoutlen=1000 ttimeoutlen=0
 endif
-" ********* Multiple tab pages {{{1
-set showtabline=1	" Only if there are at least 2 tabs
 " }}}
 
 " =========== DEFAULT PLUGINS ===================================
@@ -196,9 +198,6 @@ nnoremap !/ /\<\><left><left>
 " Operations on tabs {{{1
 map <silent> <C-t> :tabedit<CR>
 " Operations on buffers {{{1
-" *** <S-h>		=> Previous.
-" *** <S-l>		=> Next.
-" *** <S-q>		=> Delete buffer.
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
 " For this mapping, check NERDTree settings in config/plugins.vim
@@ -229,9 +228,8 @@ nnoremap <silent> <Left> <C-w>H
 cnoremap jk <C-c>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-cnoremap <C-j> <C-Left>
-cnoremap <C-k> <C-Right>
-cnoremap <C-l> <Del>
+cnoremap <C-h> <C-Left>
+cnoremap <C-l> <C-Right>
 " Sort in VISUAL mode {{{1
 vnoremap <leader>s :!sort<CR>
 nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
@@ -239,23 +237,16 @@ function! <SID>Sort(...) abort
 	let l:cmd = printf('%d,%d:!sort', line("'["), line("']"))
 	execute l:cmd
 endfunction
-" Show syntax highlighting group for word under cursor {{{1
-nnoremap gsy :echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
-" Move by paragraph ({ & } are quite difficult to reach azerty) {{{1
+" Move by paragraph ({ & } are quite difficult to reach in azerty layout) {{{1
 nnoremap J }
 nnoremap K {
 " Make j and k move to the next row, not file line {{{1
 nnoremap j gj
 nnoremap k gk
-" Mappings for location/quickfix list window {{{1
+" Mappings for location list window {{{1
 nnoremap <C-F3> :lprevious<CR>
 nnoremap <C-F4> :lnext<CR>
-nnoremap <S-F3> :cprevious<CR>
-nnoremap <S-F4> :cnext<CR>
 " TIPS from https://github.com/mhinz/vim-galore {{{1
-" n/N always search forward/backward {{{2
-" nnoremap <expr> n  'Nn'[v:searchforward]
-" nnoremap <expr> N  'nN'[v:searchforward]
 " Quickly edit macro or register content in scmdline-window {{{2
 " "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
@@ -280,7 +271,7 @@ function! <SID>OpenURL() abort " {{{2
 						\ 'start cmd /c ' . l:url)
 					\ . l:wmctrl
 					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
-		if !has('gui_running') | redraw! | endif
+		if !g:hasGui | redraw! | endif
 	endif
 endfunction
 " 2}}}
@@ -303,7 +294,7 @@ function! <SID>OpenHere(type, ...) abort " {{{2
 					\ 'start explorer %s')
 				\ }
 	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
-	if !has('gui_running') | redraw! | endif
+	if !g:hasGui | redraw! | endif
 endfunction " 2}}}
 " Move current line or visual selection {{{1
 nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>

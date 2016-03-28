@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-27
+" Last modification: 2016-03-28
 " ================================================================
 
 
@@ -8,6 +8,7 @@
 let g:hasUnix = has('unix')
 let g:hasWin = has('win32')
 let g:isNvim = has('nvim')
+let g:hasGui = has('gui_running')
 " Stock the Location of vim's folder in a global variable.
 let g:vimDir = g:hasWin ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g') : expand('$HOME/.vim')
 " }}}
