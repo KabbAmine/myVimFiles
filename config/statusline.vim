@@ -24,15 +24,15 @@ let s:SL  = {
 				\ 'unite': 'unite#get_status_string()',
 			\ },
 			\ 'colors': {
-				\ 'background'       : ['#222222','235'],
-				\ 'backgroundLight'  : ['#393939','236'],
-				\ 'blue'             : ['#6699cc','67'],
-				\ 'green'            : ['#2acf2a','40'],
-				\ 'red'              : ['#f01d22','160'],
-				\ 'text'             : ['#cbcbcb','251'],
-				\ 'textDark'         : ['#8c8c8c','244'],
-				\ 'violet'           : ['#d09cea','171'],
-				\ 'yellow'           : ['#ffbe3c','215'],
+				\ 'background'      : ['#222222','235'],
+				\ 'backgroundLight' : ['#393939','236'],
+				\ 'blue'            : ['#6699cc','67'],
+				\ 'green'           : ['#2acf2a','40'],
+				\ 'red'             : ['#f01d22','160'],
+				\ 'text'            : ['#cbcbcb','251'],
+				\ 'textDark'        : ['#8c8c8c','244'],
+				\ 'violet'          : ['#d09cea','171'],
+				\ 'yellow'          : ['#ffbe3c','215'],
 			\ },
 			\ 'modes': {
 				\ 'n': 'N',
@@ -48,35 +48,6 @@ let s:SL  = {
 				\ '?': '',
 			\ }
 		\ }
-" 1}}}
-
-function! s:Hi(group, bg, fg, opt) abort " {{{1
-	let l:bg = type(a:bg) ==# type('') ? ['none', 'none' ] : a:bg
-	let l:fg = type(a:fg) ==# type('') ? ['none', 'none'] : a:fg
-	let l:opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
-	let l:mode = ['gui', 'cterm']
-	let l:cmd = 'hi ' . a:group
-	for l:i in (range(0, len(l:mode)-1))
-		let l:cmd .= printf(' %sbg=%s %sfg=%s %s=%s',
-					\ l:mode[l:i], l:bg[l:i],
-					\ l:mode[l:i], l:fg[l:i],
-					\ l:mode[l:i], l:opt[l:i]
-					\ )
-	endfor
-	execute l:cmd
-endfunction
-" Highlighting {{{1
-call s:Hi('SL1'          , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1I'         , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1R'         , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SL1V'         , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
-call s:Hi('SL2'          , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
-call s:Hi('SL3'          , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
-call s:Hi('SL4'          , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
-call s:Hi('Modified'     , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']     , 'bold')
-call s:Hi('ErrorState'   , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SuccessState' , s:SL.colors['green']            , s:SL.colors['background']     , 'bold')
-hi! link StatusLine SL1
 " 1}}}
 
 " General items
@@ -175,6 +146,21 @@ endfunction
 " 1}}}
 
 " Helpers
+function! s:Hi(group, bg, fg, opt) abort " {{{1
+	let l:bg = type(a:bg) ==# type('') ? ['none', 'none' ] : a:bg
+	let l:fg = type(a:fg) ==# type('') ? ['none', 'none'] : a:fg
+	let l:opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
+	let l:mode = ['gui', 'cterm']
+	let l:cmd = 'hi ' . a:group
+	for l:i in (range(0, len(l:mode)-1))
+		let l:cmd .= printf(' %sbg=%s %sfg=%s %s=%s',
+					\ l:mode[l:i], l:bg[l:i],
+					\ l:mode[l:i], l:fg[l:i],
+					\ l:mode[l:i], l:opt[l:i]
+					\ )
+	endfor
+	execute l:cmd
+endfunction
 function! SetSL() abort " {{{1
 	let l:sl = ''
 
@@ -268,6 +254,21 @@ nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
 nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
 " 1}}}
 
+" Initialization {{{1
+" Highlighting {{{2
+call s:Hi('SL1'          , s:SL.colors['yellow']          , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1I'         , s:SL.colors['green']           , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1R'         , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
+call s:Hi('SL1V'         , s:SL.colors['blue']            , s:SL.colors['background']      , 'bold')
+call s:Hi('SL2'          , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']        , 'none')
+call s:Hi('SL3'          , s:SL.colors['backgroundLight'] , s:SL.colors['text']            , 'none')
+call s:Hi('SL4'          , s:SL.colors['yellow']          , s:SL.colors['background']      , 'none')
+call s:Hi('Modified'     , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']          , 'bold')
+call s:Hi('ErrorState'   , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
+call s:Hi('SuccessState' , s:SL.colors['blue']            , s:SL.colors['backgroundLight'] , 'bold')
+hi! link StatusLine SL1
+" 2}}}
 call <SID>SLInit()
+" 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:

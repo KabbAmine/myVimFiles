@@ -120,12 +120,6 @@ set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
 set copyindent			" Copy whitespace for indenting from previous line.
-" For filetypes
-augroup Indentation
-	autocmd!
-	autocmd FileType html,css,scss,pug,vader,python,ruby,markdown
-				\ setl ts=2 sts=2 sw=2 expandtab
-augroup END
 " ********* Folding {{{1
 set foldcolumn=1			" Width of the column used to indicate fold.
 " ********* Command line editing {{{1
@@ -474,6 +468,12 @@ endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
+" Indentation for specific filetypes {{{1
+augroup Indentation
+	autocmd!
+	autocmd FileType html,css,scss,pug,vader,python,ruby,markdown
+				\ setl ts=2 sts=2 sw=2 expandtab
+augroup END
 " Make cursor line appear only in active window {{{1
 	augroup CursorLine
 		autocmd!
@@ -545,13 +545,6 @@ command! TabToSpace :setlocal expandtab | %retab!
 command! SpaceToTab :setlocal noexpandtab | %retab!
 " Make the current file directory as the vim current directory {{{1
 command! Dir :cd %:p:h
-" Set line highlighting only in current buffer/split {{{1
-" http://superuser.com/a/393948
-augroup BgHighlight
-    autocmd!
-    autocmd WinEnter * set cul
-    autocmd WinLeave * set nocul
-augroup END
 " Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
 if g:hasUnix
