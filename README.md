@@ -14,12 +14,13 @@ I'm not a vim master, but my configuration works great for me so feel free to us
 		- For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>
 		- `scss` uses `sass-convert` which is shipped with `sass`<sup>R</sup>
 	- *Unite*: `Ag`<sup>B</sup>
-	- *Syntastic*:
+	- Checkers/Linters for *Syntastic*:
 		- `csslint`<sup>N</sup>
 		- `gcc`<sup>B</sup>
 		- `javac`<sup>B</sup>
 		- `jslint`<sup>N</sup>
 		- `jsonlint`<sup>N</sup>
+		- `mdl`<sup>R</sup>
 		- `pep8`<sup>P</sup>
 		- `php`<sup>B</sup>
 		- `python`<sup>B</sup>
