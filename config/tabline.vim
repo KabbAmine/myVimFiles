@@ -1,7 +1,10 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-28
+" Last modification: 2016-03-29
 " =================================================
+
+" Not mandatory, but the bufline uses the following plugins:
+" * Devicons
 
 " Lines
 function! MyBufLine() abort " {{{1
@@ -10,11 +13,13 @@ function! MyBufLine() abort " {{{1
 	let l:bufsL = []
 	for l:b in l:bufs
 		let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
+		let l:devicon = exists('*WebDevIconsGetFileTypeSymbol()') ?
+					\ WebDevIconsGetFileTypeSymbol(bufname(l:b)) . ' ' : ''
 		let l:name = empty(bufname(l:b)) ?
-					\ '[No Name]' :
+					\ '[No Name]' . l:devicon :
 					\ (winwidth(0) <=# 85 ?
-						\ fnamemodify(bufname(l:b), ':t') . l:mod :
-						\ pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
+						\ l:devicon . fnamemodify(bufname(l:b), ':t') . l:mod :
+						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
 					\ )
 		if l:b ==# bufnr('%')
 			let l:bl .= '%#TabLineSel# ' . l:name . ' %#TabLineFill# '
@@ -65,14 +70,15 @@ endfunction
 " 1}}}
 
 " Initialization {{{1
+hi TabLineSel gui=none guifg=#222222 guibg=#ffbe3c term=none cterm=none ctermfg=235 ctermbg=215
 augroup TabBufLine
 	autocmd!
 	autocmd BufAdd,BufDelete,TabEnter,TabLeave,VimEnter *
 				\ call TLInit()
 augroup END
+call TLInit()
 " 1}}}
 
-call TLInit()
 " Replace the default <F5> mapping
 nnoremap <F5> :tabonly\|call TLInit()<CR>
 

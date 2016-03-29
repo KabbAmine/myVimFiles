@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-28
+" Last modification: 2016-03-29
 " ================================================================
 
 
@@ -38,8 +38,8 @@ augroup resource
 augroup END
 " Source files {{{1
 execute 'source ' . g:vimDir . '/config/minimal.vim'
-execute 'source ' . g:vimDir . '/config/tabline.vim'
 execute 'source ' . g:vimDir . '/config/plugins.vim'
+execute 'source ' . g:vimDir . '/config/tabline.vim'
 execute 'source ' . g:vimDir . '/config/statusline.vim'
 " }}}
 
