@@ -123,7 +123,7 @@ set copyindent			" Copy whitespace for indenting from previous line.
 " For filetypes
 augroup Indentation
 	autocmd!
-	autocmd FileType html,css,scss,pug,vader,python,ruby
+	autocmd FileType html,css,scss,pug,vader,python,ruby,markdown
 				\ setl ts=2 sts=2 sw=2 expandtab
 augroup END
 " ********* Folding {{{1
