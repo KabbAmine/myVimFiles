@@ -139,7 +139,6 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
-Plug 'itchyny/vim-parenmatch'
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
