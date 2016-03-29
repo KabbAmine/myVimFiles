@@ -209,15 +209,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 " For status line
-" let g:syntastic_stl_format = '%E{Err. %e}%B{, }%W{War. %w}'
 let g:syntastic_stl_format = '%E{❌ %e}%B{, }%W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
-			" \ "active_filetypes": ["php", "sass", "scss", "html", "jade", "c", "java", "python", "html", "javascript", "css", "sh", "json"],
-			" \ "passive_filetypes": ["vim", "ruby"]
 let g:syntastic_error_symbol = "❌"
 let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_style_error_symbol = "♇"
-let g:syntastic_style_warning_symbol = "♇"
+let g:syntastic_style_error_symbol = ""
+let g:syntastic_style_warning_symbol = ""
 " The cursor will jump to the first error detected (1|2|3)
 let g:syntastic_auto_jump = 2
 " Checkers
@@ -226,6 +223,7 @@ let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_python_checkers = ['pep8', 'python']
+let g:syntastic_markdown_checkers = ['mdl']
 let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
 let g:syntastic_json_checkers = ['jsonlint']
