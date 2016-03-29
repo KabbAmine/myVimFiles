@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-28
+" Last modification: 2016-03-29
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -139,6 +139,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
+Plug 'itchyny/vim-parenmatch'
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2

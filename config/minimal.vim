@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-28
+" Last modification: 2016-03-29
 " ================================================================
 
 
@@ -84,6 +84,7 @@ set textwidth=0						" Don't insert automatically newlines
 if g:hasWin
 	set backspace=2					" Make backspace works normally in Win
 endif
+set matchpairs+=<:>
 " ********* Display text {{{1
 set number							" Show the line number for each line.
 set linebreak						" Wrap long lines at a character in 'breakat'.
@@ -165,6 +166,7 @@ let g:loaded_netrwPlugin = 1
 let g:loaded_tarPlugin= 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
+let g:loaded_matchit = 1
 " }}}
 
 " =========== MAPPINGS ==========================================
