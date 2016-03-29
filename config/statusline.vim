@@ -66,14 +66,16 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 	execute l:cmd
 endfunction
 " Highlighting {{{1
-call s:Hi('SL1'      , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1I'     , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
-call s:Hi('SL1R'     , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
-call s:Hi('SL1V'     , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
-call s:Hi('SL2'      , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
-call s:Hi('SL3'      , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
-call s:Hi('SL4'      , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
-call s:Hi('Modified' , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']     , 'bold')
+call s:Hi('SL1'          , s:SL.colors['yellow']          , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1I'         , s:SL.colors['green']           , s:SL.colors['background'] , 'bold')
+call s:Hi('SL1R'         , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
+call s:Hi('SL1V'         , s:SL.colors['blue']            , s:SL.colors['background'] , 'bold')
+call s:Hi('SL2'          , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']   , 'none')
+call s:Hi('SL3'          , s:SL.colors['backgroundLight'] , s:SL.colors['text']       , 'none')
+call s:Hi('SL4'          , s:SL.colors['yellow']          , s:SL.colors['background'] , 'none')
+call s:Hi('Modified'     , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']     , 'bold')
+call s:Hi('ErrorState'   , s:SL.colors['red']             , s:SL.colors['text']       , 'bold')
+call s:Hi('SuccessState' , s:SL.colors['green']            , s:SL.colors['background']     , 'bold')
 hi! link StatusLine SL1
 " 1}}}
 
@@ -140,7 +142,7 @@ endfunction
 function! SLGitGutter() abort " {{{1
 	if exists('g:gitgutter_enabled') && !empty(SLFugitive())
 		let l:h = GitGutterGetHunkSummary()
-		return printf("+%d ~%d -%d", l:h[0], l:h[1], l:h[2])
+		return printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2])
 	else
 		return ''
 	endif
@@ -159,10 +161,13 @@ function! SLRuby() abort " {{{1
 	endif
 	return printf('[ruby %s]', l:r)
 endfunction
-function! SLSyntastic() abort " {{{1
+function! SLSyntastic(mode) abort " {{{1
+	" a:mode : 0/1 : ok/errors
 	if exists('g:syntastic_mode_map') && g:syntastic_mode_map.mode ==# 'active'
-			return !empty(SyntasticStatuslineFlag()) ?
-							\ SyntasticStatuslineFlag() : ' '
+		let l:s = SyntasticStatuslineFlag()
+		return a:mode ?
+					\ (!empty(l:s) ? l:s : '') :
+					\ (!empty(l:s) ? '' : ' ')
 	else
 		return ''
 	endif
@@ -198,7 +203,9 @@ function! SetSL() abort " {{{1
 	let l:sl .= ' [%{SLFileformat()}] '
 	let l:sl .= '%)'
 
-	let l:sl .= '%(%#ErrorMsg# %{SLSyntastic()} %)'
+	" Syntastic (1st group for no errors)
+	let l:sl .= '%(%#SuccessState# %{SLSyntastic(0)} %)'
+	let l:sl .= '%(%#ErrorState# %{SLSyntastic(1)} %)'
 
 	" Toggling part
 	let l:sl .= '%#SL4#'
@@ -230,10 +237,10 @@ function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 		let l:item = '%( %{' . a:funcref . '} ' . s:SL.separator . '%)'
 		if exists('g:{a:var}')
 			unlet! g:{a:var}
-			execute "set statusline-=" . escape(l:item, ' ')
+			execute 'set statusline-=' . escape(l:item, ' ')
 		else
 			let g:{a:var} = 1
-			execute "set statusline+=" . escape(l:item, ' ')
+			execute 'set statusline+=' . escape(l:item, ' ')
 		endif
 	endif
 endfunction
