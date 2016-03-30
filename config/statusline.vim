@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-28
+" Last modification: 2016-03-30
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -265,7 +265,7 @@ call s:Hi('SL3'          , s:SL.colors['backgroundLight'] , s:SL.colors['text'] 
 call s:Hi('SL4'          , s:SL.colors['yellow']          , s:SL.colors['background']      , 'none')
 call s:Hi('Modified'     , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']          , 'bold')
 call s:Hi('ErrorState'   , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
-call s:Hi('SuccessState' , s:SL.colors['blue']            , s:SL.colors['backgroundLight'] , 'bold')
+call s:Hi('SuccessState' , s:SL.colors['green']            , s:SL.colors['backgroundLight'] , 'bold')
 hi! link StatusLine SL1
 " 2}}}
 call <SID>SLInit()
