@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-30
+" Last modification: 2016-04-01
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -14,7 +14,7 @@
 redir => s:defaultCursorLineNr
 	silent hi CursorLineNR
 redir END
-let s:defaultCursorLineNr = substitute(matchstr(s:defaultCursorLineNr, 'term.*'), "\n", '', 'g')
+let s:defaultCursorLineNr = substitute(split(s:defaultCursorLineNr, "\n")[-1], '.* xxx \(.*\)', '\1', '')
 " 1}}}
 
 " Configuration " {{{1
@@ -151,7 +151,7 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 	let l:fg = type(a:fg) ==# type('') ? ['none', 'none'] : a:fg
 	let l:opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
 	let l:mode = ['gui', 'cterm']
-	let l:cmd = 'hi ' . a:group
+	let l:cmd = 'hi ' . a:group . ' term=' . l:opt[1]
 	for l:i in (range(0, len(l:mode)-1))
 		let l:cmd .= printf(' %sbg=%s %sfg=%s %s=%s',
 					\ l:mode[l:i], l:bg[l:i],
