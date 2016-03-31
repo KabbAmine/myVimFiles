@@ -27,7 +27,10 @@ function! MyBufLine() abort " {{{1
 			let l:bl .= '%#TabLine# ' . l:name . ' %#TabLineFill# '
 		endif
 	endfor
-	let l:cwd = winwidth(0) <=# 85 ? 'B' : fnamemodify(getcwd(), ':~')
+	let l:ww = winwidth(0)
+	let l:getCwd = fnamemodify(getcwd(), ':~')
+	let l:cwd = l:ww <=# 85 ? 'B' :
+				\ len(l:getCwd) >=# 15 ? pathshorten(l:getCwd) : l:getCwd
 	let l:bl .= '%=%#IncSearch# ' . l:cwd . ' '
 
 	return l:bl
