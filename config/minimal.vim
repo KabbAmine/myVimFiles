@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-29
+" Last modification: 2016-03-30
 " ================================================================
 
 
@@ -344,8 +344,6 @@ vnoremap Cy "+y
 "	 - if/af  : Inside/around a selector block
 " Sh ***
 "	 - if/af  : Inside/around a function
-" Vim ***
-"	 - iz/az    : Inside/around Fold
 let s:to = {
 			\ '_' : [
 				\ ['ie', 'ggVG'],
@@ -375,10 +373,6 @@ let s:to = {
 			\ 'sh' : [
 				\ ['if', 'vi{V'],
 				\ ['af', 'va{V'],
-			\ ],
-			\ 'vim' : [
-				\ ['iz', '[zjV]zk'],
-				\ ['az', '[zV]z'],
 			\ ]
 		\ }
 function! <SID>GetBlock(pattern) abort " {{{2

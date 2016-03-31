@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-29
+" Last modification: 2016-03-30
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -30,16 +30,16 @@ fun! <SID>CmdForDispatcher(cmd) abort " {{{2
 endfun
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'    : '',
-			\'imgPrev'    : "{'on': ['<Plug>(imgprev-preview)', 'ImgPrev']}",
-			\'lazyList'    : '',
-			\'vBox'        : '',
-			\'vcml'        : '',
-			\'vCoolor'     : '',
-			\'vullScreen'  : '',
-			\'vZoom'       : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
-			\'yowish'      : '',
-			\'zeavim'      : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
+			\'gulp-vim'      : '',
+			\'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
+			\'lazyList'      : '',
+			\'vBox'          : '',
+			\'vcml'          : '',
+			\'vCoolor'       : '',
+			\'vullScreen'    : '',
+			\'vZoom'         : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
+			\'yowish'        : '',
+			\'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
 		\ }
 fun! s:MyPlugs() abort
 	let l:pn = keys(s:myPlugs)
@@ -105,6 +105,7 @@ Plug 'scrooloose/syntastic',
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
+			\| Plug 'kana/vim-textobj-fold'
 			\| Plug 'kana/vim-textobj-function'
 			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
@@ -139,6 +140,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
+Plug 'itchyny/vim-parenmatch'
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
@@ -682,6 +684,8 @@ nmap gk <Plug>(signjk-k)
 " To use with an operator (c/d/v...)
 omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
+" ******* (( vim-parenmatch )) {{{1
+hi! link ParenMatch MatchParen
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -749,11 +753,15 @@ augroup VBoxAuto
 	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
 	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js           :VBTemplate
 augroup END
-" ******* (( imgPrev )) {{{1
-nmap gi <Plug>(imgprev-preview)
-let g:imgprev = {
+" ******* (( imagePreview )) {{{1
+nmap gi <Plug>(image-preview)
+let g:image_preview = {
+			\ '_': {
+				\ 'prg'  : 'feh',
+				\ 'args' : '--scale-down --no-menus --quiet --magick-timeout 1',
+			\ },
 			\ 'gif': {
-				\ 'prg'  : 'gpicview',
+				\ 'prg'  : 'exo-open',
 				\ 'args' : '',
 			\ },
 		\ }
