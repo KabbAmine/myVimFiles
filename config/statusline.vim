@@ -249,10 +249,12 @@ endfunction
 
 " Mappings {{{1
 nnoremap <silent> gsH  :call <SID>ToggleSLItem("SLHiGroup()", "sl_hi")<CR>
-nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
-nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
 nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
 nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
+if g:hasUnix
+	nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
+	nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
+endif
 " 1}}}
 
 " Initialization {{{1
