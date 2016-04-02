@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-01
+" Last modification: 2016-04-02
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -111,9 +111,11 @@ endfunction
 
 " From Plugins
 function! SLGitGutter() abort " {{{1
-	if exists('g:gitgutter_enabled') && !empty(SLFugitive())
+	if exists('g:gitgutter_enabled') && g:gitgutter_enabled
 		let l:h = GitGutterGetHunkSummary()
-		return printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2])
+		return !empty(SLFugitive()) && !empty(l:h) ?
+					\ printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2]) :
+					\ ''
 	else
 		return ''
 	endif
@@ -167,10 +169,9 @@ function! SetSL() abort " {{{1
 	" LEFT SIDE
 	let l:sl .= ' %-{SLMode()} %(%{SLPaste()}%)'
 
-	let l:sl .= '%(%#SL2#'
-	let l:sl .= ' %{SLGitGutter()}'
-	let l:sl .= ' %{SLFugitive()}'
-	let l:sl .= '%)'
+	let l:sl .= '%#SL2#'
+	let l:sl .= '%( %{SLGitGutter()}%)'
+	let l:sl .= '%( %{SLFugitive()}%)'
 
 	let l:sl .= ' %#SL3#%{SLFilename()}'
 	let l:sl .= '%(%#Modified# %{SLModified()}%)'
