@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-30
+" Last modification: 2016-04-02
 " ================================================================
 
 
@@ -264,7 +264,7 @@ function! <SID>OpenURL() abort " {{{2
 					\ ' && wmctrl -ia ' . v:windowid : ''
 		exe 'silent :!' . (g:hasUnix ?
 						\ 'x-www-browser ' . l:url :
-						\ 'start cmd /c ' . l:url)
+						\ ' start ' . l:url)
 					\ . l:wmctrl
 					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
 		if !g:hasGui | redraw! | endif
