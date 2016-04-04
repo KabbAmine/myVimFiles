@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-30
+" Last modification: 2016-04-05
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -685,15 +685,18 @@ nmap gk <Plug>(signjk-k)
 omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
 " ******* (( vim-parenmatch )) {{{1
-hi! link ParenMatch MatchParen
+let g:parenmatch_highlight = 'WarningMsg'
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
-nmap gZ <Plug>ZVKeyDocset
+nmap <leader>z <Plug>ZVKeyDocset
+nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-			\ 'python': 'python 3',
-			\ 'help'  : 'vim'
+			\ 'python'           : 'python 3',
+			\ 'javascript'       : 'javascript,nodejs',
+			\ '^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
+			\ 'help'             : 'vim'
 		\ }
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
