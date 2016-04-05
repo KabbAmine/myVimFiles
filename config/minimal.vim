@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-02
+" Last modification: 2016-04-05
 " ================================================================
 
 
@@ -335,9 +335,6 @@ vnoremap Cy "+y
 "					* underscores
 "					* stars
 "					* #
-" Markdown ***
-"	 - it     : Inside a list mark
-"	 - ic/ac  : Inside/around code block
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -359,11 +356,6 @@ let s:to = {
 				\ ['i#', 'T#vt#'],
 				\ ['a#', 'F#vf#'],
 			\ ],
-			\ 'markdown' : [
-				\ ['it', '^f[lvt]'],
-				\ ['ic', 'i=\v^\s*`{3}\w*$=\v^\s*`{3}$'],
-				\ ['ac', 'a=\v^\s*`{3}\w*$=\v^\s*`{3}$'],
-			\ ],
 			\ 'scss,css' : [
 				\ ['iV', '^f:wvt;'],
 				\ ['iP', '^f:Bvt:'],
@@ -375,31 +367,6 @@ let s:to = {
 				\ ['af', 'va{V'],
 			\ ]
 		\ }
-function! <SID>GetBlock(pattern) abort " {{{2
-	let l:type = a:pattern[0] " i/a : inside/around
-	let l:pat1 = a:pattern[match(a:pattern, '=', 0, 1) + 1 : match(a:pattern, '=', 0, 2) - 1]
-	let l:pat2 = a:pattern[match(a:pattern, '=', 0, 2) + 1 :]
-	let l:cl = line('.')
-	if getline(l:cl) =~# l:pat2
-		" We are on 2nd pattern
-		let l:s = search(l:pat1, 'nb')
-		let l:e = l:cl
-	elseif getline(l:cl) =~# l:pat1
-		" We are on 1st pattern
-		let l:s = l:cl
-		let l:e = search(l:pat2, 'nw')
-	else
-		let l:s = search(l:pat1, 'bn', 1)
-		let l:e = search(l:pat2, 'wn')
-	endif
-	if l:s !=# 0 && l:e !=# 0 && l:cl >=# l:s && l:cl <=# l:e
-		if l:type ==# 'i'
-			let l:s += 1
-			let l:e -= 1
-		endif
-		execute printf('normal! %dGV%dG', l:s, l:e)
-	endif
-endfunction
 " For all file types {{{2
 for [s:k, s:m] in s:to._
 	execute 'onoremap <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
@@ -410,13 +377,8 @@ augroup MyTextObjects " {{{2
 	autocmd!
 	for s:ft in keys(s:to)
 		for [s:k, s:m] in s:to[s:ft]
-			if s:m =~# '^\(i\|a\)='
-				execute "autocmd FileType " . s:ft . " onoremap <buffer> <silent> " . s:k . " :call <SID>GetBlock('" . s:m . "')<CR>"
-				execute "autocmd FileType " . s:ft . " vnoremap <buffer> <silent> " . s:k . " :<C-u>call <SID>GetBlock('" . s:m . "')<CR>"
-			else
-				execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
-				execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
-			endif
+			execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
+			execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
 		endfor
 	endfor
 augroup END
