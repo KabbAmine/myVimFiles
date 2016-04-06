@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-01
+" Last modification: 2016-04-06
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -17,7 +17,7 @@ function! MyBufLine() abort " {{{1
 					\ WebDevIconsGetFileTypeSymbol(bufname(l:b)) . ' ' : ''
 		let l:name = empty(bufname(l:b)) ?
 					\ l:devicon . '[No Name]' :
-					\ (winwidth(0) <=# 85 ?
+					\ (winwidth(0) <=# 85 || len(l:bufs) >=# 7 ?
 						\ l:devicon . fnamemodify(bufname(l:b), ':t') . l:mod :
 						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
 					\ )

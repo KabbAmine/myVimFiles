@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-05
+" Last modification: 2016-04-06
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -169,9 +169,9 @@ nnoremap <silent> ,N :NERDTreeToggle<CR>
 nnoremap <silent> <S-q> :call <SID>CloseNERDTree()<CR>
 fun! <SID>CloseNERDTree() abort
 	if exists('b:NERDTree')
-		execute 'NERDTreeClose'
+		silent execute 'NERDTreeClose'
 	else
-		execute ':bd'
+		silent execute ':bd'
 	endif
 endfun
 if g:hasWin
