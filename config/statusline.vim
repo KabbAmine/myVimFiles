@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-02
+" Last modification: 2016-04-06
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -101,11 +101,8 @@ function! SLSpell() abort " {{{1
 				\ toupper(&spelllang[0]) . &spelllang[1:] : ''
 endfunction
 function! SLIndentation() abort " {{{1
-	if &expandtab
-		return 's' . &shiftwidth
-	else
-		return 't' . &shiftwidth
-	endif
+	return &expandtab ?
+				\ 's:' . &shiftwidth : 't:' . &shiftwidth
 endfunction
 " 1}}}
 
@@ -122,7 +119,7 @@ function! SLGitGutter() abort " {{{1
 endfunction
 function! SLFugitive() abort " {{{1
 	return exists('*fugitive#head') && !empty(fugitive#head()) ?
-				\ '  ' . fugitive#head() : ''
+				\ ' ' . fugitive#head() : ''
 endfunction
 function! SLRuby() abort " {{{1
 	if g:hasGui && exists('*rvm#statusline()') && !empty(rvm#statusline())
@@ -170,10 +167,11 @@ function! SetSL() abort " {{{1
 	let l:sl .= ' %-{SLMode()} %(%{SLPaste()}%)'
 
 	let l:sl .= '%#SL2#'
-	let l:sl .= '%( %{SLGitGutter()}%)'
 	let l:sl .= '%( %{SLFugitive()}%)'
+	let l:sl .= '%( %{SLGitGutter()} ' . s:SL.separator . '%)'
 
-	let l:sl .= ' %#SL3#%{SLFilename()}'
+	let l:sl .= '%#SL3#'
+	let l:sl .= ' %{SLFilename()}'
 	let l:sl .= '%(%#Modified# %{SLModified()}%)'
 
 	" RIGHT SIDE
@@ -183,11 +181,11 @@ function! SetSL() abort " {{{1
 	let l:sl .= '%(%{SLFiletype()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
-	" Percentage & line:column
-	let l:sl .= ' %p%% %l:%c ' . s:SL.separator
+	" Percentage & column
+	let l:sl .= ' %p%% %c ' . s:SL.separator
 	let l:sl .= '%('
 	let l:sl .= ' %{SLFileencoding()}'
-	let l:sl .= ' [%{SLFileformat()}] '
+	let l:sl .= '[%{SLFileformat()}] '
 	let l:sl .= '%)'
 
 	" Syntastic (1st group for no errors)
