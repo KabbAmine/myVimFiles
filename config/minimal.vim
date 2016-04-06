@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-05
+" Last modification: 2016-04-06
 " ================================================================
 
 
@@ -421,6 +421,8 @@ function! s:Buffers() abort " {{{2
 	endif
 	execute printf('silent %s %s', l:c, l:buf)
 endfunction " 2}}}
+" Use paste when copying from + register in insert mode {{{1
+inoremap <silent> <C-r>+ <C-o>:setl paste<CR><C-r>+<C-o>:setl nopaste<CR>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
