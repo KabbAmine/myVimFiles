@@ -1,10 +1,11 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-06
+" Last modification: 2016-04-07
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
 " * Devicons
+" * tabpagecd
 
 " Lines
 function! MyBufLine() abort " {{{1
@@ -18,7 +19,7 @@ function! MyBufLine() abort " {{{1
 		let l:name = empty(bufname(l:b)) ?
 					\ l:devicon . '[No Name]' :
 					\ (winwidth(0) <=# 85 || len(l:bufs) >=# 7 ?
-						\ l:devicon . fnamemodify(bufname(l:b), ':t') . l:mod :
+						\ l:devicon . fnamemodify(bufname(l:b), ':t:~') . l:mod :
 						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
 					\ )
 		if l:b ==# bufnr('%')
@@ -39,20 +40,27 @@ function! MyTabLine() abort " {{{1
 	" :h setting-tabline
 	let l:tl = ''
 	for i in range(tabpagenr('$'))
-		if i + 1 == tabpagenr()
-			let l:tl .= '%#TabLineSel#'
-		else
-			let l:tl .= '%#TabLine#'
-		endif
+		let l:i = i + 1
+		let l:tl .= (l:i ==# tabpagenr()) ?
+					\ ' %#TabLineSel#' : ' %#TabLine#'
 		" Set the tab page number (for mouse clicks)
-		let l:tl .= '%' . (i + 1) . 'T'
-		let l:tl .= ' ' . (i + 1) . ' '
+		let l:tl .= '%' . l:i . 'T '
+		" Get working directory (Use tabpagecd if present, otherwise use
+		" getcwd()).
+		if !empty(gettabvar(l:i, 'cwd'))
+			let l:tl .= winwidth(0) <=# 85 || tabpagenr('$') >=# 5 ?
+						\ fnamemodify(gettabvar(l:i, 'cwd'), ':t') :
+						\ pathshorten(fnamemodify(gettabvar(l:i, 'cwd'), ':~'))
+		else
+			let l:tl .= winwidth(0) <=# 85 || tabpagenr('$') >=# 5 ?
+						\ fnamemodify(getcwd(), ':t') :
+						\ pathshorten(fnamemodify(getcwd(), ':~'))
+		endif
+		let l:tl .= '%' . l:i . 'X ⨉'
 		" Fill with TabLineFill and reset tab page nr
-		let l:tl .= '%#TabLineFill#%T'
+		let l:tl .= ' %#TabLineFill#%T'
 	endfor
-	if tabpagenr('$') > 1
-		let l:tl .= '%=%#TabLineSel#%999X x '
-	endif
+	let l:tl .= '%=%#TabLineSel# T '
 	return l:tl
 endfunction
 " 1}}}
