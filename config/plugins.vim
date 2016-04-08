@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-06
+" Last modification: 2016-04-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -618,6 +618,9 @@ endif
 " ******* (( vim-operator-flashy )) {{{1
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
+" The following mappings are already defined in /config/minimal.vim
+nmap cy "+<Plug>(operator-flashy)
+nmap cY "+<Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Search'
 " ******* (( vim-surround )) {{{1
 nmap S ys
