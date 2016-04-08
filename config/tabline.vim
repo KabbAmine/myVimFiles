@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-07
+" Last modification: 2016-04-08
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -18,7 +18,7 @@ function! MyBufLine() abort " {{{1
 					\ WebDevIconsGetFileTypeSymbol(bufname(l:b)) . ' ' : ''
 		let l:name = empty(bufname(l:b)) ?
 					\ l:devicon . '[No Name]' :
-					\ (winwidth(0) <=# 85 || len(l:bufs) >=# 7 ?
+					\ (len(l:bufs) >=# 5 ?
 						\ l:devicon . fnamemodify(bufname(l:b), ':t:~') . l:mod :
 						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
 					\ )
@@ -48,11 +48,11 @@ function! MyTabLine() abort " {{{1
 		" Get working directory (Use tabpagecd if present, otherwise use
 		" getcwd()).
 		if !empty(gettabvar(l:i, 'cwd'))
-			let l:tl .= winwidth(0) <=# 85 || tabpagenr('$') >=# 5 ?
+			let l:tl .= tabpagenr('$') >=# 5 ?
 						\ fnamemodify(gettabvar(l:i, 'cwd'), ':t') :
 						\ pathshorten(fnamemodify(gettabvar(l:i, 'cwd'), ':~'))
 		else
-			let l:tl .= winwidth(0) <=# 85 || tabpagenr('$') >=# 5 ?
+			let l:tl .= tabpagenr('$') >=# 5 ?
 						\ fnamemodify(getcwd(), ':t') :
 						\ pathshorten(fnamemodify(getcwd(), ':~'))
 		endif
