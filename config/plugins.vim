@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-08
+" Last modification: 2016-04-10
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -117,11 +117,11 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
+Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
 " Various {{{2
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
@@ -166,14 +166,7 @@ hi! link TabLineSel Search
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q> :call <SID>CloseNERDTree()<CR>
-fun! <SID>CloseNERDTree() abort
-	if exists('b:NERDTree')
-		silent execute 'NERDTreeClose'
-	else
-		silent execute ':bd'
-	endif
-endfun
+nnoremap <silent> <S-q> :execute (&ft !=# 'silent nerdtree' ? 'bd' : 'NERDTreeClose')<CR>
 if g:hasWin
 	let NERDTreeBookmarksFile = 'C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
 else
@@ -537,7 +530,7 @@ let g:vim_json_warnings = 0
 " ******* (( vim-commentary )) {{{1
 augroup Commentary
 	autocmd!
-	autocmd FileType vader setlocal commentstring=#\ %s
+	autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
 augroup END
 " ******* (( polyglot )) {{{1
 let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
@@ -608,6 +601,11 @@ if g:hasUnix
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
 	nnoremap <silent> !: :call <SID>CmdForDispatcher("VimuxRunCommand '%s'")<CR>
+	function! <SID>VimuxInBg(cmd) abort " {{{2
+		silent execute "VimuxRunCommand '" . a:cmd . "'"
+		silent VimuxTogglePane
+		silent VimuxTogglePane
+	endfunction " 2}}}
 endif
 " ******* (( vimproc )) {{{1
 " Open arg with default system command
@@ -622,8 +620,46 @@ nmap Y <Plug>(operator-flashy)$
 nmap cy "+<Plug>(operator-flashy)
 nmap cY "+<Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Search'
-" ******* (( vim-surround )) {{{1
-nmap S ys
+" ******* (( vim-sandwich )) {{{1
+nmap s <Nop>
+xmap s <Nop>
+call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+" Allow using . with the keep cursor option enabled
+nmap . <Plug>(operator-sandwich-dot)
+" Config
+let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+" Use 't' for html tag
+let g:sandwich#recipes += [
+			\ {
+				\ 'buns'    : ['TagInput(1)', 'TagInput(0)'],
+				\ 'expr'    : 1,
+				\ 'filetype': ['html'],
+				\ 'kind'    : ['add', 'replace'],
+				\ 'action'  : ['add'],
+				\ 'input'   : ['t'],
+			\ },
+		\ ]
+function! TagInput(is_head) abort " 2{{{
+  if a:is_head
+    let s:TagLast = input('Tag: ')
+    if s:TagLast !=# ''
+      let l:tag = printf('<%s>', s:TagLast)
+    else
+      throw 'OperatorSandwichCancel'
+    endif
+  else
+    let l:tag = printf('</%s>', matchstr(s:TagLast, '^\a[^[:blank:]>/]*'))
+  endif
+  return l:tag
+endfunction " 2}}}
+let g:sandwich#recipes += [
+			\ {
+				\ 'external': ['it', 'at'],
+				\ 'noremap' : 1,
+				\ 'filetype': ['html'],
+				\ 'input'   : ['t'],
+			\ },
+		\ ]
 " ******* (( vim-grammarous )) {{{1
 let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
 let g:grammarous#default_comments_only_filetypes = {
@@ -785,6 +821,33 @@ let g:image_preview = {
 " 			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
 " 			\ 'python'     : { 'cmd': 'python3', 'type': '' }
 " 			\ }
+" 1}}}
+
+" ========== CUSTOM  ===========================================
+" Custom commands using (( vimux )) {{{1
+if g:hasUnix
+	command! -nargs=* BrowserSync :call <SID>BrowserSync(<f-args>)
+	function! <SID>BrowserSync(files, ...) abort " {{{2
+		if executable('browser-sync')
+			if !exists('g:browser_sync')
+				let l:opts = exists('a:1') ? a:1 : '--directory --no-online'
+				let l:cmd = printf(
+							\ "browser-sync start --server --files=\"%s\" %s",
+							\ a:files, l:opts
+							\ )
+				call <SID>VimuxInBg(l:cmd)
+				let g:browser_sync = 1
+			else
+				let pid = split(system('ps -ef | grep "browser-sync start" | tr -s " "'), "\n")[0]
+				if !empty(pid) && pid =~# 'pts'
+					let pid = matchstr(pid, '\v^' . $USER . ' \zs\d{1,}')
+					silent execute '!kill ' . pid
+				endif
+				unlet g:browser_sync
+			endif
+		endif
+	endfunction " 2}}}
+endif
 " 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
