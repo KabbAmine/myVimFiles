@@ -1,19 +1,19 @@
-var gulp        = require('gulp'),
-	jade        = require('gulp-jade'),
-	sass        = require('gulp-sass'),
-	coffee      = require('gulp-coffee'),
+var gulp = require('gulp'),
+	jade = require('gulp-jade'),
+	sass = require('gulp-sass'),
+	coffee = require('gulp-coffee'),
 	browserSync = require('browser-sync').create();
 
 var src = {
-	'jade'    : './*.jade',
-	'scss'    : './sass/*.scss',
-	'coffee'  : './coffee/*.coffee'
+	'jade': './*.jade',
+	'scss': './sass/*.scss',
+	'coffee': './coffee/*.coffee'
 };
 var d = './public/';
 var dist = {
-	'html'  : d + '*.html',
-	'css'   : d + 'css/*.css',
-	'js'    : d + 'js/*.js'
+	'html': d + '*.html',
+	'css': d + 'css/*.css',
+	'js': d + 'js/*.js'
 };
 
 // ===========
@@ -23,7 +23,9 @@ var dist = {
 // Jade to html
 gulp.task('jade', function() {
 	return gulp.src(src.jade)
-		.pipe(jade({pretty: true}))
+		.pipe(jade({
+			pretty: true
+		}))
 		.pipe(gulp.dest(d));
 });
 
@@ -54,9 +56,9 @@ gulp.task('serve', function() {
 		open: false
 	});
 
-	gulp.watch(src.jade   , ['jade']);
-	gulp.watch(src.scss   , ['sass']);
-	gulp.watch(src.coffee , ['coffee']);
+	gulp.watch(src.jade, ['jade']);
+	gulp.watch(src.scss, ['sass']);
+	gulp.watch(src.coffee, ['coffee']);
 	gulp.watch([
 		dist.html,
 		dist.css,
