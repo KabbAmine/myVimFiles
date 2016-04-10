@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-06
+" Last modification: 2016-04-10
 " ================================================================
 
 
@@ -429,7 +429,7 @@ inoremap <silent> <C-r>+ <C-o>:setl paste<CR><C-r>+<C-o>:setl nopaste<CR>
 " Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
-	autocmd FileType html,css,scss,pug,vader,python,ruby,markdown
+	autocmd FileType json,html,css,scss,pug,vader,python,ruby,markdown
 				\ setl ts=2 sts=2 sw=2 expandtab
 augroup END
 " Make cursor line appear only in active window {{{1
