@@ -210,16 +210,26 @@ nnoremap <silent> gsnv :vnew<CR>
 nnoremap <silent> gsns :split +enew<CR>
 nnoremap <silent> gs= <C-w>=
 nnoremap <silent> gsc <C-w>c
-nnoremap <silent> <C-j> <C-w>j
-nnoremap <silent> <C-k> <C-w>k
-nnoremap <silent> <C-h> <C-w>h
-nnoremap <silent> <C-l> <C-w>l
 nnoremap <silent> <C-Up> <C-w>+
 nnoremap <silent> <C-Down> <C-w>-
 nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
+nnoremap <silent> <c-h> :call <SID>TmuxMove('h')<CR>
+nnoremap <silent> <c-j> :call <SID>TmuxMove('j')<CR>
+nnoremap <silent> <c-k> :call <SID>TmuxMove('k')<CR>
+nnoremap <silent> <c-l> :call <SID>TmuxMove('l')<CR>
+" Move between splits & tmux
+" https://gist.github.com/mislav/5189704#gistcomment-1735600
+function! <SID>TmuxMove(direction) abort " {{{2
+	let l:wnr = winnr()
+	silent! execute 'wincmd ' . a:direction
+	" If the winnr is still the same after we moved, it is the last pane
+	if l:wnr ==# winnr()
+		call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
+	endif
+endfunction " 2}}}
 " For command line {{{1
 cnoremap jk <C-c>
 cnoremap <C-p> <Up>
