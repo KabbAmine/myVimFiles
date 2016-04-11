@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-10
+" Last modification: 2016-04-11
 " ================================================================
 
 
@@ -422,7 +422,17 @@ function! s:Buffers() abort " {{{2
 	execute printf('silent %s %s', l:c, l:buf)
 endfunction " 2}}}
 " Use paste when copying from + register in insert mode {{{1
-inoremap <silent> <C-r>+ <C-o>:setl paste<CR><C-r>+<C-o>:setl nopaste<CR>
+function! SetPasteInInsertMode() abort " {{{2
+	let l:regs = ['"', '-', '*', '+', '_', '/'] + map(range(10), 'v:val . ""')
+	let l:regs += map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
+	let l:regs += map(copy(l:regs[-26:]), 'toupper(v:val)')
+	for l:r in l:regs
+		execute 'inoremap <silent> <C-r>' . l:r .
+					\ ' <C-o>:setl paste<CR><C-r>' . l:r .
+					\ '<C-o>:setl nopaste<CR>'
+	endfor
+endfunction " 2}}}
+call SetPasteInInsertMode()
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
