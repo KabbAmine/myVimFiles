@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-10
+" Last modification: 2016-04-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -82,7 +82,6 @@ Plug 'othree/csscomplete.vim' , {'for': 'css'}
 Plug 'docunext/closetag.vim' , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-Plug 'shime/vim-livedown'    , {'on':  ['LivedownToggle', 'LivedownPreview', 'LivedownKill']}
 " For Git & github {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
