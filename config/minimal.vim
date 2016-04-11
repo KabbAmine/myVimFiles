@@ -546,6 +546,13 @@ augroup AutoFold
 				\| setlocal foldmarker={,}
 				\| normal! zR
 augroup END
+" Use shiba with some file types {{{1
+if executable('shiba')
+	augroup Shiba
+		autocmd!
+		autocmd Filetype html,markdown command! -buffer Shiba :silent !shiba --detach %
+	augroup END
+endif
 " }}}
 
 " =========== ABBREVIATIONS ==============================
