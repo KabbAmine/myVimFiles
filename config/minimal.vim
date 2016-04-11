@@ -439,7 +439,7 @@ call SetPasteInInsertMode()
 " Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
-	autocmd FileType json,html,css,scss,pug,vader,python,ruby,markdown
+	autocmd FileType coffee,json,html,css,scss,pug,vader,python,ruby,markdown
 				\ setl ts=2 sts=2 sw=2 expandtab
 augroup END
 " Make cursor line appear only in active window {{{1
