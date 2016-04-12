@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-11
+" Last modification: 2016-04-13
 " ================================================================
 
 
@@ -449,6 +449,11 @@ call SetPasteInInsertMode()
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
+" Disable continuation of comments when using o/O {{{1
+augroup FormatOpt
+	autocmd!
+	autocmd FileType * setl formatoptions-=o
+augroup END
 " Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
