@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-11
+" Last modification: 2016-04-13
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -58,16 +58,23 @@ let s:plug_home = g:vimDir . '/plugs'
 call plug#begin(s:plug_home)
 unlet s:plug_home
 " Plugins {{{1
-" Most syntaxes in one plugin {{{2
-call s:PlugInOs('sheerun/vim-polyglot' , "{'do': './build'}" , 'unix')
-call s:PlugInOs('sheerun/vim-polyglot' , ''                  , 'win32')
+" Syntaxes {{{2
+Plug 'digitaltoad/vim-pug'
+Plug 'elzr/vim-json'
+Plug 'kchmck/vim-coffee-script'
+Plug 'othree/html5.vim'
+Plug 'stephpy/vim-yaml'
+Plug 'tpope/vim-haml'
+" For Css {{{2
+Plug 'JulesWang/css.vim'
+Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For PHP {{{2
+Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
-Plug 'elzr/vim-json'
 Plug 'gavocanov/vim-js-indent'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
@@ -76,13 +83,11 @@ Plug 'othree/yajs.vim'
 " For Python {{{2
 Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'hdima/python-syntax'
-" Other syntaxes & related-syntax plugins {{{2
-Plug 'othree/csscomplete.vim' , {'for': 'css'}
 " For web development {{{2
 Plug 'docunext/closetag.vim' , {'for': ['html', 'php', 'xml']}
 Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-" For Git & github {{{2
+" For Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
@@ -340,7 +345,7 @@ function! s:filters.filter(candidates, context)
 	for candidate in a:candidates
 		let l:num = candidate.action__buffer_nr
 		let l:name = bufname(l:num)
-		let l:name = !empty(l:name) ? l:name : '[NO NAME]'
+		let l:name = !empty(l:name) ? l:name : 'NO NAME'
 		let l:path = fnamemodify(l:name, ':p:h')
 		let l:modified = getbufvar(l:name, '&modified') ==# 1 ? '➕' : ' '
 		let candidate.abbr = printf('%-*s %s %2s %s',
@@ -531,8 +536,6 @@ augroup Commentary
 	autocmd!
 	autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
 augroup END
-" ******* (( polyglot )) {{{1
-let g:polyglot_disabled = ['markdown', 'json', 'javascript', 'python']
 " ******* (( quickRun )) {{{1
 let g:quickrun_no_default_key_mappings = 0
 nnoremap <silent> gR :QuickRun<CR>
