@@ -133,6 +133,7 @@ Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
 Plug 'google/vim-searchindex'
 Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
+Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
@@ -454,6 +455,8 @@ let g:neocomplete#force_omni_input_patterns.php =
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.markdown = ':'
+let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
 " ******* (( jedi-vim )) {{{1
 let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 0
@@ -727,6 +730,11 @@ omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
 " ******* (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 'WarningMsg'
+" ******* (( vim-emoji )) {{{1
+augroup Emoji
+	autocmd!
+	autocmd FileType markdown,gitcommit :setl omnifunc=emoji#complete
+augroup END
 " ******* (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
