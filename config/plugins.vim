@@ -826,9 +826,20 @@ let g:image_preview = {
 " 1}}}
 
 " ========== CUSTOM  ===========================================
+" Some helpers {{{1
+if g:hasUnix
+	function! s:KillProcess(pattern) abort " {{{2
+		let pid = split(system('ps -ef | grep "' . a:pattern . '" | tr -s " "'), "\n")[0]
+		if !empty(pid) && pid =~# 'pts'
+			let pid = matchstr(pid, '\v^' . $USER . ' \zs\d{1,}')
+			silent execute '!kill ' . pid
+		endif
+	endfunction " 2}}}
+endif
 " Custom commands using (( vimux )) {{{1
 if g:hasUnix
 	command! -nargs=* BrowserSync :call <SID>BrowserSync(<f-args>)
+	command! LiveServer :call <SID>LiveServer()
 	function! <SID>BrowserSync(files, ...) abort " {{{2
 		if executable('browser-sync')
 			if !exists('g:browser_sync')
@@ -840,12 +851,19 @@ if g:hasUnix
 				call <SID>VimuxInBg(l:cmd)
 				let g:browser_sync = 1
 			else
-				let pid = split(system('ps -ef | grep "browser-sync start" | tr -s " "'), "\n")[0]
-				if !empty(pid) && pid =~# 'pts'
-					let pid = matchstr(pid, '\v^' . $USER . ' \zs\d{1,}')
-					silent execute '!kill ' . pid
-				endif
+				call s:KillProcess("browser-sync start")
 				unlet g:browser_sync
+			endif
+		endif
+	endfunction " 2}}}
+	function! <SID>LiveServer() abort " {{{2
+		if executable('live-server')
+			if !exists('g:live_server')
+				call <SID>VimuxInBg('live-server')
+				let g:live_server = 1
+			else
+				call s:KillProcess("live-server")
+				unlet g:live_server
 			endif
 		endif
 	endfunction " 2}}}
