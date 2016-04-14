@@ -14,20 +14,6 @@ fun! s:PlugInOs(link, param, os) abort " {{{2
 		exe printf("Plug '%s'%s", a:link, l:opt)
 	endif
 endfun
-fun! <SID>CmdForDispatcher(cmd) abort " {{{2
-	" A wrapper to use with dispatcher plugins (Vimux, dispatch...)
-	" e.g of a:cmd: "VimuxRunCommand '%s'"
-	let g:last_dispatcher_cmd = exists('g:last_dispatcher_cmd') ? g:last_dispatcher_cmd : ''
-	echohl Statement
-	let l:uc = input('Command> ', g:last_dispatcher_cmd)
-	echohl None
-	if !empty(l:uc)
-		let g:last_dispatcher_cmd = l:uc
-		let l:c = printf('cd %s && clear; %s', getcwd(), l:uc)
-		silent execute printf(a:cmd, l:c)
-		redraw!
-	endif
-endfun
 " My plugins {{{2
 let s:myPlugs = {
 			\'gulp-vim'      : '',
@@ -588,7 +574,7 @@ augroup END
 "     \ }
 " ******* (( vim-dispatch )) {{{1
 if g:hasWin
-	nnoremap <silent> !: :call <SID>CmdForDispatcher('Start! -wait=always %s')<CR>
+	nnoremap <silent> !: :call myhelpers#CmdForDispatcher('Start! -wait=always %s')<CR>
 endif
 " ******* (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
@@ -605,7 +591,7 @@ if g:hasUnix
 	let g:VimuxUseNearest = 0		" Split window by default
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
-	nnoremap <silent> !: :call <SID>CmdForDispatcher("VimuxRunCommand '%s'")<CR>
+	nnoremap <silent> !: :call myhelpers#CmdForDispatcher("VimuxRunCommand '%s'")<CR>
 	function! <SID>VimuxInBg(cmd) abort " {{{2
 		silent execute "VimuxRunCommand '" . a:cmd . "'"
 		silent VimuxTogglePane
@@ -834,16 +820,6 @@ let g:image_preview = {
 " 1}}}
 
 " ========== CUSTOM  ===========================================
-" Some helpers {{{1
-if g:hasUnix
-	function! s:KillProcess(pattern) abort " {{{2
-		let pid = split(system('ps -ef | grep "' . a:pattern . '" | tr -s " "'), "\n")[0]
-		if !empty(pid) && pid =~# 'pts'
-			let pid = matchstr(pid, '\v^' . $USER . ' \zs\d{1,}')
-			silent execute '!kill ' . pid
-		endif
-	endfunction " 2}}}
-endif
 " Custom commands using (( vimux )) {{{1
 if g:hasUnix
 	command! -nargs=* BrowserSync :call <SID>BrowserSync(<f-args>)
@@ -859,7 +835,7 @@ if g:hasUnix
 				call <SID>VimuxInBg(l:cmd)
 				let g:browser_sync = 1
 			else
-				call s:KillProcess("browser-sync start")
+				call helpers#KillProcess("browser-sync start")
 				unlet g:browser_sync
 			endif
 		endif
@@ -870,7 +846,7 @@ if g:hasUnix
 				call <SID>VimuxInBg('live-server')
 				let g:live_server = 1
 			else
-				call s:KillProcess("live-server")
+				call helpers#KillProcess("live-server")
 				unlet g:live_server
 			endif
 		endif

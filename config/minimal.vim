@@ -1,8 +1,7 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-13
+" Last modification: 2016-04-15
 " ================================================================
-
 
 " ========== VARIOUS  ===========================================
 " No compatible with Vi {{{1
@@ -262,6 +261,7 @@ nnoremap <silent> gx :call <SID>OpenURL()<CR>
 function! <SID>OpenURL() abort " {{{2
 	" Open the current URL
 	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
+
 	let l:cl = getline('.')
 	let l:url = matchstr(l:cl, '[a-z]*:\/\/[^ >,;]*')
 	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
@@ -279,7 +279,7 @@ function! <SID>OpenURL() abort " {{{2
 					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
 		if !g:hasGui | redraw! | endif
 	endif
-endfunction
+endfunction " 2}}}
 " 2}}}
 " For marks {{{1
 nnoremap <silent> m<space> :delmarks!<CR>
@@ -291,6 +291,7 @@ nnoremap <silent> ;;f  :call <SID>OpenHere('f', expand('%:h:p'))<CR>
 function! <SID>OpenHere(type, ...) abort " {{{2
 	" type: (t)erminal, (f)ilemanager
 	" a:1: Location (pwd by default)
+
 	let l:cmd = {
 				\ 't': (g:hasUnix ?
 					\ 'exo-open --launch TerminalEmulator --working-directory %s 2> /dev/null &' :
@@ -309,6 +310,7 @@ vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
 vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv
 function! <SID>Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
+
 	let l:fl = a:firstline | let l:ll = a:lastline
 	let l:to = a:to ==# -1 ?
 				\ l:fl - 2 :
@@ -398,42 +400,7 @@ augroup END
 unlet! s:to s:k s:m s:ft " {{{2
 " 2}}}
 " A simple buffer lister {{{1
-command! Ls :call s:Buffers()
-function! s:Buffers() abort " {{{2
-	redir => l:bufs
-	silent buffers
-	redir END
-	let l:bufsL = []
-	for l:b in split(l:bufs[1:], "\n")
-		let l:bn = matchstr(l:b, '\d\+')
-		let l:bs = matchstr(l:b, '+')
-		let l:bf = pathshorten(substitute(matchstr(l:b, '".*"'), '"', '', 'g'))
-		call add(l:bufsL, printf("  %2d %2s  %s", l:bn, l:bs, l:bf))
-	endfor
-	echohl Function | echo 'Buffers:' | echohl None
-	echo join(l:bufsL, "\n")
-	echohl Statement
-	let l:buf = input('> ', '', 'buffer')
-	if empty(l:buf)
-		return 0
-	endif
-	redraw
-	echo '(t)ab, (s)plit, (v)split, (d)elete > '
-	echohl None
-	let l:action = nr2char(getchar())
-	if l:action ==# 'v'
-		let l:c = 'botright vsplit'
-	elseif l:action ==# 's'
-		let l:c = 'split'
-	elseif l:action ==# 't'
-		let l:c = 'tabedit!'
-	elseif l:action ==# 'd'
-		let l:c = 'bd!'
-	else
-		let l:c = 'buffer!'
-	endif
-	execute printf('silent %s %s', l:c, l:buf)
-endfunction " 2}}}
+command! Ls :call helpers#Buffers()
 " Use paste when copying from + register in insert mode {{{1
 function! SetPasteInInsertMode() abort " {{{2
 	let l:regs = ['"', '-', '*', '+', '_', '/'] + map(range(10), 'v:val . ""')
@@ -468,9 +435,6 @@ augroup END
 	augroup END
 " endif
 " Commands for folders & files {{{1
-" *** :Mkdir  => Create directory(ies) (Or directories recursively)
-" *** :Rm     => Delete file(s) or directory(ies)
-" *** :Rename => Rename/move the current file
 command! -nargs=+ -complete=file Mkdir  :call <SID>MakeDir(<f-args>)
 command! -nargs=+ -complete=file Rm     :call <SID>Delete(<f-args>)
 command! -nargs=1 -complete=file Rename :call <SID>Rename(<f-args>)
@@ -511,16 +475,15 @@ function! <SID>Rename(to) abort " {{{2
 	endif
 endfunction " 2}}}
 " Specify indentation (ts,sts,sw) {{{1
-" *** :Indent
-command! Indent :call <SID>Indent()
-function! <SID>Indent()
-	let l:size_of_indentation = input('New indentation (' . &ts . ', ' . &sts . ', ' . &sw . ') => ')
-	if(l:size_of_indentation !=# '')
-		execute 'setlocal ts=' . l:size_of_indentation
-		execute 'setlocal sts=' . l:size_of_indentation
-		execute 'setlocal sw=' . l:size_of_indentation
+command! Indent :call <SID>SetIndentation()
+function! <SID>SetIndentation() abort " {{{2
+	let l:indentation = input('New indentation (' . &ts . ', ' . &sts . ', ' . &sw . ') => ')
+	if l:indentation !=# ''
+		execute 'setl ts=' . l:indentation
+		execute 'setl sts=' . l:indentation
+		execute 'setl sw=' . l:indentation
 	endif
-endfunction
+endfunction " 2}}}
 " Shortcuts for vim doc {{{1
 command! Hl :help local-additions
 command! Fl :help function-list
@@ -537,12 +500,12 @@ if g:hasUnix
 	command! Sw :w !sudo tee % >/dev/null
 endif
 " Set spelllang & spell in one command {{{1
-command! -nargs=? Spell call s:Spell(<f-args>)
-fun! s:Spell(...) abort
+command! -nargs=? Spell call <SID>SetSpell(<f-args>)
+function! <SID>SetSpell(...) abort " {{{2
 	let l:l = exists('a:1') ? a:1 : 'fr'
 	execute 'setlocal spelllang=' . l:l
 	setlocal spell!
-endfun
+endfunction " 2}}}
 " Enable marker folding for some ft {{{1
 augroup AutoFold
 	autocmd!
