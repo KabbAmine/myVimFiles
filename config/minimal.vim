@@ -424,8 +424,11 @@ augroup END
 " Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
-	autocmd FileType coffee,json,html,css,scss,pug,vader,python,ruby,markdown
+	autocmd FileType coffee,html,css,scss,pug,vader,ruby,markdown
 				\ setl ts=2 sts=2 sw=2 expandtab
+	autocmd FileType python,json
+				\ setl ts=4 sts=4 sw=4 expandtab
+
 augroup END
 " Make cursor line appear only in active window {{{1
 	augroup CursorLine
