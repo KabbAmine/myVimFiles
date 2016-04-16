@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-15
+" Last modification: 2016-04-16
 " ================================================================
 
 " ========== VARIOUS  ===========================================
@@ -263,7 +263,7 @@ function! <SID>OpenURL() abort " {{{2
 	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
 
 	let l:cl = getline('.')
-	let l:url = matchstr(l:cl, '[a-z]*:\/\/[^ >,;]*')
+	let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
 	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
 		let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 : match(l:cl, "'", 0, 2) - 1]
 		let l:url = printf('https://github.com/%s', l:pn)
@@ -273,8 +273,8 @@ function! <SID>OpenURL() abort " {{{2
 		let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
 					\ ' && wmctrl -ia ' . v:windowid : ''
 		exe 'silent :!' . (g:hasUnix ?
-						\ 'x-www-browser ' . l:url :
-						\ ' start ' . l:url)
+						\ 'x-www-browser ' . shellescape(l:url) :
+						\ ' start "' . shellescape(l:url))
 					\ . l:wmctrl
 					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
 		if !g:hasGui | redraw! | endif
@@ -346,8 +346,7 @@ vnoremap Cy "+y
 "					* commas
 "					* underscores
 "					* stars
-"					* #
-"					* :
+"					* #, :, +, -
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -370,6 +369,10 @@ let s:to = {
 				\ ['a#', 'F#vf#'],
 				\ ['i:', 'T:vt:'],
 				\ ['a:', 'F:vf:'],
+				\ ['i+', 'T+vt+'],
+				\ ['a+', 'F+vf+'],
+				\ ['i-', 'T-vt-'],
+				\ ['a-', 'F-vf-'],
 			\ ],
 			\ 'scss,css' : [
 				\ ['iV', '^f:wvt;'],
