@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-03-29
+" Last modification: 2016-04-16
 " ================================================================
 
 
@@ -11,25 +11,22 @@ let g:isNvim = has('nvim')
 let g:hasGui = has('gui_running')
 " Stock the Location of vim's folder in a global variable.
 let g:vimDir = g:hasWin ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g') : expand('$HOME/.vim')
+let g:dotFiles = expand('$HOME/.dotfiles')
 " }}}
 
 " Open personal config files for editing {{{1
-" *** :Ev		=> ~/.vimrc
-" *** :Evm		=> ~/.config/minimal.vim
-" *** :Evp		=> ~/.config/plugins.vim
-" *** :Eb		=> ~/.dotfiles/bash/bashrc
-" *** :Eba		=> ~/.dotfiles/bash/bash_aliases
-" *** :Ebf		=> ~/.dotfiles/bash/bash_functions
-" *** :Et		=> ~/.dotfiles/tmux/.tmux.conf
 command! Ev :e! $MYVIMRC
-execute 'command! Evm :e! ' . g:vimDir . '/config/minimal.vim'
-execute 'command! Evp :e! ' . g:vimDir . '/config/plugins.vim'
-execute 'command! Evt :e! ' . g:vimDir . '/config/tabline.vim'
-execute 'command! Evs :e! ' . g:vimDir . '/config/statusline.vim'
-command! Eb :e! $HOME/.dotfiles/bash/bashrc
-command! Eba :e! $HOME/.dotfiles/bash/bash_aliases
-command! Ebf :e! $HOME/.dotfiles/bash/bash_functions
-command! Et :e! $HOME/.dotfiles/tmux/tmux.conf
+execute 'command! Evm  :e! ' . g:vimDir . '/config/minimal.vim'
+execute 'command! Evp  :e! ' . g:vimDir . '/config/plugins.vim'
+execute 'command! Evt  :e! ' . g:vimDir . '/config/tabline.vim'
+execute 'command! Evs  :e! ' . g:vimDir . '/config/statusline.vim'
+execute 'command! Evh  :e! ' . g:vimDir . '/autoload/helpers.vim'
+" Bash
+execute 'command! Eb   :e! ' . g:dotFiles . '/bash/bashrc'
+execute 'command! Eba  :e! ' . g:dotFiles . '/bash/bash_aliases'
+execute 'command! Ebf  :e! ' . g:dotFiles . '/bash/bash_functions'
+" Tmux
+execute 'command! Et   :e! ' . g:dotFiles . '/tmux/tmux.conf'
 " Automatically source vimrc & vim config files on save  {{{1
 augroup resource
 	autocmd!
