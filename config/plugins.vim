@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-13
+" Last modification: 2016-04-18
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -19,6 +19,7 @@ let s:myPlugs = {
 			\'gulp-vim'      : '',
 			\'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
 			\'lazyList'      : '',
+			\'unite-cmus'    : '',
 			\'vBox'          : '',
 			\'vcml'          : '',
 			\'vCoolor'       : '',
@@ -360,7 +361,7 @@ let g:unite_source_outline_filetype_options = {
 			\ }
 		\ }
 " MAPPINGS {{{2
-function! <SID>Unite(name, source, ...) abort
+function! <SID>Unite(name, source, ...) abort " 3{{{
 	" Return unite command with different sources depending of .git directory
 	" presence:
 	"	Unite -buffer-name=a:name a:source/git
@@ -372,7 +373,7 @@ function! <SID>Unite(name, source, ...) abort
 				\ ' ' . a:source . '/git' . l:args :
 				\ ' ' . a:source . (exists('a:1') ? a:1 : '') . l:args
 	execute ':Unite -buffer-name=' . a:name . l:source
-endfunction
+endfunction " 3}}}
 inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
@@ -390,6 +391,9 @@ nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -keep-focus -
 nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
+if g:hasUnix
+	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus<CR>
+endif
 " Inside unite buffers
 augroup UniteMaps
 	autocmd!
@@ -410,6 +414,7 @@ function! s:unite_my_settings() " {{{3
 	nmap <silent> <buffer> <space> <Plug>(unite_toggle_mark_current_candidate)k
 	" INSERT
 	imap <silent> <buffer> <C-space> <Plug>(unite_toggle_mark_current_candidate)
+	imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
 	imap <silent> <buffer> <Esc> <Plug>(unite_exit)
 	imap <silent> <buffer> <F5> <Plug>(unite_redraw)
 	imap <silent> <buffer> jk <Plug>(unite_insert_leave)
