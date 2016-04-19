@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-16
+" Last modification: 2016-04-18
 " ================================================================
 
 " ========== VARIOUS  ===========================================
@@ -404,18 +404,8 @@ unlet! s:to s:k s:m s:ft " {{{2
 " 2}}}
 " A simple buffer lister {{{1
 command! Ls :call helpers#Buffers()
-" Use paste when copying from + register in insert mode {{{1
-function! SetPasteInInsertMode() abort " {{{2
-	let l:regs = ['"', '-', '*', '+', '_', '/'] + map(range(10), 'v:val . ""')
-	let l:regs += map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
-	let l:regs += map(copy(l:regs[-26:]), 'toupper(v:val)')
-	for l:r in l:regs
-		execute 'inoremap <silent> <C-r>' . l:r .
-					\ ' <C-o>:setl paste<CR><C-r>' . l:r .
-					\ '<C-o>:setl nopaste<CR>'
-	endfor
-endfunction " 2}}}
-call SetPasteInInsertMode()
+" INSERT mode; Enable Paste when using <C-r> {{{1
+inoremap <silent> <C-r> <C-r><C-p>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
