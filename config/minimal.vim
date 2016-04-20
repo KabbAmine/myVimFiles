@@ -517,6 +517,27 @@ if executable('shiba')
 		autocmd Filetype html,markdown command! -buffer Shiba :silent !shiba --detach %
 	augroup END
 endif
+" Cmus {{{1
+if executable('cmus')
+	let s:cmusCmds = {
+				\ '-play'      : 'p',
+				\ '-pause'     : 'u',
+				\ '-stop'      : 's',
+				\ '-next'      : 'n',
+				\ '-previous'  : 'r',
+				\ '-repeat'    : 'R',
+				\ '-shuffle'   : 'S',
+			\ }
+	command! -nargs=? -bar -complete=custom,CompleteCmus Cmus :call <SID>Cmus('<args>')
+	function! <SID>Cmus(...) abort " {{{2
+		let l:arg = exists('a:1') && !empty(get(s:cmusCmds, a:1)) ?
+					\ get(s:cmusCmds, a:1) : 'u'
+		silent call system('cmus-remote -' . l:arg)
+	endfunction " 2}}}
+	function! CompleteCmus(A, L, P) abort " {{{2
+		return join(keys(s:cmusCmds), "\n")
+	endfunction " 2}}}
+endif
 " }}}
 
 " =========== ABBREVIATIONS ==============================
