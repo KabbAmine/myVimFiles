@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-18
+" Last modification: 2016-04-20
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -720,7 +720,8 @@ nmap gk <Plug>(signjk-k)
 omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
 " ******* (( vim-parenmatch )) {{{1
-let g:parenmatch_highlight = 'WarningMsg'
+let g:parenmatch_highlight = 0
+hi! link ParenMatch WarningMsg
 " ******* (( vim-emoji )) {{{1
 augroup Emoji
 	autocmd!
