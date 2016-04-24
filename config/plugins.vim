@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-20
+" Last modification: 2016-04-26
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -195,7 +195,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 " For status line
-let g:syntastic_stl_format = '%E{❌ %e}%B{, }%W{⚠ %w}'
+let g:syntastic_stl_format = '%E{❌ %e} %W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_error_symbol = "❌"
 let g:syntastic_warning_symbol = "⚠"
@@ -392,7 +392,7 @@ nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
 if g:hasUnix
-	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus<CR>
+	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album<CR>
 endif
 " Inside unite buffers
 augroup UniteMaps
@@ -430,6 +430,7 @@ let g:clever_f_across_no_line = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case = 1
+let g:clever_f_mark_char_color = 'IncSearch'
 " ******* (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -620,6 +621,7 @@ let g:operator#flashy#group = 'Search'
 nmap s <Nop>
 xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+call operator#sandwich#set('all', 'all', 'highlight', 1)
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 " Config
@@ -627,26 +629,22 @@ let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
 " Use 't' for html tag
 let g:sandwich#recipes += [
 			\ {
-				\ 'buns'    : ['TagInput(1)', 'TagInput(0)'],
-				\ 'expr'    : 1,
+				\ 'buns'    : 'HTMLTagInput()',
+				\ 'listexpr': 1,
 				\ 'filetype': ['html'],
 				\ 'kind'    : ['add', 'replace'],
 				\ 'action'  : ['add'],
 				\ 'input'   : ['t'],
 			\ },
 		\ ]
-function! TagInput(is_head) abort " 2{{{
-  if a:is_head
-    let s:TagLast = input('Tag: ')
-    if s:TagLast !=# ''
-      let l:tag = printf('<%s>', s:TagLast)
-    else
-      throw 'OperatorSandwichCancel'
-    endif
-  else
-    let l:tag = printf('</%s>', matchstr(s:TagLast, '^\a[^[:blank:]>/]*'))
+function! HTMLTagInput() abort " {{{2
+  let l:tagstring = input('Tag: ')
+  if l:tagstring ==# ''
+    throw 'OperatorSandwichCancel'
   endif
-  return l:tag
+  let l:former = printf('<%s>', l:tagstring)
+  let l:latter = printf('</%s>', matchstr(l:tagstring, '^\a[^[:blank:]>/]*'))
+  return [l:former, l:latter]
 endfunction " 2}}}
 let g:sandwich#recipes += [
 			\ {
