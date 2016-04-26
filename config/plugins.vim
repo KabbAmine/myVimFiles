@@ -259,9 +259,9 @@ let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/various/ultisnips']
 " ******* (( gitgutter )) {{{1
-command! GG :GitGutterToggle
-command! Gn :GitGutterNextHunk
-command! Gp :GitGutterPrevHunk
+let g:gitgutter_map_keys = 0
+nmap [c <Plug>GitGutterPrevHunk
+nmap ]c <Plug>GitGutterNextHunk
 command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " ******* (( Unite )) & plugins {{{1
