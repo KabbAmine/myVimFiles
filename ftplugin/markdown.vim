@@ -1,5 +1,5 @@
 " For Markdown files.
-" Last modification: 2016-04-05
+" Last modification: 2016-04-27
 
 " =========== VARIOUS =======================
 setlocal nonumber
@@ -15,9 +15,9 @@ function! <SID>ToggleTaskList() abort " {{{2
 	let l:regStart = '\v^\s*\S \['
 	if l:cl =~# l:regStart
 		if l:cl =~# l:regStart . ' \]'
-			call setline(l:line, substitute(l:cl, '\v\[ \]', '[x]', 'g'))
+			call setline(l:line, substitute(l:cl, '\v\[ \]', '[x]', ''))
 		else
-			call setline(l:line, substitute(l:cl, '\v\[x\]', '[ ]', 'g'))
+			call setline(l:line, substitute(l:cl, '\v\[x\]', '[ ]', ''))
 		endif
 	endif
 endfunction " 2}}}
