@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-26
+" Last modification: 2016-05-06
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -105,12 +105,12 @@ Plug 'kana/vim-operator-user'
 			\| Plug 'haya14busa/vim-operator-flashy'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
+Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 " Various {{{2
@@ -490,30 +490,10 @@ if g:hasUnix
 	let g:webdevicons_enable_airline_statusline = 0
 	let g:webdevicons_enable_unite = 0
 endif
-" ******* (( tabular )) {{{1
-vmap <CR><CR> :Tabularize /
-vmap <silent> <CR>: :Tabularize /^[^:]*\zs<CR>
-vmap <silent> <CR>, :Tabularize /^[^,]*\zs,/l1r1<CR>
-vmap <silent> <CR>. :Tabularize /^[^.]*\zs./l1r1<CR>
-" This was better using autocmd, but I had a ******* strange behavior so I used
-" a more simple approach
-function! <SID>AutoTabularize(pattern) abort
-	let l:ip = getpos('.')
-	exe ':Tabularize /' . a:pattern
-	call setpos('.', l:ip)
-endfunction
-command! TabularAutoToggle :call <SID>TabularAutoToggle()
-function! <SID>TabularAutoToggle() abort
-	if !exists('g:tabular_auto_state')
-		echo "TabularAuto enabled"
-		let g:tabular_auto_state = 1
-		inoremap <silent> \| \|<Esc>:call <SID>AutoTabularize('\|')<CR>A
-	else
-		echo "TabularAuto disabled"
-		iunmap \|
-		unlet! g:tabular_auto_state
-	endif
-endfunction
+" ******* (( vim-lion )) {{{1
+let g:lion_create_maps = 1
+let g:lion_map_right = '<CR>'
+let g:lion_map_left = ''
 " ******* (( fugitive )) {{{1
 " Some abbreviations
 cab Gb Git branch
