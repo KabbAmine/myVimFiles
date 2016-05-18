@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-06
+" Last modification: 2016-05-18
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -8,7 +8,7 @@
 " * GitGutter
 " * Rvm
 " * Syntastic
-" * Unite
+" * Unite (+unite-cmus)
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
@@ -142,6 +142,12 @@ function! SLSyntastic(mode) abort " {{{1
 		return ''
 	endif
 endfunction
+function! SLCmus() abort " {{{1
+	" return exists('*cmus#get()') ?
+	" 			\ cmus#get().statusline_str() : ''
+	return !empty(cmus#get().statusline_str()) ?
+				\ cmus#get().statusline_str() : ''
+endfunction
 " 1}}}
 
 " Helpers
@@ -252,6 +258,7 @@ nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
 if g:hasUnix
 	nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
 	nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
+	nnoremap <silent> gsC  :call <SID>ToggleSLItem("SLCmus()", "cmus")<CR>
 endif
 " 1}}}
 

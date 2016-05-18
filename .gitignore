@@ -1,8 +1,7 @@
 spell/
 
-various/*
-!various/ultisnips/
-!various/templates/
-!various/vimproc_win32.dll
+misc/*
+!misc/ultisnips/
+!misc/templates/
 
 plugs/

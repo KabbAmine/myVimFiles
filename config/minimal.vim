@@ -1,31 +1,23 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-18
+" Last modification: 2016-05-18
 " ================================================================
 
-" ========== VARIOUS  ===========================================
-" No compatible with Vi {{{1
-set nocompatible
+" ========== MISC  ===========================================
 " Load indentation rules and plugins according to the detected filetype {{{1
-if has('autocmd')
-	filetype plugin indent on
-endif
+filetype plugin indent on
 " Enables syntax highlighting {{{1
-if has('syntax')
-	syntax on
-endif
+syntax on
 " What to write in Viminfo and his location {{{1
 if g:isNvim
-	execute "set shada='100,<50,s10,h,n" . g:vimDir . "/various/shada"
+	execute "set shada='100,<50,s10,h,n" . g:vimDir . "/misc/shada"
 else
-	execute "set vi='100,<50,s10,h,n" . g:vimDir . "/various/viminfo"
+	execute "set vi='100,<50,s10,h,n" . g:vimDir . "/misc/viminfo"
 endif
 " Add the file systags to the tags option {{{1
-execute 'set tags+=' . g:vimDir . '/various/systags'
+execute 'set tags+=' . g:vimDir . '/misc/systags'
 " Using a dark background {{{1
 set background=dark
-" General theme for tty {{{1
-colo delek
 " Disable Background Color Erase (BCE) so that color schemes work properly when Vim is used inside tmux and GNU screen. {{{1
 if exists('$TMUX')
 	set t_ut=
@@ -38,7 +30,7 @@ if &term =~# '^screen'
 	execute "set <xLeft>=\e[1;*D"
 endif
 " Directory where to store files with :mkview. {{{1
-execute 'set viewdir=' . g:vimDir . '/various/view'
+execute 'set viewdir=' . g:vimDir . '/misc/view'
 " Make <Alt> works in terminal. {{{1
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim/10216459#10216459
 if !empty($TERM) && !g:isNvim
@@ -53,30 +45,18 @@ endif
 " }}}
 
 " ========== OPTIONS  ===========================================
-" ********* GUI {{{1
-if g:hasGui
-	set guioptions-=T		" No toolbar in GVim.
-	set guioptions-=m		" No menu in GVim.
-	set guioptions-=e		" Apply normal tabline in Gvim.
-	set guioptions-=L
-	set guioptions-=l
-	set guioptions+=c		" No more dialogs
-	set wak=no				" Don't use the ALT-keys for menus.
-	set linespace=5			" Number of pixel lines to use between lines.
-	if g:hasWin
-		set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI
-	else
-		set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
-	endif
-endif
-" ********* Messages & info{{{1
-set showcmd			" Show (partial) command in status line.
-set ruler			" Show cursor position below each window.
-set confirm			" Start a dialog when a command fails
-" ********* Select text {{{1
-" set clipboard=unnamedplus
-" ********* Edit text {{{1
-set showmatch						" Show matching brackets.
+" >>> GUI {{{1
+let &guioptions = 'agirtc'
+set winaltkeys=no	" Don't use ALT-keys for menus.
+set linespace=5
+let &guifont = g:hasWin ?
+			\ 'DejaVu_Sans_Mono_for_Powerline:h10:cANSI' :
+			\ 'Ubuntu Mono derivative Powerline 12'
+" >>> Messages & info {{{1
+set showcmd
+set ruler
+set confirm		" Start a dialog when a command fails
+" >>> Edit text {{{1
 set infercase						" Adjust case of a keyword completion match.
 set completeopt=menuone				" Use only a popup menu for Insert mode completion without preview.
 set textwidth=0						" Don't insert automatically newlines
@@ -84,66 +64,65 @@ if g:hasWin
 	set backspace=2					" Make backspace works normally in Win
 endif
 set matchpairs+=<:>
-" ********* Display text {{{1
-set number							" Show the line number for each line.
-set linebreak						" Wrap long lines at a character in 'breakat'.
-let &showbreak='░░░░ '				" String to put before wrapped screen lines.
-set scrolloff=3						" Number of screen lines to show around the cursor.
-set display=lastline				" Show the last line even if it doesn't fit.
-set lazyredraw						" Don't redraw while executing macros
+" >>> Display text {{{1
+set number
+set linebreak
+let &showbreak='⤷ '
+set scrolloff=3			" Number of screen lines to show around the cursor.
+set display=lastline	" Show the last line even if it doesn't fit.
+set lazyredraw			" Don't redraw while executing macros
 " Make stars and bars visible
 hi! link HelpBar Normal
 hi! link HelpStar Normal
-" Format of highlighting for tabs, whitespace... using 'list'.
-if g:hasWin
-	set listchars=tab:\|\ ,trail:~,extends:>,precedes:<
-else
-	set listchars=tab:\│\ ,trail:•,extends:#,nbsp:.
-endif
+let &listchars = g:hasWin ?
+			\ 'tab:| ,trail:~,extends:>,precedes:<' :
+			\ 'tab:│ ,trail:•,extends:#,nbsp:.'
 set list
-" ********* Move, search & patterns {{{1
-set ignorecase					" Do case insensitive matching.
-set smartcase					" Do smart case matching.
+" Scroll horizontally by 1 character (Only when wrap is disabled).
+set sidescroll=1
+" >>> Reading and writing files {{{1
+set modeline
+" >>> Move, search & patterns {{{1
+set ignorecase
+set smartcase
 set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 set magic
-" ********* Syntax, highlighting and spelling {{{1
+" >>> Syntax, highlighting and spelling {{{1
 set cursorline
-set hlsearch				" Highlight all matches for the last used search pattern.
-set spelllang=fr			" List of accepted languages.
-set synmaxcol=200			" Max column to look for syntax items
-" ********* Tabs & indenting {{{1
+set hlsearch
+set spelllang=fr
+set synmaxcol=200	" Max column to look for syntax items
+" >>> Tabs & indenting {{{1
 set tabstop=4			" Number of spaces a <Tab> in the text stands for.
 set softtabstop=4		" Number of spaces to insert for a <Tab>.
 set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent			" Automatically set the indent of a new line.
 set copyindent			" Copy whitespace for indenting from previous line.
-" ********* Folding {{{1
-set foldcolumn=1			" Width of the column used to indicate fold.
-" ********* Command line editing {{{1
+" >>> Folding {{{1
+set foldcolumn=1	" Width of the column used to indicate fold.
+" >>> Command line editing {{{1
 set wildmode=list:longest,full		" Command <Tab> completion, list matches, then longest common part, then all.
 set wildmenu						" Command-line completion shows a list of matches with TAB.
 " Enable the persistent undo.
 if has('persistent_undo')
-	execute 'set undodir =' . g:vimDir . '/various/undodir/'
+	let &undodir = g:vimDir . '/misc/undodir/'
 	set undofile
 endif
-" ********* Multi-byte characters {{{1
+" >>> Multi-byte characters {{{1
 if !g:isNvim
 	set encoding=utf-8
 endif
-" ********* Multiple windows {{{1
-set splitright						" A new window is put right of the current one.
+" >>> Multiple windows {{{1
+set splitright		" A new window is put right of the current one.
 set hidden
-" ********* Swap file {{{1
+" >>> Swap file {{{1
 " Set the swap file directories.
-if g:hasWin
-	execute 'set directory=' . g:vimDir . '\\various\\swap_dir,c:\\tmp,c:\\temp\\'
-else
-	execute 'set directory=' . g:vimDir . '/various/swap_dir,~/tmp,/var/tmp,/tmp\'
-endif
-" ********* Mapping {{{1
+let &directory = g:hasWin ?
+			\ g:vimDir . '\\misc\\swap_dir,c:\\tmp,c:\\temp\\' :
+			\ g:vimDir . '/misc/swap_dir,~/tmp,/var/tmp,/tmp\'
+" >>> Mapping {{{1
 " Remove the delay when escaping from insert-mode in terminal
 if !g:hasGui
 	set timeoutlen=1000 ttimeoutlen=0
@@ -163,46 +142,38 @@ let g:loaded_zipPlugin = 1
 " }}}
 
 " =========== MAPPINGS ==========================================
-" Make Y work as other capitals {{{1
+" >>> Make Y work as other capitals {{{1
 nnoremap Y y$
-" Text manipulation {{{1
-" *** NORMAL & VISUAL MODE
-	" *** yd		=> Duplicate line.
-" *** INSERT MODE
-	" *** <A-d> => Duplicate line.
-	" *** <A-o> => Insert new line.
-	" *** <A-a> => Insert new line before.
-function! <SID>Duplicate(...) abort " {{{2
-	let l:ip = getpos('.') | silent .t. | call setpos('.', l:ip)
-endfunction
-" 2 }}}
+" >>> Duplicate selection {{{1
+" *** ys to duplicate line in NORMAL mode witout moving cursor
+" *** <C-d> to duplicate selection in VISUAL mode.
 nnoremap <silent> yd :call <SID>Duplicate()<CR>
 vnoremap <silent> <C-d> :t'><CR>gv<Esc>
-inoremap <silent> <A-d> <Esc>:call <SID>Duplicate()<CR>a
-inoremap <silent> <A-o> <C-o>o
-inoremap <silent> <A-a> <C-o>O
-" Apply the option 'only' {{{1
-noremap <silent> gso :only<CR>
-noremap <silent> <F5> :tabonly<CR>
-" Open or close the fold {{{1
+function! <SID>Duplicate() abort " {{{2
+	let l:ip = getpos('.') | silent .t. | call setpos('.', l:ip)
+endfunction " 2}}}
+" >>> Apply the option 'only' {{{1
+nnoremap <silent> gso :only<CR>
+nnoremap <silent> <F5> :tabonly<CR>
+" >>> Open or close the fold {{{1
 nnoremap <silent> <space> za
-vmap <silent> <space> :fold<CR>
-" For searching {{{1
+vnoremap <silent> <space> :fold<CR>
+" >>> Searching {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
-nnoremap !/ /\<\><left><left>
-" Operations on tabs {{{1
-map <silent> <C-t> :tabedit<CR>
-" Operations on buffers {{{1
+" >>> Operations on tabs {{{1
+nnoremap <silent> <C-t> :tabedit<CR>
+" >>> Operations on buffers {{{1
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
 " For this mapping, check NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :silent bd<CR>
-" Repeat the last command {{{1
+" >>> Repeat the last command {{{1
 nnoremap !z @:
-" JK for escape {{{1
+" >>> JK for escape from NORMAL & COMMAND modes {{{1
 inoremap jk <Esc>
 inoremap JK <Esc>
-" For splits {{{1
+cnoremap jk <C-c>
+" >>> For splits {{{1
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
 nnoremap <silent> gsnv :vnew<CR>
@@ -219,9 +190,9 @@ nnoremap <silent> <c-h> :call <SID>TmuxMove('h')<CR>
 nnoremap <silent> <c-j> :call <SID>TmuxMove('j')<CR>
 nnoremap <silent> <c-k> :call <SID>TmuxMove('k')<CR>
 nnoremap <silent> <c-l> :call <SID>TmuxMove('l')<CR>
-" Move between splits & tmux
+" Move between splits & tmux " {{{2
 " https://gist.github.com/mislav/5189704#gistcomment-1735600
-function! <SID>TmuxMove(direction) abort " {{{2
+function! <SID>TmuxMove(direction) abort
 	let l:wnr = winnr()
 	silent! execute 'wincmd ' . a:direction
 	" If the winnr is still the same after we moved, it is the last pane
@@ -229,81 +200,40 @@ function! <SID>TmuxMove(direction) abort " {{{2
 		call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
 	endif
 endfunction " 2}}}
-" For command line {{{1
-cnoremap jk <C-c>
+" >>> For command line {{{1
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
-" Sort in VISUAL mode {{{1
+" >>> Sort {{{1
 vnoremap <leader>s :!sort<CR>
 nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
 function! <SID>Sort(...) abort
-	let l:cmd = printf('%d,%d:!sort', line("'["), line("']"))
-	execute l:cmd
+	execute printf('%d,%d:!sort', line("'["), line("']"))
 endfunction
-" Move by paragraph ({ & } are quite difficult to reach in azerty layout) {{{1
+" >>> Move by paragraph ({ & } are quite difficult to reach in azerty layout) {{{1
 nnoremap J }
 nnoremap K {
-" Make j and k move to the next row, not file line {{{1
+" >>> Make j and k move to the next row, not file line {{{1
 nnoremap j gj
 nnoremap k gk
-" Mappings for location list window {{{1
+" >>> Mappings for location list window {{{1
 nnoremap <C-F3> :lprevious<CR>
 nnoremap <C-F4> :lnext<CR>
-" TIPS from https://github.com/mhinz/vim-galore {{{1
-" Quickly edit macro or register content in scmdline-window {{{2
-" "q\r
+" >>> Quickly edit macro or register content in scmdline-window {{{1
+" (https://github.com/mhinz/vim-galore)
+" e.g. "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-" 2}}}
-" Open URL {{{1
-nnoremap <silent> gx :call <SID>OpenURL()<CR>
-function! <SID>OpenURL() abort " {{{2
-	" Open the current URL
-	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
-
-	let l:cl = getline('.')
-	let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
-	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
-		let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 : match(l:cl, "'", 0, 2) - 1]
-		let l:url = printf('https://github.com/%s', l:pn)
-	endif
-	if !empty(l:url)
-		let l:url = substitute(l:url, "'", '', 'g')
-		let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
-					\ ' && wmctrl -ia ' . v:windowid : ''
-		exe 'silent :!' . (g:hasUnix ?
-						\ 'x-www-browser ' . shellescape(l:url) :
-						\ ' start "' . shellescape(l:url))
-					\ . l:wmctrl
-					\ . (g:hasUnix ? ' 2> /dev/null &' : '')
-		if !g:hasGui | redraw! | endif
-	endif
-endfunction " 2}}}
-" 2}}}
-" For marks {{{1
+" >>> Open URL {{{1
+nnoremap <silent> gx :call helpers#OpenUrl()<CR>
+" >>> For marks {{{1
 nnoremap <silent> m<space> :delmarks!<CR>
-" Open here terminal/file manager {{{1
-nnoremap <silent> ;t   :call <SID>OpenHere('t')<CR>
-nnoremap <silent> ;;t  :call <SID>OpenHere('t', expand('%:h:p'))<CR>
-nnoremap <silent> ;f   :call <SID>OpenHere('f')<CR>
-nnoremap <silent> ;;f  :call <SID>OpenHere('f', expand('%:h:p'))<CR>
-function! <SID>OpenHere(type, ...) abort " {{{2
-	" type: (t)erminal, (f)ilemanager
-	" a:1: Location (pwd by default)
-
-	let l:cmd = {
-				\ 't': (g:hasUnix ?
-					\ 'exo-open --launch TerminalEmulator --working-directory %s 2> /dev/null &' :
-					\ 'start cmd /k cd %s'),
-				\ 'f': (g:hasUnix ?
-					\ 'xdg-open %s 2> /dev/null &' :
-					\ 'start explorer %s')
-				\ }
-	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
-	if !g:hasGui | redraw! | endif
-endfunction " 2}}}
-" Move current line or visual selection {{{1
+" >>> Open here terminal/file manager {{{1
+nnoremap <silent> ;t   :call helpers#OpenHere('t')<CR>
+nnoremap <silent> ;;t  :call helpers#OpenHere('t', expand('%:h:p'))<CR>
+nnoremap <silent> ;f   :call helpers#OpenHere('f')<CR>
+nnoremap <silent> ;;f  :call helpers#OpenHere('f', expand('%:h:p'))<CR>
+" >>> Move current line or visual selection {{{1
 nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>
 nnoremap <silent> <A-j> :call <SID>Move(1)<CR>
 vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
@@ -321,13 +251,13 @@ function! <SID>Move(to) range " {{{2
 		execute 'normal! ' . repeat('za', foldlevel(l:cl))
 	endif
 endfunction " 2}}}
-" Mimic multiple cursor behavior with <C-n>, useful with gn {{{1
+" >>> Mimic multiple cursor behavior with <C-n>, useful with gn {{{1
 " - \V literal string (very no magic)
 " - \C case match
 " - Use register x in visual mode
 nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
-" Use c for manipulating + register {{{1
+" >>> Use c for manipulating + register {{{1
 nnoremap cd "+d
 nnoremap cp "+p
 nnoremap cP "+P
@@ -337,7 +267,7 @@ vnoremap Cd "+d
 vnoremap Cp "+p
 vnoremap CP "+P
 vnoremap Cy "+y
-" Text objects {{{1
+" >>> Text objects {{{1
 " All ***
 "	- ie         : Entire file
 "	- il         : Current line without whitespace
@@ -354,67 +284,54 @@ vnoremap Cy "+y
 " Sh ***
 "	 - if/af  : Inside/around a function
 let s:to = {
-			\ '_' : [
-				\ ['ie', 'ggVG'],
-				\ ['il', '^vg_'],
-				\ ['i.', 'F.WvEf.ge'],
-				\ ['a.', 'F.vEf.'],
-				\ ['i_', 'T_vt_'],
-				\ ['a_', 'F_vf_'],
-				\ ['i*', 'T*vt*'],
-				\ ['a*', 'F*vf*'],
-				\ ['i,', 'T,vt,'],
-				\ ['a,', 'F,vf,'],
-				\ ['i#', 'T#vt#'],
-				\ ['a#', 'F#vf#'],
-				\ ['i:', 'T:vt:'],
-				\ ['a:', 'F:vf:'],
-				\ ['i+', 'T+vt+'],
-				\ ['a+', 'F+vf+'],
-				\ ['i-', 'T-vt-'],
-				\ ['a-', 'F-vf-'],
-			\ ],
-			\ 'scss,css' : [
-				\ ['iV', '^f:wvt;'],
-				\ ['iP', '^f:Bvt:'],
-				\ ['if', '][kvi{V'],
-				\ ['af', '][kva{Vo[]j'],
-			\ ],
-			\ 'sh' : [
-				\ ['if', 'vi{V'],
-				\ ['af', 'va{V'],
-			\ ]
-		\ }
-" For all file types {{{2
-for [s:k, s:m] in s:to._
-	execute 'onoremap <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
-	execute 'vnoremap <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
-endfor
-call remove(s:to, '_')
-augroup MyTextObjects " {{{2
-	autocmd!
-	for s:ft in keys(s:to)
-		for [s:k, s:m] in s:to[s:ft]
-			execute 'autocmd FileType ' . s:ft . ' onoremap <buffer> <silent> ' . s:k . ' :normal! ' . s:m . '<CR>'
-			execute 'autocmd FileType ' . s:ft . ' vnoremap <buffer> <silent> ' . s:k . ' :<C-u>normal! ' . s:m . '<CR>'
-		endfor
-	endfor
-augroup END
-unlet! s:to s:k s:m s:ft " {{{2
-" 2}}}
-" A simple buffer lister {{{1
-command! Ls :call helpers#Buffers()
-" INSERT mode; Enable Paste when using <C-r> {{{1
+			\	'_' : [
+			\			['ie', 'ggVG'],
+			\			['il', '^vg_'],
+			\			['i.', 'F.WvEf.ge'],
+			\			['a.', 'F.vEf.'],
+			\			['i_', 'T_vt_'],
+			\			['a_', 'F_vf_'],
+			\			['i*', 'T*vt*'],
+			\			['a*', 'F*vf*'],
+			\			['i,', 'T,vt,'],
+			\			['a,', 'F,vf,'],
+			\			['i#', 'T#vt#'],
+			\			['a#', 'F#vf#'],
+			\			['i:', 'T:vt:'],
+			\			['a:', 'F:vf:'],
+			\			['i+', 'T+vt+'],
+			\			['a+', 'F+vf+'],
+			\			['i-', 'T-vt-'],
+			\			['a-', 'F-vf-'],
+			\	],
+			\	'scss,css' : [
+			\		['iV', '^f:wvt;'],
+			\		['iP', '^f:Bvt:'],
+			\		['if', '][kvi{V'],
+			\		['af', '][kva{Vo[]j'],
+			\	],
+			\	'sh' : [
+			\		['if', 'vi{V'],
+			\		['af', 'va{V'],
+			\	]
+			\ }
+call helpers#MakeTextObjects(s:to)
+unlet! s:to
+" >>> Enable Paste when using <C-r> in INSERT mode {{{1
 inoremap <silent> <C-r> <C-r><C-p>
+" >>> Preview {{{1
+nnoremap <silent> gP :Preview<CR>
+vnoremap <silent> gP :Preview<CR>
+nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost'])<CR>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
-" Disable continuation of comments when using o/O {{{1
+" >>> Disable continuation of comments when using o/O {{{1
 augroup FormatOpt
 	autocmd!
 	autocmd FileType * setl formatoptions-=o
 augroup END
-" Indentation for specific filetypes {{{1
+" >>> Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
 	autocmd FileType coffee,html,css,scss,pug,vader,ruby,markdown
@@ -423,54 +340,17 @@ augroup Indentation
 				\ setl ts=4 sts=4 sw=4 expandtab
 
 augroup END
-" Make cursor line appear only in active window {{{1
-	augroup CursorLine
-		autocmd!
-		autocmd WinEnter * set cursorline
-		autocmd WinLeave * set nocursorline
-	augroup END
-" endif
-" Commands for folders & files {{{1
-command! -nargs=+ -complete=file Mkdir  :call <SID>MakeDir(<f-args>)
-command! -nargs=+ -complete=file Rm     :call <SID>Delete(<f-args>)
-command! -nargs=1 -complete=file Rename :call <SID>Rename(<f-args>)
-function! <SID>Delete(...) abort " {{{2
-	for l:f in a:000
-		if filereadable(l:f)
-			if delete(l:f) ==# 0
-				echohl Statement | echo l:f . ' was deleted' | echohl None
-			endif
-		elseif isdirectory(l:f)
-			let l:cmd = g:hasUnix ?
-						\ 'rm -vr %s' :
-						\ 'RD /S %s'
-			echo system(printf(l:cmd, escape(l:f, ' ')))
-		endif
-	endfor
-endfunction " 2}}}
-function! <SID>MakeDir(...) abort " {{{2
-	for l:d in a:000
-		if !isdirectory(l:d)
-			call mkdir(l:d, 'p')
-			echohl Statement | echo l:d . '/ was created' | echohl None
-		else
-			echohl Error | echo l:d . '/ exists already' | echohl None
-		endif
-	endfor
-endfunction " 2}}}
-function! <SID>Rename(to) abort " {{{2
-	let l:file = expand('%:p')
-	if !filereadable(l:file)
-		echohl Error | echo 'Not a valid file' | echohl None
-	else
-		let l:buf = expand('%')
-		silent execute 'saveas ' . a:to
-		silent execute 'bdelete! ' . l:buf
-		call delete(l:file)
-		echohl Statement | echo 'Renamed to "' . a:to . '"' | echohl None
-	endif
-endfunction " 2}}}
-" Specify indentation (ts,sts,sw) {{{1
+" >>> Make cursor line appear only in active window {{{1
+augroup CursorLine
+	autocmd!
+	autocmd WinEnter * set cursorline
+	autocmd WinLeave * set nocursorline
+augroup END
+" >>> Commands for folders & files {{{1
+command! -nargs=+ -complete=file Mkdir  :call helpers#MakeDir(<f-args>)
+command! -nargs=+ -complete=file Rm     :call helpers#Delete(<f-args>)
+command! -nargs=1 -complete=file Rename :call helpers#Rename(<f-args>)
+" >>> Specify indentation (ts,sts,sw) {{{1
 command! Indent :call <SID>SetIndentation()
 function! <SID>SetIndentation() abort " {{{2
 	let l:indentation = input('New indentation (' . &ts . ', ' . &sts . ', ' . &sw . ') => ')
@@ -480,29 +360,32 @@ function! <SID>SetIndentation() abort " {{{2
 		execute 'setl sw=' . l:indentation
 	endif
 endfunction " 2}}}
-" Shortcuts for vim doc {{{1
+" >>> Shortcuts for vim doc {{{1
 command! Hl :help local-additions
 command! Fl :help function-list
-" Change file type between PHP and HTML files {{{1
-command! Ch :execute 'setf ' . (&ft ==# 'php' ? 'html' : 'php')
-" Conversion between TABS ans SPACES {{{1
+" >>> Change file type between PHP and HTML files {{{1
+augroup ChPhpHtml
+	autocmd!
+	autocmd FileType php,html command! -buffer Ch :execute 'setf ' . (&ft ==# 'php' ? 'html' : 'php')
+augroup END
+" >>> Conversion between TABS ans SPACES {{{1
 command! TabToSpace :setlocal expandtab | %retab!
 command! SpaceToTab :setlocal noexpandtab | %retab!
-" Make the current file directory as the vim current directory {{{1
+" >>> Make the current file directory as the vim current directory {{{1
 command! Dir :cd %:p:h
-" Write to file with sudo (Linux only) {{{1
+" >>> Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
 if g:hasUnix
 	command! Sw :w !sudo tee % >/dev/null
 endif
-" Set spelllang & spell in one command {{{1
+" >>> Set spelllang & spell in one command {{{1
 command! -nargs=? Spell call <SID>SetSpell(<f-args>)
 function! <SID>SetSpell(...) abort " {{{2
 	let l:l = exists('a:1') ? a:1 : 'fr'
 	execute 'setlocal spelllang=' . l:l
 	setlocal spell!
 endfunction " 2}}}
-" Enable marker folding for some ft {{{1
+" >>> Enable marker folding for some ft {{{1
 augroup AutoFold
 	autocmd!
 	autocmd BufEnter *.js,*.sh,*.css
@@ -510,34 +393,70 @@ augroup AutoFold
 				\| setlocal foldmarker={,}
 				\| normal! zR
 augroup END
-" Use shiba with some file types {{{1
+" >>> Use shiba with some file types {{{1
 if executable('shiba')
 	augroup Shiba
 		autocmd!
 		autocmd Filetype html,markdown command! -buffer Shiba :silent !shiba --detach %
 	augroup END
 endif
-" Cmus {{{1
+" >>> Cmus {{{1
 if executable('cmus')
 	let s:cmusCmds = {
-				\ '-play'      : 'p',
-				\ '-pause'     : 'u',
-				\ '-stop'      : 's',
-				\ '-next'      : 'n',
-				\ '-previous'  : 'r',
-				\ '-repeat'    : 'R',
-				\ '-shuffle'   : 'S',
-			\ }
+				\	'play'      : 'p',
+				\	'pause'     : 'u',
+				\	'stop'      : 's',
+				\	'next'      : 'n',
+				\	'previous'  : 'r',
+				\	'repeat'    : 'R',
+				\	'shuffle'   : 'S',
+				\ }
 	command! -nargs=? -bar -complete=custom,CompleteCmus Cmus :call <SID>Cmus('<args>')
 	function! <SID>Cmus(...) abort " {{{2
 		let l:arg = exists('a:1') && !empty(get(s:cmusCmds, a:1)) ?
 					\ get(s:cmusCmds, a:1) : 'u'
 		silent call system('cmus-remote -' . l:arg)
+		" Get the value of a:1 if it exists...
+		let l:Q = filter(systemlist('cmus-remote -Q'), 'v:val =~# "^set " . a:1 . " "')
+		" ... then show it
+		if !empty(l:Q)
+			echo l:Q[0][4:]
+		endif
 	endfunction " 2}}}
 	function! CompleteCmus(A, L, P) abort " {{{2
 		return join(keys(s:cmusCmds), "\n")
 	endfunction " 2}}}
 endif
+" >>> Echo vim expression in a buffer __Echo__ {{{1
+command! -nargs=* -complete=expression Echo :call <SID>Echo(<f-args>)
+function! <SID>Echo(...) abort " {{{2
+	let l:out = ''
+	redir => l:out
+	silent execute 'echo ' . join(a:000, '')
+	redir END
+	if !empty(l:out[1:])
+		call helpers#OpenOrMove2Buffer('__Echo__', 'vim')
+		call setline(1, l:out[1:])
+		wincmd p
+	endif
+endfunction " 2}}}
+" >>> Preview buffer {{{1
+" TODO: Find a way to execute vimscript.
+command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
+function! <SID>Preview(start, end) abort " {{{2
+	call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, {
+				\	'coffee'    : ['coffee -spb', 'javascript'],
+				\	'javascript': ['nodejs', ''],
+				\	'markdown'  : ['markdown', 'html'],
+				\	'php'       : ['php', ''],
+				\	'pug'       : ['pug --pretty', 'html'],
+				\	'python'    : ['python3', ''],
+				\	'ruby'      : ['ruby', ''],
+				\	'scss'      : ['node-sass --output-style=expanded', 'css'],
+				\ })
+endfunction " 2}}}
+" >>> Scratch buffer {{{1
+command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '')
 " }}}
 
 " =========== ABBREVIATIONS ==============================
@@ -556,7 +475,7 @@ cab Q q
 
 " =========== OMNIFUNC ==============================
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion {{{1
-augroup omni
+augroup Omni
 	autocmd!
 	if has('autocmd') && exists('+omnifunc')
 		autocmd! Filetype *

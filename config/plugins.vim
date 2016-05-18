@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-06
+" Last modification: 2016-05-18
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -16,34 +16,31 @@ fun! s:PlugInOs(link, param, os) abort " {{{2
 endfun
 " My plugins {{{2
 let s:myPlugs = {
-			\'gulp-vim'      : '',
-			\'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
-			\'lazyList'      : '',
-			\'unite-cmus'    : '',
-			\'vBox'          : '',
-			\'vcml'          : '',
-			\'vCoolor'       : '',
-			\'vullScreen'    : '',
-			\'vZoom'         : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
-			\'yowish'        : '',
-			\'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
-		\ }
-fun! s:MyPlugs() abort
+			\	'gulp-vim'      : '',
+			\	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
+			\	'lazyList'      : '',
+			\	'unite-cmus'    : '',
+			\	'vBox'          : '',
+			\	'vCoolor'       : '',
+			\	'vullScreen'    : '',
+			\	'vZoom'         : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
+			\	'yowish'        : '',
+			\	'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
+			\ }
+function! s:MyPlugs() abort
 	let l:pn = keys(s:myPlugs)
 	let l:pl = values(s:myPlugs)
 	for l:i in range(0, len(l:pn) - 1)
 		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
 		exec printf("Plug '%s'%s", expand(s:myPlugins) . l:pn[l:i], l:opt)
 	endfor
-endfun
+endfunction
 " 2}}}
 " 1}}}
 
 " ========== VIM-PLUG ==============================================
 " Initialization {{{1
-let s:plug_home = g:vimDir . '/plugs'
-call plug#begin(s:plug_home)
-unlet s:plug_home
+call plug#begin(g:vimDir . '/plugs')
 " Plugins {{{1
 " Syntaxes {{{2
 Plug 'digitaltoad/vim-pug'
@@ -54,7 +51,7 @@ Plug 'stephpy/vim-yaml'
 Plug 'tpope/vim-haml'
 " For Css {{{2
 Plug 'JulesWang/css.vim'
-Plug 'othree/csscomplete.vim' , {'for': 'css'}
+Plug 'othree/csscomplete.vim', {'for': 'css'}
 " For PHP {{{2
 Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
@@ -113,7 +110,7 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-" Various {{{2
+" Misc {{{2
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
@@ -129,7 +126,6 @@ Plug 'rhysd/vim-grammarous'
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-Plug 'thinca/vim-quickrun'       , {'on': ['QuickRun', 'AutoQR']}
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
@@ -138,12 +134,11 @@ call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
 call s:MyPlugs()
 " }}}
-" }}}
 " End {{{1
 call plug#end()
 " }}}
 
-" ========== VARIOUS  ===========================================
+" ========== MISC  ===========================================
 " Colors {{{1
 if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
 	set term=xterm-256color
@@ -154,16 +149,14 @@ hi! link TabLineSel Search
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
-" ******* (( NERDTree )) {{{1
+" >>> (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q> :execute (&ft !=# 'silent nerdtree' ? 'bd' : 'NERDTreeClose')<CR>
-if g:hasWin
-	let NERDTreeBookmarksFile = 'C:\Users\k-bag\vimfiles\various\NERDTreeBookmarks'
-else
-	let NERDTreeBookmarksFile = '/home/k-bag/.vim/various/NERDTreeBookmarks'
-endif
+let NERDTreeBookmarksFile = g:hasWin ?
+			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
+			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
 let NERDTreeIgnore = ['\~$', '\.class$']
 " Single-clic for folder nodes and double for files.
 let NERDTreeMouseMode = 2
@@ -176,25 +169,19 @@ let NERDTreeChDirMode = 2
 augroup NerdTree
 	autocmd!
 	autocmd FileType nerdtree setlocal nolist
-	" autocmd WinEnter * if exists('b:NERDTree') | silent execute 'normal R' | endif
 augroup END
-" ******* (( python-syntax )) {{{1
+" >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
-" ******* (( syntastic )) {{{1
+" >>> (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! <SID>SyntasticToggle() abort
 	SyntasticToggle
-	if g:syntastic_mode_map.mode ==# 'active'
-		SyntasticCheck
-	else
-		SyntasticReset
-	endif
+	execute g:syntastic_mode_map.mode ==# 'active' ? 'SyntasticCheck' : 'SyntasticReset'
 endfunction
 nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
-" For status line
 let g:syntastic_stl_format = '%E{❌ %e} %W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_error_symbol = "❌"
@@ -221,13 +208,12 @@ if g:hasWin
 	let g:syntastic_php_checkers = 'php'
 	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
 endif
-" ******* (( emmet )) {{{1
+" >>> (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
 augroup emmet
 	autocmd!
 	autocmd FileType html,scss,css,pug EmmetInstall
-	" autocmd FileType html,scss,css,pug imap <buffer> <expr> jhh emmet#expandAbbrIntelligent("\<tab>")
 	autocmd FileType html,scss,css,pug imap <buffer> jha <plug>(emmet-anchorize-url)
 	autocmd FileType html,scss,css,pug imap <buffer> jhc <plug>(emmet-code-pretty)
 	autocmd FileType html,scss,css,pug imap <buffer> jhh <plug>(emmet-expand-abbr)
@@ -238,88 +224,87 @@ augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
-" ******* (( undotree )) {{{1
+" >>> (( undotree )) {{{1
 nnoremap <silent> ,U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
-" ******* (( delimitmate )) {{{1
+" >>> (( delimitmate )) {{{1
 imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
-" ******* (( javascript-libraries-syntax )) {{{1
+let delimitMate_matchpairs = '(:),[:],{:}'
+" >>> (( javascript-libraries-syntax )) {{{1
 " let g:used_javascript_libs = 'jquery'
-" ******* (( ultisnips )) {{{1
+" >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
 let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
-let g:UltiSnipsSnippetsDir = g:vimDir . '/various/ultisnips'
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/various/ultisnips']
-" ******* (( gitgutter )) {{{1
+let g:UltiSnipsSnippetsDir = g:vimDir . '/misc/ultisnips'
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/misc/ultisnips']
+" >>> (( gitgutter )) {{{1
 let g:gitgutter_map_keys = 0
 nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
 command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
-" ******* (( Unite )) & plugins {{{1
+" >>> (( Unite )) & plugins {{{1
 " SETTINGS {{{2
 " General {{{3
-let g:unite_data_directory = g:vimDir . '/various/unite'
+let g:unite_data_directory = g:vimDir . '/misc/unite'
 let g:unite_force_overwrite_statusline = 0
 let g:unite_enable_auto_select = 0
 let g:unite_quick_match_table = {
-			\ '0': 29,
-			\ '1': 20,
-			\ '2': 21,
-			\ '3': 22,
-			\ '4': 23,
-			\ '5': 24,
-			\ '6': 25,
-			\ '7': 26,
-			\ '8': 27,
-			\ '9': 28,
-			\ 'a': 8,
-			\ 'd': 4,
-			\ 'e': 2,
-			\ 'f': 0,
-			\ 'g': 12,
-			\ 'h': 17,
-			\ 'i': 3,
-			\ 'j': 1,
-			\ 'k': 5,
-			\ 'l': 7,
-			\ 'm': 9,
-			\ 'o': 18,
-			\ 'p': 19,
-			\ 'q': 10,
-			\ 'r': 13,
-			\ 's': 6,
-			\ 't': 14,
-			\ 'u': 16,
-			\ 'w': 11,
-			\ 'y': 15,
+			\	'0': 29,
+			\	'1': 20,
+			\	'2': 21,
+			\	'3': 22,
+			\	'4': 23,
+			\	'5': 24,
+			\	'6': 25,
+			\	'7': 26,
+			\	'8': 27,
+			\	'9': 28,
+			\	'a': 8,
+			\	'd': 4,
+			\	'e': 2,
+			\	'f': 0,
+			\	'g': 12,
+			\	'h': 17,
+			\	'i': 3,
+			\	'j': 1,
+			\	'k': 5,
+			\	'l': 7,
+			\	'm': 9,
+			\	'o': 18,
+			\	'p': 19,
+			\	'q': 10,
+			\	'r': 13,
+			\	's': 6,
+			\	't': 14,
+			\	'u': 16,
+			\	'w': 11,
+			\	'y': 15,
 		\ }
 call unite#custom#source(
 			\ 'command, neomru/file, buffer',
 			\ 'matchers', 'matcher_fuzzy')
 " Default profile
-"	* toggle: Close unite buffer if already exists
 call unite#custom#profile('default', 'context', {
-			\ 'start_insert'      : 1,
-			\ 'force_redraw'      : 1,
-			\ 'no_empty'          : 1,
-			\ 'toggle'            : 1,
-			\ 'vertical_preview'  : 1,
-			\ 'winheight'         : 20,
-			\ 'prompt'            : '▸ ',
-			\ 'prompt_focus'      : 1,
-			\ 'candidate_icon'    : '  ▫ ',
-			\ 'marked_icon'       : '  ▪ ',
-			\ 'no_hide_icon'      : 1,
-		\ })
+			\	'start_insert'      : 1,
+			\	'force_redraw'      : 1,
+			\	'no_empty'          : 1,
+			\	'toggle'            : 1,
+			\	'vertical_preview'  : 1,
+			\	'winheight'         : 20,
+			\	'prompt'            : '▸ ',
+			\	'prompt_focus'      : 1,
+			\	'candidate_icon'    : '  ▫ ',
+			\	'marked_icon'       : '  ▪ ',
+			\	'no_hide_icon'      : 1,
+			\ })
 " Use ag {{{3
 let g:unite_source_rec_async_command =
 			\ ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
@@ -392,7 +377,7 @@ nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
 if g:hasUnix
-	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album<CR>
+	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album -no-force-redraw<CR>
 endif
 " Inside unite buffers
 augroup UniteMaps
@@ -423,20 +408,20 @@ function! s:unite_my_settings() " {{{3
 	inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
 endfunction " 3}}}
 " 1}}}
-" ******* (( vim-plug )) {{{1
+" >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
-" ******* (( clever-f )) {{{1
+" >>> (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 " Fix a direction of search (f & F)
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case = 1
 let g:clever_f_mark_char_color = 'IncSearch'
-" ******* (( neocomplete )) {{{1
+" >>> (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#data_directory = g:vimDir . '/various/neocomplete'
+let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
 inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
 			\ neocomplete#start_manual_complete()
 if !exists('g:neocomplete#force_omni_input_patterns')
@@ -449,7 +434,7 @@ let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.markdown = ':'
 let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
-" ******* (( jedi-vim )) {{{1
+" >>> (( jedi-vim )) {{{1
 let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 0
 " let g:jedi#force_py_version = 3
@@ -458,23 +443,23 @@ let g:jedi#documentation_command = 'gk'
 let g:jedi#usages_command = 'gD'
 " Don't use, buggy as hell
 let g:jedi#rename_command = 'gr'
-augroup jedi
+augroup Jedi
 	autocmd!
 	autocmd FileType python setlocal omnifunc=jedi#completions
 augroup END
-" ******* (( autoformat )) {{{1
+" >>> (( autoformat )) {{{1
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
 " let g:autoformat_verbosemode = 1
 " Make =ie autoformat for some ft
 augroup Autoformat
 	autocmd!
-	autocmd Filetype html,json,css,javascript,scss nmap <buffer> =ie :Autoformat<CR>
+	autocmd Filetype html,json,css,javascript,scss nnoremap <buffer> =ie :Autoformat<CR>
 augroup END
-" ******* (( colorizer )) {{{1
+" >>> (( colorizer )) {{{1
 let g:colorizer_nomap = 1
 let g:colorizer_startup = 0
-" ******* (( php-documentor )) {{{1
+" >>> (( php-documentor )) {{{1
 augroup PhpDoc
 	autocmd!
 	autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
@@ -482,7 +467,7 @@ augroup PhpDoc
 	autocmd Filetype php vnoremap <buffer> <silent> <C-d> :call PhpDocRange()<CR>
 augroup END
 let g:pdv_cfg_ClassTags = []
-" ******* (( vim-devicons )) {{{1
+" >>> (( vim-devicons )) {{{1
 if g:hasUnix
 	let g:DevIconsEnableFoldersOpenClose = 1
 	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
@@ -490,49 +475,29 @@ if g:hasUnix
 	let g:webdevicons_enable_airline_statusline = 0
 	let g:webdevicons_enable_unite = 0
 endif
-" ******* (( vim-lion )) {{{1
+" >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
-" ******* (( fugitive )) {{{1
+" >>> (( fugitive )) {{{1
 " Some abbreviations
 cab Gb Git branch
 cab Gch Git checkout
 cab Gco Gcommit
+cab Gt Git tag
 cab Gl Gllog
 cab Gm Gmerge
 cab Gs Gstatus
 cab Gst Git stash
-" ******* (( vim-json )) {{{1
+" >>> (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
-" ******* (( vim-commentary )) {{{1
+" >>> (( vim-commentary )) {{{1
 augroup Commentary
 	autocmd!
 	autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
 augroup END
-" ******* (( quickRun )) {{{1
-let g:quickrun_no_default_key_mappings = 0
-nnoremap <silent> gR :QuickRun<CR>
-vnoremap <silent> gR :QuickRun<CR>
-" QuickRun on save file
-nnoremap gaR :call <SID>AutoQR()<CR>
-fun! <SID>AutoQR() abort
-	if !exists('#AQR')
-		augroup AQR
-			autocmd!
-			autocmd BufWritePost,WinEnter * :QuickRun
-		augroup END
-		echo 'QuickRun auto update enabled'
-	else
-		augroup AQR
-			autocmd!
-		augroup END
-		augroup! AQR
-		echo 'QuickRun auto update disabled'
-	endif
-endfun
-" ******* (( agit )) {{{1
+" >>> (( agit )) {{{1
 let g:agit_no_default_mappings = 1
 augroup Agit
 	autocmd!
@@ -546,7 +511,7 @@ augroup Agit
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
 augroup END
-" ******* (( nerdtree-git-plugin )) {{{1
+" >>> (( nerdtree-git-plugin )) {{{1
 " let g:NERDTreeIndicatorMapCustom = {
 "     \ "Modified"  : "✹",
 "     \ "Staged"    : "✚",
@@ -558,11 +523,11 @@ augroup END
 "     \ "Clean"     : "✔︎",
 "     \ "Unknown"   : "?"
 "     \ }
-" ******* (( vim-dispatch )) {{{1
+" >>> (( vim-dispatch )) {{{1
 if g:hasWin
 	nnoremap <silent> !: :call myhelpers#CmdForDispatcher('Start! -wait=always %s')<CR>
 endif
-" ******* (( vim-rvm )) {{{1
+" >>> (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
 if g:hasUnix
 	augroup Rvm
@@ -570,7 +535,7 @@ if g:hasUnix
 		autocmd GUIEnter * Rvm
 	augroup END
 endif
-" ******* (( vimux )) {{{1
+" >>> (( vimux )) {{{1
 if g:hasUnix
 	let g:VimuxHeight = '50'
 	let g:VimuxOrientation = 'h'
@@ -584,20 +549,18 @@ if g:hasUnix
 		silent VimuxTogglePane
 	endfunction " 2}}}
 endif
-" ******* (( vimproc )) {{{1
+" >>> (( vimproc )) {{{1
 " Open arg with default system command
 command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
-if g:hasWin
-	let g:vimproc#dll_path = g:vimDir . '/various/vimproc_win32.dll'
-endif
-" ******* (( vim-operator-flashy )) {{{1
+let g:vimproc#download_windows_dll = 1
+" >>> (( vim-operator-flashy )) {{{1
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
 " The following mappings are already defined in /config/minimal.vim
 nmap cy "+<Plug>(operator-flashy)
 nmap cY "+<Plug>(operator-flashy)$
 let g:operator#flashy#group = 'Search'
-" ******* (( vim-sandwich )) {{{1
+" >>> (( vim-sandwich )) {{{1
 nmap s <Nop>
 xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
@@ -608,15 +571,15 @@ nmap . <Plug>(operator-sandwich-dot)
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
 " Use 't' for html tag
 let g:sandwich#recipes += [
-			\ {
-				\ 'buns'    : 'HTMLTagInput()',
-				\ 'listexpr': 1,
-				\ 'filetype': ['html'],
-				\ 'kind'    : ['add', 'replace'],
-				\ 'action'  : ['add'],
-				\ 'input'   : ['t'],
-			\ },
-		\ ]
+			\	{
+			\		'buns'    : 'HTMLTagInput()',
+			\		'listexpr': 1,
+			\		'filetype': ['html'],
+			\		'kind'    : ['add', 'replace'],
+			\		'action'  : ['add'],
+			\		'input'   : ['t'],
+			\	},
+			\ ]
 function! HTMLTagInput() abort " {{{2
   let l:tagstring = input('Tag: ')
   if l:tagstring ==# ''
@@ -627,18 +590,18 @@ function! HTMLTagInput() abort " {{{2
   return [l:former, l:latter]
 endfunction " 2}}}
 let g:sandwich#recipes += [
-			\ {
-				\ 'external': ['it', 'at'],
-				\ 'noremap' : 1,
-				\ 'filetype': ['html'],
-				\ 'input'   : ['t'],
-			\ },
-		\ ]
-" ******* (( vim-grammarous )) {{{1
+			\	{
+			\		'external': ['it', 'at'],
+			\		'noremap' : 1,
+			\		'filetype': ['html'],
+			\		'input'   : ['t'],
+			\	},
+			\ ]
+" >>> (( vim-grammarous )) {{{1
 let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
 let g:grammarous#default_comments_only_filetypes = {
-			\ 'vim' : 1,
-			\ 'sh' : 1
+		\	'vim' : 1,
+		\	'sh'  : 1
 		\ }
 			" \ '*' : 1,
 let g:grammarous#hooks = {}
@@ -651,22 +614,22 @@ function! g:grammarous#hooks.on_reset(errs)
 	nunmap <buffer> gn
 	nunmap <buffer> gp
 endfunction
-" ******* (( phpfolding )) {{{1
+" >>> (( phpfolding )) {{{1
 let g:DisableAutoPHPFolding = 1
-" ******* (( indentLine )) {{{1
+" >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
-" ******* (( vim-markdown )) {{{1
+" >>> (( vim-markdown )) {{{1
 " Enable syntax highlighting in codeblocks for some file types
 " let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
-" ******* (( vim-jsdoc )) {{{1
+" >>> (( vim-jsdoc )) {{{1
 augroup JsDoc
 	autocmd!
 	autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
 	autocmd Filetype javascript inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
 augroup END
 " Check doc when needed!!!
-" ******* (( tern_for_vim )) {{{1
+" >>> (( tern_for_vim )) {{{1
 let tern_show_signature_in_pum = 1
 augroup Tern
 	autocmd!
@@ -675,8 +638,8 @@ augroup Tern
 	autocmd Filetype javascript nmap <buffer> gD :TernRefs<CR>
 	autocmd Filetype javascript nmap <buffer> gr :TernRename<CR>
 augroup END
-" ******* (( airnote )) {{{1
-let g:airnote_path = expand(g:vimDir . '/various/memos')
+" >>> (( airnote )) {{{1
+let g:airnote_path = expand(g:vimDir . '/misc/memos')
 let g:airnote_suffix = 'md'
 let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
@@ -691,116 +654,102 @@ augroup Airnote
 				\ g:airnote_suffix
 			\ )
 augroup END
-" ******* (( vim-signjk-motion )) {{{1
+" >>> (( vim-signjk-motion )) {{{1
 nmap gj <Plug>(signjk-j)
 nmap gk <Plug>(signjk-k)
 " To use with an operator (c/d/v...)
 omap L <Plug>(textobj-signjk-lines)
 vmap L <Plug>(textobj-signjk-lines)
-" ******* (( vim-parenmatch )) {{{1
+" >>> (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 0
 hi! link ParenMatch WarningMsg
-" ******* (( vim-emoji )) {{{1
+" >>> (( vim-emoji )) {{{1
 augroup Emoji
 	autocmd!
 	autocmd FileType markdown,gitcommit :setl omnifunc=emoji#complete
 augroup END
-" ******* (( zeavim )) {{{1
+" >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
 nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-			\ 'python'           : 'python 3',
-			\ 'javascript'       : 'javascript,nodejs',
-			\ '^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
-			\ 'help'             : 'vim'
-		\ }
+			\	'python'           : 'python 3',
+			\	'javascript'       : 'javascript,nodejs',
+			\	'^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
+			\	'help'             : 'vim'
+			\ }
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
 			\ 'Z:/k-bag/Important!/docsets_Zeal/'
-" ******* (( vcoolor )) {{{1
+" >>> (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
 let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
-" ******* (( gulp-vim )) {{{1
+" >>> (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 let g:gv_use_dispatch = 0
 let g:gv_unite_cmd = 'GulpExt'
 let g:gv_custom_cmd = g:hasUnix ?
 			\ ['VimuxRunCommand "clear && %s"', 1] :
 			\ 'Start! %s'
-" ******* (( lazyList )) {{{1
+" >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
 vnoremap gli :LazyList ''<Left>
 let g:lazylist_maps = [
-			\ 'gl',
-			\ {
-				\ 'l'  : '',
-				\ '*'  : '* ',
-				\ '-'   : '- ',
-				\ '+'   : '+ ',
-				\ 't'   : '- [ ] ',
-				\ '2'  : '%2%. ',
-				\ '3'  : '%3%. ',
-				\ '.1' : '1.%1%. ',
-				\ '.2' : '2.%1%. ',
-				\ '.3' : '3.%1%. ',
-			\ }
-		\]
-" ******* (( vZoom )) {{{1
+			\	'gl',
+			\	{
+			\		'l'  : '',
+			\		'*'  : '* ',
+			\		'-'   : '- ',
+			\		'+'   : '+ ',
+			\		't'   : '- [ ] ',
+			\		'2'  : '%2%. ',
+			\		'3'  : '%3%. ',
+			\		'.1' : '1.%1%. ',
+			\		'.2' : '2.%1%. ',
+			\		'.3' : '3.%1%. ',
+			\	}
+			\ ]
+" >>> (( vZoom )) {{{1
 nmap gsz <Plug>(vzoom)
 let g:vzoom = {}
 let g:vzoom.equalise_windows = 1
-" ******* (( vBox )) {{{1
+" >>> (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
-			\ 'dir': g:vimDir . '/various/templates',
-			\ 'empty_buffer_only': 0
-		\ }
+			\	'dir': g:vimDir . '/misc/templates',
+			\	'empty_buffer_only': 0
+			\ }
 let g:vbox.variables = {
-			\ '%NAME%'     : 'Kabbaj Amine',
-			\ '%MAIL%'     : 'amine.kabb@gmail.com',
-			\ '%LICENSE%'  : 'MIT',
-			\ '%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
-			\ '%YEAR%'     : 'f=strftime("%Y")',
-			\ '%REPO%'     : 'https://github.com/KabbAmine/'
-		\ }
+			\	'%NAME%'     : 'Kabbaj Amine',
+			\	'%MAIL%'     : 'amine.kabb@gmail.com',
+			\	'%LICENSE%'  : 'MIT',
+			\	'%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
+			\	'%YEAR%'     : 'f=strftime("%Y")',
+			\	'%REPO%'     : 'https://github.com/KabbAmine/'
+			\ }
 augroup VBoxAuto
 	autocmd!
 	autocmd BufNewFile README.md,CHANGELOG.md,.tern-project  :VBTemplate
 	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
-	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js           :VBTemplate
+	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c       :VBTemplate
 augroup END
-" ******* (( imagePreview )) {{{1
+" >>> (( imagePreview )) {{{1
 nmap gi <Plug>(image-preview)
 let g:image_preview = {
-			\ '_': {
-				\ 'prg'  : 'feh',
-				\ 'args' : '--scale-down --no-menus --quiet --magick-timeout 1',
-			\ },
-			\ 'gif': {
-				\ 'prg'  : 'exo-open',
-				\ 'args' : '',
-			\ },
-		\ }
-" ******* (( vSourcePreview )) {{{1
-" nnoremap <silent> gP :VSPToggle<CR>
-" vnoremap <silent> gP :VSPPreview<CR>
-" let g:vsp_config = {
-" 			\ 'split'             : 'rightbelow vertical',
-" 			\ 'sync_scroll'       : 1,
-" 			\ 'update_after_ins'  : 1,
-" 			\ 'update_after_save' : 1,
-" 			\ 'auto_indent'       : 0
-" 			\ }
-" let g:vsp_user_provider = {
-" 			\ 'javascript' : { 'cmd': 'nodejs', 'type': '' },
-" 			\ 'python'     : { 'cmd': 'python3', 'type': '' }
-" 			\ }
+			\	'_': {
+			\		'prg'  : 'feh',
+			\		'args' : '--scale-down --no-menus --quiet --magick-timeout 1',
+			\	},
+			\	'gif': {
+			\		'prg'  : 'exo-open',
+			\		'args' : '',
+			\	},
+			\ }
 " 1}}}
 
 " ========== CUSTOM  ===========================================
