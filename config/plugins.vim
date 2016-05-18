@@ -23,7 +23,6 @@ let s:myPlugs = {
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
 			\	'vullScreen'    : '',
-			\	'vZoom'         : "{'on': ['<Plug>(vzoom)', 'VZoomAutoToggle']}",
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
 			\ }
@@ -129,6 +128,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-dispatch'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
+Plug 'troydm/zoomwintab.vim', {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
@@ -714,10 +714,8 @@ let g:lazylist_maps = [
 			\		'.3' : '3.%1%. ',
 			\	}
 			\ ]
-" >>> (( vZoom )) {{{1
-nmap gsz <Plug>(vzoom)
-let g:vzoom = {}
-let g:vzoom.equalise_windows = 1
+" >>> (( zoomwintab )) {{{1
+nnoremap gsz :ZoomWinTabToggle<CR>
 " >>> (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
