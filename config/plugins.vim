@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-18
+" Last modification: 2016-05-21
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -153,7 +153,7 @@ hi! link TabLineSel Search
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q> :execute (&ft !=# 'silent nerdtree' ? 'bd' : 'NERDTreeClose')<CR>
+nnoremap <silent> <S-q> :execute (&ft !=# 'silent nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
 let NERDTreeBookmarksFile = g:hasWin ?
 			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
 			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
@@ -288,9 +288,6 @@ let g:unite_quick_match_table = {
 			\	'w': 11,
 			\	'y': 15,
 		\ }
-call unite#custom#source(
-			\ 'command, neomru/file, buffer',
-			\ 'matchers', 'matcher_fuzzy')
 " Default profile
 call unite#custom#profile('default', 'context', {
 			\	'start_insert'      : 1,
@@ -306,26 +303,21 @@ call unite#custom#profile('default', 'context', {
 			\	'no_hide_icon'      : 1,
 			\ })
 " Use ag {{{3
-let g:unite_source_rec_async_command =
-			\ ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
+let g:unite_source_rec_async_command = ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
 let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-			\ '-i --column --nocolor --nogroup'
+let g:unite_source_grep_default_opts = '-i --column --nocolor --nogroup'
 let g:unite_source_grep_recursive_opt = ''
 " Converters for source {{{3
 let s:filters = {'name' : 'buffer_simple_format'}
 function! s:filters.filter(candidates, context)
-	for candidate in a:candidates
-		let l:num = candidate.action__buffer_nr
-		let l:name = bufname(l:num)
-		let l:name = !empty(l:name) ? l:name : 'NO NAME'
-		let l:path = fnamemodify(l:name, ':p:h')
-		let l:modified = getbufvar(l:name, '&modified') ==# 1 ? '➕' : ' '
-		let candidate.abbr = printf('%-*s %s %2s %s',
-					\ 15, fnamemodify(l:name, ':p:t'),
-					\ l:modified,
-					\ l:num,
-					\ fnamemodify(l:path, ':.')
+	for l:candidate in a:candidates
+		let l:num = l:candidate.action__buffer_nr
+		let l:buffer = !empty(l:candidate.word) ? bufname(l:num) : '[NO NAME]'
+		let l:modified = getbufvar(l:buffer, '&modified') ==# 1 ? '➕' : ' '
+		let l:path = !empty(l:candidate.word) ? fnamemodify(l:buffer, ':.') : ''
+		let l:candidate.abbr = printf('%-*s %s %2s %s',
+					\	15, fnamemodify(l:buffer, ':p:t'),
+					\	l:modified, l:num, l:path
 					\ )
 	endfor
 	return a:candidates
@@ -346,34 +338,19 @@ let g:unite_source_outline_filetype_options = {
 			\ }
 		\ }
 " MAPPINGS {{{2
-function! <SID>Unite(name, source, ...) abort " 3{{{
-	" Return unite command with different sources depending of .git directory
-	" presence:
-	"	Unite -buffer-name=a:name a:source/git
-	"	Unite -buffer-name=a:name a:source
-	" a:1 is 2nd part of source when git is not used (e.g. '/async')
-	" a:2 is options (e.g. ':.')
-	let l:args = exists('a:2') ? a:2 : ''
-	let l:source = isdirectory(getcwd() . '/.git') ?
-				\ ' ' . a:source . '/git' . l:args :
-				\ ' ' . a:source . (exists('a:1') ? a:1 : '') . l:args
-	execute ':Unite -buffer-name=' . a:name . l:source
-endfunction " 3}}}
 inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
 nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
-" nnoremap <silent> ,f :call <SID>Unite('Files', 'file_rec', '/async')<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep:.<CR>
-" nnoremap <silent> ,g :call <SID>Unite('Grep', 'grep', '', ':.')<CR>
+nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
 nnoremap <silent> ,m :Unite -buffer-name=Marks mark<CR>
 nnoremap <silent> ,r :Unite -buffer-name=Recent -empty neomru/file<CR>
 nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -keep-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
-nnoremap <silent> !! :Unite -buffer-name=Commands -empty command<CR>
+nnoremap <silent> ,! :Unite -buffer-name=Commands -empty command<CR>
 nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
 if g:hasUnix
@@ -406,6 +383,7 @@ function! s:unite_my_settings() " {{{3
 	imap <silent> <buffer> <Tab> <Plug>(unite_complete)
 	inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
 	inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+	inoremap <silent><buffer><expr> <C-q> unite#do_action('queue')
 endfunction " 3}}}
 " 1}}}
 " >>> (( vim-plug )) {{{1
