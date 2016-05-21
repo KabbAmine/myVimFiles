@@ -1,12 +1,11 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-05-18
+" Last modification: 2016-05-23
 " ============================================
 
 " Misc
 function! helpers#AutoCmd(name, cmd, events) abort " {{{1
 	" Execute a:cmd in a:name augroup when [a:event] is(are) executed.
 	" Re-execute the function toggle the state.
-
 
 	if !exists('#' . a:name)
 		execute 'augroup ' . a:name
@@ -32,15 +31,15 @@ function! helpers#Log(message, ...) abort " {{{1
 	echo a:message
 	echohl None
 endfunction
-function! helpers#OpenOrMove2Buffer(bufName, ft, ...) abort " {{{1
+function! helpers#OpenOrMove2Buffer(bufName, ft, split,...) abort " {{{1
 	" Open or move to a:bufname (non scratch buffer if a:1 exists)
 
 	let l:scratch = !exists('a:1') ? 1 : 0
 
 	if !bufexists(a:bufName)
-		silent execute 'sp ' . a:bufName
+		silent execute a:split . ' ' . a:bufName
 	elseif !bufloaded(a:bufName)
-		silent execute 'sp ' . a:bufName
+		silent execute a:split . ' ' . a:bufName
 	elseif winnr('$') ># 1
 		for l:w in range(1, winnr('$'))
 			if bufname(winbufnr(l:w)) ==# a:bufName
@@ -59,34 +58,77 @@ function! helpers#OpenOrMove2Buffer(bufName, ft, ...) abort " {{{1
 	endif
 endfunction
 function! helpers#ExecuteInBuffer(bufName, start, end, ftDict) abort " {{{1
-	" Execute [a:start, a:end] in a:bufName using values from a:ftDict
-	" Exception for vim filetype wich use helpers#ExecuteViml()
+	" Execute lines[a:start, a:end] in a:bufName using values from a:ftDict
 
+	" Get content and current filetype
 	let l:sel = getline(a:start, a:end)
 	let l:ft = &ft
 
-	if l:sel !=# [''] && has_key(a:ftDict, l:ft)
-
-		let l:cmd = get(a:ftDict, l:ft)[0]
-		if executable(split(l:cmd)[0])
-			let l:newFt = get(a:ftDict, l:ft)[1]
-			call helpers#OpenOrMove2Buffer(a:bufName, l:newFt)
-			wincmd L
-
-			" Always delete buffer's content
-			silent %delete_
-
-			call setline(1, l:sel)
-			silent execute '%!' . l:cmd
-
-			wincmd p
-		else
-			call helpers#Log(split(l:cmd)[0] . ' was not found')
-		endif
-	else
+	if l:sel ==# [''] || !has_key(a:ftDict, l:ft)
 		call helpers#Log('No content or provider found', 1)
-
+		return 0
 	endif
+
+	let l:_ = get(a:ftDict, l:ft)
+
+	let l:cmd = get(l:_, 'cmd')
+	let l:newFt = get(l:_, 'ft')
+	let l:exec = get(l:_, 'exec')
+	let l:tmp = get(l:_, 'tmp')
+
+	" Check if the 1st word in cmd is an executable
+	if !executable(split(l:cmd)[0])
+		call helpers#Log(split(l:cmd)[0] . ' was not found')
+		return 0
+	endif
+
+	if l:tmp
+		" Use a temporary file
+		call helpers#OpenOrMove2Buffer(a:bufName, l:newFt, 'vs', 1)
+		silent %delete_
+		call setline(1, l:sel)
+
+		let l:tmpFile = tempname()
+
+		let l:extIn = matchstr(l:cmd, '%i\zs.\S*')
+		let l:extIn = !empty(l:extIn) ? l:extIn : ''
+		let l:inFile = l:tmpFile . l:extIn
+
+		let l:extOut = matchstr(l:cmd, '%o\zs.\S*')
+		let l:extOut = !empty(l:extOut) ? l:extOut : ''
+		let l:outFile = l:tmpFile . l:extOut
+
+		silent execute 'saveas ' . l:inFile
+
+		let l:cmd = substitute(l:cmd, '%i', l:tmpFile, '')
+		let l:cmd = substitute(l:cmd, '%o', l:tmpFile, '')
+
+		call system(l:cmd)
+
+		let l:res = l:exec ?
+					\ systemlist(fnamemodify(l:tmpFile, ':p:h') .
+					\		'/./' . fnamemodify(l:tmpFile, ':t:r') . l:extOut) :
+					\ readfile(l:outFile)
+
+		silent %delete_
+		call setline(1, l:res)
+
+		call delete(l:inFile)
+		call delete(l:outFile)
+
+		silent execute 'file ' . a:bufName
+	else
+		" Filter buffer using :!
+		call helpers#OpenOrMove2Buffer(a:bufName, l:newFt, 'vs')
+		silent %delete_
+		call setline(1, l:sel)
+
+		silent execute '%!' . l:cmd
+	endif
+
+	" Go back to initial window
+	wincmd p
+
 endfunction
 function! helpers#MakeTextObjects(to) abort " {{{1
 	" a:to is a dictionnary

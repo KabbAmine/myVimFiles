@@ -543,6 +543,7 @@ nmap s <Nop>
 xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'highlight', 1)
+call operator#sandwich#set('all', 'all', 'hi_duration', 50)
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 " Config

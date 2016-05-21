@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-21
+" Last modification: 2016-05-22
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -322,7 +322,7 @@ inoremap <silent> <C-r> <C-r><C-p>
 " >>> Preview {{{1
 nnoremap <silent> gP :Preview<CR>
 vnoremap <silent> gP :Preview<CR>
-nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost'])<CR>
+nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave'])<CR>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -435,7 +435,7 @@ function! <SID>Echo(...) abort " {{{2
 	silent execute 'echo ' . join(a:000, '')
 	redir END
 	if !empty(l:out[1:])
-		call helpers#OpenOrMove2Buffer('__Echo__', 'vim')
+		call helpers#OpenOrMove2Buffer('__Echo__', 'vim', 'sp')
 		call setline(1, l:out[1:])
 		wincmd p
 	endif
@@ -445,18 +445,20 @@ endfunction " 2}}}
 command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
 function! <SID>Preview(start, end) abort " {{{2
 	call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, {
-				\	'coffee'    : ['coffee -spb', 'javascript'],
-				\	'javascript': ['nodejs', ''],
-				\	'markdown'  : ['markdown', 'html'],
-				\	'php'       : ['php', ''],
-				\	'pug'       : ['pug --pretty', 'html'],
-				\	'python'    : ['python3', ''],
-				\	'ruby'      : ['ruby', ''],
-				\	'scss'      : ['node-sass --output-style=expanded', 'css'],
+				\	'c'         : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
+				\	'coffee'    : {'cmd': 'coffee -spb', 'ft': 'javascript'},
+				\	'cpp'       : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
+				\	'javascript': {'cmd': 'nodejs'},
+				\	'markdown'  : {'cmd': 'markdown', 'ft': 'html'},
+				\	'php'       : {'cmd': 'php'},
+				\	'pug'       : {'cmd': 'pug --pretty', 'ft': 'html'},
+				\	'python'    : {'cmd': 'python3'},
+				\	'ruby'      : {'cmd': 'ruby'},
+				\	'scss'      : {'cmd': ['node-sass --output-style=expanded', 'css']},
 				\ })
 endfunction " 2}}}
 " >>> Scratch buffer {{{1
-command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '')
+command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '', 'sp')
 " }}}
 
 " =========== ABBREVIATIONS ==============================
