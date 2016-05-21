@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-18
+" Last modification: 2016-05-21
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -166,7 +166,7 @@ nnoremap <silent> <C-t> :tabedit<CR>
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
 " For this mapping, check NERDTree settings in config/plugins.vim
-nnoremap <silent> <S-q> :silent bd<CR>
+nnoremap <silent> <S-q> :silent bw<CR>
 " >>> Repeat the last command {{{1
 nnoremap !z @:
 " >>> JK for escape from NORMAL & COMMAND modes {{{1
