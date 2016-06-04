@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-22
+" Last modification: 2016-06-04
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -233,11 +233,11 @@ nnoremap <silent> ;t   :call helpers#OpenHere('t')<CR>
 nnoremap <silent> ;;t  :call helpers#OpenHere('t', expand('%:h:p'))<CR>
 nnoremap <silent> ;f   :call helpers#OpenHere('f')<CR>
 nnoremap <silent> ;;f  :call helpers#OpenHere('f', expand('%:h:p'))<CR>
-" >>> Move current line or visual selection {{{1
-nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>
-nnoremap <silent> <A-j> :call <SID>Move(1)<CR>
-vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv
-vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv
+" >>> Move current line or visual selection & auto indent {{{1
+nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>==
+nnoremap <silent> <A-j> :call <SID>Move(1)<CR>==
+vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv=gv
+vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
 function! <SID>Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
 
