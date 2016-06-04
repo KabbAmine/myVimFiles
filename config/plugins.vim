@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-21
+" Last modification: 2016-06-04
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -122,7 +122,7 @@ Plug 'matchit.zip'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-grammarous'
-Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree'
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
 Plug 'tpope/vim-dispatch'
@@ -452,6 +452,10 @@ if g:hasUnix
 	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 	let g:webdevicons_enable_airline_statusline = 0
 	let g:webdevicons_enable_unite = 0
+	" After a re-source, fix syntax matching issues (concealing brackets):
+	if exists('g:loaded_webdevicons')
+		call webdevicons#refresh()
+	endif
 endif
 " >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
