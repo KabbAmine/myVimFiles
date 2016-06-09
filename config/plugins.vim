@@ -505,7 +505,7 @@ augroup END
 "     \ }
 " >>> (( vim-dispatch )) {{{1
 if g:hasWin
-	nnoremap <silent> !: :call myhelpers#CmdForDispatcher('Start! -wait=always %s')<CR>
+	nnoremap <silent> !: :call helpers#CmdForDispatcher('Start! -wait=always %s')<CR>
 endif
 " >>> (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
@@ -522,7 +522,7 @@ if g:hasUnix
 	let g:VimuxUseNearest = 0		" Split window by default
 	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
 	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
-	nnoremap <silent> !: :call myhelpers#CmdForDispatcher("VimuxRunCommand '%s'")<CR>
+	nnoremap <silent> !: :call helpers#CmdForDispatcher("VimuxRunCommand '%s'")<CR>
 	function! <SID>VimuxInBg(cmd) abort " {{{2
 		silent execute "VimuxRunCommand '" . a:cmd . "'"
 		silent VimuxTogglePane
