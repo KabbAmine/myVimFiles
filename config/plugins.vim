@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-04
+" Last modification: 2016-06-10
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -22,7 +22,6 @@ let s:myPlugs = {
 			\	'unite-cmus'    : '',
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
-			\	'vullScreen'    : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
 			\ }
@@ -54,7 +53,6 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 " For PHP {{{2
 Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
@@ -597,8 +595,6 @@ function! g:grammarous#hooks.on_reset(errs)
 	nunmap <buffer> gn
 	nunmap <buffer> gp
 endfunction
-" >>> (( phpfolding )) {{{1
-let g:DisableAutoPHPFolding = 1
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
@@ -651,6 +647,8 @@ augroup Emoji
 	autocmd!
 	autocmd FileType markdown,gitcommit :setl omnifunc=emoji#complete
 augroup END
+" >>> (( zoomwintab )) {{{1
+nnoremap gsz :ZoomWinTabToggle<CR>
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -697,8 +695,6 @@ let g:lazylist_maps = [
 			\		'.3' : '3.%1%. ',
 			\	}
 			\ ]
-" >>> (( zoomwintab )) {{{1
-nnoremap gsz :ZoomWinTabToggle<CR>
 " >>> (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
