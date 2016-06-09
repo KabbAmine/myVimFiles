@@ -454,7 +454,8 @@ function! <SID>Preview(start, end) abort " {{{2
 				\	'pug'       : {'cmd': 'pug --pretty', 'ft': 'html'},
 				\	'python'    : {'cmd': 'python3'},
 				\	'ruby'      : {'cmd': 'ruby'},
-				\	'scss'      : {'cmd': ['node-sass --output-style=expanded', 'css']},
+				\	'scss'      : {'cmd': 'node-sass --output-style=expanded', 'ft': 'css'},
+				\	'sh'        : {'cmd': 'bash'},
 				\ })
 endfunction " 2}}}
 " >>> Scratch buffer {{{1
