@@ -22,12 +22,11 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
     * `javac`<sup>B</sup>
     * `jslint`<sup>N</sup>
     * `jsonlint`<sup>N</sup>
-    * `mdl`<sup>R</sup>
     * `pep8`<sup>P</sup>
     * `php`<sup>B</sup>
     * `python`<sup>B</sup>
     * `sass`
-    * `scss_lint`<sup>R</sup>
+    * `sass_lint`<sup>N</sup>
     * `shellcheck` & `sh`<sup>B</sup>
     * [`tidy5`](https://github.com/htacg/tidy-html5)
     * `vim-vint`<sup>P</sup>
@@ -52,7 +51,7 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
 
 ```sh
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
-mkdir -pv ~/.vim/various/templates ~/.vim/various/view ~/.vim/various/swap_dir ~/.vim/various/undodir
+mkdir -pv ~/.vim/misc/templates ~/.vim/misc/view ~/.vim/misc/swap_dir ~/.vim/misc/undodir
 # Not mandatory
 ln -s ~/.vim/vimrc ~/.vimrc
 # For Neovim
