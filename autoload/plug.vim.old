@@ -493,6 +493,13 @@ function! s:lod_map(map, names, prefix)
     endif
     let extra .= nr2char(c)
   endwhile
+  if v:count
+    call feedkeys(v:count, 'n')
+  endif
+  call feedkeys('"'.v:register, 'n')
+  if mode(1) == 'no'
+    call feedkeys(v:operator)
+  endif
   call feedkeys(a:prefix . substitute(a:map, '^<Plug>', "\<Plug>", '') . extra)
 endfunction
 
@@ -786,6 +793,7 @@ function! s:do(pull, force, todo)
       else
         let error = 'Invalid hook type'
       endif
+      call s:switch_in()
       call setline(4, empty(error) ? (getline(4) . 'OK')
                                  \ : ('x' . getline(4)[1:] . error))
       if !empty(error)
