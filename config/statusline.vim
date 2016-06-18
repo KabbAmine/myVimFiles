@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-05-18
+" Last modification: 2016-06-18
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -195,8 +195,8 @@ function! SetSL() abort " {{{1
 	let l:sl .= '%)'
 
 	" Syntastic (1st group for no errors)
-	let l:sl .= '%(%#SuccessState# %{SLSyntastic(0)} %)'
-	let l:sl .= '%(%#ErrorState# %{SLSyntastic(1)} %)'
+	let l:sl .= '%#SuccessState#%( %{SLSyntastic(0)} %)'
+	let l:sl .= '%#ErrorState#%( %{SLSyntastic(1)} %)'
 
 	" Toggling part
 	let l:sl .= '%#SL4#'
@@ -264,15 +264,15 @@ endif
 
 " Initialization {{{1
 " Highlighting {{{2
-call s:Hi('SL1'          , s:SL.colors['yellow']          , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1I'         , s:SL.colors['green']           , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1R'         , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
-call s:Hi('SL1V'         , s:SL.colors['blue']            , s:SL.colors['background']      , 'bold')
-call s:Hi('SL2'          , s:SL.colors['backgroundLight'] , s:SL.colors['textDark']        , 'none')
-call s:Hi('SL3'          , s:SL.colors['backgroundLight'] , s:SL.colors['text']            , 'none')
-call s:Hi('SL4'          , s:SL.colors['yellow']          , s:SL.colors['background']      , 'none')
-call s:Hi('Modified'     , s:SL.colors['backgroundLight'] , s:SL.colors['yellow']          , 'bold')
-call s:Hi('ErrorState'   , s:SL.colors['red']             , s:SL.colors['text']            , 'bold')
+call s:Hi('SL1'          , s:SL.colors['yellow']           , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1I'         , s:SL.colors['green']            , s:SL.colors['background']      , 'bold')
+call s:Hi('SL1R'         , s:SL.colors['red']              , s:SL.colors['text']            , 'bold')
+call s:Hi('SL1V'         , s:SL.colors['blue']             , s:SL.colors['background']      , 'bold')
+call s:Hi('SL2'          , s:SL.colors['backgroundLight']  , s:SL.colors['textDark']        , 'none')
+call s:Hi('SL3'          , s:SL.colors['backgroundLight']  , s:SL.colors['text']            , 'none')
+call s:Hi('SL4'          , s:SL.colors['yellow']           , s:SL.colors['background']      , 'none')
+call s:Hi('Modified'     , s:SL.colors['backgroundLight']  , s:SL.colors['yellow']          , 'bold')
+call s:Hi('ErrorState'   , s:SL.colors['red']              , s:SL.colors['text']            , 'bold')
 call s:Hi('SuccessState' , s:SL.colors['green']            , s:SL.colors['backgroundLight'] , 'bold')
 hi! link StatusLine SL1
 " 2}}}
