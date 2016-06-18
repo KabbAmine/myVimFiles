@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-04
+" Last modification: 2016-06-18
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -50,8 +50,8 @@ let &guioptions = 'agirtc'
 set winaltkeys=no	" Don't use ALT-keys for menus.
 set linespace=5
 let &guifont = g:hasWin ?
-			\ 'DejaVu_Sans_Mono_for_Powerline:h10:cANSI' :
-			\ 'Ubuntu Mono derivative Powerline 12'
+			\ 'InconsolataForPowerline NF Medium:h10:cANSI' :
+			\ 'InconsolataForPowerline NF Medium 13'
 " >>> Messages & info {{{1
 set showcmd
 set ruler
