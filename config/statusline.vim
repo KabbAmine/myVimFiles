@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-18
+" Last modification: 2016-06-19
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -24,15 +24,15 @@ let s:SL  = {
 				\ 'unite': 'unite#get_status_string()',
 			\ },
 			\ 'colors': {
-				\ 'background'      : ['#222222','235'],
-				\ 'backgroundLight' : ['#393939','236'],
+				\ 'background'      : g:yowish['colors'].background,
+				\ 'backgroundLight' : g:yowish['colors'].backgroundLight,
 				\ 'blue'            : ['#6699cc','67'],
-				\ 'green'           : ['#2acf2a','40'],
-				\ 'red'             : ['#f01d22','160'],
-				\ 'text'            : ['#cbcbcb','251'],
-				\ 'textDark'        : ['#8c8c8c','244'],
+				\ 'green'           : g:yowish['colors'].green,
+				\ 'red'             : g:yowish['colors'].red,
+				\ 'textDark'        : g:yowish['colors'].textDark,
+				\ 'text'            : g:yowish['colors'].text,
 				\ 'violet'          : ['#d09cea','171'],
-				\ 'yellow'          : ['#ffbe3c','215'],
+				\ 'yellow'          : g:yowish['colors'].yellow,
 			\ },
 			\ 'modes': {
 				\ 'n': 'N',
