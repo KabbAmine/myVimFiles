@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-12
+" Last modification: 2016-06-19
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -141,7 +141,18 @@ call plug#end()
 if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
 	set term=xterm-256color
 endif
-let g:yowish = {'term_italic': 0}
+" Only for gui, use custom colors to match arc-dark-theme
+let g:yowish = {
+			\	'term_italic' : 0,
+			\		'colors': {
+			\		'background'       : ['#2f343f', '235'],
+			\		'backgroundDark'   : ['#191d27', '232'],
+			\		'backgroundLight'  : ['#383c4a', '236'],
+			\		'comment'          : ['#5b6176', '242'],
+			\		'lightYellow'      : ['#80aee3', '215'],
+			\		'yellow'           : ['#5295e2', '215'],
+			\	}
+			\ }
 colo yowish
 hi! link TabLineSel Search
 " }}}
