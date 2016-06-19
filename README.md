@@ -35,8 +35,7 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
 2. External applications:
   - For live preview of html/markdown: `shiba`<sup>N</sup>
 3. Fonts:
-  - ['DejaVu Sans Mono for Powerline'](https://github.com/powerline/fonts) in Windows.
-  - [Ubuntu Mono derivative Powerline Plus Nerd File Types'](https://github.com/ryanoasis/nerd-filetype-glyphs-fonts-patcher) in GNU/Linux.
+  - [Inconsolata for Powerline Nerd Font Complete Windows Compatible.otf](https://github.com/ryanoasis/nerd-fonts) for both GNU/Linux & windows (Included in the repo).
 
 -----------------------------
 
@@ -52,6 +51,8 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
 ```sh
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 mkdir -pv ~/.vim/misc/templates ~/.vim/misc/view ~/.vim/misc/swap_dir ~/.vim/misc/undodir
+# Link the font
+ln -s $HOME/.vim/misc/fonts/Inconsolata\ for\ Powerline\ Nerd\ Font\ Complete\ Windows\ Compatible.otf ~/.fonts/
 # Not mandatory
 ln -s ~/.vim/vimrc ~/.vimrc
 # For Neovim

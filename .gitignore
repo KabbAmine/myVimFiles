@@ -3,5 +3,6 @@ spell/
 misc/*
 !misc/ultisnips/
 !misc/templates/
+!misc/fonts/
 
 plugs/
