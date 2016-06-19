@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-04-08
+" Last modification: 2016-06-19
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -79,7 +79,10 @@ endfunction
 " 1}}}
 
 " Initialization {{{1
-hi TabLineSel gui=none guifg=#222222 guibg=#ffbe3c term=none cterm=none ctermfg=235 ctermbg=215
+execute 'hi TabLineSel gui=none' .
+			\ ' guifg=' . g:yowish['colors'].backgroundDark[0] .
+			\ ' guibg=' . g:yowish['colors'].yellow[0] .
+			\ ' term=none cterm=none ctermfg=235 ctermbg=215'
 augroup TabBufLine
 	autocmd!
 	autocmd BufAdd,BufDelete,TabEnter,TabLeave,VimEnter *
