@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-19
+" Last modification: 2016-06-26
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -148,7 +148,9 @@ let g:yowish = {
 			\		'background'       : ['#2f343f', '235'],
 			\		'backgroundDark'   : ['#191d27', '232'],
 			\		'backgroundLight'  : ['#383c4a', '236'],
+			\		'blue'             : ['#5295e2', '215'],
 			\		'comment'          : ['#5b6176', '242'],
+			\		'lightBlue'        : ['#e39f52', '67'],
 			\		'lightYellow'      : ['#80aee3', '215'],
 			\		'yellow'           : ['#5295e2', '215'],
 			\	}
@@ -204,7 +206,7 @@ let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_python_checkers = ['pep8', 'python']
+let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_javascript_checkers = ['jslint']
 let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
 let g:syntastic_json_checkers = ['jsonlint']
