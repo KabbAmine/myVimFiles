@@ -4,12 +4,13 @@ My configuration for the best program of the world :heart:
 I'm not a vim master, but my configuration works great for me so feel free to
 use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-![My vim](.img/myVim.jpg)
+![My vim](.img/myVim.png)
 
-*It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and is
-compatible with neovim (Need more testing after the commits of 2016-02-07)*
+*It works on both GNU/Linux and Windows (But may be better on GNU/Linux) and should be compatible with neovim*
 
 ## Requirements
+
+All the following requirements on GNU/Linux are managed and installed via scripts from my [dotfiles](https://github.com/kabbamine/mydotfiles) repository, they are here just for reference (And for windows obviously :smile:).
 
 1. For the plugins:
   - *Autoformat*:
@@ -22,7 +23,7 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
     * `javac`<sup>B</sup>
     * `jslint`<sup>N</sup>
     * `jsonlint`<sup>N</sup>
-    * `pep8`<sup>P</sup>
+    * `flake8`<sup>P</sup>
     * `php`<sup>B</sup>
     * `python`<sup>B</sup>
     * `sass`
@@ -31,11 +32,11 @@ compatible with neovim (Need more testing after the commits of 2016-02-07)*
     * [`tidy5`](https://github.com/htacg/tidy-html5)
     * `vim-vint`<sup>P</sup>
   - *vCoolor*: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
-  - *Vullscreen*: [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/)
 2. External applications:
-  - For live preview of html/markdown: `shiba`<sup>N</sup>
+  - `shiba`<sup>N</sup> for live preview of html/markdown
+  - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things :beer:
 3. Fonts:
-  - [Inconsolata for Powerline Nerd Font Complete Windows Compatible.otf](https://github.com/ryanoasis/nerd-fonts) for both GNU/Linux & windows (Included in the repo).
+  - [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts) for both GNU/Linux & windows (Included in the repo).
 
 -----------------------------
 
