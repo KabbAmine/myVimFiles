@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-18
+" Last modification: 2016-06-25
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -127,6 +127,9 @@ let &directory = g:hasWin ?
 if !g:hasGui
 	set timeoutlen=1000 ttimeoutlen=0
 endif
+" >>> Executing external commands
+" Use my own bash (functions, aliases...)
+let &shell = '/bin/bash -i'
 " }}}
 
 " =========== DEFAULT PLUGINS ===================================
