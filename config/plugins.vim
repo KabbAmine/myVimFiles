@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-26
+" Last modification: 2016-06-28
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -102,6 +102,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'machakann/vim-sandwich'
+Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
@@ -111,7 +112,6 @@ Plug 'tpope/vim-repeat'
 call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
-Plug 'google/vim-searchindex'
 Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
@@ -429,6 +429,7 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#goto_command = 'gd'
 let g:jedi#documentation_command = 'gk'
 let g:jedi#usages_command = 'gD'
+let g:jedi#show_call_signatures = 1
 " Don't use, buggy as hell
 let g:jedi#rename_command = 'gr'
 augroup Jedi
