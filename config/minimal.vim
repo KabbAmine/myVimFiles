@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-25
+" Last modification: 2016-06-28
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -258,7 +258,7 @@ endfunction " 2}}}
 " - \V literal string (very no magic)
 " - \C case match
 " - Use register x in visual mode
-nnoremap <C-n> /\V\C\<<C-r><C-w>\><CR>N
+nnoremap <C-n> *N
 vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 " >>> Use c for manipulating + register {{{1
 nnoremap cd "+d
@@ -326,6 +326,11 @@ inoremap <silent> <C-r> <C-r><C-p>
 nnoremap <silent> gP :Preview<CR>
 vnoremap <silent> gP :Preview<CR>
 nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave'])<CR>
+" >>> Search {{{1
+nnoremap / /\v
+nnoremap # #\v
+nnoremap n nzz
+nnoremap N Nzz
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
