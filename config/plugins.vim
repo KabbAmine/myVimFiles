@@ -72,7 +72,6 @@ Plug 'mattn/emmet-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
-Plug 'Xuyuanp/nerdtree-git-plugin' , {'on': 'NERDTreeToggle'}
 " (( ultisnips )) {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " (( Unite )) {{{2
@@ -121,6 +120,7 @@ Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-grammarous'
 Plug 'scrooloose/nerdtree'
+			\| Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
 Plug 'tpope/vim-dispatch'
