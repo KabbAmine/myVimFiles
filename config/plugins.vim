@@ -145,14 +145,14 @@ endif
 let g:yowish = {
 			\	'term_italic' : 0,
 			\		'colors': {
-			\		'background'       : ['#2f343f', '235'],
-			\		'backgroundDark'   : ['#191d27', '232'],
-			\		'backgroundLight'  : ['#383c4a', '236'],
-			\		'blue'             : ['#5295e2', '215'],
+			\		'background'       : ['#2f343f', '236'],
+			\		'backgroundDark'   : ['#191d27', '16'],
+			\		'backgroundLight'  : ['#464b5b', '59'],
+			\		'blue'             : ['#5295e2', '68'],
 			\		'comment'          : ['#5b6176', '242'],
-			\		'lightBlue'        : ['#e39f52', '67'],
-			\		'lightYellow'      : ['#80aee3', '215'],
-			\		'yellow'           : ['#5295e2', '215'],
+			\		'lightBlue'        : ['#e39f52', '179'],
+			\		'lightYellow'      : ['#80aee3', '110'],
+			\		'yellow'           : ['#5295e2', '68'],
 			\	}
 			\ }
 colo yowish
