@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-28
+" Last modification: 2016-07-01
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -424,18 +424,16 @@ let g:neocomplete#force_omni_input_patterns.markdown = ':'
 let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
 " >>> (( jedi-vim )) {{{1
 let g:jedi#completions_enabled = 1
+let g:jedi#smart_auto_mappings = 0
 let g:jedi#auto_vim_configuration = 0
-" let g:jedi#force_py_version = 3
+" Keybindings
 let g:jedi#goto_command = 'gd'
-let g:jedi#documentation_command = 'gk'
+let g:jedi#documentation_command = ''
 let g:jedi#usages_command = 'gD'
-let g:jedi#show_call_signatures = 1
+let g:jedi#goto_assignments_command= ''
+let g:jedi#show_call_signatures = 2
 " Don't use, buggy as hell
 let g:jedi#rename_command = 'gr'
-augroup Jedi
-	autocmd!
-	autocmd FileType python setlocal omnifunc=jedi#completions
-augroup END
 " >>> (( autoformat )) {{{1
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
