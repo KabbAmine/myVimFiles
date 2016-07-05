@@ -15,7 +15,8 @@ All the following requirements on GNU/Linux are managed and installed via script
 1. For the plugins:
   - *Autoformat*:
     * For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>
-    * `scss` uses `sass-convert` which is shipped with `sass`<sup>R</sup>
+    * `sass-convert` for `scss` (Shipped with `sass`<sup>R</sup>)
+    * `autopep8`<sup>P</sup> for `python`
   - *Unite*: `Ag`<sup>B</sup>
   - Checkers/Linters for *Syntastic*:
     * `csslint`<sup>N</sup>
@@ -42,7 +43,7 @@ All the following requirements on GNU/Linux are managed and installed via script
 
 *<a id="B"><sup>B</sup></a> Present by default or easily installable on your system.*<br />
 *<a id="N"><sup>N</sup></a> A npm package: `sudo npm -g install npmPackage`*<br />
-*<a id="P"><sup>P</sup></a> A pip package: `sudo pip install pipPackage`*<br />
+*<a id="P"><sup>P</sup></a> A pip package: `sudo -H pip3 install pipPackage`*<br />
 *<a id="R"><sup>R</sup></a> A ruby gem: `gem install rubyGem`*<br />
 
 -----------------------------
