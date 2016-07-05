@@ -470,6 +470,8 @@ function! <SID>Preview(start, end) abort " {{{2
 endfunction " 2}}}
 " >>> Scratch buffer {{{1
 command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '', 'sp')
+" >>> Chmod current file {{{1
+command! ChmodX :!chmod +x %
 " }}}
 
 " =========== ABBREVIATIONS ==============================
