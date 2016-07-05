@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-02
+" Last modification: 2016-07-06
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -189,10 +189,17 @@ nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
-nnoremap <silent> <c-h> :call <SID>TmuxMove('h')<CR>
-nnoremap <silent> <c-j> :call <SID>TmuxMove('j')<CR>
-nnoremap <silent> <c-k> :call <SID>TmuxMove('k')<CR>
-nnoremap <silent> <c-l> :call <SID>TmuxMove('l')<CR>
+if g:hasGui
+	nnoremap <silent> <c-h> <C-w><Left>
+	nnoremap <silent> <c-j> <C-w><Down>
+	nnoremap <silent> <c-k> <C-w><Up>
+	nnoremap <silent> <c-l> <C-w><Right>
+else
+	nnoremap <silent> <c-h> :call <SID>TmuxMove('h')<CR>
+	nnoremap <silent> <c-j> :call <SID>TmuxMove('j')<CR>
+	nnoremap <silent> <c-k> :call <SID>TmuxMove('k')<CR>
+	nnoremap <silent> <c-l> :call <SID>TmuxMove('l')<CR>
+endif
 " Move between splits & tmux " {{{2
 " https://gist.github.com/mislav/5189704#gistcomment-1735600
 function! <SID>TmuxMove(direction) abort
