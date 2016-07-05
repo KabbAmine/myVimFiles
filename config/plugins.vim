@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-01
+" Last modification: 2016-07-04
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -118,7 +118,7 @@ Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
-Plug 'rhysd/vim-grammarous'
+" Plug 'rhysd/vim-grammarous'
 Plug 'scrooloose/nerdtree'
 			\| Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Shougo/neocomplete.vim'
@@ -144,7 +144,7 @@ endif
 " Only for gui, use custom colors to match arc-dark-theme
 let g:yowish = {
 			\	'term_italic' : 0,
-			\		'colors': {
+			\	'colors': {
 			\		'background'       : ['#2f343f', '236'],
 			\		'backgroundDark'   : ['#191d27', '16'],
 			\		'backgroundLight'  : ['#464b5b', '59'],
@@ -441,7 +441,7 @@ let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-ht
 " Make =ie autoformat for some ft
 augroup Autoformat
 	autocmd!
-	autocmd Filetype html,json,css,javascript,scss nnoremap <buffer> =ie :Autoformat<CR>
+	autocmd Filetype python,html,json,css,javascript,scss nnoremap <buffer> =ie :Autoformat<CR>
 augroup END
 " >>> (( colorizer )) {{{1
 let g:colorizer_nomap = 1
@@ -589,23 +589,25 @@ let g:sandwich#recipes += [
 			\		'input'   : ['t'],
 			\	},
 			\ ]
-" >>> (( vim-grammarous )) {{{1
-let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
-let g:grammarous#default_comments_only_filetypes = {
-		\	'vim' : 1,
-		\	'sh'  : 1
-		\ }
-			" \ '*' : 1,
-let g:grammarous#hooks = {}
-" gn/gp for moving to errors only when GrammarCheck in enabled
-function! g:grammarous#hooks.on_check(errs)
-	nmap <buffer> gn <Plug>(grammarous-move-to-next-error)
-	nmap <buffer> gp <Plug>(grammarous-move-to-previous-error)
-endfunction
-function! g:grammarous#hooks.on_reset(errs)
-	nunmap <buffer> gn
-	nunmap <buffer> gp
-endfunction
+" " >>> (( vim-grammarous )) {{{1
+" let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
+" " Enable vim spell checking
+" let g:grammarous#use_vim_spelllang = 1
+" let g:grammarous#default_comments_only_filetypes = {
+" 		\	'vim' : 1,
+" 		\	'sh'  : 1
+" 		\ }
+" 			" \ '*' : 1,
+" let g:grammarous#hooks = {}
+" " gn/gp for moving to errors only when GrammarCheck in enabled
+" function! g:grammarous#hooks.on_check(errs)
+" 	nmap <buffer> gn <Plug>(grammarous-move-to-next-error)
+" 	nmap <buffer> gp <Plug>(grammarous-move-to-previous-error)
+" endfunction
+" function! g:grammarous#hooks.on_reset(errs)
+" 	nunmap <buffer> gn
+" 	nunmap <buffer> gp
+" endfunction
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
