@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-04
+" Last modification: 2016-07-06
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -472,6 +472,7 @@ let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
 " >>> (( fugitive )) {{{1
 " Some abbreviations
+cab Ga Git add
 cab Gb Git branch
 cab Gch Git checkout
 cab Gco Gcommit
