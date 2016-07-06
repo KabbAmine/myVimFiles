@@ -43,6 +43,7 @@ call plug#begin(g:vimDir . '/plugs')
 " Syntaxes {{{2
 Plug 'digitaltoad/vim-pug'
 Plug 'elzr/vim-json'
+Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'stephpy/vim-yaml'
@@ -613,8 +614,8 @@ let g:sandwich#recipes += [
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
 " >>> (( vim-markdown )) {{{1
-" Enable syntax highlighting in codeblocks for some file types
-" let g:markdown_fenced_languages = ['html', 'vim', 'css', 'python', 'bash=sh', 'javascript', 'scss', 'php']
+let g:markdown_enable_spell_checking = 0
+let g:markdown_enable_input_abbreviations = 0
 " >>> (( vim-jsdoc )) {{{1
 augroup JsDoc
 	autocmd!
