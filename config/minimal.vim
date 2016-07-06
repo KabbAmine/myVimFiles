@@ -340,6 +340,8 @@ nnoremap / /\v
 nnoremap # #\v
 nnoremap n nzz
 nnoremap N Nzz
+" >>> Toggle locally wrapping {{{1
+nnoremap <silent> <leader>w :setl wrap!<CR>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
