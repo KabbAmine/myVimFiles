@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-06
+" Last modification: 2016-07-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -489,6 +489,7 @@ let g:vim_json_warnings = 0
 augroup Commentary
 	autocmd!
 	autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
+	autocmd FileType xdefaults setlocal commentstring=!\ %s
 augroup END
 " >>> (( agit )) {{{1
 let g:agit_no_default_mappings = 1
