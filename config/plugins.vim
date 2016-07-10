@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-08
+" Last modification: 2016-07-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -353,7 +353,14 @@ inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append hi
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
-nnoremap <silent> ,f :Unite -buffer-name=Files -no-force-redraw file_rec/async<CR>
+function! s:NoFileOnHome() abort " {{{3
+	if getcwd() == expand('~')
+		echo "Set your cwd!"
+	else
+		Unite -buffer-name=Files -no-force-redraw file_rec/async
+	endif
+endfunction
+nnoremap <silent> ,f :call <SID>NoFileOnHome()<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
 nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
