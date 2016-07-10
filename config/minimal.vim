@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-06
+" Last modification: 2016-07-08
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -341,7 +341,7 @@ nnoremap # #\v
 nnoremap n nzz
 nnoremap N Nzz
 " >>> Toggle locally wrapping {{{1
-nnoremap <silent> <leader>w :setl wrap!<CR>
+nnoremap <silent> <leader><leader>w :setl wrap!<CR>
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
