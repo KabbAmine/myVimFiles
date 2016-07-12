@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-08
+" Last modification: 2016-07-12
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -481,6 +481,23 @@ endfunction " 2}}}
 command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '', 'sp')
 " >>> Chmod current file {{{1
 command! ChmodX :!chmod +x %
+" >>> Auto mkdir when creating/saving file {{{1
+function! <SID>AutoMkdir() abort " {{{2
+	let l:dir = expand('<afile>:p:h')
+	if !isdirectory(l:dir)
+		echohl WarningMsg
+		let l:ans = input(l:dir . ' does not exist, create it [Y/n]? ')
+		echohl None
+		if empty(l:ans) || l:ans ==# 'y'
+			call mkdir(l:dir, 'p')
+		endif
+	endif
+endfunction " 2}}}
+augroup AutoMkdir
+	autocmd!
+	autocmd BufWritePre,FileWritePre,BufNewFile *
+				\ call <SID>AutoMkdir()
+augroup END
 " }}}
 
 " =========== ABBREVIATIONS ==============================
