@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-05-23
+" Last modification: 2016-07-12
 " ============================================
 
 " Misc
@@ -26,7 +26,7 @@ function! helpers#Log(message, ...) abort " {{{1
 	" Echo message with a:1 index hi group.
 
 	let l:t = exists('a:1') ? a:1 : 0
-	let l:hi = ['WarningMsg', 'ErrorMsg']
+	let l:hi = ['WarningMsg', 'ErrorMsg', 'SuccessState']
 	execute 'echohl ' . l:hi[l:t]
 	echo a:message
 	echohl None
