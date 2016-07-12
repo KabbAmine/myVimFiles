@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-11
+" Last modification: 2016-07-12
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -165,7 +165,7 @@ hi! link TabLineSel Search
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q> :execute (&ft !=# 'silent nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
+nnoremap <silent> <S-q> :execute (&ft !=# 'nerdtree' ? 'silent bw' : 'NERDTreeClose')<CR>
 let NERDTreeBookmarksFile = g:hasWin ?
 			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
 			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
@@ -479,6 +479,13 @@ let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
 " >>> (( fugitive )) {{{1
+" Split, vsplit & tab
+augroup FugitiveMaps
+	autocmd!
+	autocmd FileType gitcommit nnoremap <silent> <buffer> s :norm o<CR>
+	autocmd FileType gitcommit nnoremap <silent> <buffer> v :norm S<CR>
+	autocmd FileType gitcommit nnoremap <silent> <buffer> t :norm O<CR>
+augroup END
 " Some abbreviations
 cab Ga Git add
 cab Gb Git branch
