@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-01
+" Last modification: 2016-07-12
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -94,6 +94,6 @@ call TLInit()
 " 1}}}
 
 " Replace the default <F5> mapping
-nnoremap <F5> :tabonly\|call TLInit()<CR>
+nnoremap <silent> <F5> :tabonly\|call TLInit()<CR>
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
