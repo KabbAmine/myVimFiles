@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-06-19
+" Last modification: 2016-07-12
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -84,10 +84,11 @@ function! SLHiGroup() abort " {{{1
 	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
-	return '▸ ' . get(s:SL.modes, mode())
+	return winwidth(0) <# 55 ? get(s:SL.modes, mode()) :
+				\ '▸ ' . get(s:SL.modes, mode())
 endfunction
 function! SLPaste() abort " {{{1
-	return &paste ? '[PASTE]' : ''
+	return &paste ? (winwidth(0) <# 55 ? '[P]' : '[PASTE]') : ''
 endfunction
 function! SLPython() abort " {{{1
 	let l:p = executable('python') ?
@@ -101,8 +102,15 @@ function! SLSpell() abort " {{{1
 				\ toupper(&spelllang[0]) . &spelllang[1:] : ''
 endfunction
 function! SLIndentation() abort " {{{1
-	return &expandtab ?
-				\ 's:' . &shiftwidth : 't:' . &shiftwidth
+	return winwidth(0) <# 55 ? '' :
+				\ &expandtab ?
+				\	's:' . &shiftwidth : 't:' . &shiftwidth
+endfunction
+function! SLColumnAndPercent() abort " {{{1
+	let l:col = col('.')
+	let l:perc = (line('.') * 100) / line('$')
+	return winwidth(0) <# 55 ?
+				\ '' : l:col . ' ' . l:perc . '%'
 endfunction
 " 1}}}
 
@@ -110,7 +118,7 @@ endfunction
 function! SLGitGutter() abort " {{{1
 	if exists('g:gitgutter_enabled') && g:gitgutter_enabled
 		let l:h = GitGutterGetHunkSummary()
-		return !empty(SLFugitive()) && !empty(l:h) ?
+		return !empty(SLFugitive()) && !empty(l:h) && (winwidth(0) ># 55) ?
 					\ printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2]) :
 					\ ''
 	else
@@ -118,7 +126,7 @@ function! SLGitGutter() abort " {{{1
 	endif
 endfunction
 function! SLFugitive() abort " {{{1
-	return exists('*fugitive#head') && !empty(fugitive#head()) ?
+	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
 				\ ' ' . fugitive#head() : ''
 endfunction
 function! SLRuby() abort " {{{1
@@ -170,7 +178,7 @@ function! SetSL() abort " {{{1
 	let l:sl = ''
 
 	" LEFT SIDE
-	let l:sl .= ' %-{SLMode()} %(%{SLPaste()}%)'
+	let l:sl .= ' %-{SLMode()} %(%{SLPaste()} %)'
 
 	let l:sl .= '%#SL2#'
 	let l:sl .= '%( %{SLFugitive()}%)'
@@ -187,8 +195,7 @@ function! SetSL() abort " {{{1
 	let l:sl .= '%(%{SLFiletype()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
-	" Percentage & column
-	let l:sl .= ' %p%% %c ' . s:SL.separator
+	let l:sl .= '%( %{SLColumnAndPercent()} ' . s:SL.separator . '%)'
 	let l:sl .= '%('
 	let l:sl .= ' %{SLFileencoding()}'
 	let l:sl .= '[%{SLFileformat()}] '
