@@ -53,10 +53,13 @@ All the following requirements on GNU/Linux are managed and installed via script
 ```sh
 git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 mkdir -pv ~/.vim/misc/templates ~/.vim/misc/view ~/.vim/misc/swap_dir ~/.vim/misc/undodir
-# Link the font
+
+# Link the font if you don't have it already
 ln -s $HOME/.vim/misc/fonts/Inconsolata\ for\ Powerline\ Nerd\ Font\ Complete\ Windows\ Compatible.otf ~/.fonts/
+
 # Not mandatory
 ln -s ~/.vim/vimrc ~/.vimrc
+
 # For Neovim
 ln -s ~/.vim "$XDG_CONFIG_HOME/nvim"
 ```
@@ -66,6 +69,7 @@ Then in Vim:
 ```vim
 " Update vim-plug
 PlugUpgrade
+
 " Install all the plugins
 PlugInstall
 ```
