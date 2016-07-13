@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-12
+" Last modification: 2016-07-13
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -92,6 +92,7 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
 			\| Plug 'kana/vim-textobj-fold'
 			\| Plug 'kana/vim-textobj-function'
+			\| Plug 'bps/vim-textobj-python'                 , {'for': 'python'}
 			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
 " (( operator-user )) {{{2
@@ -679,6 +680,9 @@ augroup Emoji
 augroup END
 " >>> (( zoomwintab )) {{{1
 nnoremap gsz :ZoomWinTabToggle<CR>
+" >>> (( textobj-usr )) & plugins {{{1
+" vim-textobj-python
+let g:textobj_python_no_default_key_mappings = 1
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
