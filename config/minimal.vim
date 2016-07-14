@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-12
+" Last modification: 2016-07-14
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -407,9 +407,9 @@ endfunction " 2}}}
 " >>> Enable marker folding for some ft {{{1
 augroup AutoFold
 	autocmd!
-	autocmd BufEnter *.js,*.sh,*.css
+	autocmd BufNew,BufEnter *.js,*.sh,*.css
 				\ setlocal foldmethod=marker
-				\| setlocal foldmarker={,}
+				\| setlocal foldmarker=\ {,}
 				\| normal! zR
 augroup END
 " >>> Use shiba with some file types {{{1
