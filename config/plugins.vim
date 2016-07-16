@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-13
+" Last modification: 2016-07-16
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -46,6 +46,7 @@ Plug 'elzr/vim-json'
 Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
+Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'stephpy/vim-yaml'
 Plug 'tpope/vim-haml'
 " For Css {{{2
@@ -166,7 +167,7 @@ hi! link TabLineSel Search
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q> :execute (&ft !=# 'nerdtree' ? 'silent bw' : 'NERDTreeClose')<CR>
+nnoremap <silent> <S-q> :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
 let NERDTreeBookmarksFile = g:hasWin ?
 			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
 			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
@@ -680,9 +681,21 @@ augroup Emoji
 augroup END
 " >>> (( zoomwintab )) {{{1
 nnoremap gsz :ZoomWinTabToggle<CR>
-" >>> (( textobj-usr )) & plugins {{{1
-" vim-textobj-python
+" >>> (( textobj-usr )) & its plugins {{{1
+" (( vim-textobj-comment )) {{{2
+let g:textobj_comment_no_default_key_mappings = 1
+xmap ic <Plug>(textobj-comment-i)
+omap ic <Plug>(textobj-comment-i)
+xmap ac <Plug>(textobj-comment-a)
+omap ac <Plug>(textobj-comment-a)
+" (( vim-textobj-python )) {{{2
 let g:textobj_python_no_default_key_mappings = 1
+call textobj#user#map('python', {
+			\	'class': {
+			\		'select-a': '<buffer>aC',
+			\		'select-i': '<buffer>iC',
+			\	}
+			\ })
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
