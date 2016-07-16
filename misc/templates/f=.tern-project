@@ -1,8 +1,15 @@
 {
-	"libs": [
-		"browser"%_%
-	],
-	"plugins": {
-		"node": {}
-	}
+    "libs": [
+        "browser",
+        "jquery"
+    ],
+    "loadEagerly": [
+        "./path/to/*.js"
+    ],
+    "dontLoad": [
+        "./path/to/not/*.js"
+    ],
+    "plugins": {
+        "node": {}
+    }
 }
