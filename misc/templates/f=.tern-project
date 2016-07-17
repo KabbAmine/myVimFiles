@@ -1,6 +1,6 @@
 {
     "libs": [
-        "browser",
+        "browser"%_%,
         "jquery"
     ],
     "loadEagerly": [
