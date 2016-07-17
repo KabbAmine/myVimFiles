@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-12
+" Last modification: 2016-07-17
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -19,7 +19,7 @@ let s:defaultCursorLineNr = substitute(split(s:defaultCursorLineNr, "\n")[-1], '
 
 " Configuration " {{{1
 let s:SL  = {
-			\ 'separator': '│',
+			\ 'separator': '|',
 			\ 'apply': {
 				\ 'unite': 'unite#get_status_string()',
 			\ },
@@ -118,7 +118,7 @@ endfunction
 function! SLGitGutter() abort " {{{1
 	if exists('g:gitgutter_enabled') && g:gitgutter_enabled
 		let l:h = GitGutterGetHunkSummary()
-		return !empty(SLFugitive()) && !empty(l:h) && (winwidth(0) ># 55) ?
+		return !empty(SLFugitive()) && !empty(l:h) && l:h !=# [0,0,0] && (winwidth(0) ># 55) ?
 					\ printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2]) :
 					\ ''
 	else
@@ -126,8 +126,9 @@ function! SLGitGutter() abort " {{{1
 	endif
 endfunction
 function! SLFugitive() abort " {{{1
+	let l:i = ' '
 	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
-				\ ' ' . fugitive#head() : ''
+				\ (fugitive#head() ==# 'master' ? l:i . 'm' : l:i . fugitive#head()) : ''
 endfunction
 function! SLRuby() abort " {{{1
 	if g:hasGui && exists('*rvm#statusline()') && !empty(rvm#statusline())
@@ -180,19 +181,19 @@ function! SetSL() abort " {{{1
 	" LEFT SIDE
 	let l:sl .= ' %-{SLMode()} %(%{SLPaste()} %)'
 
-	let l:sl .= '%#SL2#'
-	let l:sl .= '%( %{SLFugitive()}%)'
-	let l:sl .= '%( %{SLGitGutter()} ' . s:SL.separator . '%)'
-
 	let l:sl .= '%#SL3#'
 	let l:sl .= ' %{SLFilename()}'
 	let l:sl .= '%(%#Modified# %{SLModified()}%)'
 
 	" RIGHT SIDE
 	let l:sl .= '%='
-
 	let l:sl .= '%#SL2#'
-	let l:sl .= '%(%{SLFiletype()} ' . s:SL.separator . '%)'
+
+	" Git stuffs
+	let l:sl .= '%( %{SLGitGutter()} %)'
+	let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
+
+	let l:sl .= '%( %{SLFiletype()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLColumnAndPercent()} ' . s:SL.separator . '%)'
