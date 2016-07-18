@@ -240,13 +240,13 @@ function! s:ResetColorMode() abort " {{{1
 endfunction
 function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 	if exists('*' . a:funcref)
-		let l:item = '%( %{' . a:funcref . '} ' . s:SL.separator . '%)'
+		let l:item = '%(' . s:SL.separator . ' %{' . a:funcref . '} %)'
 		if exists('g:{a:var}')
 			unlet! g:{a:var}
-			execute 'set statusline-=' . escape(l:item, ' ')
+			execute 'set statusline-=' . escape(l:item, '| ')
 		else
 			let g:{a:var} = 1
-			execute 'set statusline+=' . escape(l:item, ' ')
+			execute 'set statusline+=' . escape(l:item, '| ')
 		endif
 	endif
 endfunction
@@ -272,6 +272,7 @@ nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
 nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
 if g:hasUnix
 	nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
+	" The following 2 elements are slow
 	nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
 	nnoremap <silent> gsC  :call <SID>ToggleSLItem("SLCmus()", "cmus")<CR>
 endif
