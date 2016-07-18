@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-07-12
+" Last modification: 2016-07-18
 " ============================================
 
 " Misc
@@ -28,7 +28,7 @@ function! helpers#Log(message, ...) abort " {{{1
 	let l:t = exists('a:1') ? a:1 : 0
 	let l:hi = ['WarningMsg', 'ErrorMsg', 'SuccessState']
 	execute 'echohl ' . l:hi[l:t]
-	echo a:message
+	echomsg a:message
 	echohl None
 endfunction
 function! helpers#OpenOrMove2Buffer(bufName, ft, split,...) abort " {{{1
@@ -153,6 +153,70 @@ function! helpers#MakeTextObjects(to) abort " {{{1
 		endfor
 	augroup END
 
+endfunction
+" 1}}}
+
+" Jobs
+function! s:HasJob() abort " {{{1
+	if !has('job')
+		call helpers#Log('Your vim vesion does not support "jobs"', 1)
+		return 0
+	else
+		return 1
+	endif
+endfunction
+function! helpers#KillAllJobs() abort " {{{1
+	if exists('g:jobs') && !empty(g:jobs)
+		let l:nJobs = len(g:jobs)
+		let l:i = 0
+		for l:j in keys(g:jobs)
+			call job_stop(g:jobs[l:j])
+			let l:i += 1
+			unlet! g:jobs[l:j]
+		endfor
+		call helpers#Log(l:i . '/' . l:nJobs . ' job(s) was(were) terminated', 2)
+	endif
+endfunction
+function! helpers#Job(name, cmd, ...) abort " {{{1
+	" $1 is job options: {}
+
+	" if !has('job')
+	" 	call helpers#Log('Your vim vesion does not support "jobs"', 1)
+	" 	return 0
+	" endif
+
+	let l:hasJob = s:HasJob()
+	if !l:hasJob
+		return 0
+	endif
+
+	if !exists('g:jobs')
+		let g:jobs = {}
+	endif
+
+	if !has_key(g:jobs, a:name)
+		let l:job = exists('a:1') ?
+					\	job_start(a:cmd, a:1) :
+					\	job_start(a:cmd, {
+					\		'err_cb' : 'helpers#ErrorHandler'
+					\	})
+		if job_status(l:job) ==# 'run'
+			call helpers#Log('Job: ' . a:name . ' is running', 2)
+			let g:jobs[a:name] = l:job
+		else
+			call helpers#Log('Job: ' . a:name . ' is not running')
+		endif
+	else
+		call job_stop(g:jobs[a:name], 'kill')
+		unlet! g:jobs[a:name]
+		call helpers#Log('Job: ' . a:name . ' stopped', 2)
+	endif
+endfunction
+function! helpers#ErrorHandler(channel, msg) abort " {{{1
+	if !empty(a:msg)
+		let l:msg = printf('Job: %s: %s', a:channel, a:msg)
+		call helpers#Log(l:msg, 1)
+	endif
 endfunction
 " 1}}}
 

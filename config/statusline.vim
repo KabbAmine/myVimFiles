@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-17
+" Last modification: 2016-07-18
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -112,6 +112,11 @@ function! SLColumnAndPercent() abort " {{{1
 	return winwidth(0) <# 55 ?
 				\ '' : l:col . ' ' . l:perc . '%'
 endfunction
+function! SLJobs() abort " {{{1
+	let l:nJobs = exists('g:jobs') ? len(g:jobs) : 0
+	return winwidth(0) <# 55 ? '' :
+				\ (l:nJobs !=# 0) ? l:nJobs . ' job(s)' : ''
+endfunction
 " 1}}}
 
 " From Plugins
@@ -206,8 +211,10 @@ function! SetSL() abort " {{{1
 	let l:sl .= '%#SuccessState#%( %{SLSyntastic(0)} %)'
 	let l:sl .= '%#ErrorState#%( %{SLSyntastic(1)} %)'
 
-	" Toggling part
+	" Jobs & toggling part
 	let l:sl .= '%#SL4#'
+	let l:sl .= '%( %{SLJobs()} %)'
+
 	return l:sl
 endfunction
 function! s:SetColorModeIR(mode) abort " {{{1

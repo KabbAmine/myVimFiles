@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-16
+" Last modification: 2016-07-18
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -499,6 +499,29 @@ augroup AutoMkdir
 				\ call <SID>AutoMkdir()
 augroup END
 " }}}
+
+" =========== JOBS ==============================
+if g:hasJob
+	command! KillJobs call helpers#KillAllJobs()
+	command! LiveServer call helpers#Job('liveServer', 'live-server')
+	command! -nargs=* BrowserSync call helpers#Job(
+				\	'browserSync',
+				\	<SID>BrowserSync(<f-args>)
+				\ )
+
+	function! s:BrowserSync(...) abort " {{{2
+		let l:cwd = getcwd()
+		let l:files = exists('a:1') ?
+					\	join(map(split(a:1, ','), 'l:cwd . "/" . v:val'), ',') :
+					\	printf('%s/*.html,%s/*.css,%s/*.js', l:cwd, l:cwd, l:cwd)
+		let l:opts = exists('a:2') ? a:2 : '--directory --no-online'
+		return printf(
+					\ "browser-sync start --server --files=%s %s",
+					\ l:files, l:opts
+					\ )
+	endfunction " 2}}}
+endif
+" 1}}}
 
 " =========== ABBREVIATIONS ==============================
 " No more rage (Idea from a generated vimrc {{{1

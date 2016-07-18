@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-16
+" Last modification: 2016-07-18
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -774,41 +774,6 @@ let g:image_preview = {
 			\		'args' : '',
 			\	},
 			\ }
-" 1}}}
-
-" ========== CUSTOM  ===========================================
-" Custom commands using (( vimux )) {{{1
-if g:hasUnix
-	command! -nargs=* BrowserSync :call <SID>BrowserSync(<f-args>)
-	command! LiveServer :call <SID>LiveServer()
-	function! <SID>BrowserSync(files, ...) abort " {{{2
-		if executable('browser-sync')
-			if !exists('g:browser_sync')
-				let l:opts = exists('a:1') ? a:1 : '--directory --no-online'
-				let l:cmd = printf(
-							\ "browser-sync start --server --files=\"%s\" %s",
-							\ a:files, l:opts
-							\ )
-				call <SID>VimuxInBg(l:cmd)
-				let g:browser_sync = 1
-			else
-				call helpers#KillProcess("browser-sync start")
-				unlet g:browser_sync
-			endif
-		endif
-	endfunction " 2}}}
-	function! <SID>LiveServer() abort " {{{2
-		if executable('live-server')
-			if !exists('g:live_server')
-				call <SID>VimuxInBg('live-server')
-				let g:live_server = 1
-			else
-				call helpers#KillProcess("live-server")
-				unlet g:live_server
-			endif
-		endif
-	endfunction " 2}}}
-endif
 " 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
