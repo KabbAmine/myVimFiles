@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-18
+" Last modification: 2016-07-19
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -23,7 +23,13 @@ let s:myPlugs = {
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
 			\	'yowish'        : '',
-			\	'zeavim'        : "{'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection', '<Plug>ZVKeyDocset', '<Plug>ZVMotion']}"
+			\	'zeavim'        : "{'on': [
+			\		'Zeavim',
+			\		'<Plug>Zeavim',
+			\		'<Plug>ZVVisSelection',
+			\		'<Plug>ZVKeyDocset',
+			\		'<Plug>ZVMotion'
+			\	]}"
 			\ }
 function! s:MyPlugs() abort
 	let l:pn = keys(s:myPlugs)
@@ -631,6 +637,7 @@ let g:sandwich#recipes += [
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
 " >>> (( vim-markdown )) {{{1
+let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
 let g:markdown_enable_input_abbreviations = 0
 " >>> (( vim-jsdoc )) {{{1
@@ -703,10 +710,11 @@ nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-			\	'python'           : 'python 3',
-			\	'javascript'       : 'javascript,nodejs',
-			\	'^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
-			\	'help'             : 'vim'
+			\	'help'               : 'vim',
+			\	'.htaccess'          : 'apache http server',
+			\	'javascript'         : 'javascript,nodejs',
+			\	'python'             : 'python 3',
+			\	'\v^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
 			\ }
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
