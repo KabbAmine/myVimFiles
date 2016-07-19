@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-12
+" Last modification: 2016-07-19
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -66,7 +66,7 @@ endfunction
 " Helpers
 function! TLInit() abort " {{{1
 	set tabline=
-	set showtabline=0
+	set showtabline=2
 	if tabpagenr('$') ==# 1
 		let l:bufs = filter(range(1, bufnr('$')), 'buflisted(v:val)')
 		let &showtabline = len(l:bufs) ># 1 ? 2 : &showtabline
