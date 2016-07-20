@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-19
+" Last modification: 2016-07-20
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -19,8 +19,8 @@ function! MyBufLine() abort " {{{1
 		let l:name = empty(bufname(l:b)) ?
 					\ l:devicon . '[No Name]' :
 					\ (len(l:bufs) >=# 5 ?
-						\ l:devicon . fnamemodify(bufname(l:b), ':t:~') . l:mod :
-						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod
+						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
+						\ l:devicon . fnamemodify(bufname(l:b), ':.') . l:mod 
 					\ )
 		if l:b ==# bufnr('%')
 			let l:bl .= '%#TabLineSel# ' . l:name . ' %#TabLineFill# '
