@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-19
+" Last modification: 2016-07-20
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -186,6 +186,9 @@ let NERDTreeDirArrows = 1
 let NERDTreeHijackNetrw = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeChDirMode = 2
+" Mappings
+let NERDTreeMapOpenSplit = 's'
+let NERDTreeMapOpenVSplit = 'v'
 augroup NerdTree
 	autocmd!
 	autocmd FileType nerdtree setlocal nolist
