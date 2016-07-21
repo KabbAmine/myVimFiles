@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-18
+" Last modification: 2016-07-21
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -501,6 +501,7 @@ augroup END
 " }}}
 
 " =========== JOBS ==============================
+" Command for executing external tools using vim jobs {{{1
 if g:hasJob
 	command! KillJobs call helpers#KillAllJobs()
 	command! LiveServer call helpers#Job('liveServer', 'live-server')
@@ -508,7 +509,6 @@ if g:hasJob
 				\	'browserSync',
 				\	<SID>BrowserSync(<f-args>)
 				\ )
-
 	function! s:BrowserSync(...) abort " {{{2
 		let l:cwd = getcwd()
 		let l:files = exists('a:1') ?
