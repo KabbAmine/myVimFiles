@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-20
+" Last modification: 2016-07-21
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -205,7 +205,7 @@ nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_stl_format = '%E{❌ %e} %W{⚠ %w}'
+let g:syntastic_stl_format = '%E{❌ %e}%B{ }%W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_error_symbol = "❌"
 let g:syntastic_warning_symbol = "⚠"
