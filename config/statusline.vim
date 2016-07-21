@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-18
+" Last modification: 2016-07-21
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -9,6 +9,7 @@
 " * Rvm
 " * Syntastic
 " * Unite (+unite-cmus)
+" * zoomwintab
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
@@ -157,10 +158,11 @@ function! SLSyntastic(mode) abort " {{{1
 	endif
 endfunction
 function! SLCmus() abort " {{{1
-	" return exists('*cmus#get()') ?
-	" 			\ cmus#get().statusline_str() : ''
 	return !empty(cmus#get().statusline_str()) ?
 				\ cmus#get().statusline_str() : ''
+endfunction
+function! SLZoomWinTab() abort " {{{1
+	return exists('t:zoomwintab') ? ' ' : ''
 endfunction
 " 1}}}
 
@@ -187,6 +189,9 @@ function! SetSL() abort " {{{1
 	let l:sl .= ' %-{SLMode()} %(%{SLPaste()} %)'
 
 	let l:sl .= '%#SL3#'
+
+	let l:sl .= '%( %{SLZoomWinTab()}%)'
+
 	let l:sl .= ' %{SLFilename()}'
 	let l:sl .= '%(%#Modified# %{SLModified()}%)'
 
