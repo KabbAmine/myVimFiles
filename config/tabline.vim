@@ -1,11 +1,12 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-20
+" Last modification: 2016-07-23
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
 " * Devicons
 " * tabpagecd
+" * Yowish for the colors
 
 " Lines
 function! MyBufLine() abort " {{{1
@@ -13,14 +14,16 @@ function! MyBufLine() abort " {{{1
 	let l:bufs = filter(range(1, bufnr('$')), 'buflisted(v:val)')
 	let l:bufsL = []
 	for l:b in l:bufs
+		" Show buffers only when we have more than one
+		if len(l:bufs) ==# 1
+			break
+		endif
 		let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
 		let l:devicon = exists('*WebDevIconsGetFileTypeSymbol()') ?
 					\ WebDevIconsGetFileTypeSymbol(bufname(l:b)) . ' ' : ''
-		let l:name = empty(bufname(l:b)) ?
-					\ l:devicon . '[No Name]' :
-					\ (len(l:bufs) >=# 5 ?
-						\ l:devicon . pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
-						\ l:devicon . fnamemodify(bufname(l:b), ':.') . l:mod 
+		let l:name = l:devicon . (!empty(bufname(l:b)) ?
+					\	pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
+					\	'[No Name]'
 					\ )
 		if l:b ==# bufnr('%')
 			let l:bl .= '%#TabLineSel# ' . l:name . ' %#TabLineFill# '
