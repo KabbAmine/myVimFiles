@@ -286,7 +286,7 @@ vnoremap Cy "+y
 "					* commas
 "					* underscores
 "					* stars
-"					* #, :, +, -, /
+"					* #, :, +, -, /, =
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -315,6 +315,8 @@ let s:to = {
 			\			['a-', 'F-vf-'],
 			\			['i/', 'T/vt/'],
 			\			['a/', 'F/vf/'],
+			\			['i=', 'T=vt='],
+			\			['a=', 'F=vf='],
 			\	],
 			\	'scss,css' : [
 			\		['iV', '^f:wvt;'],
