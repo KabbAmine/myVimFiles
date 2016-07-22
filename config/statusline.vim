@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-21
+" Last modification: 2016-07-23
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -10,6 +10,7 @@
 " * Syntastic
 " * Unite (+unite-cmus)
 " * zoomwintab
+" ^ Yowish for the colors
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
