@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-21
+" Last modification: 2016-07-24
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -486,12 +486,15 @@ command! ChmodX :!chmod +x %
 " >>> Auto mkdir when creating/saving file {{{1
 function! <SID>AutoMkdir() abort " {{{2
 	let l:dir = expand('<afile>:p:h')
+	let l:file = expand('<afile>:t')
 	if !isdirectory(l:dir)
 		echohl WarningMsg
 		let l:ans = input(l:dir . ' does not exist, create it [Y/n]? ')
 		echohl None
 		if empty(l:ans) || l:ans ==# 'y'
 			call mkdir(l:dir, 'p')
+			silent execute 'bw ' . l:dir . '/' . l:file
+			silent execute 'e ' . l:dir . '/' . l:file
 		endif
 	endif
 endfunction " 2}}}
