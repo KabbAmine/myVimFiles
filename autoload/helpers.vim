@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-07-18
+" Last modification: 2016-07-24
 " ============================================
 
 " Misc
@@ -153,6 +153,26 @@ function! helpers#MakeTextObjects(to) abort " {{{1
 		endfor
 	augroup END
 
+endfunction
+function! helpers#ExecFor(cmd, prefix, dir, files) abort " {{{1
+	" Execute a:cmd for all a:files
+	" ex1. If a:prefix is not empty
+	"	('e!', 'E', '~/.vim/', ['foo', 'bar']
+	"	=> command! Ef :e! ~/.vim/foo
+	"	=> command! Eb :e! ~/.vim/bar
+	" ex2.
+	"	('source', '', '~/.vim/', ['foo', 'bar']
+	"	=> source ~/.vim/foo
+	"	=> source ~/.vim/bar
+
+	for l:f in a:files
+		if !empty(a:prefix)
+			let l:c = a:prefix . fnamemodify(l:f, ':t:h')[0]
+			silent execute printf('command! %s :%s %s%s', l:c, a:cmd, a:dir, l:f)
+		else
+			silent execute printf('%s %s%s', a:cmd, a:dir, l:f)
+		endif
+	endfor
 endfunction
 " 1}}}
 

@@ -1,6 +1,6 @@
 " ========== Global vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-18
+" Last modification: 2016-07-24
 " ================================================================
 
 " Useful variables  {{{1
@@ -19,15 +19,23 @@ let g:dotFiles = expand('$HOME/.dotfiles')
 " Commands for quick access to my config files {{{1
 " > Vim files
 command! Ev :e! $MYVIMRC
-for s:f in ['/config/minimal', '/config/plugins', '/config/tabline', '/config/statusline', '/autoload/helpers']
-	let s:m = 'Ev' . fnamemodify(s:f, ':t:h')[0]
-	silent execute 'command! ' . s:m . '  :e! ' . g:vimDir . s:f . '.vim'
-endfor
-unlet! s:f s:m
+call helpers#ExecFor(
+			\	'e!', 'Ev', g:vimDir,
+			\	[
+			\		'/config/minimal.vim',
+			\		'/config/plugins.vim',
+			\		'/config/tabline.vim',
+			\		'/config/statusline.vim',
+			\		'/autoload/helpers.vim'
+			\	],
+			\ )
 " > Bash
-execute 'command! Eb   :e! ' . g:dotFiles . '/bash/bashrc'
-execute 'command! Eba  :e! ' . g:dotFiles . '/bash/bash_aliases'
-execute 'command! Ebf  :e! ' . g:dotFiles . '/bash/bash_functions'
+execute 'command! Eb :e! ' . g:dotFiles . '/bash/bashrc'
+call helpers#ExecFor(
+			\	'e!', 'Eb',
+			\	g:dotFiles . '/bash/bash_',
+			\	['aliases', 'functions'],
+			\ )
 " > Tmux
 execute 'command! Et   :e! ' . g:dotFiles . '/tmux/tmux.conf'
 " 1}}}
@@ -41,10 +49,11 @@ augroup END
 " 1}}}
 
 " Source files {{{1
-for s:f in ['minimal', 'plugins', 'tabline', 'statusline']
-	execute 'source ' . g:vimDir . '/config/' . s:f . '.vim'
-endfor
-unlet! s:f
+call helpers#ExecFor(
+			\	'source ', '',
+			\	g:vimDir . '/config/',
+			\	['minimal.vim', 'plugins.vim', 'tabline.vim', 'statusline.vim'],
+			\ )
 " 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
