@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-25
+" Last modification: 2016-08-01
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -493,16 +493,16 @@ function! <SID>AutoMkdir() abort " {{{2
 		let l:ans = input(l:dir . ' does not exist, create it [Y/n]? ')
 		echohl None
 		if empty(l:ans) || l:ans ==# 'y'
+			let l:old_b = bufnr('%') + 1
 			call mkdir(l:dir, 'p')
-			silent execute 'bw ' . l:dir . '/' . l:file
-			silent execute 'e ' . l:dir . '/' . l:file
+			silent execute 'saveas ' . l:dir . '/' . l:file
+			silent execute 'bw ' . l:old_b
 		endif
 	endif
 endfunction " 2}}}
 augroup AutoMkdir
 	autocmd!
-	autocmd BufWritePre,FileWritePre,BufNewFile *
-				\ call <SID>AutoMkdir()
+	autocmd BufWritePre * call <SID>AutoMkdir()
 augroup END
 " }}}
 
