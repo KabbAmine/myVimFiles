@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-02
+" Last modification: 2016-08-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -494,16 +494,15 @@ augroup FugitiveMaps
 	autocmd FileType gitcommit nnoremap <silent> <buffer> v :norm S<CR>
 	autocmd FileType gitcommit nnoremap <silent> <buffer> t :norm O<CR>
 augroup END
-" Some abbreviations
-cab Ga Git add
-cab Gb Git branch
-cab Gch Git checkout
-cab Gco Gcommit
-cab Gt Git tag
-cab Gl Gllog
-cab Gm Gmerge
-cab Gs Gstatus
-cab Gst Git stash
+" Aliases
+cabbrev Ga Git add
+cabbrev Gb Git branch
+cabbrev Gch Git checkout
+cabbrev Gco Gcommit
+cabbrev Gt Git tag
+cabbrev Gm Gmerge
+cabbrev Gs Gstatus
+cabbrev Gst Git stash
 " >>> (( vim-json )) {{{1
 let g:vim_json_syntax_conceal = 0
 let g:vim_json_warnings = 0
