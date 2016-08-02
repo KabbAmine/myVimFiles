@@ -20,11 +20,11 @@ All the following requirements on GNU/Linux are managed and installed via script
   - *Unite*: `Ag`<sup>B</sup>
   - Checkers/Linters for *Syntastic*:
     * `csslint`<sup>N</sup>
+    * `eslint`<sup>N</sup>
+    * `flake8`<sup>P</sup>
     * `gcc`<sup>B</sup>
     * `javac`<sup>B</sup>
-    * `jslint`<sup>N</sup>
     * `jsonlint`<sup>N</sup>
-    * `flake8`<sup>P</sup>
     * `php`<sup>B</sup>
     * `python`<sup>B</sup>
     * `sass`
@@ -32,6 +32,7 @@ All the following requirements on GNU/Linux are managed and installed via script
     * `shellcheck` & `sh`<sup>B</sup>
     * [`tidy5`](https://github.com/htacg/tidy-html5)
     * `vim-vint`<sup>P</sup>
+    * `yamllint`<sup>P</sup>
   - *vCoolor*: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 2. External applications (Not mandatory):
   - `shiba`<sup>N</sup> for live preview of html/markdown
