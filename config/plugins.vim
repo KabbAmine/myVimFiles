@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-21
+" Last modification: 2016-08-02
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -52,7 +52,6 @@ Plug 'elzr/vim-json'
 Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
-Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'stephpy/vim-yaml'
 Plug 'tpope/vim-haml'
 " For Css {{{2
@@ -117,7 +116,6 @@ Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 " Misc {{{2
-call s:PlugInOs('benmills/vimux' , ''              , 'unix')
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
 Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
@@ -127,12 +125,10 @@ Plug 'kana/vim-tabpagecd'
 Plug 'matchit.zip'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
-" Plug 'rhysd/vim-grammarous'
 Plug 'scrooloose/nerdtree'
 			\| Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-Plug 'tpope/vim-dispatch'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
 Plug 'troydm/zoomwintab.vim', {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
@@ -219,7 +215,8 @@ let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_python_checkers = ['flake8', 'python']
-let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_yaml_checkers = ['yamllint']
 let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['sass_lint', 'sass']
@@ -542,10 +539,6 @@ augroup END
 "     \ "Clean"     : "✔︎",
 "     \ "Unknown"   : "?"
 "     \ }
-" >>> (( vim-dispatch )) {{{1
-if g:hasWin
-	nnoremap <silent> !: :call helpers#CmdForDispatcher('Start! -wait=always %s')<CR>
-endif
 " >>> (( vim-rvm )) {{{1
 " Enable rvm default ruby version in GUI start
 if g:hasUnix
@@ -553,20 +546,6 @@ if g:hasUnix
 		autocmd!
 		autocmd GUIEnter * Rvm
 	augroup END
-endif
-" >>> (( vimux )) {{{1
-if g:hasUnix
-	let g:VimuxHeight = '50'
-	let g:VimuxOrientation = 'h'
-	let g:VimuxUseNearest = 0		" Split window by default
-	nnoremap <silent> <leader>vc :VimuxCloseRunner<CR>
-	nnoremap <silent> <leader>vi :VimuxInterruptRunner<CR>
-	nnoremap <silent> !: :call helpers#CmdForDispatcher("VimuxRunCommand '%s'")<CR>
-	function! <SID>VimuxInBg(cmd) abort " {{{2
-		silent execute "VimuxRunCommand '" . a:cmd . "'"
-		silent VimuxTogglePane
-		silent VimuxTogglePane
-	endfunction " 2}}}
 endif
 " >>> (( vimproc )) {{{1
 " Open arg with default system command
@@ -585,6 +564,7 @@ xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'highlight', 1)
 call operator#sandwich#set('all', 'all', 'hi_duration', 50)
+vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 " Config
@@ -617,25 +597,6 @@ let g:sandwich#recipes += [
 			\		'input'   : ['t'],
 			\	},
 			\ ]
-" " >>> (( vim-grammarous )) {{{1
-" let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-3.2.zip'
-" " Enable vim spell checking
-" let g:grammarous#use_vim_spelllang = 1
-" let g:grammarous#default_comments_only_filetypes = {
-" 		\	'vim' : 1,
-" 		\	'sh'  : 1
-" 		\ }
-" 			" \ '*' : 1,
-" let g:grammarous#hooks = {}
-" " gn/gp for moving to errors only when GrammarCheck in enabled
-" function! g:grammarous#hooks.on_check(errs)
-" 	nmap <buffer> gn <Plug>(grammarous-move-to-next-error)
-" 	nmap <buffer> gp <Plug>(grammarous-move-to-previous-error)
-" endfunction
-" function! g:grammarous#hooks.on_reset(errs)
-" 	nunmap <buffer> gn
-" 	nunmap <buffer> gp
-" endfunction
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
@@ -729,7 +690,6 @@ let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
 " >>> (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
-let g:gv_use_dispatch = 0
 let g:gv_unite_cmd = 'GulpExt'
 let g:gv_custom_cmd = g:hasUnix ?
 			\ ['VimuxRunCommand "clear && %s"', 1] :
