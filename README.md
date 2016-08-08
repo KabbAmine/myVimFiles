@@ -17,7 +17,6 @@ All the following requirements on GNU/Linux are managed and installed via script
     * For `html`, `css`, `json` & `javascript` -> `js-beautify`<sup>N</sup>
     * `sass-convert` for `scss` (Shipped with `sass`<sup>R</sup>)
     * `autopep8`<sup>P</sup> for `python`
-  - *Unite*: `Ag`<sup>B</sup>
   - Checkers/Linters for *Syntastic*:
     * `csslint`<sup>N</sup>
     * `eslint`<sup>N</sup>
@@ -33,11 +32,14 @@ All the following requirements on GNU/Linux are managed and installed via script
     * [`tidy5`](https://github.com/htacg/tidy-html5)
     * `vim-vint`<sup>P</sup>
     * `yamllint`<sup>P</sup>
+  - *gutentags*:
+    * `ctags-exuberant`<sup>B</sup>
+  - *Unite*: `Ag`<sup>B</sup>
   - *vCoolor*: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 2. External applications (Not mandatory):
+  - `live-server`<sup>N</sup> & `browser-sync`<sup>N</sup> for live preview of web projects using jobs.
   - `shiba`<sup>N</sup> for live preview of html/markdown
   - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things :beer:
-  - `live-server`<sup>N</sup> & `browser-sync`<sup>N</sup> for live preview of web projects using jobs.
 3. Fonts:
   - [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts) for both GNU/Linux & windows (Included in the repo).
 
