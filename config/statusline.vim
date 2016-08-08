@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-07-23
+" Last modification: 2016-08-07
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -10,7 +10,9 @@
 " * Syntastic
 " * Unite (+unite-cmus)
 " * zoomwintab
-" ^ Yowish for the colors
+" * gutentags
+
+" The statusline uses colors from yowish theme, so its as for now mandatory
 
 " Get default CursorLineNR highlighting {{{1
 redir => s:defaultCursorLineNr
@@ -137,6 +139,9 @@ function! SLFugitive() abort " {{{1
 	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
 				\ (fugitive#head() ==# 'master' ? l:i . 'm' : l:i . fugitive#head()) : ''
 endfunction
+function! SLGutentags() abort " {{{1
+	return exists('*gutentags#statusline') ? gutentags#statusline(' ') : ''
+endfunction
 function! SLRuby() abort " {{{1
 	if g:hasGui && exists('*rvm#statusline()') && !empty(rvm#statusline())
 		let l:r = matchstr(rvm#statusline(), '\d.*[^\]]')
@@ -217,8 +222,12 @@ function! SetSL() abort " {{{1
 	let l:sl .= '%#SuccessState#%( %{SLSyntastic(0)} %)'
 	let l:sl .= '%#ErrorState#%( %{SLSyntastic(1)} %)'
 
-	" Jobs & toggling part
 	let l:sl .= '%#SL4#'
+
+	" Gutentags
+	let l:sl .= '%( %{SLGutentags()} %)'
+
+	" Jobs & toggling part
 	let l:sl .= '%( %{SLJobs()} %)'
 
 	return l:sl
