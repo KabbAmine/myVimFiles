@@ -22,6 +22,7 @@ let s:myPlugs = {
 			\	'unite-cmus'    : '',
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
+			\	'vt'            : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': [
 			\		'Zeavim',
@@ -90,6 +91,7 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'Shougo/neoyank.vim'
 			\| Plug 'Shougo/unite-outline'
 			\| Plug 'tacroe/unite-mark'
+			\| Plug 'tsukkee/unite-tag'
 " (( syntastic )) {{{2
 Plug 'scrooloose/syntastic',
 			\ {'on': ['SyntasticReset', 'SyntasticCheck', 'SyntasticToggle', 'SyntasticInfo']}
@@ -108,6 +110,7 @@ Plug 'kana/vim-operator-user'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
@@ -310,7 +313,6 @@ let g:unite_quick_match_table = {
 " Default profile
 call unite#custom#profile('default', 'context', {
 			\	'start_insert'      : 1,
-			\	'force_redraw'      : 1,
 			\	'no_empty'          : 1,
 			\	'toggle'            : 1,
 			\	'vertical_preview'  : 1,
@@ -360,27 +362,28 @@ let g:unite_source_outline_filetype_options = {
 inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
 nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
-nnoremap <silent> ,d :Unite -buffer-name=File file<CR>
+nnoremap <silent> ,t :Unite -buffer-name=Tags tag<CR>
+nnoremap <silent> ,d :Unite -buffer-name=File -force-redraw file<CR>
 function! s:NoFileOnHome() abort " {{{3
 	if getcwd() == expand('~')
 		echo "Set your cwd!"
 	else
 		Unite -buffer-name=Files -no-force-redraw file_rec/async
 	endif
-endfunction
+endfunction " 3}}}
 nnoremap <silent> ,f :call <SID>NoFileOnHome()<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
 nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep<CR>
-nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -resize gulp<CR>
+nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -force-redraw -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
-nnoremap <silent> ,m :Unite -buffer-name=Marks mark<CR>
-nnoremap <silent> ,r :Unite -buffer-name=Recent -empty neomru/file<CR>
-nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -keep-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
-nnoremap <silent> ,! :Unite -buffer-name=Commands -empty command<CR>
-nnoremap <silent> ,y :Unite -buffer-name=Yanks -default-action=append history/yank<CR>
-nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -winwidth=40 -empty spell_suggest<CR>
+nnoremap <silent> ,m :Unite -buffer-name=Marks -force-redraw mark<CR>
+nnoremap <silent> ,r :Unite -buffer-name=Recent -empty -force-redraw neomru/file<CR>
+nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -force-redraw -keep-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
+nnoremap <silent> ,! :Unite -buffer-name=Commands -force-redraw -empty command<CR>
+nnoremap <silent> ,y :Unite -buffer-name=Yanks -force-redraw -default-action=append history/yank<CR>
+nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -force-redraw -winwidth=40 -empty spell_suggest<CR>
 if g:hasUnix
-	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album -no-force-redraw<CR>
+	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album<CR>
 endif
 " Inside unite buffers
 augroup UniteMaps
@@ -666,6 +669,10 @@ call textobj#user#map('python', {
 			\		'select-i': '<buffer>iC',
 			\	}
 			\ })
+" >>> (( vim-gutentags )) {{{1
+let g:gutentags_ctags_executable = 'ctags-exuberant'
+let g:unite_data_directory = g:vimDir . '/misc/unite'
+let g:gutentags_cache_dir = g:vimDir . '/misc/tags/'
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -732,6 +739,8 @@ augroup VBoxAuto
 	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
 	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c       :VBTemplate
 augroup END
+" >>> (( vt )) {{{1
+nnoremap <silent> !: :VT<CR>
 " >>> (( imagePreview )) {{{1
 nmap gi <Plug>(image-preview)
 let g:image_preview = {
