@@ -153,7 +153,7 @@ endif
 let g:yowish = {
 			\	'term_italic' : 0,
 			\	'colors': {
-			\		'background'       : ['#2f343f', '236'],
+			\		'background'       : ['#2f343f', 'none'],
 			\		'backgroundDark'   : ['#191d27', '16'],
 			\		'backgroundLight'  : ['#464b5b', '59'],
 			\		'blue'             : ['#5295e2', '68'],
@@ -165,6 +165,10 @@ let g:yowish = {
 			\ }
 colo yowish
 hi! link TabLineSel Search
+if !g:hasGui
+	hi! clear Normal
+	hi! link FoldColumn Comment
+endif
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
