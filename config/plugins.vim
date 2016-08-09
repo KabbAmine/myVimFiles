@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-08
+" Last modification: 2016-08-09
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -103,9 +103,6 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'bps/vim-textobj-python'                 , {'for': 'python'}
 			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
-" (( operator-user )) {{{2
-Plug 'kana/vim-operator-user'
-			\| Plug 'haya14busa/vim-operator-flashy'
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/vim-signjk-motion',
@@ -134,7 +131,8 @@ Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
-Plug 'troydm/zoomwintab.vim', {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
+Plug 'machakann/vim-highlightedyank', {'on': '<Plug>(highlightedyank)'}
+Plug 'troydm/zoomwintab.vim'        , {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
 Plug 'Yggdroot/indentLine'
 call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
@@ -214,6 +212,8 @@ let g:syntastic_error_symbol = "❌"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_style_error_symbol = ""
 let g:syntastic_style_warning_symbol = ""
+hi! link SyntasticErrorSign Error
+hi! link SyntasticWarningSign Function
 " The cursor will jump to the first error detected (1|2|3)
 let g:syntastic_auto_jump = 2
 " Checkers
@@ -224,7 +224,6 @@ let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_yaml_checkers = ['yamllint']
-let g:syntastic_javascript_jslint_args = '--white --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --browser'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_scss_checkers = ['sass_lint', 'sass']
 let g:syntastic_vim_checkers = ['vint']
@@ -557,13 +556,13 @@ endif
 " Open arg with default system command
 command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
 let g:vimproc#download_windows_dll = 1
-" >>> (( vim-operator-flashy )) {{{1
-map y <Plug>(operator-flashy)
-nmap Y <Plug>(operator-flashy)$
+" " >>> (( vim-highlightedyank )) {{{1
+let g:highlightedyank_highlight_duration = 200
+map y <Plug>(highlightedyank)
+map Y <Plug>(highlightedyank)$
 " The following mappings are already defined in /config/minimal.vim
-nmap cy "+<Plug>(operator-flashy)
-nmap cY "+<Plug>(operator-flashy)$
-let g:operator#flashy#group = 'Search'
+nmap cy "+<Plug>(highlightedyank)
+nmap cY "+<Plug>(highlightedyank)$
 " >>> (( vim-sandwich )) {{{1
 nmap s <Nop>
 xmap s <Nop>
