@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-07
+" Last modification: 2016-08-09
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -14,13 +14,6 @@
 
 " The statusline uses colors from yowish theme, so its as for now mandatory
 
-" Get default CursorLineNR highlighting {{{1
-redir => s:defaultCursorLineNr
-	silent hi CursorLineNR
-redir END
-let s:defaultCursorLineNr = substitute(split(s:defaultCursorLineNr, "\n")[-1], '.* xxx \(.*\)', '\1', '')
-" 1}}}
-
 " Configuration " {{{1
 let s:SL  = {
 			\ 'separator': '|',
@@ -30,11 +23,12 @@ let s:SL  = {
 			\ 'colors': {
 				\ 'background'      : g:yowish['colors'].background,
 				\ 'backgroundLight' : g:yowish['colors'].backgroundLight,
+				\ 'backgroundDark'  : g:yowish['colors'].backgroundDark,
 				\ 'blue'            : ['#6699cc','67'],
 				\ 'green'           : g:yowish['colors'].green,
 				\ 'red'             : g:yowish['colors'].red,
-				\ 'textDark'        : g:yowish['colors'].textDark,
-				\ 'text'            : g:yowish['colors'].text,
+				\ 'textDark'        : g:yowish['colors'].textExtraDark,
+				\ 'text'            : g:yowish['colors'].textLight,
 				\ 'violet'          : ['#d09cea','171'],
 				\ 'yellow'          : g:yowish['colors'].yellow,
 			\ },
@@ -74,8 +68,8 @@ function! SLModified() abort " {{{1
 	return (&modified ? '+' : '')
 endfunction
 function! SLFileformat() abort " {{{1
-	return winwidth(0) <# 55 ? '' :
-				\ (winwidth(0) ># 85 ? &fileformat : &fileformat[0])
+	return winwidth(0) ># 85 ? &fileformat :
+				\ (winwidth(0) <# 55 ? '' : &fileformat[0])
 endfunction
 function! SLFiletype() abort " {{{1
 	return strlen(&filetype) ? &filetype : ''
@@ -88,7 +82,7 @@ function! SLHiGroup() abort " {{{1
 	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
-	return winwidth(0) <# 55 ? get(s:SL.modes, mode()) :
+	return winwidth(0) <# 75 ? get(s:SL.modes, mode()) :
 				\ '▸ ' . get(s:SL.modes, mode())
 endfunction
 function! SLPaste() abort " {{{1
@@ -188,70 +182,67 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 	endfor
 	execute l:cmd
 endfunction
-function! SetSL() abort " {{{1
+function! s:SetColors() abort " {{{1
+	call s:Hi('User1'          , s:SL.colors['yellow']                    , s:SL.colors['background']          , 'bold')
+	call s:Hi('User2'          , s:SL.colors['backgroundLight']           , s:SL.colors['text']                , 'none')
+	call s:Hi('User3'          , s:SL.colors['backgroundLight']           , s:SL.colors['textDark']            , 'none')
+	call s:Hi('User4'          , s:SL.colors['yellow']                    , s:SL.colors['background']          , 'none')
+	" Modified state
+	call s:Hi('User5'          , s:SL.colors['backgroundLight']           , s:SL.colors['yellow']              , 'bold')
+	" Error & success states
+	call s:Hi('User6'          , s:SL.colors['green']                     , s:SL.colors['backgroundLight']     , 'bold')
+	call s:Hi('User7'          , s:SL.colors['red']                       , s:SL.colors['text']                , 'bold')
+	" Inactive SL
+	call s:Hi('User8'          , s:SL.colors['backgroundDark']            , s:SL.colors['backgroundLight']     , 'none')
+	hi! link StatuslineNC User8
+endfunction
+function! SetSL(...) abort " {{{1
 	let l:sl = ''
 
-	" LEFT SIDE
-	let l:sl .= ' %-{SLMode()} %(%{SLPaste()} %)'
+	if exists('a:1')
+		" Inactive Statusline
+		let l:sl .= ' %{SLFilename()}'
+		let l:sl .= '%( %{SLModified()}%)'
+	else
+		" LEFT SIDE
+		let l:sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
 
-	let l:sl .= '%#SL3#'
+		let l:sl .= '%(%3* %{SLZoomWinTab()}%)'
 
-	let l:sl .= '%( %{SLZoomWinTab()}%)'
+		let l:sl .= '%2* %{SLFilename()}'
+		let l:sl .= '%(%5* %{SLModified()}%)'
 
-	let l:sl .= ' %{SLFilename()}'
-	let l:sl .= '%(%#Modified# %{SLModified()}%)'
+		" RIGHT SIDE
+		let l:sl .= '%3*'
+		let l:sl .= '%='
 
-	" RIGHT SIDE
-	let l:sl .= '%='
-	let l:sl .= '%#SL2#'
+		" Git stuffs
+		let l:sl .= '%( %{SLGitGutter()} %)'
+		let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
 
-	" Git stuffs
-	let l:sl .= '%( %{SLGitGutter()} %)'
-	let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
+		let l:sl .= '%( %{SLFiletype()} ' . s:SL.separator . '%)'
+		let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
+		let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
+		let l:sl .= '%( %{SLColumnAndPercent()} ' . s:SL.separator . '%)'
+		let l:sl .= '%('
+		let l:sl .= ' %{SLFileencoding()}'
+		let l:sl .= '[%{SLFileformat()}] '
+		let l:sl .= '%)'
 
-	let l:sl .= '%( %{SLFiletype()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLColumnAndPercent()} ' . s:SL.separator . '%)'
-	let l:sl .= '%('
-	let l:sl .= ' %{SLFileencoding()}'
-	let l:sl .= '[%{SLFileformat()}] '
-	let l:sl .= '%)'
+		" Syntastic (1st group for no errors)
+		let l:sl .= '%6*%( %{SLSyntastic(0)} %)'
+		let l:sl .= '%7*%( %{SLSyntastic(1)} %)'
 
-	" Syntastic (1st group for no errors)
-	let l:sl .= '%#SuccessState#%( %{SLSyntastic(0)} %)'
-	let l:sl .= '%#ErrorState#%( %{SLSyntastic(1)} %)'
+		let l:sl .= '%4*'
 
-	let l:sl .= '%#SL4#'
+		" Gutentags
+		let l:sl .= '%( %{SLGutentags()} %)'
 
-	" Gutentags
-	let l:sl .= '%( %{SLGutentags()} %)'
-
-	" Jobs & toggling part
-	let l:sl .= '%( %{SLJobs()} %)'
+		" Jobs & toggling part
+		let l:sl .= '%( %{SLJobs()} %)'
+	endif
 
 	return l:sl
-endfunction
-function! s:SetColorModeIR(mode) abort " {{{1
-	if a:mode ==# 'i'
-		hi! link StatusLine SL1I
-	elseif a:mode ==# 'r'
-		hi! link StatusLine SL1R
-	else
-		hi! link StatusLine SL1V
-	endif
-	hi! link CursorLineNR StatusLine
-endfunction
-function! s:SetColorModeV() abort " {{{1
-	setl updatetime=1
-	hi! link StatusLine SL1V
-	hi! link CursorLineNR StatusLine
-endfunction
-function! s:ResetColorMode() abort " {{{1
-	setl updatetime=4000
-	call s:Hi('SL1', s:SL.colors['yellow'], s:SL.colors['background'], 'bold')
-	execute 'hi CursorLineNR ' . s:defaultCursorLineNr
-	hi! link StatusLine SL1
 endfunction
 function! <SID>ToggleSLItem(funcref, var) abort " {{{1
 	if exists('*' . a:funcref)
@@ -268,16 +259,13 @@ endfunction
 function! <SID>SLInit() abort " {{{1
 	set noshowmode
 	set laststatus=2
-	let &statusline = SetSL()
-	augroup SLColor
+	call s:SetColors()
+	setl statusline=%!SetSL()
+	augroup SL
 		autocmd!
-		autocmd InsertEnter * :call s:SetColorModeIR(v:insertmode)
-		autocmd InsertLeave * :call s:ResetColorMode()
-		autocmd CursorHold  * :call s:ResetColorMode()
+		autocmd TabEnter,BufWinEnter,BufNew,WinEnter * setl statusline=%!SetSL()
+		autocmd WinLeave * setl statusline=%!SetSL(1)
 	augroup END
-	nnoremap <silent> v :call <SID>SetColorModeV()<CR>v
-	nnoremap <silent> V :call <SID>SetColorModeV()<CR>V
-	nnoremap <silent> <C-v> :call <SID>SetColorModeV()<CR><C-v>
 endfunction
 " 1}}}
 
@@ -293,21 +281,6 @@ if g:hasUnix
 endif
 " 1}}}
 
-" Initialization {{{1
-" Highlighting {{{2
-call s:Hi('SL1'          , s:SL.colors['yellow']           , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1I'         , s:SL.colors['green']            , s:SL.colors['background']      , 'bold')
-call s:Hi('SL1R'         , s:SL.colors['red']              , s:SL.colors['text']            , 'bold')
-call s:Hi('SL1V'         , s:SL.colors['blue']             , s:SL.colors['background']      , 'bold')
-call s:Hi('SL2'          , s:SL.colors['backgroundLight']  , s:SL.colors['textDark']        , 'none')
-call s:Hi('SL3'          , s:SL.colors['backgroundLight']  , s:SL.colors['text']            , 'none')
-call s:Hi('SL4'          , s:SL.colors['yellow']           , s:SL.colors['background']      , 'none')
-call s:Hi('Modified'     , s:SL.colors['backgroundLight']  , s:SL.colors['yellow']          , 'bold')
-call s:Hi('ErrorState'   , s:SL.colors['red']              , s:SL.colors['text']            , 'bold')
-call s:Hi('SuccessState' , s:SL.colors['green']            , s:SL.colors['backgroundLight'] , 'bold')
-hi! link StatusLine SL1
-" 2}}}
 call <SID>SLInit()
-" 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
