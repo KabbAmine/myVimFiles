@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-01
+" Last modification: 2016-08-11
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -129,7 +129,9 @@ if !g:hasGui
 endif
 " >>> Executing external commands
 " Use my own bash (functions, aliases...)
-let &shell = '/bin/bash -i'
+if g:hasGui
+	let &shell = '/bin/bash -i'
+endif
 " }}}
 
 " =========== DEFAULT PLUGINS ===================================
