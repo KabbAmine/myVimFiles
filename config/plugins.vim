@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-10
+" Last modification: 2016-08-11
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -557,7 +557,7 @@ endif
 " Open arg with default system command
 command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
 let g:vimproc#download_windows_dll = 1
-" " >>> (( vim-highlightedyank )) {{{1
+" >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
 map y <Plug>(highlightedyank)
 map Y <Plug>(highlightedyank)$
@@ -675,7 +675,6 @@ call textobj#user#map('python', {
 			\ })
 " >>> (( vim-gutentags )) {{{1
 let g:gutentags_ctags_executable = 'ctags-exuberant'
-let g:unite_data_directory = g:vimDir . '/misc/unite'
 let g:gutentags_cache_dir = g:vimDir . '/misc/tags/'
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
