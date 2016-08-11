@@ -19,7 +19,7 @@ All the following requirements on GNU/Linux are managed and installed via script
     * `autopep8`<sup>P</sup> for `python`
   - Checkers/Linters for *Syntastic*:
     * `csslint`<sup>N</sup>
-    * `eslint`<sup>N</sup>
+    * `eslint_d`<sup>N</sup>
     * `flake8`<sup>P</sup>
     * `gcc`<sup>B</sup>
     * `javac`<sup>B</sup>
