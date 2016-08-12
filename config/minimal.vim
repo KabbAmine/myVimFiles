@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-11
+" Last modification: 2016-08-12
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -344,7 +344,8 @@ nnoremap / /\v
 nnoremap # #\v
 nnoremap n nzz
 nnoremap N Nzz
-" >>> Toggle locally wrapping {{{1
+" >>> Toggle options {{{1
+nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
 nnoremap <silent> <leader><leader>c :execute 'setl colorcolumn=' . (&cc ? '' : 81)<CR>
 " 1}}}
