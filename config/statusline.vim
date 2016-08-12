@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-09
+" Last modification: 2016-08-12
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -114,6 +114,19 @@ function! SLJobs() abort " {{{1
 	let l:nJobs = exists('g:jobs') ? len(g:jobs) : 0
 	return winwidth(0) <# 55 ? '' :
 				\ (l:nJobs !=# 0) ? l:nJobs . ' job(s)' : ''
+endfunction
+function! SLToggled() abort " {{{1
+	if !exists('g:SL_toggle')
+		return ''
+	endif
+	let l:sl = ''
+	for [l:k, l:v] in items(g:SL_toggle)
+		let l:str = call(l:v, [])
+		let l:sl .= empty(l:sl) ?
+					\	l:str . ' ' :
+					\	s:SL.separator . ' ' . l:str . ' '
+	endfor
+	return l:sl[:-2]
 endfunction
 " 1}}}
 
@@ -240,20 +253,21 @@ function! SetSL(...) abort " {{{1
 
 		" Jobs & toggling part
 		let l:sl .= '%( %{SLJobs()} %)'
+
+		" Toggled elements
+		let l:sl .= '%( %{SLToggled()} %)'
 	endif
 
 	return l:sl
 endfunction
-function! <SID>ToggleSLItem(funcref, var) abort " {{{1
-	if exists('*' . a:funcref)
-		let l:item = '%(' . s:SL.separator . ' %{' . a:funcref . '} %)'
-		if exists('g:{a:var}')
-			unlet! g:{a:var}
-			execute 'set statusline-=' . escape(l:item, '| ')
-		else
-			let g:{a:var} = 1
-			execute 'set statusline+=' . escape(l:item, '| ')
-		endif
+function! <SID>ToggleSLItem(var, funcref) abort " {{{1
+	if !exists('g:SL_toggle')
+		let g:SL_toggle = {}
+	endif
+	if has_key(g:SL_toggle, a:var)
+		call remove(g:SL_toggle, a:var)
+	else
+		let g:SL_toggle[a:var] = a:funcref
 	endif
 endfunction
 function! <SID>SLInit() abort " {{{1
@@ -270,14 +284,13 @@ endfunction
 " 1}}}
 
 " Mappings {{{1
-nnoremap <silent> gsH  :call <SID>ToggleSLItem("SLHiGroup()", "sl_hi")<CR>
-nnoremap <silent> gsT  :call <SID>ToggleSLItem("strftime('%c')", "sl_time")<CR>
+nnoremap <silent> gsH  :call <SID>ToggleSLItem('hi', 'SLHiGroup')<CR>
 nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
 if g:hasUnix
-	nnoremap <silent> gsR  :call <SID>ToggleSLItem("SLRuby()", "sl_ruby")<CR>
-	" The following 2 elements are slow
-	nnoremap <silent> gsP  :call <SID>ToggleSLItem("SLPython()", "sl_python")<CR>
-	nnoremap <silent> gsC  :call <SID>ToggleSLItem("SLCmus()", "cmus")<CR>
+	" Use it once, they are slow
+	nnoremap <silent> gsR  :call <SID>ToggleSLItem('ruby', 'SLRuby')<CR>
+	nnoremap <silent> gsP  :call <SID>ToggleSLItem('python', 'SLPython')<CR>
+	nnoremap <silent> gsC  :call <SID>ToggleSLItem('cmus', 'SLCmus')<CR>
 endif
 " 1}}}
 
