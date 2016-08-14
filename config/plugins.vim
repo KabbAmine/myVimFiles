@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-11
+" Last modification: 2016-08-12
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -147,7 +147,7 @@ call plug#end()
 if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
 	set term=xterm-256color
 endif
-" Only for gui, use custom colors to match arc-dark-theme
+" Custom colors for (( yowish ))
 let g:yowish = {
 			\	'term_italic' : 0,
 			\	'colors': {
@@ -163,10 +163,7 @@ let g:yowish = {
 			\ }
 colo yowish
 hi! link TabLineSel Search
-if !g:hasGui
-	hi! clear Normal
-	hi! link FoldColumn Comment
-endif
+hi CursorLine ctermbg=none ctermfg=none cterm=bold
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
@@ -355,7 +352,7 @@ let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
 let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
 let g:neoyank#file = g:unite_data_directory . '/neoyank/file'
 let g:unite_source_outline_ctags_program = g:hasUnix ?
-			\ '/usr/bin/ctags' : 'C:\Program Files\ctags58\ctags.exe'
+			\ '/usr/bin/ctags-exuberant' : 'C:\Program Files\ctags58\ctags.exe'
 let g:unite_source_outline_filetype_options = {
 			\ '*': {
 			\   'auto_update': 1,
@@ -676,6 +673,7 @@ call textobj#user#map('python', {
 " >>> (( vim-gutentags )) {{{1
 let g:gutentags_ctags_executable = 'ctags-exuberant'
 let g:gutentags_cache_dir = g:vimDir . '/misc/tags/'
+let g:gutentags_define_advanced_commands = 1
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -738,9 +736,14 @@ let g:vbox.variables = {
 			\ }
 augroup VBoxAuto
 	autocmd!
-	autocmd BufNewFile README.md,CHANGELOG.md,.tern-project  :VBTemplate
-	autocmd BufNewFile LICENSE                               :VBTemplate license-MIT
-	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c       :VBTemplate
+	" For vim plugins
+	exe 'autocmd BufNewFile ' . s:myPlugins . '*/README.md :VBTemplate README.md-vim'
+	exe 'autocmd BufNewFile ' . s:myPlugins . '*/**/*.vim :VBTemplate vim-plugin'
+	exe 'autocmd BufNewFile ' . s:myPlugins . '*/doc/*.txt :VBTemplate vim-doc'
+	" Misc
+	autocmd BufNewFile LICENSE                          :VBTemplate license-MIT
+	autocmd BufNewFile CHANGELOG.md,.tern-project       :VBTemplate
+	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c  :VBTemplate
 augroup END
 " >>> (( vt )) {{{1
 nnoremap <silent> !: :VT<CR>
