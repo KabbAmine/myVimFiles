@@ -24,6 +24,7 @@ All the following requirements on GNU/Linux are managed and installed via script
     * `gcc`<sup>B</sup>
     * `javac`<sup>B</sup>
     * `jsonlint`<sup>N</sup>
+    * `luac`<sup>B</sup>
     * `php`<sup>B</sup>
     * `python`<sup>B</sup>
     * `sass`
