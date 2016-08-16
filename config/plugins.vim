@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-12
+" Last modification: 2016-08-16
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -54,6 +54,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'stephpy/vim-yaml'
+Plug 'tbastos/vim-lua'
 Plug 'tpope/vim-haml'
 " For Css {{{2
 Plug 'JulesWang/css.vim'
@@ -218,14 +219,15 @@ let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:syntastic_yaml_checkers = ['yamllint']
 let g:syntastic_json_checkers = ['jsonlint']
+let g:syntastic_lua_checkers = ['luac']
+let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_scss_checkers = ['sass_lint', 'sass']
-let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_sh_checkers = ['shellcheck', 'sh']
+let g:syntastic_vim_checkers = ['vint']
+let g:syntastic_yaml_checkers = ['yamllint']
 if g:hasWin
 	let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
 	let g:syntastic_php_checkers = 'php'
