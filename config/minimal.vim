@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-12
+" Last modification: 2016-08-16
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -474,6 +474,7 @@ function! <SID>Preview(start, end) abort " {{{2
 				\	'coffee'    : {'cmd': 'coffee -spb', 'ft': 'javascript'},
 				\	'cpp'       : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
 				\	'javascript': {'cmd': 'nodejs'},
+				\	'lua'       : {'cmd': 'lua'},
 				\	'markdown'  : {'cmd': 'markdown', 'ft': 'html'},
 				\	'php'       : {'cmd': 'php'},
 				\	'pug'       : {'cmd': 'pug --pretty', 'ft': 'html'},
