@@ -205,9 +205,10 @@ function! s:SetColors() abort " {{{1
 	call s:Hi('User8'          , s:SL.colors['backgroundDark'] , s:SL.colors['backgroundLight'], 'none')
 	hi! link StatuslineNC User8
 endfunction
-function! SetSL(...) abort " {{{1
+function! GetSL(...) abort " {{{1
 	let l:sl = ''
 
+	" CUSTOM FUNCTIONS
 	if has_key(s:SL.apply, &ft)
 		let l:f = get(s:SL.apply, &ft)
 		if exists('*' . l:f)
@@ -216,20 +217,19 @@ function! SetSL(...) abort " {{{1
 		return l:sl
 	endif
 
+	" INACTIVE STATUSLINE
 	if exists('a:1')
-		" Inactive Statusline
 		let l:sl .= ' %{SLFilename()}'
 		let l:sl .= '%( %{SLModified()}%)'
-
 		return l:sl
 	endif
 
+	" ACTIVE STATUSLINE
 	let l:sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
 	let l:sl .= '%(%3* %{SLZoomWinTab()}%)'
 	let l:sl .= '%2* %{SLFilename()}'
 	let l:sl .= '%(%5* %{SLModified()}%)'
 
-	" RIGHT SIDE
 	let l:sl .= '%3*'
 	let l:sl .= '%='
 
@@ -287,8 +287,8 @@ endfunction
 function! <SID>ApplySL(...) abort " {{{1
 	if index(s:SL.ignore, &ft) ==# -1
 		execute !exists('a:1') ?
-					\ 'setl statusline=%!SetSL()' :
-					\ 'setl statusline=%!SetSL(1)'
+					\ 'setl statusline=%!GetSL()' :
+					\ 'setl statusline=%!GetSL(0)'
 	endif
 endfunction
 " 1}}}
