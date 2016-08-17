@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-16
+" Last modification: 2016-08-17
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -71,6 +71,7 @@ let &showbreak='⤷ '
 set scrolloff=3			" Number of screen lines to show around the cursor.
 set display=lastline	" Show the last line even if it doesn't fit.
 set lazyredraw			" Don't redraw while executing macros
+set breakindent			" Preserve indentation in wrapped text
 " Make stars and bars visible
 hi! link HelpBar Normal
 hi! link HelpStar Normal
