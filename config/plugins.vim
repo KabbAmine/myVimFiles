@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-16
+" Last modification: 2016-08-17
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -271,6 +271,10 @@ let g:UltiSnipsSnippetsDir = g:vimDir . '/misc/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/misc/ultisnips']
 " >>> (( gitgutter )) {{{1
 let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_added = '❙'
+let g:gitgutter_sign_modified = '❙'
+let g:gitgutter_sign_removed = '❙'
+let g:gitgutter_sign_modified_removed = '❙'
 nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
 command! GP :GitGutterPreviewHunk
@@ -558,11 +562,11 @@ command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
 let g:vimproc#download_windows_dll = 1
 " >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
-map y <Plug>(highlightedyank)
-map Y <Plug>(highlightedyank)$
+map <silent> y <Plug>(highlightedyank)
+map <silent> Y <Plug>(highlightedyank)$
 " The following mappings are already defined in /config/minimal.vim
-nmap cy "+<Plug>(highlightedyank)
-nmap cY "+<Plug>(highlightedyank)$
+nmap <silent> cy "+<Plug>(highlightedyank)
+nmap <silent> cY "+<Plug>(highlightedyank)$
 " >>> (( vim-sandwich )) {{{1
 nmap s <Nop>
 xmap s <Nop>
