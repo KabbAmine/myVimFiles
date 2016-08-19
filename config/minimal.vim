@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-17
+" Last modification: 2016-08-19
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -339,7 +339,7 @@ inoremap <silent> <C-r> <C-r><C-p>
 " >>> Preview {{{1
 nnoremap <silent> gP :Preview<CR>
 vnoremap <silent> gP :Preview<CR>
-nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave'])<CR>
+nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI'])<CR>
 " >>> Search {{{1
 nnoremap / /\v
 nnoremap # #\v
