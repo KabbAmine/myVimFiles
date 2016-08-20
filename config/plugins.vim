@@ -67,7 +67,7 @@ Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
 " For JavaScript {{{2
 Plug 'gavocanov/vim-js-indent'
 Plug 'heavenshell/vim-jsdoc'
-Plug 'marijnh/tern_for_vim'                   , {'do': 'npm install'}
+Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 " For Python {{{2
@@ -79,7 +79,7 @@ Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
 " For Git {{{2
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/agit.vim'             , {'on': ['Agit', 'AgitFile']}
+Plug 'cohama/agit.vim', {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
 " (( ultisnips )) {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'

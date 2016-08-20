@@ -151,7 +151,7 @@ let g:loaded_zipPlugin = 1
 " >>> Make Y work as other capitals {{{1
 nnoremap Y y$
 " >>> Duplicate selection {{{1
-" *** ys to duplicate line in NORMAL mode witout moving cursor
+" *** yd to duplicate line in NORMAL mode witout moving cursor
 " *** <C-d> to duplicate selection in VISUAL mode.
 nnoremap <silent> yd :call <SID>Duplicate()<CR>
 vnoremap <silent> <C-d> :t'><CR>gv<Esc>
@@ -175,7 +175,7 @@ nnoremap <silent> <S-l> :silent bn!<CR>
 nnoremap <silent> <S-q> :silent bw<CR>
 " >>> Repeat the last command {{{1
 nnoremap !z @:
-" >>> JK for escape from NORMAL & COMMAND modes {{{1
+" >>> JK for escape from INSERT & COMMAND modes {{{1
 inoremap jk <Esc>
 inoremap JK <Esc>
 cnoremap jk <C-c>
@@ -364,7 +364,6 @@ augroup Indentation
 				\ setl ts=2 sts=2 sw=2 expandtab
 	autocmd FileType python,json
 				\ setl ts=4 sts=4 sw=4 expandtab
-
 augroup END
 " >>> Make cursor line appear only in active window {{{1
 augroup CursorLine
@@ -552,7 +551,7 @@ cab Q q
 " Set omni-completion if the appropriate syntax file is present otherwise use the syntax completion {{{1
 augroup Omni
 	autocmd!
-	if has('autocmd') && exists('+omnifunc')
+	if exists('+omnifunc')
 		autocmd! Filetype *
 					\ if &omnifunc ==# '' |
 					\	setlocal omnifunc=syntaxcomplete#Complete |
