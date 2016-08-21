@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-19
+" Last modification: 2016-08-22
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -89,6 +89,11 @@ set smartcase
 set incsearch					" Incremental search.
 set whichwrap=b,s,<,>,[,]		" List of flags specifying which commands wrap to another line.
 set magic
+" >>> Running make and jumping to errors {{{1
+if executable('ag')
+	let &grepprg = 'ag --vimgrep $*'
+	set grepformat=%f:%l:%c:%m
+endif
 " >>> Syntax, highlighting and spelling {{{1
 set cursorline
 set hlsearch
@@ -230,9 +235,13 @@ nnoremap K {
 " >>> Make j and k move to the next row, not file line {{{1
 nnoremap j gj
 nnoremap k gk
-" >>> Mappings for location list window {{{1
-nnoremap <C-F3> :lprevious<CR>
-nnoremap <C-F4> :lnext<CR>
+" >>> Mappings for quickfix/location list window {{{1
+" Quickfix (G for global)
+nnoremap Gp :cprevious<CR>
+nnoremap Gn :cnext<CR>
+" Location
+nnoremap gp :lprevious<CR>
+nnoremap gn :lnext<CR>
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
@@ -349,6 +358,8 @@ nnoremap N Nzz
 nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
 nnoremap <silent> <leader><leader>c :execute 'setl colorcolumn=' . (&cc ? '' : 81)<CR>
+" >>> Grep {{{1
+nnoremap ,g :Grep 
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -508,7 +519,15 @@ augroup AutoMkdir
 	autocmd!
 	autocmd BufWritePre * call <SID>AutoMkdir()
 augroup END
-" }}}
+" >>> A better Grep command {{{1
+command! -nargs=+ Grep execute 'silent grep! <args>' | copen 10 | wincmd p
+" >>> For quickfix/location windows {{{1
+augroup Quickfix
+	autocmd!
+	autocmd FileType qf setl nowrap
+	autocmd FileType qf nnoremap <buffer> <CR> <CR><C-w>p
+augroup END
+" 1}}}
 
 " =========== JOBS ==============================
 " Command for executing external tools using vim jobs {{{1

@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-17
+" Last modification: 2016-08-22
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -331,10 +331,12 @@ call unite#custom#profile('default', 'context', {
 			\	'no_hide_icon'      : 1,
 			\ })
 " Use ag {{{3
-let g:unite_source_rec_async_command = ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '-i --column --nocolor --nogroup'
-let g:unite_source_grep_recursive_opt = ''
+if executable('ag')
+	let g:unite_source_rec_async_command = ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
+	" let g:unite_source_grep_command = 'ag'
+	" let g:unite_source_grep_default_opts = '-i --column --nocolor --nogroup'
+	" let g:unite_source_grep_recursive_opt = ''
+endif
 " Converters for source {{{3
 let s:filters = {'name' : 'buffer_simple_format'}
 function! s:filters.filter(candidates, context)
@@ -380,7 +382,7 @@ function! s:NoFileOnHome() abort " {{{3
 endfunction " 3}}}
 nnoremap <silent> ,f :call <SID>NoFileOnHome()<CR>
 nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -keep-focus -no-quit grep<CR>
+" nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -direction=botright -no-focus -no-quit grep<CR>
 nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -force-redraw -resize gulp<CR>
 nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
 nnoremap <silent> ,m :Unite -buffer-name=Marks -force-redraw mark<CR>
