@@ -160,7 +160,7 @@ nnoremap Y y$
 " *** <C-d> to duplicate selection in VISUAL mode.
 nnoremap <silent> yd :call <SID>Duplicate()<CR>
 vnoremap <silent> <C-d> :t'><CR>gv<Esc>
-function! <SID>Duplicate() abort " {{{2
+function! s:Duplicate() abort " {{{2
 	let l:ip = getpos('.') | silent .t. | call setpos('.', l:ip)
 endfunction " 2}}}
 " >>> Apply the option 'only' {{{1
@@ -210,7 +210,7 @@ else
 endif
 " Move between splits & tmux " {{{2
 " https://gist.github.com/mislav/5189704#gistcomment-1735600
-function! <SID>TmuxMove(direction) abort
+function! s:TmuxMove(direction) abort
 	let l:wnr = winnr()
 	silent! execute 'wincmd ' . a:direction
 	" If the winnr is still the same after we moved, it is the last pane
@@ -224,9 +224,9 @@ cnoremap <C-n> <Down>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
 " >>> Sort {{{1
-vnoremap <leader>s :!sort<CR>
-nnoremap <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
-function! <SID>Sort(...) abort
+vnoremap <silent> <leader>s :!sort<CR>
+nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
+function! s:Sort(...) abort
 	execute printf('%d,%d:!sort', line("'["), line("']"))
 endfunction
 " >>> Move by paragraph ({ & } are quite difficult to reach in azerty layout) {{{1
@@ -237,11 +237,11 @@ nnoremap j gj
 nnoremap k gk
 " >>> Mappings for quickfix/location list window {{{1
 " Quickfix (G for global)
-nnoremap Gp :cprevious<CR>
-nnoremap Gn :cnext<CR>
+nnoremap Gp :cprevious<CR>zz
+nnoremap Gn :cnext<CR>zz
 " Location
-nnoremap gp :lprevious<CR>
-nnoremap gn :lnext<CR>
+nnoremap gp :lprevious<CR>zz
+nnoremap gn :lnext<CR>zz
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
@@ -260,7 +260,7 @@ nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>==
 nnoremap <silent> <A-j> :call <SID>Move(1)<CR>==
 vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv=gv
 vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
-function! <SID>Move(to) range " {{{2
+function! s:Move(to) range " {{{2
 	" a:to : -1/1 <=> up/down
 
 	let l:fl = a:firstline | let l:ll = a:lastline
@@ -359,7 +359,27 @@ nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
 nnoremap <silent> <leader><leader>c :execute 'setl colorcolumn=' . (&cc ? '' : 81)<CR>
 " >>> Grep {{{1
-nnoremap ,g :Grep 
+nnoremap ,,g :call <SID>Grep()<CR>
+xnoremap <silent> ,,g :call <SID>Grep(1)<CR>
+nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
+function! s:Grep(...) abort " {{{2
+	if exists('a:1')
+		let l:q = a:1 ==# 1 ?
+					\	helpers#GetVisualSelection() :
+					\	helpers#GetMotionResult()
+	else
+		echohl ModeMsg | let l:q = input('grep> ') | echohl None
+	endif
+	if !empty(l:q)
+		silent exe "grep! '" . l:q . "'"
+		copen 10
+		wincmd p
+		redraw!
+	endif
+endfunction
+function! s:GrepMotion(...) abort " {{{2
+	call <SID>Grep(2)
+endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
@@ -388,7 +408,7 @@ command! -nargs=+ -complete=file Rm     :call helpers#Delete(<f-args>)
 command! -nargs=1 -complete=file Rename :call helpers#Rename(<f-args>)
 " >>> Specify indentation (ts,sts,sw) {{{1
 command! Indent :call <SID>SetIndentation()
-function! <SID>SetIndentation() abort " {{{2
+function! s:SetIndentation() abort " {{{2
 	let l:indentation = input('New indentation (' . &ts . ', ' . &sts . ', ' . &sw . ') => ')
 	if l:indentation !=# ''
 		execute 'setl ts=' . l:indentation
@@ -416,7 +436,7 @@ if g:hasUnix
 endif
 " >>> Set spelllang & spell in one command {{{1
 command! -nargs=? Spell call <SID>SetSpell(<f-args>)
-function! <SID>SetSpell(...) abort " {{{2
+function! s:SetSpell(...) abort " {{{2
 	let l:l = exists('a:1') ? a:1 : 'fr'
 	execute 'setlocal spelllang=' . l:l
 	setlocal spell!
@@ -447,8 +467,8 @@ if executable('cmus')
 				\	'repeat'    : 'R',
 				\	'shuffle'   : 'S',
 				\ }
-	command! -nargs=? -bar -complete=custom,CompleteCmus Cmus :call <SID>Cmus('<args>')
-	function! <SID>Cmus(...) abort " {{{2
+	command! -nargs=? -bar -complete=custom,<SID>CompleteCmus Cmus :call <SID>Cmus('<args>')
+	function! s:Cmus(...) abort " {{{2
 		let l:arg = exists('a:1') && !empty(get(s:cmusCmds, a:1)) ?
 					\ get(s:cmusCmds, a:1) : 'u'
 		silent call system('cmus-remote -' . l:arg)
@@ -459,13 +479,13 @@ if executable('cmus')
 			echo l:Q[0][4:]
 		endif
 	endfunction " 2}}}
-	function! CompleteCmus(A, L, P) abort " {{{2
+	function! s:CompleteCmus(A, L, P) abort " {{{2
 		return join(keys(s:cmusCmds), "\n")
 	endfunction " 2}}}
 endif
 " >>> Echo vim expression in a buffer __Echo__ {{{1
 command! -nargs=* -complete=expression Echo :call <SID>Echo(<f-args>)
-function! <SID>Echo(...) abort " {{{2
+function! s:Echo(...) abort " {{{2
 	let l:out = ''
 	redir => l:out
 	silent execute 'echo ' . join(a:000, '')
@@ -479,7 +499,7 @@ endfunction " 2}}}
 " >>> Preview buffer {{{1
 " TODO: Find a way to execute vimscript.
 command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
-function! <SID>Preview(start, end) abort " {{{2
+function! s:Preview(start, end) abort " {{{2
 	call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, {
 				\	'c'         : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
 				\	'coffee'    : {'cmd': 'coffee -spb', 'ft': 'javascript'},
@@ -496,11 +516,11 @@ function! <SID>Preview(start, end) abort " {{{2
 				\ })
 endfunction " 2}}}
 " >>> Scratch buffer {{{1
-command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', '', 'sp')
+command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', 'markdown', 'sp')
 " >>> Chmod current file {{{1
 command! ChmodX :!chmod +x %
 " >>> Auto mkdir when creating/saving file {{{1
-function! <SID>AutoMkdir() abort " {{{2
+function! s:AutoMkdir() abort " {{{2
 	let l:dir = expand('<afile>:p:h')
 	let l:file = expand('<afile>:t')
 	if !isdirectory(l:dir)
@@ -519,8 +539,6 @@ augroup AutoMkdir
 	autocmd!
 	autocmd BufWritePre * call <SID>AutoMkdir()
 augroup END
-" >>> A better Grep command {{{1
-command! -nargs=+ Grep execute 'silent grep! <args>' | copen 10 | wincmd p
 " >>> For quickfix/location windows {{{1
 augroup Quickfix
 	autocmd!
