@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-07-24
+" Last modification: 2016-08-22
 " ============================================
 
 " Misc
@@ -30,6 +30,14 @@ function! helpers#Log(message, ...) abort " {{{1
 	execute 'echohl ' . l:hi[l:t]
 	echomsg a:message
 	echohl None
+endfunction
+function! helpers#GetVisualSelection() abort " {{{1
+	let l:pos = getpos("'<")
+	call setpos('.', l:pos)
+	return getline('.')[col("'<") - 1 : col("'>") - 1]
+endfunction
+function! helpers#GetMotionResult() abort " {{{1
+	return getline('.')[col("'[") - 1 : col("']") - 1]
 endfunction
 function! helpers#OpenOrMove2Buffer(bufName, ft, split,...) abort " {{{1
 	" Open or move to a:bufname (non scratch buffer if a:1 exists)
