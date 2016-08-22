@@ -25,7 +25,7 @@ let s:myPlugs = {
 			\	'vt'            : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': [
-			\		'Zeavim',
+			\		'Zeavim', 'Docset',
 			\		'<Plug>Zeavim',
 			\		'<Plug>ZVVisSelection',
 			\		'<Plug>ZVKeyDocset',
@@ -332,10 +332,10 @@ call unite#custom#profile('default', 'context', {
 			\ })
 " Use ag {{{3
 if executable('ag')
-	let g:unite_source_rec_async_command = ['ag', '-i', '--nocolor', '--nogroup', '--hidden', '-g', '']
-	" let g:unite_source_grep_command = 'ag'
-	" let g:unite_source_grep_default_opts = '-i --column --nocolor --nogroup'
-	" let g:unite_source_grep_recursive_opt = ''
+	let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '--hidden', '-g', '']
+	let g:unite_source_grep_command = 'ag'
+	let g:unite_source_grep_default_opts = '--column --nocolor --nogroup'
+	let g:unite_source_grep_recursive_opt = ''
 endif
 " Converters for source {{{3
 let s:filters = {'name' : 'buffer_simple_format'}
