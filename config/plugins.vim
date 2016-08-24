@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-22
+" Last modification: 2016-08-24
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -165,6 +165,8 @@ let g:yowish = {
 colo yowish
 hi! link TabLineSel Search
 hi CursorLine ctermbg=none ctermfg=none cterm=bold
+" Manually execute the ColorScheme event (Useful for some plugins)
+do ColorScheme
 " }}}
 
 " =========== PLUGINS MAPPINGS & OPTIONS =======================
@@ -196,7 +198,7 @@ augroup END
 let python_highlight_all = 1
 " >>> (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
-function! <SID>SyntasticToggle() abort
+function! s:SyntasticToggle() abort
 	SyntasticToggle
 	execute g:syntastic_mode_map.mode ==# 'active' ? 'SyntasticCheck' : 'SyntasticReset'
 endfunction
@@ -502,9 +504,9 @@ let g:lion_map_left = ''
 " Split, vsplit & tab
 augroup FugitiveMaps
 	autocmd!
-	autocmd FileType gitcommit nnoremap <silent> <buffer> s :norm o<CR>
-	autocmd FileType gitcommit nnoremap <silent> <buffer> v :norm S<CR>
-	autocmd FileType gitcommit nnoremap <silent> <buffer> t :norm O<CR>
+	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-s> :norm o<CR>
+	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-v> :norm S<CR>
+	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-t> :norm O<CR>
 augroup END
 " Aliases
 cabbrev Ga Git add
