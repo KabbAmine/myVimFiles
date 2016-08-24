@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-08-22
+" Last modification: 2016-08-24
 " ============================================
 
 " Misc
@@ -26,7 +26,7 @@ function! helpers#Log(message, ...) abort " {{{1
 	" Echo message with a:1 index hi group.
 
 	let l:t = exists('a:1') ? a:1 : 0
-	let l:hi = ['WarningMsg', 'ErrorMsg', 'SuccessState']
+	let l:hi = ['WarningMsg', 'ErrorMsg', 'DiffAdd']
 	execute 'echohl ' . l:hi[l:t]
 	echomsg a:message
 	echohl None
@@ -305,13 +305,15 @@ function! helpers#Delete(...) abort " {{{1
 	for l:f in l:a
 		if filereadable(l:f)
 			if delete(l:f) ==# 0
-				echohl Statement | echo l:f . ' was deleted' | echohl None
+				call helpers#Log('"' . l:f . '" was deleted', 2)
+			else
+				call helpers#Log('"' . l:f . '" was not deleted', 1)
 			endif
 		elseif isdirectory(l:f)
 			let l:cmd = g:hasUnix ?
 						\ 'rm -vr %s' :
 						\ 'RD /S %s'
-			echo system(printf(l:cmd, escape(l:f, ' ')))
+			echo split(system(printf(l:cmd, escape(l:f, ' '))), "\n")[0]
 		endif
 	endfor
 endfunction
@@ -319,22 +321,25 @@ function! helpers#MakeDir(...) abort " {{{1
 	for l:d in a:000
 		if !isdirectory(l:d)
 			call mkdir(l:d, 'p')
-			echohl Statement | echo l:d . '/ was created' | echohl None
+			call helpers#Log('"' . l:d . '" was created', 2)
 		else
-			echohl Error | echo l:d . '/ exists already' | echohl None
+			call helpers#Log('"' . l:d . '" exists already')
 		endif
 	endfor
 endfunction
 function! helpers#Rename(to) abort " {{{1
 	let l:file = expand('%:p')
 	if !filereadable(l:file)
-		echohl Error | echo 'Not a valid file' | echohl None
+		call helpers#Log('Not a valid file', 1)
 	else
 		let l:buf = expand('%')
 		silent execute 'saveas ' . a:to
 		silent execute 'bdelete! ' . l:buf
-		call delete(l:file)
-		echohl Statement | echo 'Renamed to "' . a:to . '"' | echohl None
+		if delete(l:file) ==# 0
+			call helpers#Log('Renamed to "' . a:to . '"', 2)
+		else
+			call helpers#Log('"' . l:file . '" was not renamed', 1)
+		endif
 	endif
 endfunction
 " 1}}}

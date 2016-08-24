@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-22
+" Last modification: 2016-08-24
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -372,7 +372,7 @@ function! s:Grep(...) abort " {{{2
 	endif
 	if !empty(l:q)
 		silent exe "grep! '" . l:q . "'"
-		copen 10
+		botright copen 10
 		wincmd p
 		redraw!
 	endif
