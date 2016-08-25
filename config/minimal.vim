@@ -237,11 +237,20 @@ nnoremap j gj
 nnoremap k gk
 " >>> Mappings for quickfix/location list window {{{1
 " Quickfix (G for global)
-nnoremap Gp :cprevious<CR>zz
-nnoremap Gn :cnext<CR>zz
+nnoremap <silent> Gn :call <SID>LocQuickWindow('c')<CR>zz
+nnoremap <silent> Gp :call <SID>LocQuickWindow('c', 1)<CR>zz
 " Location
-nnoremap gp :lprevious<CR>zz
-nnoremap gn :lnext<CR>zz
+nnoremap <silent> gn :call <SID>LocQuickWindow('l')<CR>zz
+nnoremap <silent> gp :call <SID>LocQuickWindow('l', 1)<CR>zz
+function! s:LocQuickWindow(type, ...) abort " 2{{{
+	let l:cmd = a:type . (exists('a:1') ? 'previous' : 'next')
+	let l:cmd2 = a:type . (exists('a:1') ? 'last' : 'first')
+	try
+		silent exe l:cmd
+	catch /^Vim\%((\a\+)\)\=:\(E553\|E43\)/
+		silent exe l:cmd2
+	endtry
+endfunction " 2}}}
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
