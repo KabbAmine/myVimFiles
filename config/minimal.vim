@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-24
+" Last modification: 2016-08-26
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -176,6 +176,7 @@ nnoremap <silent> <C-t> :tabedit<CR>
 " >>> Operations on buffers {{{1
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
+nnoremap <silent> <BS> <C-^>
 " For this mapping, check NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :silent bw<CR>
 " >>> Repeat the last command {{{1
@@ -223,6 +224,7 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
+cnoremap <C-a> <Home>
 " >>> Sort {{{1
 vnoremap <silent> <leader>s :!sort<CR>
 nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
