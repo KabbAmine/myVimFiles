@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-24
+" Last modification: 2016-09-01
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -575,41 +575,10 @@ nmap <silent> cY "+<Plug>(highlightedyank)$
 nmap s <Nop>
 xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
-call operator#sandwich#set('all', 'all', 'highlight', 1)
 call operator#sandwich#set('all', 'all', 'hi_duration', 50)
 vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
-" Config
-let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
-" Use 't' for html tag
-let g:sandwich#recipes += [
-			\	{
-			\		'buns'    : 'HTMLTagInput()',
-			\		'listexpr': 1,
-			\		'filetype': ['html'],
-			\		'kind'    : ['add', 'replace'],
-			\		'action'  : ['add'],
-			\		'input'   : ['t'],
-			\	},
-			\ ]
-function! HTMLTagInput() abort " {{{2
-  let l:tagstring = input('Tag: ')
-  if l:tagstring ==# ''
-    throw 'OperatorSandwichCancel'
-  endif
-  let l:former = printf('<%s>', l:tagstring)
-  let l:latter = printf('</%s>', matchstr(l:tagstring, '^\a[^[:blank:]>/]*'))
-  return [l:former, l:latter]
-endfunction " 2}}}
-let g:sandwich#recipes += [
-			\	{
-			\		'external': ['it', 'at'],
-			\		'noremap' : 1,
-			\		'filetype': ['html'],
-			\		'input'   : ['t'],
-			\	},
-			\ ]
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
@@ -708,9 +677,6 @@ let g:vcool_ins_rgb_map = '<A-r>'
 " >>> (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
 let g:gv_unite_cmd = 'GulpExt'
-let g:gv_custom_cmd = g:hasUnix ?
-			\ ['VimuxRunCommand "clear && %s"', 1] :
-			\ 'Start! %s'
 " >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
