@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-26
+" Last modification: 2016-09-02
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -238,9 +238,9 @@ nnoremap K {
 nnoremap j gj
 nnoremap k gk
 " >>> Mappings for quickfix/location list window {{{1
-" Quickfix (G for global)
-nnoremap <silent> Gn :call <SID>LocQuickWindow('c')<CR>zz
-nnoremap <silent> Gp :call <SID>LocQuickWindow('c', 1)<CR>zz
+" Quickfix
+nnoremap <silent> gN :call <SID>LocQuickWindow('c')<CR>zz
+nnoremap <silent> gP :call <SID>LocQuickWindow('c', 1)<CR>zz
 " Location
 nnoremap <silent> gn :call <SID>LocQuickWindow('l')<CR>zz
 nnoremap <silent> gp :call <SID>LocQuickWindow('l', 1)<CR>zz
