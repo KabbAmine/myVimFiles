@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-01
+" Last modification: 2016-09-02
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -22,6 +22,7 @@ let s:myPlugs = {
 			\	'unite-cmus'    : '',
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
+			\	'vPreview'      : '',
 			\	'vt'            : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': [
@@ -579,6 +580,7 @@ call operator#sandwich#set('all', 'all', 'hi_duration', 50)
 vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
+hi link OperatorSandwichStuff StatusLine
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
