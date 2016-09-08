@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-02
+" Last modification: 2016-09-08
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -95,8 +95,7 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'tacroe/unite-mark'
 			\| Plug 'tsukkee/unite-tag'
 " (( syntastic )) {{{2
-Plug 'scrooloose/syntastic',
-			\ {'on': ['SyntasticReset', 'SyntasticCheck', 'SyntasticToggle', 'SyntasticInfo']}
+Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -188,6 +187,8 @@ let NERDTreeDirArrows = 1
 let NERDTreeHijackNetrw = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeChDirMode = 2
+let NERDTreeCascadeSingleChildDir = 0
+let NERDTreeCascadeOpenSingleChildDir = 0
 " Mappings
 let NERDTreeMapOpenSplit = 's'
 let NERDTreeMapOpenVSplit = 'v'
