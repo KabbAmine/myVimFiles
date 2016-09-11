@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-02
+" Last modification: 2016-09-11
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -169,8 +169,13 @@ nnoremap <silent> <F5> :tabonly<CR>
 " >>> Open or close the fold {{{1
 nnoremap <silent> <space> za
 vnoremap <silent> <space> :fold<CR>
-" >>> Searching {{{1
+" >>> Search {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
+nnoremap <silent> * *N
+nnoremap / /\v
+nnoremap # #\v
+nnoremap n nzz
+nnoremap N Nzz
 " >>> Operations on tabs {{{1
 nnoremap <silent> <C-t> :tabedit<CR>
 " >>> Operations on buffers {{{1
@@ -185,6 +190,7 @@ nnoremap !z @:
 inoremap jk <Esc>
 inoremap JK <Esc>
 cnoremap jk <C-c>
+cnoremap JK <Esc>
 " >>> For splits {{{1
 nnoremap <silent> gsv <C-w>v
 nnoremap <silent> gss <C-w>s
@@ -231,10 +237,11 @@ nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
 function! s:Sort(...) abort
 	execute printf('%d,%d:!sort', line("'["), line("']"))
 endfunction
-" >>> Move by paragraph ({ & } are quite difficult to reach in azerty layout) {{{1
+" >>> Movement {{{1
+" Move by paragraph ({ & } are quite difficult to reach in azerty layout)
 nnoremap J }
 nnoremap K {
-" >>> Make j and k move to the next row, not file line {{{1
+" Make j and k move to the next row, not file line
 nnoremap j gj
 nnoremap k gk
 " >>> Mappings for quickfix/location list window {{{1
@@ -360,11 +367,6 @@ inoremap <silent> <C-r> <C-r><C-p>
 nnoremap <silent> gP :Preview<CR>
 vnoremap <silent> gP :Preview<CR>
 nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI'])<CR>
-" >>> Search {{{1
-nnoremap / /\v
-nnoremap # #\v
-nnoremap n nzz
-nnoremap N Nzz
 " >>> Toggle options {{{1
 nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
@@ -526,8 +528,20 @@ function! s:Preview(start, end) abort " {{{2
 				\	'sh'        : {'cmd': 'bash'},
 				\ })
 endfunction " 2}}}
-" >>> Scratch buffer {{{1
-command! Scratch :call helpers#OpenOrMove2Buffer('__Scratch__', 'markdown', 'sp')
+" >>> Persistent scratch buffer {{{1
+command! Scratch :call s:Scratch()
+function! s:Scratch() abort " {{{2
+	call helpers#OpenOrMove2Buffer('__Scratch__', 'markdown', 'topleft sp')
+	if exists('g:scratch')
+		silent %delete_
+		call append(0, g:scratch)
+	else
+		augroup Scratch
+			autocmd!
+			autocmd InsertLeave,CursorHold,CursorHoldI,TextChanged __Scratch__ :let g:scratch = getline(1, line('$'))
+		augroup END
+	endif
+endfunction " 2}}}
 " >>> Chmod current file {{{1
 command! ChmodX :!chmod +x %
 " >>> Auto mkdir when creating/saving file {{{1
@@ -562,22 +576,26 @@ augroup END
 " Command for executing external tools using vim jobs {{{1
 if g:hasJob
 	command! KillJobs call helpers#KillAllJobs()
-	command! LiveServer call helpers#Job('liveServer', 'live-server')
-	command! -nargs=* BrowserSync call helpers#Job(
-				\	'browserSync',
-				\	<SID>BrowserSync(<f-args>)
-				\ )
-	function! s:BrowserSync(...) abort " {{{2
-		let l:cwd = getcwd()
-		let l:files = exists('a:1') ?
-					\	join(map(split(a:1, ','), 'l:cwd . "/" . v:val'), ',') :
-					\	printf('%s/*.html,%s/*.css,%s/*.js', l:cwd, l:cwd, l:cwd)
-		let l:opts = exists('a:2') ? a:2 : '--directory --no-online'
-		return printf(
-					\ "browser-sync start --server --files=%s %s",
-					\ l:files, l:opts
+	if executable('live-server')
+		command! LiveServer call helpers#Job('liveServer', 'live-server')
+	endif
+	if executable('browser-sync')
+		command! -nargs=* BrowserSync call helpers#Job(
+					\	'browserSync',
+					\	<SID>BrowserSync(<f-args>)
 					\ )
-	endfunction " 2}}}
+		function! s:BrowserSync(...) abort " {{{2
+			let l:cwd = getcwd()
+			let l:files = exists('a:1') ?
+						\	join(map(split(a:1, ','), 'l:cwd . "/" . v:val'), ',') :
+						\	printf('%s/*.html,%s/*.css,%s/*.js', l:cwd, l:cwd, l:cwd)
+			let l:opts = exists('a:2') ? a:2 : '--directory --no-online'
+			return printf(
+						\ "browser-sync start --server --files=%s %s",
+						\ l:files, l:opts
+						\ )
+		endfunction " 2}}}
+	endif
 endif
 " 1}}}
 
