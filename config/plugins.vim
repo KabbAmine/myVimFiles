@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-08
+" Last modification: 2016-09-12
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -210,15 +210,15 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_stl_format = '%E{❌ %e}%B{ }%W{⚠ %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_error_symbol = "❌"
-let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_style_error_symbol = ""
-let g:syntastic_style_warning_symbol = ""
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_style_error_symbol = ''
+let g:syntastic_style_warning_symbol = ''
 hi! link SyntasticErrorSign Error
 hi! link SyntasticWarningSign Function
 " The cursor will jump to the first error detected (1|2|3)
 let g:syntastic_auto_jump = 2
-" Checkers
+" Checkers (The default ones are here just for reference)
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_css_checkers = ['csslint']
 let g:syntastic_html_checkers = ['tidy']
@@ -227,6 +227,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_lua_checkers = ['luac']
+let g:syntastic_coffee_checkers = ['coffee']
 let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_scss_checkers = ['sass_lint', 'sass']
 let g:syntastic_sh_checkers = ['shellcheck', 'sh']
@@ -379,7 +380,7 @@ nnoremap <silent> ,t :Unite -buffer-name=Tags tag<CR>
 nnoremap <silent> ,d :Unite -buffer-name=File -force-redraw file<CR>
 function! s:NoFileOnHome() abort " {{{3
 	if getcwd() == expand('~')
-		echo "Set your cwd!"
+		echo 'Set your cwd!'
 	else
 		Unite -buffer-name=Files -no-force-redraw file_rec/async
 	endif
@@ -574,8 +575,6 @@ map <silent> Y <Plug>(highlightedyank)$
 nmap <silent> cy "+<Plug>(highlightedyank)
 nmap <silent> cY "+<Plug>(highlightedyank)$
 " >>> (( vim-sandwich )) {{{1
-nmap s <Nop>
-xmap s <Nop>
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'hi_duration', 50)
 vmap v ab
