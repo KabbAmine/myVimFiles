@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-11
+" Last modification: 2016-09-12
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -173,7 +173,7 @@ vnoremap <silent> <space> :fold<CR>
 nnoremap <silent> ghh :nohlsearch<CR>
 nnoremap <silent> * *N
 nnoremap / /\v
-nnoremap # #\v
+nnoremap ? ?\v
 nnoremap n nzz
 nnoremap N Nzz
 " >>> Operations on tabs {{{1
