@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-08-22
+" Last modification: 2016-09-12
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -12,8 +12,6 @@
 " * zoomwintab
 " * gutentags
 
-" The statusline uses colors from yowish theme, so its as for now mandatory
-
 " Configuration " {{{1
 let s:SL  = {
 			\ 'separator': '|',
@@ -22,14 +20,14 @@ let s:SL  = {
 				\ 'unite': 'unite#get_status_string()',
 			\ },
 			\ 'colors': {
-				\ 'background'      : g:yowish['colors'].background,
-				\ 'backgroundLight' : g:yowish['colors'].backgroundLight,
-				\ 'backgroundDark'  : g:yowish['colors'].backgroundDark,
-				\ 'green'           : g:yowish['colors'].green,
-				\ 'red'             : g:yowish['colors'].red,
-				\ 'textDark'        : g:yowish['colors'].textExtraDark,
-				\ 'text'            : g:yowish['colors'].textLight,
-				\ 'yellow'          : g:yowish['colors'].yellow,
+				\ 'background'      : ['#2f343f', 'none'],
+				\ 'backgroundDark'  : ['#191d27', '16'],
+				\ 'backgroundLight' : ['#464b5b', '59'],
+				\ 'green'           : ['#2acf2a', '40'],
+				\ 'main'            : ['#5295e2', '68'],
+				\ 'red'             : ['#f01d22', '160'],
+				\ 'text'            : ['#cbcbcb', '251'],
+				\ 'textDark'        : ["#8c8c8c", "244"],
 			\ },
 			\ 'modes': {
 				\ 'n': 'N',
@@ -192,17 +190,17 @@ function! s:Hi(group, bg, fg, opt) abort " {{{1
 	execute l:cmd
 endfunction
 function! s:SetColors() abort " {{{1
-	call s:Hi('User1'          , s:SL.colors['yellow']         , s:SL.colors['background']     , 'bold')
-	call s:Hi('User2'          , s:SL.colors['backgroundLight'], s:SL.colors['text']           , 'none')
-	call s:Hi('User3'          , s:SL.colors['backgroundLight'], s:SL.colors['textDark']       , 'none')
-	call s:Hi('User4'          , s:SL.colors['yellow']         , s:SL.colors['background']     , 'none')
+	call s:Hi('User1', s:SL.colors['main']           , s:SL.colors['background']     , 'bold')
+	call s:Hi('User2', s:SL.colors['backgroundLight'], s:SL.colors['text']           , 'none')
+	call s:Hi('User3', s:SL.colors['backgroundLight'], s:SL.colors['textDark']       , 'none')
+	call s:Hi('User4', s:SL.colors['main']           , s:SL.colors['background']     , 'none')
 	" Modified state
-	call s:Hi('User5'          , s:SL.colors['backgroundLight'], s:SL.colors['yellow']         , 'bold')
+	call s:Hi('User5', s:SL.colors['backgroundLight'], s:SL.colors['main']           , 'bold')
 	" Error & success states
-	call s:Hi('User6'          , s:SL.colors['green']          , s:SL.colors['backgroundLight'], 'bold')
-	call s:Hi('User7'          , s:SL.colors['red']            , s:SL.colors['text']           , 'bold')
+	call s:Hi('User6', s:SL.colors['green']          , s:SL.colors['backgroundLight'], 'bold')
+	call s:Hi('User7', s:SL.colors['red']            , s:SL.colors['text']           , 'bold')
 	" Inactive SL
-	call s:Hi('User8'          , s:SL.colors['backgroundDark'] , s:SL.colors['backgroundLight'], 'none')
+	call s:Hi('User8', s:SL.colors['backgroundDark'] , s:SL.colors['backgroundLight'], 'none')
 	hi! link StatuslineNC User8
 endfunction
 function! GetSL(...) abort " {{{1
