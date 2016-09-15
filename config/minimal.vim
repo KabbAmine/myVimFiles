@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-13
+" Last modification: 2016-09-15
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -77,7 +77,7 @@ hi! link HelpBar Normal
 hi! link HelpStar Normal
 let &listchars = g:hasWin ?
 			\ 'tab:| ,trail:~,extends:>,precedes:<' :
-			\ 'tab:│ ,trail:•,extends:#,nbsp:.'
+			\ 'tab:| ,trail:~,extends:#,nbsp:.'
 set list
 " Scroll horizontally by 1 character (Only when wrap is disabled).
 set sidescroll=1
@@ -119,6 +119,9 @@ endif
 " >>> Multi-byte characters {{{1
 if !g:isNvim
 	set encoding=utf-8
+endif
+if g:hasGui
+	set ambiwidth=double	" Width of ambiguous width characters
 endif
 " >>> Multiple windows {{{1
 set splitright		" A new window is put right of the current one.
@@ -370,6 +373,8 @@ nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost
 " >>> Toggle options {{{1
 nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
+nnoremap <silent> <leader><leader>l :setl list!<CR>
+nnoremap <silent> <leader><leader>f :set fo-=o fo-=c fo-=r<CR>
 nnoremap <silent> <leader><leader>c :execute 'setl colorcolumn=' . (&cc ? '' : 81)<CR>
 " >>> Grep {{{1
 nnoremap ,,g :call <SID>Grep()<CR>
@@ -396,11 +401,6 @@ endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
-" >>> Disable continuation of comments when using o/O {{{1
-augroup FormatOpt
-	autocmd!
-	autocmd FileType * setl formatoptions-=o
-augroup END
 " >>> Indentation for specific filetypes {{{1
 augroup Indentation
 	autocmd!
