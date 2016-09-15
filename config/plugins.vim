@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-12
+" Last modification: 2016-09-15
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -50,7 +50,6 @@ call plug#begin(g:vimDir . '/plugs')
 " Plugins {{{1
 " Syntaxes {{{2
 Plug 'digitaltoad/vim-pug'
-Plug 'elzr/vim-json'
 Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
@@ -493,6 +492,7 @@ if g:hasUnix
 	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 	let g:webdevicons_enable_airline_statusline = 0
+	let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 	let g:webdevicons_enable_unite = 0
 	" After a re-source, fix syntax matching issues (concealing brackets):
 	if exists('g:loaded_webdevicons')
@@ -520,9 +520,6 @@ cabbrev Gt Git tag
 cabbrev Gm Gmerge
 cabbrev Gs Gstatus
 cabbrev Gst Git stash
-" >>> (( vim-json )) {{{1
-let g:vim_json_syntax_conceal = 0
-let g:vim_json_warnings = 0
 " >>> (( vim-commentary )) {{{1
 augroup Commentary
 	autocmd!
@@ -583,7 +580,7 @@ nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['vim', 'javascript', 'c', 'sh', 'php']
+let g:indentLine_fileTypeExclude = ['json', 'vim', 'javascript', 'c', 'sh', 'php']
 " >>> (( vim-markdown )) {{{1
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_spell_checking = 0
