@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-12
+" Last modification: 2016-09-18
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -27,7 +27,7 @@ let s:SL  = {
 				\ 'main'            : ['#5295e2', '68'],
 				\ 'red'             : ['#f01d22', '160'],
 				\ 'text'            : ['#cbcbcb', '251'],
-				\ 'textDark'        : ["#8c8c8c", "244"],
+				\ 'textDark'        : ['#8c8c8c', '244'],
 			\ },
 			\ 'modes': {
 				\ 'n': 'N',
@@ -159,7 +159,7 @@ function! SLSyntastic(mode) abort " {{{1
 		let l:s = SyntasticStatuslineFlag()
 		return a:mode ?
 					\ (!empty(l:s) ? l:s : '') :
-					\ (!empty(l:s) ? '' : ' ')
+					\ (!empty(l:s) ? '' : '')
 	else
 		return ''
 	endif
