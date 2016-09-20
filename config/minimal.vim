@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-19
+" Last modification: 2016-09-20
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -367,9 +367,9 @@ unlet! s:to
 " >>> Enable Paste when using <C-r> in INSERT mode {{{1
 inoremap <silent> <C-r> <C-r><C-p>
 " >>> Preview {{{1
-nnoremap <silent> gP :Preview<CR>
-vnoremap <silent> gP :Preview<CR>
-nnoremap <silent> gaP :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI'])<CR>
+nnoremap <silent> gPr :Preview<CR>
+vnoremap <silent> gPr :Preview<CR>
+nnoremap <silent> gaPr :call helpers#AutoCmd('Preview', 'Preview', ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI'])<CR>
 " >>> Toggle options {{{1
 nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
