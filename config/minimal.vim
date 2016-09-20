@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-15
+" Last modification: 2016-09-19
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -398,6 +398,9 @@ endfunction
 function! s:GrepMotion(...) abort " {{{2
 	call <SID>Grep(2)
 endfunction " 2}}}
+" >>> Reselect visual selection after (in/de)creasing numbers {{{1
+xnoremap <C-a> <C-a>gv
+xnoremap <C-x> <C-x>gv
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
