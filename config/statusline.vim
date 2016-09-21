@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-18
+" Last modification: 2016-09-21
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -8,6 +8,7 @@
 " * GitGutter
 " * Rvm
 " * Syntastic
+" * Validator
 " * Unite (+unite-cmus)
 " * zoomwintab
 " * gutentags
@@ -164,6 +165,14 @@ function! SLSyntastic(mode) abort " {{{1
 		return ''
 	endif
 endfunction
+function! SLValidator() abort " {{{1
+	if !exists('*validator#get_status_string')
+		return ''
+	endif
+	let l:issues = validator#get_status_string()
+	return !empty(l:issues) ?
+				\	'⨉ ' . l:issues[strlen(l:issues) - 1] : l:issues
+endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
 				\ cmus#get().statusline_str() : ''
@@ -243,6 +252,9 @@ function! GetSL(...) abort " {{{1
 	let l:sl .= ' %{SLFileencoding()}'
 	let l:sl .= '[%{SLFileformat()}] '
 	let l:sl .= '%)'
+
+	" Validator
+	let l:sl .= '%7*%( %{SLValidator()} %)'
 
 	" Syntastic (1st group for no errors)
 	let l:sl .= '%6*%( %{SLSyntastic(0)} %)'
