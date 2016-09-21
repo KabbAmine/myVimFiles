@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-18
+" Last modification: 2016-09-21
 " ================================================================
 
 " Personal vim plugins directory {{{1
@@ -8,6 +8,11 @@ let s:myPlugins = g:hasWin ?
 			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
 			\ '$HOME/Projects/pluginsVim/'
 " Useful variables & functions {{{1
+let s:checker = {}
+let s:checker.error_sign = '⨉'
+let s:checker.warning_sign = '⬥'
+let s:checker.error_group = 'Error'
+let s:checker.warning_group = 'Function'
 fun! s:PlugInOs(link, param, os) abort " {{{2
 	if has(a:os)
 		let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
@@ -93,8 +98,9 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'Shougo/unite-outline'
 			\| Plug 'tacroe/unite-mark'
 			\| Plug 'tsukkee/unite-tag'
-" (( syntastic )) {{{2
+" Syntax & style checkers {{{2
 Plug 'scrooloose/syntastic'
+Plug 'maralla/validator.vim'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -197,6 +203,12 @@ augroup NerdTree
 augroup END
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
+" >>> (( validator )) {{{1
+let g:validator_error_symbol = s:checker.error_sign
+let g:validator_warning_symbol = s:checker.warning_sign
+let g:validator_error_msg_format = '%d/%d'
+exe 'hi! link ValidatorErrorSign ' . s:checker.error_group
+exe 'hi! link ValidatorWarningSign ' . s:checker.warning_group
 " >>> (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! s:SyntasticToggle() abort
@@ -207,14 +219,14 @@ nnoremap <silent> ,E :Errors<CR>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_stl_format = '%E{⨉ %e}%B{ }%W{⬥ %w}'
+let g:syntastic_stl_format = '%E{' . s:checker.error_sign . ' %e}%B{ }%W{' . s:checker.warning_sign . ' %w}'
 let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_error_symbol = '⨉'
-let g:syntastic_warning_symbol = '⬥'
-let g:syntastic_style_error_symbol = '⨉'
-let g:syntastic_style_warning_symbol = '⬥'
-hi! link SyntasticErrorSign Error
-hi! link SyntasticWarningSign Function
+let g:syntastic_error_symbol = s:checker.error_sign
+let g:syntastic_warning_symbol = s:checker.warning_sign
+let g:syntastic_style_error_symbol = g:syntastic_error_symbol
+let g:syntastic_style_warning_symbol = g:syntastic_warning_symbol
+exe 'hi! link SyntasticErrorSign ' . s:checker.error_group
+exe 'hi! link SyntasticWarningSign ' . s:checker.warning_group
 " The cursor will jump to the first error detected (1|2|3)
 let g:syntastic_auto_jump = 2
 " Checkers (The default ones are here just for reference)
