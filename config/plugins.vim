@@ -1,25 +1,15 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-21
+" Last modification: 2016-09-22
 " ================================================================
 
-" Personal vim plugins directory {{{1
+" Variables {{{1
+" Personal vim plugins directory {{{2
 let s:myPlugins = g:hasWin ?
 			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
 			\ '$HOME/Projects/pluginsVim/'
-" Useful variables & functions {{{1
-let s:checker = {}
-let s:checker.error_sign = '⨉'
-let s:checker.warning_sign = '⬥'
-let s:checker.error_group = 'Error'
-let s:checker.warning_group = 'Function'
-fun! s:PlugInOs(link, param, os) abort " {{{2
-	if has(a:os)
-		let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
-		exe printf("Plug '%s'%s", a:link, l:opt)
-	endif
-endfun
 " My plugins {{{2
+let s:dev_mode = 0
 let s:myPlugs = {
 			\	'gulp-vim'      : '',
 			\	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
@@ -27,8 +17,6 @@ let s:myPlugs = {
 			\	'unite-cmus'    : '',
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
-			\	'vPreview'      : '',
-			\	'vt'            : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': [
 			\		'Zeavim', 'Docset',
@@ -38,13 +26,32 @@ let s:myPlugs = {
 			\		'<Plug>ZVMotion'
 			\	]}"
 			\ }
-function! s:MyPlugs() abort
+if s:dev_mode
+	call extend(s:myPlugs, {
+				\	'vPreview'      : '',
+				\	'vt'            : '',
+				\ })
+endif
+" For syntax checkers plugins  {{{2
+let s:checker = {}
+let s:checker.error_sign = '⨉'
+let s:checker.warning_sign = '⬥'
+let s:checker.error_group = 'Error'
+let s:checker.warning_group = 'Function'
+" Functions {{{1
+function! s:MyPlugs() abort " {{{2
 	let l:pn = keys(s:myPlugs)
 	let l:pl = values(s:myPlugs)
 	for l:i in range(0, len(l:pn) - 1)
 		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
 		exec printf("Plug '%s'%s", expand(s:myPlugins) . l:pn[l:i], l:opt)
 	endfor
+endfunction
+function! s:PlugInOs(link, param, os) abort " {{{2
+	if has(a:os)
+		let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
+		exe printf("Plug '%s'%s", a:link, l:opt)
+	endif
 endfunction
 " 2}}}
 " 1}}}
@@ -99,8 +106,8 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'tacroe/unite-mark'
 			\| Plug 'tsukkee/unite-tag'
 " Syntax & style checkers {{{2
+Plug 'maralla/validator.vim', {'for': ['python', 'json', 'css']}
 Plug 'scrooloose/syntastic'
-Plug 'maralla/validator.vim'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -174,7 +181,7 @@ hi CursorLine ctermbg=none ctermfg=none cterm=bold
 do ColorScheme
 " }}}
 
-" =========== PLUGINS MAPPINGS & OPTIONS =======================
+" =========== PLUGINS CONFIGS =======================
 " >>> (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
