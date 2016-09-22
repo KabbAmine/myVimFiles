@@ -1,6 +1,6 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-11
+" Last modification: 2016-09-22
 " =================================================
 
 " Not mandatory, but the bufline uses the following plugins:
@@ -31,8 +31,10 @@ function! MyBufLine() abort " {{{1
 		endif
 	endfor
 	let l:getCwd = fnamemodify(getcwd(), ':~')
-	let l:cwd = len(l:getCwd) >=# 15 ? pathshorten(l:getCwd) : l:getCwd
-	let l:bl .= '%=%#IncSearch# ' . l:cwd . ' '
+	if l:getCwd !=# '~/'
+		let l:cwd = len(l:getCwd) >=# 15 ? pathshorten(l:getCwd) : l:getCwd
+		let l:bl .= '%=%#IncSearch# ' . l:cwd . ' '
+	endif
 
 	return l:bl
 endfunction
