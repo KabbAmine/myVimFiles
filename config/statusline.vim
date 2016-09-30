@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-21
+" Last modification: 2016-09-30
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -171,7 +171,7 @@ function! SLValidator() abort " {{{1
 	endif
 	let l:issues = validator#get_status_string()
 	return !empty(l:issues) ?
-				\	'⨉ ' . l:issues[strlen(l:issues) - 1] : l:issues
+				\	'⨉ ' . matchstr(l:issues, '\v/\zs\d+') : l:issues
 endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
