@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-20
+" Last modification: 2016-09-29
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -572,6 +572,13 @@ augroup Quickfix
 	autocmd!
 	autocmd FileType qf setl nowrap
 	autocmd FileType qf nnoremap <buffer> <CR> <CR><C-w>p
+augroup END
+" >>> Disable continuation of comments when using o/O {{{1
+augroup FormatOpt
+	autocmd!
+	autocmd FileType * setl fo-=o fo-=c fo-=r
+	" To make it work on vim ft damn it!
+	autocmd InsertEnter * setl fo-=o fo-=c fo-=r
 augroup END
 " 1}}}
 
