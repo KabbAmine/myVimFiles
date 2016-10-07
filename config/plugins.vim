@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-22
+" Last modification: 2016-10-07
 " ================================================================
 
 " Variables {{{1
@@ -28,8 +28,9 @@ let s:myPlugs = {
 			\ }
 if s:dev_mode
 	call extend(s:myPlugs, {
-				\	'vPreview'      : '',
-				\	'vt'            : '',
+				\	"ale"                : '',
+				\	'vPreview'           : '',
+				\	'vt'                 : '',
 				\ })
 endif
 " For syntax checkers plugins  {{{2
@@ -106,7 +107,7 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'tacroe/unite-mark'
 			\| Plug 'tsukkee/unite-tag'
 " Syntax & style checkers {{{2
-Plug 'maralla/validator.vim', {'for': ['python', 'json', 'css']}
+Plug 'w0rp/ale'
 Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
@@ -210,12 +211,22 @@ augroup NerdTree
 augroup END
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
-" >>> (( validator )) {{{1
-let g:validator_error_symbol = s:checker.error_sign
-let g:validator_warning_symbol = s:checker.warning_sign
-let g:validator_error_msg_format = '%d/%d'
-exe 'hi! link ValidatorErrorSign ' . s:checker.error_group
-exe 'hi! link ValidatorWarningSign ' . s:checker.warning_group
+" >>> (( ale )) {{{1
+let g:ale_statusline_format = [
+			\	s:checker.error_sign . ' %d',
+			\	s:checker.warning_sign . ' %d',
+			\ ]
+let g:ale_lint_on_save = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = s:checker.error_sign
+let g:ale_sign_warning = s:checker.warning_sign
+exe 'hi! link ALEError ' . s:checker.error_group
+exe 'hi! link ALEWarning ' . s:checker.warning_group
+hi! link ALEErrorSign ALEError
+hi! link ALEWarningSign ALEWarning
+" Specific to file types
+" let g:ale_javascript_eslint_executable = 'eslind_d'
+let g:ale_html_tidy_executable = 'tidy5'
 " >>> (( syntastic )) {{{1
 nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! s:SyntasticToggle() abort
@@ -678,15 +689,15 @@ nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-			\	'help'               : 'vim',
-			\	'.htaccess'          : 'apache http server',
-			\	'javascript'         : 'javascript,nodejs',
-			\	'python'             : 'python 3',
-			\	'\v^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
+			\	'help'                 : 'vim',
+			\	'.htaccess'            : 'apache http server',
+			\	'javascript'           : 'javascript,nodejs',
+			\	'python'               : 'python 3',
+			\	'\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
 			\ }
+let g:zv_zeal_args = g:hasUnix ? '--style=gtk+' : ''
 let g:zv_docsets_dir = g:hasUnix ?
-			\ '~/Important!/docsets_Zeal/' :
-			\ 'Z:/k-bag/Important!/docsets_Zeal/'
+			\ '~/Important!/docsets_Zeal/' : 'Z:/k-bag/Important!/docsets_Zeal/'
 " >>> (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
@@ -712,6 +723,9 @@ let g:lazylist_maps = [
 			\		'.1' : '1.%1%. ',
 			\		'.2' : '2.%1%. ',
 			\		'.3' : '3.%1%. ',
+			\		'##': '# ',
+			\		'#2': '## ',
+			\		'#3': '### ',
 			\	}
 			\ ]
 " >>> (( vBox )) {{{1
