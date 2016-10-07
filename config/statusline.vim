@@ -1,14 +1,14 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-30
+" Last modification: 2016-10-07
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
 " * GitGutter
 " * Rvm
+" * ALE
 " * Syntastic
-" * Validator
 " * Unite (+unite-cmus)
 " * zoomwintab
 " * gutentags
@@ -165,13 +165,17 @@ function! SLSyntastic(mode) abort " {{{1
 		return ''
 	endif
 endfunction
-function! SLValidator() abort " {{{1
-	if !exists('*validator#get_status_string')
+function! SLAle(mode) abort " {{{1
+	if !exists('*ALEGetStatusLine')
 		return ''
 	endif
-	let l:issues = validator#get_status_string()
-	return !empty(l:issues) ?
-				\	'⨉ ' . matchstr(l:issues, '\v/\zs\d+') : l:issues
+	if empty(ALEGetLinters(&ft))
+		return ''
+	endif
+	let l:str = ALEGetStatusLine()
+	return a:mode ?
+				\	(!empty(l:str) ? l:str : ''):
+				\	(!empty(l:str) ? '' : '')
 endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
@@ -253,8 +257,9 @@ function! GetSL(...) abort " {{{1
 	let l:sl .= '[%{SLFileformat()}] '
 	let l:sl .= '%)'
 
-	" Validator
-	let l:sl .= '%7*%( %{SLValidator()} %)'
+	" ALE (1st group for no errors)
+	let l:sl .= '%6*%( %{SLAle(0)} %)'
+	let l:sl .= '%7*%( %{SLAle(1)} %)'
 
 	" Syntastic (1st group for no errors)
 	let l:sl .= '%6*%( %{SLSyntastic(0)} %)'
