@@ -12,7 +12,7 @@ use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
 ### :one: Vim
 
-You should have a relatively new version of vim which supports such features: `+job`, `+timers` and `+lambda` and compiled with `+python(3)`, `+ruby` and `+lua`.
+You should have a relatively new version of vim which supports such features: `+job`, and `+timers` and compiled with `+python(3)`, `+ruby` and `+lua`.
 
 ### :two: Font(s)
   - [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts) for both GNU/Linux & windows (Included in the repo).
@@ -29,7 +29,7 @@ The requirements listed below (GNU/Linux) are managed and installed via scripts 
 | `python`                            | `autopep8`<sup>P</sup>
 | `sass/scss`                         | `sass-convert` (Shipped with `sass`<sup>R</sup>)
 
-#### Syntastic & Validator
+#### ALE & Syntastic
 
 | filetype                   | checker/linter
 | :------------------------- | :-------------------------
@@ -37,7 +37,7 @@ The requirements listed below (GNU/Linux) are managed and installed via scripts 
 | `css`                      | `csslint`<sup>N</sup>
 | `html`                     | [`tidy5`](https://github.com/htacg/tidy-html5)
 | `java`                     | `javac`<sup>B</sup>
-| `javascript`               | `eslint_d`<sup>N</sup>
+| `javascript`               | `eslint`<sup>N</sup>, `eslint_d`<sup>N</sup>
 | `json`                     | `jsonlint`<sup>N</sup>
 | `lua`                      | `luac`<sup>B</sup>
 | `php`                      | `php`<sup>B</sup>
