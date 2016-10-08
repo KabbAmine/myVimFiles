@@ -169,13 +169,11 @@ function! SLAle(mode) abort " {{{1
 	if !exists('*ALEGetStatusLine')
 		return ''
 	endif
-	if empty(ALEGetLinters(&ft))
-		return ''
-	endif
 	let l:str = ALEGetStatusLine()
+	" a:mode: 1/0 = errors/ok
 	return a:mode ?
-				\	(!empty(l:str) ? l:str : ''):
-				\	(!empty(l:str) ? '' : '')
+				\	(l:str ==# 'OK' ? '' : l:str) :
+				\	(l:str ==# 'OK' ? '' : '')
 endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
