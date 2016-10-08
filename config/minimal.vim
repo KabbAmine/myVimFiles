@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-02
+" Last modification: 2016-10-07
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -388,6 +388,7 @@ function! s:Grep(...) abort " {{{2
 	else
 		echohl ModeMsg | let l:q = input('grep> ') | echohl None
 	endif
+	let l:q = escape(l:q, '%#')
 	if !empty(l:q)
 		silent exe 'grep! ' . join(map(split(l:q, ' '), '"\"".v:val."\""'))
 		botright copen 10
