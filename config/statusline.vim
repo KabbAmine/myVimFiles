@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-07
+" Last modification: 2016-10-09
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -8,7 +8,6 @@
 " * GitGutter
 " * Rvm
 " * ALE
-" * Syntastic
 " * Unite (+unite-cmus)
 " * zoomwintab
 " * gutentags
@@ -154,26 +153,16 @@ function! SLRuby() abort " {{{1
 	endif
 	return printf('[ruby %s]', l:r)
 endfunction
-function! SLSyntastic(mode) abort " {{{1
-	" a:mode : 0/1 : ok/errors
-	if exists('g:syntastic_mode_map') && g:syntastic_mode_map.mode ==# 'active'
-		let l:s = SyntasticStatuslineFlag()
-		return a:mode ?
-					\ (!empty(l:s) ? l:s : '') :
-					\ (!empty(l:s) ? '' : '')
-	else
-		return ''
-	endif
-endfunction
 function! SLAle(mode) abort " {{{1
+	" a:mode: 1/0 = errors/ok
 	if !exists('*ALEGetStatusLine')
 		return ''
 	endif
 	let l:str = ALEGetStatusLine()
-	" a:mode: 1/0 = errors/ok
+	" 1st for error group & 2nd for ok group
 	return a:mode ?
-				\	(l:str ==# 'OK' ? '' : l:str) :
-				\	(l:str ==# 'OK' ? '' : '')
+				\	(l:str =~# '^\D\+$' ? '' : l:str) :
+				\	(l:str =~# '^\D\+$' ? l:str : '')
 endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
@@ -258,10 +247,6 @@ function! GetSL(...) abort " {{{1
 	" ALE (1st group for no errors)
 	let l:sl .= '%6*%( %{SLAle(0)} %)'
 	let l:sl .= '%7*%( %{SLAle(1)} %)'
-
-	" Syntastic (1st group for no errors)
-	let l:sl .= '%6*%( %{SLSyntastic(0)} %)'
-	let l:sl .= '%7*%( %{SLSyntastic(1)} %)'
 
 	let l:sl .= '%4*'
 
