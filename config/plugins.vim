@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-07
+" Last modification: 2016-10-09
 " ================================================================
 
 " Variables {{{1
@@ -28,7 +28,7 @@ let s:myPlugs = {
 			\ }
 if s:dev_mode
 	call extend(s:myPlugs, {
-				\	"ale"                : '',
+				\	'ale'                : '',
 				\	'vPreview'           : '',
 				\	'vt'                 : '',
 				\ })
@@ -37,6 +37,7 @@ endif
 let s:checker = {}
 let s:checker.error_sign = '⨉'
 let s:checker.warning_sign = '⬥'
+let s:checker.success_sign = ''
 let s:checker.error_group = 'Error'
 let s:checker.warning_group = 'Function'
 " Functions {{{1
@@ -212,9 +213,11 @@ augroup END
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
 " >>> (( ale )) {{{1
+nmap <silent> <F8> :call ALELint(100)<CR>
 let g:ale_statusline_format = [
 			\	s:checker.error_sign . ' %d',
 			\	s:checker.warning_sign . ' %d',
+			\	s:checker.success_sign,
 			\ ]
 let g:ale_lint_on_save = 1
 let g:ale_sign_column_always = 1
@@ -224,11 +227,24 @@ exe 'hi! link ALEError ' . s:checker.error_group
 exe 'hi! link ALEWarning ' . s:checker.warning_group
 hi! link ALEErrorSign ALEError
 hi! link ALEWarningSign ALEWarning
-" Specific to file types
-" let g:ale_javascript_eslint_executable = 'eslind_d'
+" Specific to file types and are here for reference
+let g:ale_linters = {
+			\	'c'         : ['gcc'],
+			\	'coffee'    : ['coffee', 'coffeelint'],
+			\	'css'       : ['csslint'],
+			\	'html'      : ['htmlhint', 'tidy'],
+			\	'javascript': ['eslint'],
+			\	'json'      : ['jsonlint'],
+			\	'php'       : ['php'],
+			\	'python'    : ['flake8'],
+			\	'scss'      : ['sasslint'],
+			\	'sh'        : ['shellcheck', 'shell'],
+			\	'vim'       : ['vint'],
+			\	'yaml'      : ['yamllint'],
+			\ }
 let g:ale_html_tidy_executable = 'tidy5'
 " >>> (( syntastic )) {{{1
-nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
+" nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
 function! s:SyntasticToggle() abort
 	SyntasticToggle
 	execute g:syntastic_mode_map.mode ==# 'active' ? 'SyntasticCheck' : 'SyntasticReset'
