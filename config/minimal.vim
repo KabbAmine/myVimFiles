@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-07
+" Last modification: 2016-10-09
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -581,39 +581,6 @@ augroup FormatOpt
 	" To make it work on vim ft damn it!
 	autocmd InsertEnter * setl fo-=o fo-=c fo-=r
 augroup END
-" Test {{{1
-" NOTE that this command uses plugins & executables
-" * python: pytest
-" * vim   : vader
-command! Test :call <SID>Test()
-function! s:Test() abort " {{{2
-	let l:_ = {
-				\	'vim'   : {'cmd': 'Vader', 'rtp': ['t', 'tests']},
-				\	'python': {'cmd': '!py.test'}
-				\ }
-
-	let l:ft = &ft
-	if empty(l:ft)
-		return 0
-	endif
-
-	if !has_key(l:_[l:ft], 'rtp')
-		exe l:_[ft].cmd
-	else
-
-		let l:rtp = ''
-		for l:r in l:_[l:ft]['rtp']
-			if isdirectory(getcwd() . '/' . l:r)
-				let l:rtp = l:r
-				break
-			endif
-		endfor
-
-		if !empty(l:rtp)
-			exe printf('%s %s/*', l:_[l:ft]['cmd'], l:rtp)
-		endif
-	endif
-endfunction " 2}}}
 " 1}}}
 
 " =========== JOBS ==============================
