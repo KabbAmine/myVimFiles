@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-09
+" Last modification: 2016-10-13
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -155,10 +155,10 @@ function! SLRuby() abort " {{{1
 endfunction
 function! SLAle(mode) abort " {{{1
 	" a:mode: 1/0 = errors/ok
-	if !exists('*ALEGetStatusLine')
+	if !exists('*ALELint')
 		return ''
 	endif
-	let l:str = ALEGetStatusLine()
+	let l:str = ale#statusline#Status()
 	" 1st for error group & 2nd for ok group
 	return a:mode ?
 				\	(l:str =~# '^\D\+$' ? '' : l:str) :
