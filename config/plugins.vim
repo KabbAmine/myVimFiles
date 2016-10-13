@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-09
+" Last modification: 2016-10-13
 " ================================================================
 
 " Variables {{{1
@@ -64,9 +64,9 @@ call plug#begin(g:vimDir . '/plugs')
 " Plugins {{{1
 " Syntaxes {{{2
 Plug 'digitaltoad/vim-pug'
-Plug 'gabrielelana/vim-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
+Plug 'rhysd/vim-gfm-syntax'
 Plug 'stephpy/vim-yaml'
 Plug 'tbastos/vim-lua'
 Plug 'tpope/vim-haml'
@@ -109,7 +109,6 @@ Plug 'Shougo/unite.vim'
 			\| Plug 'tsukkee/unite-tag'
 " Syntax & style checkers {{{2
 Plug 'w0rp/ale'
-Plug 'scrooloose/syntastic'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -214,15 +213,18 @@ augroup END
 let python_highlight_all = 1
 " >>> (( ale )) {{{1
 nmap <silent> <F8> :call ALELint(100)<CR>
+let g:ale_lint_on_save = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = s:checker.error_sign
+let g:ale_sign_warning = s:checker.warning_sign
 let g:ale_statusline_format = [
 			\	s:checker.error_sign . ' %d',
 			\	s:checker.warning_sign . ' %d',
 			\	s:checker.success_sign,
 			\ ]
-let g:ale_lint_on_save = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = s:checker.error_sign
-let g:ale_sign_warning = s:checker.warning_sign
+let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
 exe 'hi! link ALEError ' . s:checker.error_group
 exe 'hi! link ALEWarning ' . s:checker.warning_group
 hi! link ALEErrorSign ALEError
@@ -243,46 +245,6 @@ let g:ale_linters = {
 			\	'yaml'      : ['yamllint'],
 			\ }
 let g:ale_html_tidy_executable = 'tidy5'
-" >>> (( syntastic )) {{{1
-" nnoremap <silent> <F8> :call <SID>SyntasticToggle()<CR>
-function! s:SyntasticToggle() abort
-	SyntasticToggle
-	execute g:syntastic_mode_map.mode ==# 'active' ? 'SyntasticCheck' : 'SyntasticReset'
-endfunction
-nnoremap <silent> ,E :Errors<CR>
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_stl_format = '%E{' . s:checker.error_sign . ' %e}%B{ }%W{' . s:checker.warning_sign . ' %w}'
-let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_error_symbol = s:checker.error_sign
-let g:syntastic_warning_symbol = s:checker.warning_sign
-let g:syntastic_style_error_symbol = g:syntastic_error_symbol
-let g:syntastic_style_warning_symbol = g:syntastic_warning_symbol
-exe 'hi! link SyntasticErrorSign ' . s:checker.error_group
-exe 'hi! link SyntasticWarningSign ' . s:checker.warning_group
-" The cursor will jump to the first error detected (1|2|3)
-let g:syntastic_auto_jump = 2
-" Checkers (The default ones are here just for reference)
-let g:syntastic_c_checkers = ['gcc']
-let g:syntastic_css_checkers = ['csslint']
-let g:syntastic_html_checkers = ['tidy']
-let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:syntastic_json_checkers = ['jsonlint']
-let g:syntastic_lua_checkers = ['luac']
-let g:syntastic_coffee_checkers = ['coffee']
-let g:syntastic_python_checkers = ['flake8', 'python']
-let g:syntastic_scss_checkers = ['sass_lint', 'sass']
-let g:syntastic_sh_checkers = ['shellcheck', 'sh']
-let g:syntastic_vim_checkers = ['vint']
-let g:syntastic_yaml_checkers = ['yamllint']
-if g:hasWin
-	let g:syntastic_c_gcc_exec = 'C:\tools\DevKit2\mingw\bin\gcc.exe'
-	let g:syntastic_php_checkers = 'php'
-	let g:syntastic_php_php_exec = 'C:\tools\xampp\php\php.exe'
-endif
 " >>> (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
@@ -627,10 +589,6 @@ hi link OperatorSandwichStuff StatusLine
 " >>> (( indentLine )) {{{1
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['json', 'vim', 'javascript', 'c', 'sh', 'php']
-" >>> (( vim-markdown )) {{{1
-let g:markdown_enable_mappings = 0
-let g:markdown_enable_spell_checking = 0
-let g:markdown_enable_input_abbreviations = 0
 " >>> (( vim-jsdoc )) {{{1
 augroup JsDoc
 	autocmd!
