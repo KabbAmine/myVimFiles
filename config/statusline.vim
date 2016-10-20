@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-13
+" Last modification: 2016-10-20
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -107,7 +107,7 @@ endfunction
 function! SLJobs() abort " {{{1
 	let l:nJobs = exists('g:jobs') ? len(g:jobs) : 0
 	return winwidth(0) <# 55 ? '' :
-				\ (l:nJobs !=# 0) ? l:nJobs . ' job(s)' : ''
+				\ (l:nJobs !=# 0) ? ' ' . l:nJobs : ''
 endfunction
 function! SLToggled() abort " {{{1
 	if !exists('g:SL_toggle')
@@ -155,10 +155,13 @@ function! SLRuby() abort " {{{1
 endfunction
 function! SLAle(mode) abort " {{{1
 	" a:mode: 1/0 = errors/ok
-	if !exists('*ALELint')
+	if !exists('*ALEGetStatusLine')
 		return ''
 	endif
-	let l:str = ale#statusline#Status()
+	if empty(ale#linter#Get(&ft))
+		return ''
+	endif
+	let l:str = ALEGetStatusLine()
 	" 1st for error group & 2nd for ok group
 	return a:mode ?
 				\	(l:str =~# '^\D\+$' ? '' : l:str) :
@@ -170,6 +173,9 @@ function! SLCmus() abort " {{{1
 endfunction
 function! SLZoomWinTab() abort " {{{1
 	return exists('t:zoomwintab') ? ' ' : ''
+endfunction
+function! SLBreaktime() abort " {{{1
+	return exists(':Breaktime') ? breaktime#getStatusline() : ''
 endfunction
 " 1}}}
 
@@ -252,6 +258,9 @@ function! GetSL(...) abort " {{{1
 
 	" Gutentags
 	let l:sl .= '%( %{SLGutentags()} %)'
+
+	" Breaktime
+	let l:sl .= '%( %{SLBreaktime()} %)'
 
 	" Jobs
 	let l:sl .= '%( %{SLJobs()} %)'
