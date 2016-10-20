@@ -29,20 +29,19 @@ The requirements listed below (GNU/Linux) are managed and installed via scripts 
 | `python`                            | `autopep8`<sup>P</sup>
 | `sass/scss`                         | `sass-convert` (Shipped with `sass`<sup>R</sup>)
 
-#### ALE & Syntastic
+#### Linters for ALE
 
 | filetype                   | checker/linter
 | :------------------------- | :-------------------------
 | `c`                        | `gcc`<sup>B</sup>
+| `coffee`                   | `coffelint`<sup>N</sup>
 | `css`                      | `csslint`<sup>N</sup>
-| `html`                     | [`tidy5`](https://github.com/htacg/tidy-html5)
-| `java`                     | `javac`<sup>B</sup>
-| `javascript`               | `eslint`<sup>N</sup>, `eslint_d`<sup>N</sup>
+| `html`                     | `HTMLHint`<sup>N</sup>, [`tidy5`](https://github.com/htacg/tidy-html5)
+| `javascript`               | `eslint_d`<sup>N</sup>
 | `json`                     | `jsonlint`<sup>N</sup>
-| `lua`                      | `luac`<sup>B</sup>
 | `php`                      | `php`<sup>B</sup>
-| `python`                   | `flake8`<sup>P</sup>, `python`<sup>B</sup>
-| `sass/scss`                | `sass_lint`<sup>N</sup>, `sass`
+| `python`                   | `flake8`<sup>P</sup>
+| `sass/scss`                | `sass-lint`<sup>N</sup>
 | `sh/bash`                  | `shellcheck`, `sh`<sup>B</sup>
 | `viml`                     | `vim-vint`<sup>P</sup>
 | `yaml`                     | `yamllint`<sup>P</sup>
