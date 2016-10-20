@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-13
+" Last modification: 2016-10-20
 " ================================================================
 
 " Variables {{{1
@@ -11,6 +11,7 @@ let s:myPlugins = g:hasWin ?
 " My plugins {{{2
 let s:dev_mode = 0
 let s:myPlugs = {
+			\	'breaktime'     : '',
 			\	'gulp-vim'      : '',
 			\	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
 			\	'lazyList'      : '',
@@ -34,12 +35,13 @@ if s:dev_mode
 				\ })
 endif
 " For syntax checkers plugins  {{{2
-let s:checker = {}
-let s:checker.error_sign = '⨉'
-let s:checker.warning_sign = '⬥'
-let s:checker.success_sign = ''
-let s:checker.error_group = 'Error'
-let s:checker.warning_group = 'Function'
+let s:checker = {
+			\	'error_sign': '⨉',
+			\	'warning_sign': '⬥',
+			\	'success_sign': '',
+			\	'error_group': 'Error',
+			\	'warning_group': 'Function',
+			\ }
 " Functions {{{1
 function! s:MyPlugs() abort " {{{2
 	let l:pn = keys(s:myPlugs)
@@ -213,6 +215,7 @@ augroup END
 let python_highlight_all = 1
 " >>> (( ale )) {{{1
 nmap <silent> <F8> :call ALELint(100)<CR>
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = s:checker.error_sign
@@ -245,6 +248,8 @@ let g:ale_linters = {
 			\	'yaml'      : ['yamllint'],
 			\ }
 let g:ale_html_tidy_executable = 'tidy5'
+let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_vim_vint_show_style_issues = 0
 " >>> (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
@@ -328,7 +333,7 @@ let g:unite_quick_match_table = {
 			\	'u': 16,
 			\	'w': 11,
 			\	'y': 15,
-		\ }
+			\ }
 " Default profile
 call unite#custom#profile('default', 'context', {
 			\	'start_insert'      : 1,
@@ -378,7 +383,7 @@ let g:unite_source_outline_filetype_options = {
 			\   'auto_update': 1,
 			\   'auto_update_event': 'write'
 			\ }
-		\ }
+			\ }
 " MAPPINGS {{{2
 inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
 nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
@@ -619,7 +624,7 @@ augroup Airnote
 				\ 'autocmd BufWrite %s/*.%s :call setline(1,  "> " . strftime(g:airnote_date_format))',
 				\ g:airnote_path,
 				\ g:airnote_suffix
-			\ )
+				\ )
 augroup END
 " >>> (( vim-signjk-motion )) {{{1
 nmap gj <Plug>(signjk-j)
@@ -709,13 +714,18 @@ let g:vbox = {
 			\	'empty_buffer_only': 0
 			\ }
 let g:vbox.variables = {
-			\	'%NAME%'     : 'Kabbaj Amine',
-			\	'%MAIL%'     : 'amine.kabb@gmail.com',
 			\	'%LICENSE%'  : 'MIT',
+			\	'%MAIL%'     : 'amine.kabb@gmail.com',
+			\	'%NAME%'     : 'Kabbaj Amine',
 			\	'%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
+			\	'%REPO%'     : 'https://github.com/KabbAmine/',
+			\	'%USERNAME%' : 'KabbAmine',
 			\	'%YEAR%'     : 'f=strftime("%Y")',
-			\	'%REPO%'     : 'https://github.com/KabbAmine/'
 			\ }
+" For ALE
+call extend(g:vbox.variables, {
+			\	'%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
+			\ })
 augroup VBoxAuto
 	autocmd!
 	" For vim plugins
@@ -741,6 +751,9 @@ let g:image_preview = {
 			\		'args' : '',
 			\	},
 			\ }
+" >>> (( breaktime )) {{{1
+let g:hab_statusline_str = ' %sm'
+let g:hab_statusline_pause_str = ' [P]'
 " 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
