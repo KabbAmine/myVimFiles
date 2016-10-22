@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-20
+" Last modification: 2016-10-22
 " ================================================================
 
 " Variables {{{1
@@ -100,6 +100,7 @@ Plug 'tpope/vim-fugitive'
 " (( ultisnips )) {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " (( Unite )) {{{2
+" Plug 'Shougo/denite.nvim'
 Plug 'Shougo/unite.vim'
 			\| call s:PlugInOs('Shougo/vimproc.vim' , "{ 'do': 'make' }" , 'unix')
 			\| call s:PlugInOs('Shougo/vimproc.vim' , ''                 , 'win32')
@@ -443,6 +444,7 @@ endfunction " 3}}}
 " 1}}}
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
+hi! link PlugDeleted String
 " >>> (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 " Fix a direction of search (f & F)
