@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-09
+" Last modification: 2016-10-31
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -175,8 +175,8 @@ vnoremap <silent> <space> :fold<CR>
 " >>> Search {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
 nnoremap <silent> * *N
-nnoremap / /\v
-nnoremap ? ?\v
+nnoremap / /\V
+nnoremap ? ?\V
 nnoremap n nzz
 nnoremap N Nzz
 " >>> Operations on tabs {{{1
@@ -470,7 +470,7 @@ augroup END
 if executable('shiba')
 	augroup Shiba
 		autocmd!
-		autocmd Filetype html,markdown command! -buffer Shiba :silent !shiba --detach %
+		autocmd Filetype html,markdown command! -buffer Shiba :silent exe '!shiba --detach %' | redraw!
 	augroup END
 endif
 " >>> Cmus {{{1
