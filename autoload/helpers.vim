@@ -1,5 +1,5 @@
 " ========== Helpers & useful functions ======
-" Last modification: 2016-08-24
+" Last modification: 2016-10-30
 " ============================================
 
 " Misc
@@ -187,7 +187,7 @@ endfunction
 " Jobs
 function! s:HasJob() abort " {{{1
 	if !has('job')
-		call helpers#Log('Your vim vesion does not support "jobs"', 1)
+		call helpers#Log('Your vim version does not support "jobs"', 1)
 		return 0
 	else
 		return 1
@@ -207,11 +207,6 @@ function! helpers#KillAllJobs() abort " {{{1
 endfunction
 function! helpers#Job(name, cmd, ...) abort " {{{1
 	" $1 is job options: {}
-
-	" if !has('job')
-	" 	call helpers#Log('Your vim vesion does not support "jobs"', 1)
-	" 	return 0
-	" endif
 
 	let l:hasJob = s:HasJob()
 	if !l:hasJob
@@ -289,17 +284,6 @@ function! helpers#OpenUrl() abort " {{{1
 	endif
 	
 endfunction
-function! helpers#KillProcess(pattern) abort " {{{1
-	" TODO: Handle windows
-
-	if g:hasUnix
-		let pid = split(system('ps -ef | grep "' . a:pattern . '" | tr -s " "'), "\n")[0]
-		if !empty(pid) && pid =~# 'pts'
-			let pid = matchstr(pid, '\v^' . $USER . ' \zs\d{1,}')
-			silent execute '!kill ' . pid
-		endif
-	endif
-endfunction
 function! helpers#Delete(...) abort " {{{1
 	let l:a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
 	for l:f in l:a
@@ -340,24 +324,6 @@ function! helpers#Rename(to) abort " {{{1
 		else
 			call helpers#Log('"' . l:file . '" was not renamed', 1)
 		endif
-	endif
-endfunction
-" 1}}}
-
-" For plugins
-function! helpers#CmdForDispatcher(cmd) abort " {{{1
-	" A wrapper to use with dispatcher plugins (Vimux, dispatch...)
-	" e.g of a:cmd: "VimuxRunCommand '%s'"
-
-	let g:last_dispatcher_cmd = exists('g:last_dispatcher_cmd') ? g:last_dispatcher_cmd : ''
-	echohl Statement
-	let l:uc = input('Command> ', g:last_dispatcher_cmd)
-	echohl None
-	if !empty(l:uc)
-		let g:last_dispatcher_cmd = l:uc
-		let l:c = printf('cd %s && clear; %s', getcwd(), l:uc)
-		silent execute printf(a:cmd, l:c)
-		redraw!
 	endif
 endfunction
 " 1}}}
