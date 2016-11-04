@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-22
+" Last modification: 2016-10-30
 " ================================================================
 
 " Variables {{{1
@@ -235,18 +235,19 @@ hi! link ALEErrorSign ALEError
 hi! link ALEWarningSign ALEWarning
 " Specific to file types and are here for reference
 let g:ale_linters = {
-			\	'c'         : ['gcc'],
-			\	'coffee'    : ['coffee', 'coffeelint'],
-			\	'css'       : ['csslint'],
-			\	'html'      : ['htmlhint', 'tidy'],
-			\	'javascript': ['eslint'],
-			\	'json'      : ['jsonlint'],
-			\	'php'       : ['php'],
-			\	'python'    : ['flake8'],
-			\	'scss'      : ['sasslint'],
-			\	'sh'        : ['shellcheck', 'shell'],
-			\	'vim'       : ['vint'],
-			\	'yaml'      : ['yamllint'],
+			\	'c'              : ['gcc'],
+			\	'coffee'         : ['coffee', 'coffeelint'],
+			\	'css'            : ['csslint'],
+			\	'html'           : ['htmlhint', 'tidy'],
+			\	'javascript'     : ['eslint'],
+			\	'json'           : ['jsonlint'],
+			\	'markdown'       : ['mdl'],
+			\	'php'            : ['php'],
+			\	'python'         : ['flake8'],
+			\	'scss'           : ['sasslint'],
+			\	'sh'             : ['shellcheck', 'shell'],
+			\	'vim'            : ['vint'],
+			\	'yaml'           : ['yamllint'],
 			\ }
 let g:ale_html_tidy_executable = 'tidy5'
 let g:ale_javascript_eslint_executable = 'eslint_d'
@@ -280,6 +281,7 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " let g:used_javascript_libs = 'jquery'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
+let g:UltiSnipsUsePythonVersion = 3
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
