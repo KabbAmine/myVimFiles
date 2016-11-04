@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-20
+" Last modification: 2016-11-03
 " ===============================================================
 
 " The used plugins are (They are not mandatory):
@@ -14,7 +14,7 @@
 
 " Configuration " {{{1
 let s:SL  = {
-			\ 'separator': '|',
+			\ 'separator': '',
 			\ 'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
 			\ 'apply': {
 				\ 'unite': 'unite#get_status_string()',
