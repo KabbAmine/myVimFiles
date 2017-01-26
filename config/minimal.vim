@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-31
+" Last modification: 2017-01-13
 " ================================================================
 
 " ========== MISC  ===========================================
@@ -249,9 +249,11 @@ nnoremap j gj
 nnoremap k gk
 " >>> Mappings for quickfix/location list window {{{1
 " Quickfix
+nnoremap <silent> ,Q :copen<CR>
 nnoremap <silent> gN :cnext<CR>
 nnoremap <silent> gP :cprevious<CR>
 " Location
+nnoremap <silent> ,L :lopen<CR>
 nnoremap <silent> gn :lnext<CR>
 nnoremap <silent> gp :lprevious<CR>
 " >>> Quickly edit macro or register content in scmdline-window {{{1
