@@ -1,7 +1,8 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-11-03
+" Last modification: 2017-08-19
 " ===============================================================
+
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -19,6 +20,7 @@ let s:SL  = {
 			\ 'apply': {
 				\ 'unite': 'unite#get_status_string()',
 			\ },
+			\ 'checker': g:checker,
 			\ 'colors': {
 				\ 'background'      : ['#2f343f', 'none'],
 				\ 'backgroundDark'  : ['#191d27', '16'],
@@ -76,8 +78,7 @@ function! SLHiGroup() abort " {{{1
 	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 function! SLMode() abort " {{{1
-	return winwidth(0) <# 75 ? get(s:SL.modes, mode()) :
-				\ '▸ ' . get(s:SL.modes, mode())
+	return winwidth(0) <# 75 ? get(s:SL.modes, mode()) : get(s:SL.modes, mode())
 endfunction
 function! SLPaste() abort " {{{1
 	return &paste ? (winwidth(0) <# 55 ? '[P]' : '[PASTE]') : ''
@@ -155,17 +156,36 @@ function! SLRuby() abort " {{{1
 endfunction
 function! SLAle(mode) abort " {{{1
 	" a:mode: 1/0 = errors/ok
-	if !exists('*ALEGetStatusLine')
+
+	if !g:loaded_ale
 		return ''
 	endif
+
 	if empty(ale#linter#Get(&ft))
 		return ''
 	endif
-	let l:str = ALEGetStatusLine()
-	" 1st for error group & 2nd for ok group
-	return a:mode ?
-				\	(l:str =~# '^\D\+$' ? '' : l:str) :
-				\	(l:str =~# '^\D\+$' ? l:str : '')
+
+	let l:counts = ale#statusline#Count(bufnr('%'))
+
+	let l:total = l:counts.total
+	let l:errors = l:counts.error + l:counts.style_error
+	let l:warnings = l:counts.warning + l:counts.style_warning
+
+	let l:errors_str = l:errors !=# 0 ?
+				\	printf('%s %s', s:SL.checker.error_sign, l:errors) : ''
+	let l:warnings_str = l:warnings !=# 0 ?
+				\	printf('%s %s', s:SL.checker.warning_sign, l:warnings) : ''
+
+	let l:default_str = printf('%s %s', l:errors_str, l:warnings_str)
+	" Trim spaces
+	let l:default_str = substitute(l:default_str, '^\s*\(.\{-}\)\s*$', '\1', '')
+	let l:success_str = s:SL.checker.success_sign
+
+	if a:mode
+		return l:total ==# 0 ? '' : l:default_str
+	else
+		return l:total ==# 0 ? l:success_str : ''
+	endif
 endfunction
 function! SLCmus() abort " {{{1
 	return !empty(cmus#get().statusline_str()) ?
@@ -173,9 +193,6 @@ function! SLCmus() abort " {{{1
 endfunction
 function! SLZoomWinTab() abort " {{{1
 	return exists('t:zoomwintab') ? ' ' : ''
-endfunction
-function! SLBreaktime() abort " {{{1
-	return exists(':Breaktime') ? breaktime#getStatusline() : ''
 endfunction
 " 1}}}
 
@@ -259,9 +276,6 @@ function! GetSL(...) abort " {{{1
 	" Gutentags
 	let l:sl .= '%( %{SLGutentags()} %)'
 
-	" Breaktime
-	let l:sl .= '%( %{SLBreaktime()} %)'
-
 	" Jobs
 	let l:sl .= '%( %{SLJobs()} %)'
 
@@ -312,5 +326,6 @@ endif
 " 1}}}
 
 call <SID>SLInit()
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:

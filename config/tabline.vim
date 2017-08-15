@@ -1,10 +1,10 @@
 " ========== Custom tabline =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-09-22
+" Last modification: 2017-08-19
 " =================================================
 
+
 " Not mandatory, but the bufline uses the following plugins:
-" * Devicons
 " * tabpagecd
 
 " Lines
@@ -18,9 +18,7 @@ function! MyBufLine() abort " {{{1
 			break
 		endif
 		let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
-		let l:devicon = exists('*WebDevIconsGetFileTypeSymbol()') ?
-					\ WebDevIconsGetFileTypeSymbol(bufname(l:b)) . ' ' : ''
-		let l:name = l:devicon . (!empty(bufname(l:b)) ?
+		let l:name = (!empty(bufname(l:b)) ?
 					\	pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
 					\	'[No Name]'
 					\ )
@@ -94,5 +92,6 @@ call TLInit()
 
 " Replace the default <F5> mapping
 nnoremap <silent> <F5> :tabonly\|call TLInit()<CR>
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:

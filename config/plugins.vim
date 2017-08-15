@@ -1,16 +1,15 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2016-10-30
+" Last modification: 2017-08-19
 " ================================================================
 
-" Variables {{{1
-" Personal vim plugins directory {{{2
-let s:myPlugins = g:hasWin ?
+
+" My plugins {{{1
+let s:devMode = 0
+let s:myPluginsDir = g:hasWin ?
 			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
-			\ '$HOME/Projects/pluginsVim/'
-" My plugins {{{2
-let s:dev_mode = 0
-let s:myPlugs = {
+			\ $HOME . '/Projects/pluginsVim/'
+let s:myPlugins = {
 			\	'breaktime'     : '',
 			\	'gulp-vim'      : '',
 			\	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
@@ -18,37 +17,29 @@ let s:myPlugs = {
 			\	'unite-cmus'    : '',
 			\	'vBox'          : '',
 			\	'vCoolor'       : '',
+			\	'vPreview'      : '',
+			\	'vt'            : '',
 			\	'yowish'        : '',
 			\	'zeavim'        : "{'on': [
-			\		'Zeavim', 'Docset',
-			\		'<Plug>Zeavim',
-			\		'<Plug>ZVVisSelection',
-			\		'<Plug>ZVKeyDocset',
-			\		'<Plug>ZVMotion'
+			\		'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
+			\		'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
 			\	]}"
 			\ }
-if s:dev_mode
-	call extend(s:myPlugs, {
-				\	'ale'                : '',
-				\	'vPreview'           : '',
-				\	'vt'                 : '',
-				\ })
-endif
-" For syntax checkers plugins  {{{2
-let s:checker = {
-			\	'error_sign': '⨉',
-			\	'warning_sign': '⬥',
-			\	'success_sign': '',
-			\	'error_group': 'Error',
+" Signs for checkers  {{{1
+let g:checker = {
+			\	'error_sign'   : '⨉',
+			\	'warning_sign' : '⬥',
+			\	'success_sign' : '',
+			\	'error_group'  : 'Error',
 			\	'warning_group': 'Function',
 			\ }
 " Functions {{{1
 function! s:MyPlugs() abort " {{{2
-	let l:pn = keys(s:myPlugs)
-	let l:pl = values(s:myPlugs)
+	let l:pn = keys(s:myPlugins)
+	let l:pl = values(s:myPlugins)
 	for l:i in range(0, len(l:pn) - 1)
 		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
-		exec printf("Plug '%s'%s", expand(s:myPlugins) . l:pn[l:i], l:opt)
+		exec printf("Plug '%s'%s", expand(s:myPluginsDir) . l:pn[l:i], l:opt)
 	endfor
 endfunction
 function! s:PlugInOs(link, param, os) abort " {{{2
@@ -61,6 +52,7 @@ endfunction
 " 1}}}
 
 " ========== VIM-PLUG ==============================================
+
 " Initialization {{{1
 call plug#begin(g:vimDir . '/plugs')
 " Plugins {{{1
@@ -72,46 +64,35 @@ Plug 'rhysd/vim-gfm-syntax'
 Plug 'stephpy/vim-yaml'
 Plug 'tbastos/vim-lua'
 Plug 'tpope/vim-haml'
-" For Css {{{2
-Plug 'JulesWang/css.vim'
+" Css {{{2
 Plug 'othree/csscomplete.vim', {'for': 'css'}
-" For PHP {{{2
+" PHP {{{2
 Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
-" For JavaScript {{{2
-Plug 'gavocanov/vim-js-indent'
+" JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc'
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/yajs.vim'
-" For Python {{{2
+Plug 'pangloss/vim-javascript'
+" Python {{{2
 Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
-Plug 'hdima/python-syntax'
-" For web development {{{2
-Plug 'docunext/closetag.vim' , {'for': ['html', 'php', 'xml']}
-Plug 'lilydjwg/colorizer'    , {'on': 'ColorToggle'}
+Plug 'vim-python/python-syntax'
+" Web development {{{2
+Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
+Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
-" For Git {{{2
+" Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim', {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
 " (( ultisnips )) {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" (( Unite )) {{{2
-" Plug 'Shougo/denite.nvim'
-Plug 'Shougo/unite.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim' , "{ 'do': 'make' }" , 'unix')
-			\| call s:PlugInOs('Shougo/vimproc.vim' , ''                 , 'win32')
-			\| Plug 'kopischke/unite-spell-suggest'
+" Fuzzy finder {{{2
+Plug 'Shougo/denite.nvim'
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
-			\| Plug 'Shougo/unite-outline'
-			\| Plug 'tacroe/unite-mark'
-			\| Plug 'tsukkee/unite-tag'
-" Syntax & style checkers {{{2
-Plug 'w0rp/ale'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -126,7 +107,7 @@ Plug 'haya14busa/vim-signjk-motion',
 			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'
-Plug 'nelstrom/vim-visual-star-search'
+Plug 'thinca/vim-visualstar'
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
@@ -135,33 +116,44 @@ Plug 'tpope/vim-repeat'
 " Misc {{{2
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
-Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
+Plug 'jwhitley/vim-matchit'
 Plug 'kana/vim-tabpagecd'
-Plug 'matchit.zip'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'rhysd/clever-f.vim'
-Plug 'scrooloose/nerdtree'
-			\| Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
+Plug 'w0rp/ale'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
 Plug 'machakann/vim-highlightedyank', {'on': '<Plug>(highlightedyank)'}
 Plug 'troydm/zoomwintab.vim'        , {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
 Plug 'Yggdroot/indentLine'
-call s:PlugInOs('ryanoasis/vim-devicons' , '', 'unix')
 " My Plugins {{{2
-call s:MyPlugs()
-" }}}
+if !s:devMode
+	Plug 'KabbAmine/gulp-vim'
+	Plug 'KabbAmine/lazyList.vim'
+	" Plug 'KabbAmine/unite-cmus'
+	Plug 'KabbAmine/vBox.vim'
+	Plug 'KabbAmine/vCoolor.vim'
+	Plug 'KabbAmine/yowish.vim'
+	Plug 'KabbAmine/zeavim.vim', {'on': [
+				\	'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
+				\	'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
+				\ ]}
+else
+	call s:MyPlugs()
+endif
 " End {{{1
 call plug#end()
-" }}}
+" 1}}}
 
 " ========== MISC  ===========================================
+
 " Colors {{{1
-if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:isNvim
+if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
 	set term=xterm-256color
 endif
 " Custom colors for (( yowish ))
@@ -182,10 +174,12 @@ colo yowish
 hi! link TabLineSel Search
 hi CursorLine ctermbg=none ctermfg=none cterm=bold
 " Manually execute the ColorScheme event (Useful for some plugins)
-do ColorScheme
+silent doautocmd ColorScheme
 " }}}
 
 " =========== PLUGINS CONFIGS =======================
+" >>> (( closetag )) {{{1
+let g:closetag_filenames = '*.html,*.xml,*.php'
 " >>> (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
@@ -217,22 +211,15 @@ let python_highlight_all = 1
 " >>> (( ale )) {{{1
 nmap <silent> <F8> :call ALELint(100)<CR>
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = s:checker.error_sign
-let g:ale_sign_warning = s:checker.warning_sign
-let g:ale_statusline_format = [
-			\	s:checker.error_sign . ' %d',
-			\	s:checker.warning_sign . ' %d',
-			\	s:checker.success_sign,
-			\ ]
+let g:ale_set_highlights = 0
+let g:ale_sign_error = g:checker.error_sign
+let g:ale_sign_warning = g:checker.warning_sign
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-exe 'hi! link ALEError ' . s:checker.error_group
-exe 'hi! link ALEWarning ' . s:checker.warning_group
-hi! link ALEErrorSign ALEError
-hi! link ALEWarningSign ALEWarning
+exe 'hi! link ALEErrorSign ' . g:checker.error_group
+exe 'hi! link ALEWarningSign ' . g:checker.warning_group
 " Specific to file types and are here for reference
 let g:ale_linters = {
 			\	'c'              : ['gcc'],
@@ -259,11 +246,9 @@ augroup emmet
 	autocmd!
 	autocmd FileType html,scss,css,pug EmmetInstall
 	autocmd FileType html,scss,css,pug imap <buffer> jha <plug>(emmet-anchorize-url)
-	autocmd FileType html,scss,css,pug imap <buffer> jhc <plug>(emmet-code-pretty)
 	autocmd FileType html,scss,css,pug imap <buffer> jhh <plug>(emmet-expand-abbr)
 	autocmd FileType html,scss,css,pug imap <buffer> jhn <plug>(emmet-move-next)
-	autocmd FileType html,scss,css,pug imap <buffer> jhN <plug>(emmet-move-prev)
-	autocmd FileType html,scss,css,pug imap <buffer> jhu <plug>(emmet-update-tag)
+	autocmd FileType html,scss,css,pug imap <buffer> jhp <plug>(emmet-move-prev)
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
@@ -299,154 +284,9 @@ nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
 command! GP :GitGutterPreviewHunk
 if g:hasWin | let g:gitgutter_enabled = 0 | endif
-" >>> (( Unite )) & plugins {{{1
-" SETTINGS {{{2
-" General {{{3
-let g:unite_data_directory = g:vimDir . '/misc/unite'
-let g:unite_force_overwrite_statusline = 0
-let g:unite_enable_auto_select = 0
-let g:unite_quick_match_table = {
-			\	'0': 29,
-			\	'1': 20,
-			\	'2': 21,
-			\	'3': 22,
-			\	'4': 23,
-			\	'5': 24,
-			\	'6': 25,
-			\	'7': 26,
-			\	'8': 27,
-			\	'9': 28,
-			\	'a': 8,
-			\	'd': 4,
-			\	'e': 2,
-			\	'f': 0,
-			\	'g': 12,
-			\	'h': 17,
-			\	'i': 3,
-			\	'j': 1,
-			\	'k': 5,
-			\	'l': 7,
-			\	'm': 9,
-			\	'o': 18,
-			\	'p': 19,
-			\	'q': 10,
-			\	'r': 13,
-			\	's': 6,
-			\	't': 14,
-			\	'u': 16,
-			\	'w': 11,
-			\	'y': 15,
-			\ }
-" Default profile
-call unite#custom#profile('default', 'context', {
-			\	'start_insert'      : 1,
-			\	'no_empty'          : 1,
-			\	'toggle'            : 1,
-			\	'vertical_preview'  : 1,
-			\	'winheight'         : 20,
-			\	'prompt'            : '▸ ',
-			\	'prompt_focus'      : 1,
-			\	'candidate_icon'    : '  ▫ ',
-			\	'marked_icon'       : '  ▪ ',
-			\	'no_hide_icon'      : 1,
-			\ })
-" Use ag {{{3
-if executable('ag')
-	let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '--hidden', '-g', '']
-	let g:unite_source_grep_command = 'ag'
-	let g:unite_source_grep_default_opts = '--column --nocolor --nogroup'
-	let g:unite_source_grep_recursive_opt = ''
-endif
-" Converters for source {{{3
-let s:filters = {'name' : 'buffer_simple_format'}
-function! s:filters.filter(candidates, context)
-	for l:candidate in a:candidates
-		let l:num = l:candidate.action__buffer_nr
-		let l:buffer = !empty(l:candidate.word) ? bufname(l:num) : '[NO NAME]'
-		let l:modified = getbufvar(l:buffer, '&modified') ==# 1 ? '➕' : ' '
-		let l:path = !empty(l:candidate.word) ? fnamemodify(l:buffer, ':.') : ''
-		let l:candidate.abbr = printf('%-*s %s %2s %s',
-					\	15, fnamemodify(l:buffer, ':p:t'),
-					\	l:modified, l:num, l:path
-					\ )
-	endfor
-	return a:candidates
-endfunction
-call unite#define_filter(s:filters)
-unlet s:filters
-call unite#custom#source('buffer', 'converters', 'buffer_simple_format')
-" PLUGINS {{{2
-let g:neomru#file_mru_path = g:unite_data_directory . '/neomru/file'
-let g:neomru#directory_mru_path = g:unite_data_directory . '/neomru/directory'
-let g:neoyank#file = g:unite_data_directory . '/neoyank/file'
-let g:unite_source_outline_ctags_program = g:hasUnix ?
-			\ '/usr/bin/ctags-exuberant' : 'C:\Program Files\ctags58\ctags.exe'
-let g:unite_source_outline_filetype_options = {
-			\ '*': {
-			\   'auto_update': 1,
-			\   'auto_update_event': 'write'
-			\ }
-			\ }
-" MAPPINGS {{{2
-inoremap <silent> <A-y> <Esc>:Unite -buffer-name=Yanks -default-action=append history/yank<CR>
-nnoremap <silent> ,B :Unite -buffer-name=Bookmarks -default-action=cd bookmark:_<CR>
-nnoremap <silent> ,b :Unite -buffer-name=Buffers buffer<CR>
-nnoremap <silent> ,t :Unite -buffer-name=Tags tag<CR>
-nnoremap <silent> ,d :Unite -buffer-name=File -force-redraw file<CR>
-function! s:NoFileOnHome() abort " {{{3
-	if getcwd() == expand('~')
-		echo 'Set your cwd!'
-	else
-		Unite -buffer-name=Files -no-force-redraw file_rec/async
-	endif
-endfunction " 3}}}
-nnoremap <silent> ,f :call <SID>NoFileOnHome()<CR>
-nnoremap <silent> ,,f :Unite -buffer-name=SearchFor -winheight=10 outline<CR>
-" nnoremap <silent> ,g :Unite -buffer-name=Grep -no-start-insert -direction=botright -no-focus -no-quit grep<CR>
-nnoremap <silent> ,G :Unite -buffer-name=Gulp -vertical -winwidth=30 -force-redraw -resize gulp<CR>
-nnoremap <silent> ,l :Unite -buffer-name=Search -custom-line-enable-highlight line:all<CR>
-nnoremap <silent> ,m :Unite -buffer-name=Marks -force-redraw mark<CR>
-nnoremap <silent> ,r :Unite -buffer-name=Recent -empty -force-redraw neomru/file<CR>
-nnoremap <silent> ,T :Unite -buffer-name=Outline outline -no-focus -force-redraw -keep-focus -no-start-insert -no-quit -winwidth=50 -vertical -direction=belowright<CR>
-nnoremap <silent> ,! :Unite -buffer-name=Commands -force-redraw -empty command<CR>
-nnoremap <silent> ,y :Unite -buffer-name=Yanks -force-redraw -default-action=append history/yank<CR>
-nnoremap <silent> z= :Unite -buffer-name=SpellSuggest -vertical -force-redraw -winwidth=40 -empty spell_suggest<CR>
-if g:hasUnix
-	nnoremap <silent> ,C :Unite -buffer-name=Cmus cmus/album<CR>
-endif
-" Inside unite buffers
-augroup UniteMaps
-	autocmd!
-	autocmd FileType unite call s:unite_my_settings()
-augroup END
-function! s:unite_my_settings() " {{{3
-	" NORMAL
-	nunmap <buffer> <C-h>
-	nunmap <buffer> <C-k>
-	nunmap <buffer> <C-l>
-	nunmap <buffer> <space>
-	nmap <silent> <buffer> <F5> <Plug>(unite_redraw)
-	nmap <silent> <buffer> <Esc> <Plug>(unite_exit)
-	nmap <silent> <buffer> ? <Plug>(unite_quick_help)
-	nnoremap <silent><buffer><expr> cd unite#do_action('cd')
-	nnoremap <silent><buffer><expr> s unite#do_action('split')
-	nnoremap <silent><buffer><expr> v unite#do_action('vsplit')
-	nmap <silent> <buffer> <space> <Plug>(unite_toggle_mark_current_candidate)k
-	" INSERT
-	imap <silent> <buffer> <C-space> <Plug>(unite_toggle_mark_current_candidate)
-	imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
-	imap <silent> <buffer> <Esc> <Plug>(unite_exit)
-	imap <silent> <buffer> <F5> <Plug>(unite_redraw)
-	imap <silent> <buffer> jk <Plug>(unite_insert_leave)
-	imap <silent> <buffer> <Tab> <Plug>(unite_complete)
-	inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-	inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-	inoremap <silent><buffer><expr> <C-q> unite#do_action('queue')
-endfunction " 3}}}
-" 1}}}
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
-hi! link PlugDeleted String
+hi! link PlugDeleted Conceal
 " >>> (( clever-f )) {{{1
 let g:clever_f_across_no_line = 1
 " Fix a direction of search (f & F)
@@ -472,17 +312,18 @@ let g:neocomplete#force_omni_input_patterns.python =
 let g:neocomplete#force_omni_input_patterns.markdown = ':'
 let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
 " >>> (( jedi-vim )) {{{1
+let g:jedi#completions_command = ''
 let g:jedi#completions_enabled = 1
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#auto_vim_configuration = 0
 " Keybindings
 let g:jedi#goto_command = 'gd'
 let g:jedi#documentation_command = ''
-let g:jedi#usages_command = 'gD'
+let g:jedi#usages_command = ''
 let g:jedi#goto_assignments_command= ''
 let g:jedi#show_call_signatures = 2
 " Don't use, buggy as hell
-let g:jedi#rename_command = 'gr'
+let g:jedi#rename_command = ''
 " >>> (( autoformat )) {{{1
 let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
@@ -493,8 +334,7 @@ augroup Autoformat
 	autocmd Filetype python,html,json,css,javascript,scss nnoremap <buffer> =ie :Autoformat<CR>
 augroup END
 " >>> (( colorizer )) {{{1
-let g:colorizer_nomap = 1
-let g:colorizer_startup = 0
+ let g:colorizer_colornames = 0
 " >>> (( php-documentor )) {{{1
 augroup PhpDoc
 	autocmd!
@@ -503,19 +343,6 @@ augroup PhpDoc
 	autocmd Filetype php vnoremap <buffer> <silent> <C-d> :call PhpDocRange()<CR>
 augroup END
 let g:pdv_cfg_ClassTags = []
-" >>> (( vim-devicons )) {{{1
-if g:hasUnix
-	let g:DevIconsEnableFoldersOpenClose = 1
-	let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-	let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-	let g:webdevicons_enable_airline_statusline = 0
-	let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
-	let g:webdevicons_enable_unite = 0
-	" After a re-source, fix syntax matching issues (concealing brackets):
-	if exists('g:loaded_webdevicons')
-		call webdevicons#refresh()
-	endif
-endif
 " >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
@@ -557,30 +384,13 @@ augroup Agit
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
 	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
 augroup END
-" >>> (( nerdtree-git-plugin )) {{{1
-" let g:NERDTreeIndicatorMapCustom = {
-"     \ "Modified"  : "✹",
-"     \ "Staged"    : "✚",
-"     \ "Untracked" : "✭",
-"     \ "Renamed"   : "➜",
-"     \ "Unmerged"  : "═",
-"     \ "Deleted"   : "✖",
-"     \ "Dirty"     : "✗",
-"     \ "Clean"     : "✔︎",
-"     \ "Unknown"   : "?"
-"     \ }
 " >>> (( vim-rvm )) {{{1
-" Enable rvm default ruby version in GUI start
-if g:hasUnix
+if g:hasUnix && executable('rvm')
 	augroup Rvm
 		autocmd!
 		autocmd GUIEnter * Rvm
 	augroup END
 endif
-" >>> (( vimproc )) {{{1
-" Open arg with default system command
-command! -complete=file -nargs=1 Open :call vimproc#open(<f-args>)
-let g:vimproc#download_windows_dll = 1
 " >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
 map <silent> y <Plug>(highlightedyank)
@@ -609,26 +419,7 @@ augroup END
 let tern_show_signature_in_pum = 1
 augroup Tern
 	autocmd!
-	autocmd Filetype javascript nmap <buffer> gk :TernDoc<CR>
 	autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
-	autocmd Filetype javascript nmap <buffer> gD :TernRefs<CR>
-	autocmd Filetype javascript nmap <buffer> gr :TernRename<CR>
-augroup END
-" >>> (( airnote )) {{{1
-let g:airnote_path = expand(g:vimDir . '/misc/memos')
-let g:airnote_suffix = 'md'
-let g:airnote_date_format = '%d %b %Y %X'
-let g:airnote_open_prompt = 'Open note > '
-let g:airnote_delete_prompt = 'Delete note > '
-let g:airnote_default_open_cmd = 'vsplit'
-" Auto-generate the date when the file is saved
-augroup Airnote
-	autocmd!
-	execute printf(
-				\ 'autocmd BufWrite %s/*.%s :call setline(1,  "> " . strftime(g:airnote_date_format))',
-				\ g:airnote_path,
-				\ g:airnote_suffix
-				\ )
 augroup END
 " >>> (( vim-signjk-motion )) {{{1
 nmap gj <Plug>(signjk-j)
@@ -665,6 +456,52 @@ call textobj#user#map('python', {
 let g:gutentags_ctags_executable = 'ctags-exuberant'
 let g:gutentags_cache_dir = g:vimDir . '/misc/tags/'
 let g:gutentags_define_advanced_commands = 1
+" >>> (( vim-visualstar )) {{{1
+noremap <Plug>N N
+map * <Plug>(visualstar-*)<Plug>N
+map # <Plug>(visualstar-#)<Plug>N
+" >>> (( Denite )) {{{1
+" Change file_rec command.
+call denite#custom#var('file_rec', 'command',
+			\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+call denite#custom#option('_', {
+			\	'prompt': '>',
+			\	'smartcase': v:true,
+			\	'winheight': 10,
+			\	'highlight_matched_char': 'WarningMsg',
+			\	'highlight_matched_range': 'CursorLineNr',
+			\	'highlight_mode_normal': 'Search',
+			\ })
+" Mappings
+nnoremap <silent> ,f :Denite -buffer-name=Files file_rec<CR>
+nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=5 buffer<CR>
+nnoremap <silent> ,r :Denite -buffer-name=MRU file_mru<CR>
+nnoremap <silent> ,d :Denite -buffer-name=Directories directory_rec<CR>
+nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
+nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
+nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
+nnoremap <silent> ,y :Denite -buffer-name=Yanks neoyank<CR>
+inoremap <silent> <A-y> <Esc>:Denite -buffer-name=Yanks
+			\ -default-action=append -mode=normal neoyank<CR>
+" ***** Insert mode
+call denite#custom#map( 'insert', '<C-d>',
+			\ '<denite:do_action:delete>', 'noremap')
+call denite#custom#map( 'insert', '<C-n>',
+			\ '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map( 'insert', '<C-p>',
+			\ '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map( 'insert', '<C-s>',
+			\ '<denite:do_action:split>', 'noremap')
+call denite#custom#map( 'insert', '<C-space>',
+			\ '<denite:toggle_select_down>', 'noremap')
+call denite#custom#map( 'insert', '<C-t>',
+			\ '<denite:do_action:tabopen>', 'noremap')
+call denite#custom#map( 'insert', '<C-v>',
+			\ '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map( 'insert', 'jk', '<denite:quit>', 'noremap')
+" ***** Normal mode
+call denite#custom#map('normal', 's', '<denite:do_action:split>', 'noremap')
+call denite#custom#map('normal', 'v', '<denite:do_action:vsplit>', 'noremap')
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -688,7 +525,6 @@ let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
 " >>> (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
-let g:gv_unite_cmd = 'GulpExt'
 " >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
@@ -733,16 +569,14 @@ call extend(g:vbox.variables, {
 augroup VBoxAuto
 	autocmd!
 	" For vim plugins
-	exe 'autocmd BufNewFile ' . s:myPlugins . '*/README.md :VBTemplate README.md-vim'
-	exe 'autocmd BufNewFile ' . s:myPlugins . '*/**/*.vim :VBTemplate vim-plugin'
-	exe 'autocmd BufNewFile ' . s:myPlugins . '*/doc/*.txt :VBTemplate vim-doc'
+	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/README.md :VBTemplate README.md-vim'
+	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/**/*.vim :VBTemplate vim-plugin'
+	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/doc/*.txt :VBTemplate vim-doc'
 	" Misc
 	autocmd BufNewFile LICENSE                          :VBTemplate license-MIT
 	autocmd BufNewFile CHANGELOG.md,.tern-project       :VBTemplate
 	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c  :VBTemplate
 augroup END
-" >>> (( vt )) {{{1
-nnoremap <silent> !: :VT<CR>
 " >>> (( imagePreview )) {{{1
 nmap gi <Plug>(image-preview)
 let g:image_preview = {
@@ -755,9 +589,7 @@ let g:image_preview = {
 			\		'args' : '',
 			\	},
 			\ }
-" >>> (( breaktime )) {{{1
-let g:hab_statusline_str = ' %sm'
-let g:hab_statusline_pause_str = ' [P]'
 " 1}}}
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
