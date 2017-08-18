@@ -29,7 +29,7 @@ let s:myPlugins = {
 let g:checker = {
 			\	'error_sign'   : '⨉',
 			\	'warning_sign' : '⬥',
-			\	'success_sign' : '',
+			\	'success_sign' : ' ',
 			\	'error_group'  : 'Error',
 			\	'warning_group': 'Function',
 			\ }
