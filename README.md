@@ -4,7 +4,7 @@ My configuration for the best program of the world :heart:
 I'm not a vim master, but my configuration works great for me so feel free to
 use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-![My vim](.img/myvim.jpg)
+![My vim](.img/myvim.png)
 
 It works on both GNU/Linux and Windows (But **IS better** on GNU/Linux) ~~and
 should be compatible with neovim~~*
@@ -56,7 +56,7 @@ are here just for reference (And for windows obviously :smile:).
 #### Misc
 
 - **gutentags**: `ctags-exuberant`<sup>B</sup>
-- **Unite** (And not only): `Ag`<sup>B</sup>
+- Denite** & grep: `Ag`<sup>B</sup>
 - **vCoolor**: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 
 ### :four: External applications (Not mandatory)
