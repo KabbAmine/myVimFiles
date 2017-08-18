@@ -56,7 +56,7 @@ are here just for reference (And for windows obviously :smile:).
 #### Misc
 
 - **gutentags**: `ctags-exuberant`<sup>B</sup>
-- Denite** & grep: `Ag`<sup>B</sup>
+- **Denite** & grep: `Ag`<sup>B</sup>
 - **vCoolor**: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 
 ### :four: External applications (Not mandatory)
