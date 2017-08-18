@@ -116,6 +116,7 @@ Plug 'tpope/vim-repeat'
 " Misc {{{2
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
+Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'jwhitley/vim-matchit'
@@ -480,6 +481,8 @@ nnoremap <silent> ,d :Denite -buffer-name=Directories directory_rec<CR>
 nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
 nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
 nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
+nnoremap <silent> ,T :Denite -buffer-name=OutlineT -no-statusline -split=vertical
+			\ -mode=normal -no-empty -winwidth=40 -no-auto-resize outline<CR>
 nnoremap <silent> ,y :Denite -buffer-name=Yanks neoyank<CR>
 inoremap <silent> <A-y> <Esc>:Denite -buffer-name=Yanks
 			\ -default-action=append -mode=normal neoyank<CR>
@@ -502,6 +505,26 @@ call denite#custom#map( 'insert', 'jk', '<denite:quit>', 'noremap')
 " ***** Normal mode
 call denite#custom#map('normal', 's', '<denite:do_action:split>', 'noremap')
 call denite#custom#map('normal', 'v', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
+call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
+call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
+call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
+" >>> (( airnote )) {{{1
+let g:airnote_path = expand(g:vimDir . '/misc/memos')
+let g:airnote_suffix = 'md'
+let g:airnote_date_format = '%d %b %Y %X'
+let g:airnote_open_prompt = 'Open note > '
+let g:airnote_delete_prompt = 'Delete note > '
+let g:airnote_default_open_cmd = 'vsplit'
+" Auto-generate the date when the file is saved
+augroup Airnote
+	autocmd!
+	execute printf(
+				\ 'autocmd BufWrite %s/*.%s :call setline(1,  "> " . strftime(g:airnote_date_format))',
+				\ g:airnote_path,
+				\ g:airnote_suffix
+				\ )
+augroup END
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
