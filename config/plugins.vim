@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-19
+" Last modification: 2017-08-20
 " ================================================================
 
 
@@ -210,6 +210,9 @@ augroup END
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
 " >>> (( ale )) {{{1
+nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
+nmap <silent> ]e <Plug>(ale_previous_wrap)
+nmap <silent> [e <Plug>(ale_next_wrap)
 nmap <silent> <F8> :call ALELint(100)<CR>
 let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
@@ -463,12 +466,17 @@ map * <Plug>(visualstar-*)<Plug>N
 map # <Plug>(visualstar-#)<Plug>N
 " >>> (( Denite )) {{{1
 " Change file_rec command.
-call denite#custom#var('file_rec', 'command',
-			\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+if executable('rg')
+	call denite#custom#var('file_rec', 'command',
+				\ ['rg', '--files', '--hidden', '--glob', '!.git/'])
+elseif executable('ag')
+	call denite#custom#var('file_rec', 'command',
+				\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+endif
 call denite#custom#option('_', {
 			\	'prompt': '>',
 			\	'smartcase': v:true,
-			\	'winheight': 10,
+			\	'winheight': 15,
 			\	'highlight_matched_char': 'WarningMsg',
 			\	'highlight_matched_range': 'CursorLineNr',
 			\	'highlight_mode_normal': 'Search',
