@@ -40,7 +40,7 @@ are here just for reference (And for windows obviously :smile:).
 | filetype                   | checker/linter
 | :------------------------- | :-------------------------
 | `c`                        | `gcc`<sup>B</sup>
-| `coffee`                   | `coffelint`<sup>N</sup>
+| `coffee`                   | `coffeelint`<sup>N</sup>
 | `css`                      | `csslint`<sup>N</sup>
 | `html`                     | `HTMLHint`<sup>N</sup>, [`tidy5`](https://github.com/htacg/tidy-html5)
 | `javascript`               | `eslint_d`<sup>N</sup>
@@ -56,7 +56,7 @@ are here just for reference (And for windows obviously :smile:).
 #### Misc
 
 - **gutentags**: `ctags-exuberant`<sup>B</sup>
-- **Denite** & grep: `Ag`<sup>B</sup>
+- **Denite** & grep: [`Rg`](https://github.com/BurntSushi/ripgrep) or Ag`<sup>B</sup>
 - **vCoolor**: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 
 ### :four: External applications (Not mandatory)
