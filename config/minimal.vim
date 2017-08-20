@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-19
+" Last modification: 2017-08-20
 " ================================================================
 
 
@@ -98,10 +98,16 @@ set incsearch					" Incremental search.
 " List of flags specifying which commands wrap to another line.
 set whichwrap=b,s,<,>,[,]
 " >>> Running make and jumping to errors {{{1
-if executable('ag')
-	let &grepprg = 'ag --vimgrep $*'
-	set grepformat=%f:%l:%c:%m
+let s:grepPrg = '%s --vimgrep $*'
+let s:grepFormat = '%f:%l:%c:%m'
+if executable('rg')
+	let &grepprg = printf(s:grepPrg, 'rg')
+	let &grepformat = s:grepFormat
+elseif executable('ag')
+	let &grepprg = printf(s:grepPrg, 'ag')
+	let &grepformat = s:grepFormat
 endif
+unlet! s:grepPrg s:grepFormat
 " >>> Syntax, highlighting and spelling {{{1
 set cursorline
 set hlsearch
@@ -250,13 +256,9 @@ nnoremap K {
 " Make j and k move to the next row, not file line
 nnoremap j gj
 nnoremap k gk
-" >>> Quickfix/Location list windows {{{1
-" Quickfix
-nnoremap <silent> gN :cnext<CR>
-nnoremap <silent> gP :cprevious<CR>
-" Location
-nnoremap <silent> gn :lnext<CR>
-nnoremap <silent> gp :lprevious<CR>
+" >>> Quickfix list window {{{1
+nnoremap <silent> gn :cnext<CR>
+nnoremap <silent> gp :cprevious<CR>
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
