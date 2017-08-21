@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-20
+" Last modification: 2017-08-21
 " ================================================================
 
 
@@ -93,6 +93,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Shougo/denite.nvim'
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -300,7 +301,7 @@ let g:clever_f_mark_char_color = 'IncSearch'
 " >>> (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 2
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
 inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
@@ -315,6 +316,8 @@ let g:neocomplete#force_omni_input_patterns.python =
 			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.markdown = ':'
 let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
+let g:neocomplete#force_omni_input_patterns.ruby =
+			\ '[^. *\t]\.\w*\|\h\w*::'
 " >>> (( jedi-vim )) {{{1
 let g:jedi#completions_command = ''
 let g:jedi#completions_enabled = 1
