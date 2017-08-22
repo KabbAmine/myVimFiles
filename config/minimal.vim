@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-20
+" Last modification: 2017-08-23
 " ================================================================
 
 
@@ -257,8 +257,11 @@ nnoremap K {
 nnoremap j gj
 nnoremap k gk
 " >>> Quickfix list window {{{1
-nnoremap <silent> gn :cnext<CR>
-nnoremap <silent> gp :cprevious<CR>
+nnoremap <silent> gn :call <SID>NextOrCurrentError('next')<CR>
+nnoremap <silent> gp :call <SID>NextOrCurrentError('previous')<CR>
+function! s:NextOrCurrentError(direction) abort " {{{2
+	silent execute len(getqflist()) ==# 1 ? 'cc!' : 'c' . a:direction . '!'
+endfunction " 2}}}
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
@@ -291,12 +294,6 @@ function! s:Move(to) range " {{{2
 		normal! zaza
 	endif
 endfunction " 2}}}
-" >>> Mimic partially multiple cursor behavior with <C-n>, useful with gn {{{1
-" - \V literal string (very no magic)
-" - \C case match
-" - Use register x in visual mode
-nnoremap <C-n> *N
-vnoremap <C-n> "xy/\V\C<C-r>x<CR>N
 " >>> Use c for manipulating + register {{{1
 nnoremap cd "+d
 nnoremap cp "+p
