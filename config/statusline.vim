@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-19
+" Last modification: 2017-08-23
 " ===============================================================
 
 
@@ -162,6 +162,10 @@ function! SLAle(mode) abort " {{{1
 	endif
 
 	if empty(ale#linter#Get(&ft))
+		return ''
+	endif
+
+	if !g:ale_enabled
 		return ''
 	endif
 
