@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-23
+" Last modification: 2017-08-25
 " ===============================================================
 
 
@@ -63,16 +63,16 @@ endfunction
 function! SLModified() abort " {{{1
 	return (&modified ? '+' : '')
 endfunction
-function! SLFileformat() abort " {{{1
-	return winwidth(0) ># 85 ? &fileformat :
+function! SLFormatAndEncoding() abort " {{{1
+	let l:encoding = winwidth(0) <# 55 ? '' :
+				\ (strlen(&fenc) ? &fenc : &enc)
+	let l:format = winwidth(0) ># 85 ? &fileformat :
 				\ (winwidth(0) <# 55 ? '' : &fileformat[0])
+
+	return printf('%s[%s]', l:encoding, l:format)
 endfunction
 function! SLFiletype() abort " {{{1
 	return strlen(&filetype) ? &filetype : ''
-endfunction
-function! SLFileencoding() abort " {{{1
-	return winwidth(0) <# 55 ? '' :
-				\ (strlen(&fenc) ? &fenc : &enc)
 endfunction
 function! SLHiGroup() abort " {{{1
 	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
@@ -91,8 +91,7 @@ function! SLPython() abort " {{{1
 	return printf('[py %s - %s]', l:p, l:p3)
 endfunction
 function! SLSpell() abort " {{{1
-	return &spell ?
-				\ toupper(&spelllang[0]) . &spelllang[1:] : ''
+	return &spell ? &spelllang : ''
 endfunction
 function! SLIndentation() abort " {{{1
 	return winwidth(0) <# 55 ? '' :
@@ -251,9 +250,9 @@ function! GetSL(...) abort " {{{1
 
 	" ACTIVE STATUSLINE
 	let l:sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
-	let l:sl .= '%(%3* %{SLZoomWinTab()}%)'
+	let l:sl .= '%3*%( %{SLZoomWinTab()}%)'
 	let l:sl .= '%2* %{SLFilename()}'
-	let l:sl .= '%(%5* %{SLModified()}%)'
+	let l:sl .= '%5*%( %{SLModified()}% %)'
 
 	let l:sl .= '%3*'
 	let l:sl .= '%='
@@ -263,13 +262,8 @@ function! GetSL(...) abort " {{{1
 	let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
 
 	let l:sl .= '%( %{SLFiletype()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLIndentation()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLSpell()} ' . s:SL.separator . '%)'
-	let l:sl .= '%( %{SLColumnAndPercent()} ' . s:SL.separator . '%)'
-	let l:sl .= '%('
-	let l:sl .= ' %{SLFileencoding()}'
-	let l:sl .= '[%{SLFileformat()}] '
-	let l:sl .= '%)'
+	let l:sl .= '%( %{SLSpell()}' . s:SL.separator . '%)'
+	" 
 
 	" ALE (1st group for no errors)
 	let l:sl .= '%6*%( %{SLAle(0)} %)'
@@ -318,15 +312,43 @@ function! <SID>ApplySL(...) abort " {{{1
 endfunction
 " 1}}}
 
-" Mappings {{{1
-nnoremap <silent> gsH  :call <SID>ToggleSLItem('hi', 'SLHiGroup')<CR>
-nnoremap <silent> gsS  :let &laststatus = (&laststatus !=# 0 ? 0 : 2)<CR>
-if g:hasUnix
-	" Use it once, they are slow
-	nnoremap <silent> gsR  :call <SID>ToggleSLItem('ruby', 'SLRuby')<CR>
-	nnoremap <silent> gsP  :call <SID>ToggleSLItem('python', 'SLPython')<CR>
-	nnoremap <silent> gsC  :call <SID>ToggleSLItem('cmus', 'SLCmus')<CR>
-endif
+" Commands {{{1
+let s:args = [
+			\	['toggle', 'clear'],
+			\	[
+			\		'column-and-percent', 'format-and-encoding', 'indentation',
+			\		 'hi-group', 'ruby', 'python', 'cmus'
+			\	]
+			\ ]
+command! -nargs=? -complete=custom,s:SLCompleteArgs
+			\ SL :call s:SLCommand(<f-args>)
+function! s:SLCommand(arg) abort " {{{2
+
+	if a:arg ==# 'toggle'
+		let &laststatus = (&laststatus !=# 0 ? 0 : 2)
+		return
+	elseif a:arg ==# 'clear'
+		unlet! g:SL_toggle
+		return
+	endif
+
+	" Split args in case we have many
+	let l:args = split(a:arg, ' ')
+
+	" Check the 1st one only
+	if index(s:args[1], l:args[0], 0) ==# -1
+		return
+	endif
+
+	for l:a in l:args
+		let l:arg = substitute(l:a, '\v(-(\a))', '\=toupper(submatch(2))', 'g')
+		let l:fun_ref = 'SL' . toupper(l:arg[0]) . l:arg[1:]
+		call s:ToggleSLItem(l:arg, l:fun_ref)
+	endfor
+endfunction
+function! s:SLCompleteArgs(a, l, p) abort " {{{2
+	return join(s:args[0] + s:args[1], "\n")
+endfunction " 2}}}
 " 1}}}
 
 call <SID>SLInit()
