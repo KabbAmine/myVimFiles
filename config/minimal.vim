@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-23
+" Last modification: 2017-08-25
 " ================================================================
 
 
@@ -98,7 +98,7 @@ set incsearch					" Incremental search.
 " List of flags specifying which commands wrap to another line.
 set whichwrap=b,s,<,>,[,]
 " >>> Running make and jumping to errors {{{1
-let s:grepPrg = '%s --vimgrep $*'
+let s:grepPrg = '%s -S --vimgrep $*'
 let s:grepFormat = '%f:%l:%c:%m'
 if executable('rg')
 	let &grepprg = printf(s:grepPrg, 'rg')
@@ -168,6 +168,13 @@ let g:loaded_zipPlugin = 1
 
 " =========== MAPPINGS ==========================================
 
+" >>> Make movements after f mappings family more convenient {{{1
+" (And because I use , and ; a lot).
+for s:k in ['f', 'F', 't', 'T']
+	execute 'nnoremap ' . s:k . '<CR> ;'
+	execute 'nnoremap ' . s:k . '<BS> ,'
+endfor
+unlet! s:k
 " >>> Make Y work as other capitals {{{1
 nnoremap Y y$
 " >>> Duplicate selection {{{1
@@ -256,12 +263,6 @@ nnoremap K {
 " Make j and k move to the next row, not file line
 nnoremap j gj
 nnoremap k gk
-" >>> Quickfix list window {{{1
-nnoremap <silent> gn :call <SID>NextOrCurrentError('next')<CR>
-nnoremap <silent> gp :call <SID>NextOrCurrentError('previous')<CR>
-function! s:NextOrCurrentError(direction) abort " {{{2
-	silent execute len(getqflist()) ==# 1 ? 'cc!' : 'c' . a:direction . '!'
-endfunction " 2}}}
 " >>> Quickly edit macro or register content in scmdline-window {{{1
 " (https://github.com/mhinz/vim-galore)
 " e.g. "q\r
@@ -386,9 +387,13 @@ function! s:Grep(...) abort " {{{2
 	else
 		echohl ModeMsg | let l:q = input('grep> ') | echohl None
 	endif
-	let l:q = escape(l:q, '%#')
+	" Escape spaces in strings between double quotes then delete them
+	let l:q = substitute(l:q, '\v(".*")', '\=escape(submatch(1), " ")', 'g')
+	let l:q = substitute(l:q, '"', '', 'g')
+	" Escape special spaces & characters
+	let l:q = map(split(l:q, ' '), 'escape(v:val, "%# ")')
 	if !empty(l:q)
-		silent exe 'grep! "' . l:q . '"' | botright copen 10 | wincmd p
+		silent execute 'grep! ' . join(l:q, ' ') | botright copen 10 | wincmd p
 		redraw!
 	endif
 endfunction
