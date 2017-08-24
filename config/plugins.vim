@@ -1,11 +1,11 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-21
+" Last modification: 2017-08-25
 " ================================================================
 
 
 " My plugins {{{1
-let s:devMode = 0
+let s:labMode = 0
 let s:myPluginsDir = g:hasWin ?
 			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
 			\ $HOME . '/Projects/pluginsVim/'
@@ -93,7 +93,6 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Shougo/denite.nvim'
 			\| Plug 'Shougo/neomru.vim'
 			\| Plug 'Shougo/neoyank.vim'
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
@@ -123,10 +122,10 @@ Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'jwhitley/vim-matchit'
 Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
-Plug 'rhysd/clever-f.vim'
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'Shougo/neocomplete.vim'
 			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 Plug 'w0rp/ale'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
@@ -134,12 +133,13 @@ Plug 'machakann/vim-highlightedyank', {'on': '<Plug>(highlightedyank)'}
 Plug 'troydm/zoomwintab.vim'        , {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
 Plug 'Yggdroot/indentLine'
 " My Plugins {{{2
-if !s:devMode
-	Plug 'KabbAmine/gulp-vim'
+if !s:labMode
+	" Plug 'KabbAmine/gulp-vim'
 	Plug 'KabbAmine/lazyList.vim'
 	" Plug 'KabbAmine/unite-cmus'
 	Plug 'KabbAmine/vBox.vim'
 	Plug 'KabbAmine/vCoolor.vim'
+	Plug 'KabbAmine/vullscreen.vim'
 	Plug 'KabbAmine/yowish.vim'
 	Plug 'KabbAmine/zeavim.vim', {'on': [
 				\	'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
@@ -214,7 +214,7 @@ let python_highlight_all = 1
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
 nmap <silent> ]e <Plug>(ale_previous_wrap)
 nmap <silent> [e <Plug>(ale_next_wrap)
-nmap <silent> <F8> :call ALELint(100)<CR>
+nmap <silent> <F8> :ALEToggle<CR>
 let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
@@ -292,12 +292,6 @@ if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
 hi! link PlugDeleted Conceal
-" >>> (( clever-f )) {{{1
-let g:clever_f_across_no_line = 1
-" Fix a direction of search (f & F)
-let g:clever_f_fix_key_direction = 1
-let g:clever_f_smart_case = 1
-let g:clever_f_mark_char_color = 'IncSearch'
 " >>> (( neocomplete )) {{{1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -367,10 +361,11 @@ cabbrev Ga Git add
 cabbrev Gb Git branch
 cabbrev Gch Git checkout
 cabbrev Gco Gcommit
-cabbrev Gt Git tag
+cabbrev Gl Git log --oneline
 cabbrev Gm Gmerge
 cabbrev Gs Gstatus
 cabbrev Gst Git stash
+cabbrev Gt Git tag
 " >>> (( vim-commentary )) {{{1
 augroup Commentary
 	autocmd!
@@ -486,9 +481,9 @@ call denite#custom#option('_', {
 			\ })
 " Mappings
 nnoremap <silent> ,f :Denite -buffer-name=Files file_rec<CR>
-nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=5 buffer<CR>
+nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=10 buffer<CR>
 nnoremap <silent> ,r :Denite -buffer-name=MRU file_mru<CR>
-nnoremap <silent> ,d :Denite -buffer-name=Directories directory_rec<CR>
+nnoremap <silent> ,d :Denite -buffer-name=Directories -default-action=cd directory_rec<CR>
 nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
 nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
 nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
