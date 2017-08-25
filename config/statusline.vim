@@ -261,9 +261,8 @@ function! GetSL(...) abort " {{{1
 	let l:sl .= '%( %{SLGitGutter()} %)'
 	let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
 
-	let l:sl .= '%( %{SLFiletype()} ' . s:SL.separator . '%)'
 	let l:sl .= '%( %{SLSpell()}' . s:SL.separator . '%)'
-	" 
+	let l:sl .= '%( %{SLFiletype()} %)'
 
 	" ALE (1st group for no errors)
 	let l:sl .= '%6*%( %{SLAle(0)} %)'
@@ -282,7 +281,7 @@ function! GetSL(...) abort " {{{1
 
 	return l:sl
 endfunction
-function! <SID>ToggleSLItem(var, funcref) abort " {{{1
+function! s:ToggleSLItem(var, funcref) abort " {{{1
 	if !exists('g:SL_toggle')
 		let g:SL_toggle = {}
 	endif
