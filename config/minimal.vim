@@ -190,11 +190,16 @@ nnoremap <silent> <space> za
 vnoremap <silent> <space> :fold<CR>
 " >>> Search {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
-nnoremap <silent> * *N
+nnoremap <silent> * *``
 nnoremap / /\V
 nnoremap ? ?\V
 nnoremap n nzz
 nnoremap N Nzz
+" A quick way to use gn
+nnoremap c* *``cgn
+nnoremap c# #``cgn
+nnoremap d* *``dgn
+nnoremap d# #``dgn
 " >>> Operations on tabs {{{1
 nnoremap <silent> <C-t> :tabedit<CR>
 nnoremap <silent> <F5> :tabonly<CR>
