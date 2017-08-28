@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-25
+" Last modification: 2017-08-28
 " ================================================================
 
 
@@ -66,7 +66,8 @@ set ruler
 set confirm		" Start a dialog when a command fails
 " >>> Edit text {{{1
 set infercase						" Adjust case of a keyword completion match.
-set completeopt=menuone				" Use only a popup menu without preview.
+set completeopt=menuone,noselect
+" Use only a popup menu without preview.
 set textwidth=0						" Don't insert automatically newlines
 if g:hasWin
 	set backspace=2					" Make backspace works normally in Win
@@ -365,7 +366,7 @@ let s:to = {
 call helpers#MakeTextObjects(s:to)
 unlet! s:to
 " >>> Enable Paste when using <C-r> in INSERT mode {{{1
-inoremap <silent> <C-r> <C-r><C-p>
+" inoremap <silent> <C-r> <C-r><C-p>
 " >>> Preview {{{1
 nnoremap <silent> gPr :Preview<CR>
 vnoremap <silent> gPr :Preview<CR>
@@ -408,6 +409,37 @@ endfunction " 2}}}
 " >>> Reselect visual selection after (in/de)creasing numbers {{{1
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
+" >>> Omnicompletion {{{1
+inoremap <C-space> <C-x><C-o>
+" Go to line using relative numbers {{{1
+nnoremap gj :call <SID>GoTo('j')<CR>
+nnoremap gk :call <SID>GoTo('k')<CR>
+function! s:GoTo(direction) abort " {{{2
+	let [l:n, l:rn] = [getbufvar('%', '&number'), getbufvar('%', '&relativenumber')]
+	redir => l:hi
+		silent highlight LineNr
+		silent highlight CursorLineNr
+	redir END
+	let l:hi = map(split(l:hi, "\n"), 'substitute(v:val, "xxx", "", "")')
+
+	setlocal nonumber relativenumber
+	hi! link LineNr ModeMsg
+	hi! link CursorLineNr Search
+	redraw
+
+	echohl ModeMsg
+	let l:goto = input('Goto> ')
+	echohl None
+	if !empty(l:goto)
+		execute 'normal! ' . l:goto . a:direction
+	endif
+
+	call setbufvar('%', '&number', l:n)
+	call setbufvar('%', '&relativenumber', l:rn)
+	for l:h in l:hi
+		execute 'highlight! ' . l:h
+	endfor
+endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ==============================
