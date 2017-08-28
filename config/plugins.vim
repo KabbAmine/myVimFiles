@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-25
+" Last modification: 2017-09-02
 " ================================================================
 
 
@@ -103,8 +103,6 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'haya14busa/vim-signjk-motion',
-			\ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'
 Plug 'thinca/vim-visualstar'
@@ -121,11 +119,9 @@ Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'jwhitley/vim-matchit'
 Plug 'kana/vim-tabpagecd'
+Plug 'lifepillar/vim-mucomplete'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
-Plug 'Shougo/neocomplete.vim'
-			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 Plug 'w0rp/ale'
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
@@ -155,10 +151,6 @@ call plug#end()
 " ========== MISC  ===========================================
 
 " Colors {{{1
-if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX')
-	set term=xterm-256color
-endif
-" Custom colors for (( yowish ))
 let g:yowish = {
 			\	'term_italic' : 0,
 			\	'colors': {
@@ -211,6 +203,8 @@ augroup END
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
 " >>> (( ale )) {{{1
+" Disabled by default
+let g:ale_enabled = 0
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
 nmap <silent> ]e <Plug>(ale_previous_wrap)
 nmap <silent> [e <Plug>(ale_next_wrap)
@@ -272,9 +266,9 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vimDir . '/misc/ultisnips'
@@ -292,26 +286,6 @@ if g:hasWin | let g:gitgutter_enabled = 0 | endif
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
 hi! link PlugDeleted Conceal
-" >>> (( neocomplete )) {{{1
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
-inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
-			\ neocomplete#start_manual_complete()
-if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.php =
-			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.python =
-			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-let g:neocomplete#force_omni_input_patterns.markdown = ':'
-let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
-let g:neocomplete#force_omni_input_patterns.ruby =
-			\ '[^. *\t]\.\w*\|\h\w*::'
 " >>> (( jedi-vim )) {{{1
 let g:jedi#completions_command = ''
 let g:jedi#completions_enabled = 1
@@ -423,19 +397,13 @@ augroup Tern
 	autocmd!
 	autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
 augroup END
-" >>> (( vim-signjk-motion )) {{{1
-nmap gj <Plug>(signjk-j)
-nmap gk <Plug>(signjk-k)
-" To use with an operator (c/d/v...)
-omap L <Plug>(textobj-signjk-lines)
-vmap L <Plug>(textobj-signjk-lines)
 " >>> (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 0
 hi! link ParenMatch WarningMsg
 " >>> (( vim-emoji )) {{{1
 augroup Emoji
 	autocmd!
-	autocmd FileType markdown,gitcommit :setl omnifunc=emoji#complete
+	autocmd FileType markdown,gitcommit :setl completefunc=emoji#complete
 augroup END
 " >>> (( zoomwintab )) {{{1
 nnoremap gsz :ZoomWinTabToggle<CR>
@@ -463,7 +431,6 @@ noremap <Plug>N N
 map * <Plug>(visualstar-*)<Plug>N
 map # <Plug>(visualstar-#)<Plug>N
 " >>> (( Denite )) {{{1
-" Change file_rec command.
 if executable('rg')
 	call denite#custom#var('file_rec', 'command',
 				\ ['rg', '--files', '--hidden', '--glob', '!.git/'])
@@ -471,14 +438,22 @@ elseif executable('ag')
 	call denite#custom#var('file_rec', 'command',
 				\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 endif
+call denite#custom#var('buffer', 'date_format', '')
+call denite#custom#var('outline', 'options', ['-u'])
 call denite#custom#option('_', {
-			\	'prompt': '>',
-			\	'smartcase': v:true,
-			\	'winheight': 15,
-			\	'highlight_matched_char': 'WarningMsg',
-			\	'highlight_matched_range': 'CursorLineNr',
-			\	'highlight_mode_normal': 'Search',
+			\	'highlight_matched_char' : 'WarningMsg',
+			\	'highlight_matched_range': 'None',
+			\	'highlight_mode_normal'  : 'CursorLine',
+			\	'prompt'                 : '>',
+			\	'smartcase'              : v:true,
+			\	'statusline'             : v:false,
+			\	'winheight'              : 15,
 			\ })
+hi! link deniteSource_buffer None
+hi! link deniteSource_Name Question
+hi! link deniteSource_buffer_Info None
+hi! link deniteSource_buffer_Prefix None
+hi! link deniteSelectedLine ModeMsg
 " Mappings
 nnoremap <silent> ,f :Denite -buffer-name=Files file_rec<CR>
 nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=10 buffer<CR>
@@ -488,33 +463,59 @@ nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
 nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
 nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
 nnoremap <silent> ,T :Denite -buffer-name=OutlineT -no-statusline -split=vertical
-			\ -mode=normal -no-empty -winwidth=40 -no-auto-resize outline<CR>
+			\ -mode=normal -no-empty -winwidth=40 outline<CR>
 nnoremap <silent> ,y :Denite -buffer-name=Yanks neoyank<CR>
 inoremap <silent> <A-y> <Esc>:Denite -buffer-name=Yanks
-			\ -default-action=append -mode=normal neoyank<CR>
+			\ -default-action=append neoyank<CR>
 " ***** Insert mode
-call denite#custom#map( 'insert', '<C-d>',
+call denite#custom#map('insert', '<C-d>',
 			\ '<denite:do_action:delete>', 'noremap')
-call denite#custom#map( 'insert', '<C-n>',
+call denite#custom#map('insert', '<C-n>',
 			\ '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map( 'insert', '<C-p>',
+call denite#custom#map('insert', '<C-p>',
 			\ '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map( 'insert', '<C-s>',
+call denite#custom#map('insert', '<C-s>',
 			\ '<denite:do_action:split>', 'noremap')
-call denite#custom#map( 'insert', '<C-space>',
+call denite#custom#map('insert', '<C-a>',
+			\ '<denite:toggle_select_all>', 'noremap')
+call denite#custom#map('insert', '<C-space>',
 			\ '<denite:toggle_select_down>', 'noremap')
-call denite#custom#map( 'insert', '<C-t>',
+call denite#custom#map('insert', '<C-t>',
 			\ '<denite:do_action:tabopen>', 'noremap')
-call denite#custom#map( 'insert', '<C-v>',
+call denite#custom#map('insert', '<C-v>',
 			\ '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map( 'insert', 'jk', '<denite:quit>', 'noremap')
+call denite#custom#map('insert', 'jk', '<denite:quit>', 'noremap')
 " ***** Normal mode
 call denite#custom#map('normal', 's', '<denite:do_action:split>', 'noremap')
 call denite#custom#map('normal', 'v', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('normal', 'p', '<denite:do_action:preview>', 'noremap')
 call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
 call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
 call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
+" >>> (( mucomplete )) {{{1
+set completeopt=menuone,noselect,noinsert
+set shortmess+=c   " Shut off completion messages
+let g:mucomplete#no_mappings = 1
+let g:mucomplete#cycle_with_trigger = 1
+let g:mucomplete#can_complete = {}
+let g:mucomplete#can_complete.default = {
+			\   'omni': { t -> strlen(&l:omnifunc) > 0
+			\             &&  (g:mucomplete_with_key || t =~# '\m\k\k$')},
+			\ }
+let g:mucomplete#can_complete.markdown = {'user': {t -> t =~# ':.*[^:]$'}}
+let g:mucomplete#can_complete.gitcommit = g:mucomplete#can_complete.markdown
+let g:mucomplete#chains = {
+			\	'default'    : ['path', 'omni', 'ulti', 'keyn', 'dict', 'uspl'],
+			\	'gitcommit'  : ['user', 'keyn'],
+			\	'markdown'   : ['path', 'user', 'keyn', 'ulti'],
+			\	'vim'        : ['ulti', 'path', 'cmd', 'keyn'],
+			\ }
+nnoremap <silent> <F7> :MUcompleteAutoToggle<CR>
+inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
+inoremap <expr> <cr> mucomplete#popup_exit("\<cr>")
+imap <Tab> <plug>(MUcompleteFwd)<C-p>
+imap <S-Tab> <plug>(MUcompleteBwd)<C-p>
 " >>> (( airnote )) {{{1
 let g:airnote_path = expand(g:vimDir . '/misc/memos')
 let g:airnote_suffix = 'md'
