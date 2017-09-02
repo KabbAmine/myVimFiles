@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-28
+" Last modification: 2017-09-02
 " ================================================================
 
 
@@ -48,6 +48,10 @@ if !empty($TERM)
 		let s:c = nr2char(1 + char2nr(s:c))
 	endwhile
 	unlet s:c
+endif
+" Ensure using 256 colors with compatible terminals {{{1
+if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:hasGui
+	set term=xterm-256color
 endif
 " }}}
 
