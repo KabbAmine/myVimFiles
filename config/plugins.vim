@@ -35,8 +35,7 @@ let g:checker = {
 			\ }
 " Functions {{{1
 function! s:MyPlugs() abort " {{{2
-	let l:pn = keys(s:myPlugins)
-	let l:pl = values(s:myPlugins)
+	let [l:pn, l:pl] = [keys(s:myPlugins), values(s:myPlugins)]
 	for l:i in range(0, len(l:pn) - 1)
 		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
 		exec printf("Plug '%s'%s", expand(s:myPluginsDir) . l:pn[l:i], l:opt)
@@ -112,6 +111,10 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
+" Completion {{{2
+Plug 'Shougo/neocomplete.vim'
+			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
+			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 " Misc {{{2
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
@@ -120,7 +123,6 @@ Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'jwhitley/vim-matchit'
 Plug 'kana/vim-tabpagecd'
-Plug 'lifepillar/vim-mucomplete'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'w0rp/ale'
@@ -128,7 +130,6 @@ Plug 'w0rp/ale'
 Plug 'itchyny/vim-parenmatch'
 Plug 'machakann/vim-highlightedyank', {'on': '<Plug>(highlightedyank)'}
 Plug 'troydm/zoomwintab.vim'        , {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
-Plug 'Yggdroot/indentLine'
 " My Plugins {{{2
 if !s:labMode
 	" Plug 'KabbAmine/gulp-vim'
@@ -267,9 +268,9 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vimDir . '/misc/ultisnips'
@@ -382,9 +383,6 @@ vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
-" >>> (( indentLine )) {{{1
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['json', 'vim', 'javascript', 'c', 'sh', 'php']
 " >>> (( vim-jsdoc )) {{{1
 augroup JsDoc
 	autocmd!
@@ -494,29 +492,27 @@ call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
 call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
 call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
-" >>> (( mucomplete )) {{{1
-set completeopt=menuone,noselect,noinsert
-set shortmess+=c   " Shut off completion messages
-let g:mucomplete#no_mappings = 1
-let g:mucomplete#cycle_with_trigger = 1
-let g:mucomplete#can_complete = {}
-let g:mucomplete#can_complete.default = {
-			\   'omni': { t -> strlen(&l:omnifunc) > 0
-			\             &&  (g:mucomplete_with_key || t =~# '\m\k\k$')},
-			\ }
-let g:mucomplete#can_complete.markdown = {'user': {t -> t =~# ':.*[^:]$'}}
-let g:mucomplete#can_complete.gitcommit = g:mucomplete#can_complete.markdown
-let g:mucomplete#chains = {
-			\	'default'    : ['path', 'omni', 'ulti', 'keyn', 'dict', 'uspl'],
-			\	'gitcommit'  : ['user', 'keyn'],
-			\	'markdown'   : ['path', 'user', 'keyn', 'ulti'],
-			\	'vim'        : ['ulti', 'path', 'cmd', 'keyn'],
-			\ }
-nnoremap <silent> <F7> :MUcompleteAutoToggle<CR>
-inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-inoremap <expr> <cr> mucomplete#popup_exit("\<cr>")
-imap <Tab> <plug>(MUcompleteFwd)<C-p>
-imap <S-Tab> <plug>(MUcompleteBwd)<C-p>
+" >>> (( Neocomplete )) {{{1
+nnoremap <silent> <F7> :NeoCompleteToggle<CR>
+inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
+			\ neocomplete#start_manual_complete()
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.php =
+			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.python =
+			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.markdown = ':'
+let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
+let g:neocomplete#force_omni_input_patterns.ruby =
+			\ '[^. *\t]\.\w*\|\h\w*::'
 " >>> (( airnote )) {{{1
 let g:airnote_path = expand(g:vimDir . '/misc/memos')
 let g:airnote_suffix = 'md'
