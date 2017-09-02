@@ -354,6 +354,7 @@ function! s:SLCommand(arg) abort " {{{2
 
 	if a:arg ==# 'toggle'
 		let &laststatus = (&laststatus !=# 0 ? 0 : 2)
+		let &showmode = (&laststatus ==# 0 ? 1 : 0)
 		return
 	elseif a:arg ==# 'clear'
 		unlet! g:SL_toggle
