@@ -89,8 +89,8 @@ set breakindent			" Preserve indentation in wrapped text
 hi! link HelpBar Normal
 hi! link HelpStar Normal
 let &listchars = g:hasWin ?
-			\ 'tab:| ,trail:~,extends:>,precedes:<' :
-			\ 'tab:| ,trail:~,extends:#,nbsp:.'
+			\ 'tab:¦ ,trail:~,extends:>,precedes:<' :
+			\ 'tab:¦ ,trail:~,extends:#,nbsp:.'
 set list
 " Scroll horizontally by 1 character (Only when wrap is disabled).
 set sidescroll=1
@@ -370,7 +370,7 @@ let s:to = {
 call helpers#MakeTextObjects(s:to)
 unlet! s:to
 " >>> Enable Paste when using <C-r> in INSERT mode {{{1
-" inoremap <silent> <C-r> <C-r><C-p>
+inoremap <silent> <C-r> <C-r><C-p>
 " >>> Preview {{{1
 nnoremap <silent> gPr :Preview<CR>
 vnoremap <silent> gPr :Preview<CR>
@@ -413,8 +413,6 @@ endfunction " 2}}}
 " >>> Reselect visual selection after (in/de)creasing numbers {{{1
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
-" >>> Omnicompletion {{{1
-inoremap <C-space> <C-x><C-o>
 " Go to line using relative numbers {{{1
 nnoremap gj :call <SID>GoTo('j')<CR>
 nnoremap gk :call <SID>GoTo('k')<CR>
