@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-25
+" Last modification: 2017-09-02
 " ===============================================================
 
 
@@ -10,6 +10,7 @@
 " * Rvm
 " * ALE
 " * Unite (+unite-cmus)
+" * Denite
 " * zoomwintab
 " * gutentags
 
@@ -18,7 +19,8 @@ let s:SL  = {
 			\ 'separator': '',
 			\ 'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
 			\ 'apply': {
-				\ 'unite': 'unite#get_status_string()',
+				\ 'denite': ['SLDeniteHead()', 'SLDeniteTail()'],
+				\ 'unite' : ['unite#get_status_string()'],
 			\ },
 			\ 'checker': g:checker,
 			\ 'colors': {
@@ -136,9 +138,9 @@ function! SLGitGutter() abort " {{{1
 	endif
 endfunction
 function! SLFugitive() abort " {{{1
-	let l:i = ' '
+	let l:i = ''
 	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
-				\ (fugitive#head() ==# 'master' ? l:i . 'm' : l:i . fugitive#head()) : ''
+				\ (fugitive#head() ==# 'master' ? l:i : l:i . ' ' . fugitive#head()) : ''
 endfunction
 function! SLGutentags() abort " {{{1
 	return exists('*gutentags#statusline') ? gutentags#statusline(' ') : ''
@@ -160,11 +162,11 @@ function! SLAle(mode) abort " {{{1
 		return ''
 	endif
 
-	if empty(ale#linter#Get(&ft))
+	if !g:ale_enabled
 		return ''
 	endif
 
-	if !g:ale_enabled
+	if empty(ale#linter#Get(&ft))
 		return ''
 	endif
 
@@ -196,6 +198,30 @@ function! SLCmus() abort " {{{1
 endfunction
 function! SLZoomWinTab() abort " {{{1
 	return exists('t:zoomwintab') ? ' ' : ''
+endfunction
+" 1}}}
+
+" Custom sl
+function! SLDeniteHead() abort " {{{1
+	if !exists('*denite#get_status_mode')
+		return ''
+	endif
+
+	let l:status = denite#get_status_mode() ==# '-- INSERT -- ' ? ' INS' : ' NOR'
+	let l:sources = winwidth(0) ># 55 ?
+				\	denite#get_status_sources() :
+				\	toupper(denite#get_status_sources()[0])
+	let l:linenr = winwidth(0) ># 55 ? denite#get_status_linenr() : ''
+
+	return printf(' %s %s %s %s', l:status, s:SL.separator, l:linenr, l:sources)
+endfunction
+function! SLDeniteTail() abort " {{{1
+	if !exists('*denite#get_status_mode')
+		return ''
+	endif
+
+	let l:path = denite#get_status_path()
+	return winwidth(0) ># 55 ? l:path : pathshorten(l:path)
 endfunction
 " 1}}}
 
@@ -235,8 +261,11 @@ function! GetSL(...) abort " {{{1
 	" CUSTOM FUNCTIONS
 	if has_key(s:SL.apply, &ft)
 		let l:f = get(s:SL.apply, &ft)
-		if exists('*' . l:f)
-			let l:sl = '%{' . l:f . '}'
+		if exists('*' . l:f[0])
+			let l:sl = '%{' . l:f[0] . '}'
+		endif
+		if len(l:f) ==# 2 && exists('*' . l:f[1])
+			let l:sl .= '%=%{' . l:f[1] . '}'
 		endif
 		return l:sl
 	endif
