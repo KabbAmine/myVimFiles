@@ -14,7 +14,7 @@ tested on Windows).
 ### :one: Vim
 
 Some plugins need a relatively new version of vim which supports such features:
-`+job`, and `+timers` and compiled with `+python(3)` and `+ruby`.
+`+job`, and `+timers` and compiled with `+python3`, `+lua` and `+ruby`.
 
 ### :two: Font(s)
 
