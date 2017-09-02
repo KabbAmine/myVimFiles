@@ -1,6 +1,6 @@
 " ========== Helpers & useful functions ======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-17
+" Last modification: 2017-08-31
 " ============================================
 
 " Misc
@@ -225,7 +225,7 @@ function! helpers#ErrorHandler(channel, msg) abort " {{{1
 endfunction
 " 1}}}
 
-" Using the shell or external programs
+" System
 function! helpers#OpenHere(type, ...) abort " {{{1
 	" type: (t)erminal, (f)ilemanager
 	" a:1: Location (pwd by default)
