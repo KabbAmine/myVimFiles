@@ -6,15 +6,15 @@ use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
 ![My vim](.img/myvim.jpg)
 
-It works on both GNU/Linux and Windows (But **IS better** on GNU/Linux) ~~and
-should be compatible with neovim~~*
+It works on both GNU/Linux and Windows (Starting from `old` tag, it was not
+tested on Windows).
 
 ## Requirements
 
 ### :one: Vim
 
-You should have a relatively new version of vim which supports such features:
-`+job`, and `+timers` and compiled with `+python(3)`, `+ruby` and `+lua`.
+Some plugins need a relatively new version of vim which supports such features:
+`+job`, and `+timers` and compiled with `+python(3)` and `+ruby`.
 
 ### :two: Font(s)
 
@@ -25,7 +25,7 @@ You should have a relatively new version of vim which supports such features:
 
 The requirements listed below (GNU/Linux) are managed and installed via scripts
 from my [dotfiles](https://github.com/kabbamine/mydotfiles) repository, they
-are here just for reference (And for windows obviously :smile:).
+are here just for reference (And for windows obviously).
 
 #### Autoformat
 
@@ -56,7 +56,8 @@ are here just for reference (And for windows obviously :smile:).
 #### Misc
 
 - **gutentags**: `ctags-exuberant`<sup>B</sup>
-- **Denite** & grep: [`Rg`](https://github.com/BurntSushi/ripgrep) or Ag`<sup>B</sup>
+- **Denite** & grep: [`Rg`](https://github.com/BurntSushi/ripgrep) or
+  Ag`<sup>B</sup>
 - **vCoolor**: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
 
 ### :four: External applications (Not mandatory)
