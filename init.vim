@@ -1,1 +1,0 @@
-/home/k-bag/.vim/vimrc
