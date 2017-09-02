@@ -98,6 +98,7 @@ Plug 'kana/vim-textobj-user'
 			\| Plug 'glts/vim-textobj-comment'
 			\| Plug 'kana/vim-textobj-fold'
 			\| Plug 'kana/vim-textobj-function'
+			\| Plug 'haya14busa/vim-textobj-function-syntax'
 			\| Plug 'bps/vim-textobj-python'                 , {'for': 'python'}
 			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
 			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
