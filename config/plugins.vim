@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-02
+" Last modification: 2017-09-04
 " ================================================================
 
 
@@ -208,8 +208,8 @@ let python_highlight_all = 1
 " Disabled by default
 let g:ale_enabled = 0
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
-nmap <silent> ]e <Plug>(ale_previous_wrap)
-nmap <silent> [e <Plug>(ale_next_wrap)
+nmap <silent> ]e <Plug>(ale_next_wrap)
+nmap <silent> [e <Plug>(ale_previous_wrap)
 nmap <silent> <F8> :ALEToggle<CR>
 let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
