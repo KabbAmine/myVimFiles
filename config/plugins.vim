@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =========
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-04
+" Last modification: 2017-09-05
 " ================================================================
 
 
@@ -181,24 +181,24 @@ nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q> :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
-let NERDTreeBookmarksFile = g:hasWin ?
+let g:NERDTreeBookmarksFile = g:hasWin ?
 			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
 			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
-let NERDTreeIgnore = ['\~$', '\.class$']
+let g:NERDTreeIgnore = ['\~$', '\.class$']
 " Single-clic for folder nodes and double for files.
-let NERDTreeMouseMode = 2
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeCaseSensitiveSort = 1
-let NERDTreeDirArrows = 1
-let NERDTreeHijackNetrw = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeChDirMode = 2
-let NERDTreeCascadeSingleChildDir = 0
-let NERDTreeCascadeOpenSingleChildDir = 0
+let g:NERDTreeMouseMode = 2
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeCaseSensitiveSort = 1
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeHijackNetrw = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeCascadeSingleChildDir = 0
+let g:NERDTreeCascadeOpenSingleChildDir = 0
 " Mappings
-let NERDTreeMapOpenSplit = 's'
-let NERDTreeMapOpenVSplit = 'v'
-augroup NerdTree
+let g:NERDTreeMapOpenSplit = 's'
+let g:NERDTreeMapOpenVSplit = 'v'
+augroup NerdTreeLocOptions
 	autocmd!
 	autocmd FileType nerdtree setlocal nolist
 augroup END
@@ -499,6 +499,7 @@ inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#auto_completion_start_length = 3
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
 if !exists('g:neocomplete#force_omni_input_patterns')
