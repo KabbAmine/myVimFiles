@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-02
+" Last modification: 2017-09-06
 " ===============================================================
 
 
@@ -14,13 +14,17 @@
 " * zoomwintab
 " * gutentags
 
+
 " Configuration " {{{1
 let s:SL  = {
 			\ 'separator': '',
 			\ 'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
 			\ 'apply': {
-				\ 'denite': ['SLDeniteHead()', 'SLDeniteTail()'],
-				\ 'unite' : ['unite#get_status_string()'],
+				\ 'denite' : [
+				\		'denite#get_status_mode()',
+				\		'denite#get_status_sources()',
+				\		'denite#get_status_linenr()',
+				\ ],
 			\ },
 			\ 'checker': g:checker,
 			\ 'colors': {
@@ -77,7 +81,7 @@ function! SLFiletype() abort " {{{1
 	return strlen(&filetype) ? &filetype : ''
 endfunction
 function! SLHiGroup() abort " {{{1
-	return '➔ ' . synIDattr(synID(line('.'), col('.'), 1), 'name')
+	return '> ' . synIDattr(synID(line('.'), col('.'), 1), 'name') . ' <'
 endfunction
 function! SLMode() abort " {{{1
 	return winwidth(0) <# 75 ? get(s:SL.modes, mode()) : get(s:SL.modes, mode())
@@ -127,7 +131,13 @@ endfunction
 " 1}}}
 
 " From Plugins
+function! SLFugitive() abort " {{{1
+	let l:i = ''
+	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
+				\ (fugitive#head() ==# 'master' ? l:i : l:i . ' ' . fugitive#head()) : ''
+endfunction
 function! SLGitGutter() abort " {{{1
+	" Note that it uses Fugitive to be sure being in a git project.
 	if exists('g:gitgutter_enabled') && g:gitgutter_enabled
 		let l:h = GitGutterGetHunkSummary()
 		return !empty(SLFugitive()) && !empty(l:h) && l:h !=# [0,0,0] && (winwidth(0) ># 55) ?
@@ -136,11 +146,6 @@ function! SLGitGutter() abort " {{{1
 	else
 		return ''
 	endif
-endfunction
-function! SLFugitive() abort " {{{1
-	let l:i = ''
-	return exists('*fugitive#head') && !empty(fugitive#head()) && (winwidth(0) ># 55) ?
-				\ (fugitive#head() ==# 'master' ? l:i : l:i . ' ' . fugitive#head()) : ''
 endfunction
 function! SLGutentags() abort " {{{1
 	return exists('*gutentags#statusline') ? gutentags#statusline(' ') : ''
@@ -193,35 +198,11 @@ function! SLAle(mode) abort " {{{1
 	endif
 endfunction
 function! SLCmus() abort " {{{1
-	return !empty(cmus#get().statusline_str()) ?
+	return exists('*cmus#get()') && !empty(cmus#get().statusline_str()) ?
 				\ cmus#get().statusline_str() : ''
 endfunction
 function! SLZoomWinTab() abort " {{{1
-	return exists('t:zoomwintab') ? ' ' : ''
-endfunction
-" 1}}}
-
-" Custom sl
-function! SLDeniteHead() abort " {{{1
-	if !exists('*denite#get_status_mode')
-		return ''
-	endif
-
-	let l:status = denite#get_status_mode() ==# '-- INSERT -- ' ? ' INS' : ' NOR'
-	let l:sources = winwidth(0) ># 55 ?
-				\	denite#get_status_sources() :
-				\	toupper(denite#get_status_sources()[0])
-	let l:linenr = winwidth(0) ># 55 ? denite#get_status_linenr() : ''
-
-	return printf(' %s %s %s %s', l:status, s:SL.separator, l:linenr, l:sources)
-endfunction
-function! SLDeniteTail() abort " {{{1
-	if !exists('*denite#get_status_mode')
-		return ''
-	endif
-
-	let l:path = denite#get_status_path()
-	return winwidth(0) ># 55 ? l:path : pathshorten(l:path)
+	return exists('t:zoomwintab') ? ' ' : ''
 endfunction
 " 1}}}
 
@@ -261,12 +242,22 @@ function! GetSL(...) abort " {{{1
 	" CUSTOM FUNCTIONS
 	if has_key(s:SL.apply, &ft)
 		let l:f = get(s:SL.apply, &ft)
-		if exists('*' . l:f[0])
+		let l:len_f = len(l:f)
+		if l:len_f ==# 1
 			let l:sl = '%{' . l:f[0] . '}'
+		elseif l:len_f ==# 2
+			let l:sl = '%{' . l:f[0] . '}'
+			let l:sl .= '%=%{' . l:f[-1] . '}'
+		else
+			for l:i in range(0, l:len_f - 2)
+				if exists('*' . l:f[l:i])
+					let l:sl .= (l:i !=# 0 ? s:SL.separator . ' ' : '') .
+								\ '%{' . l:f[l:i] . '}'
+				endif
+			endfor
+			let l:sl .= '%=%{' . l:f[-1] . '}'
 		endif
-		if len(l:f) ==# 2 && exists('*' . l:f[1])
-			let l:sl .= '%=%{' . l:f[1] . '}'
-		endif
+
 		return l:sl
 	endif
 
@@ -350,19 +341,20 @@ let s:args = [
 			\ ]
 command! -nargs=? -complete=custom,s:SLCompleteArgs
 			\ SL :call s:SLCommand(<f-args>)
-function! s:SLCommand(arg) abort " {{{2
+function! s:SLCommand(...) abort " {{{2
+	let l:arg = exists('a:1') ? a:1 : 'clear'
 
-	if a:arg ==# 'toggle'
+	if l:arg ==# 'toggle'
 		let &laststatus = (&laststatus !=# 0 ? 0 : 2)
 		let &showmode = (&laststatus ==# 0 ? 1 : 0)
 		return
-	elseif a:arg ==# 'clear'
+	elseif l:arg ==# 'clear'
 		unlet! g:SL_toggle
 		return
 	endif
 
 	" Split args in case we have many
-	let l:args = split(a:arg, ' ')
+	let l:args = split(l:arg, ' ')
 
 	" Check the 1st one only
 	if index(s:args[1], l:args[0], 0) ==# -1
