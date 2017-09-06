@@ -66,8 +66,9 @@ function! helpers#OpenOrMove2Buffer(bufName, ft, split,...) abort " {{{1
 		setlocal buftype=nofile
 	endif
 endfunction
-function! helpers#ExecuteInBuffer(bufName, start, end, ftDict) abort " {{{1
+function! helpers#ExecuteInBuffer(bufName, start, end, ftDict, ...) abort " {{{1
 	" Execute lines[a:start, a:end] in a:bufName using values from a:ftDict
+	" a:1 is/are local option(s)
 
 	" Get content and current filetype
 	let l:sel = getline(a:start, a:end)
@@ -133,6 +134,13 @@ function! helpers#ExecuteInBuffer(bufName, start, end, ftDict) abort " {{{1
 		call setline(1, l:sel)
 
 		silent execute '%!' . l:cmd
+	endif
+
+	" Set options locally if needed
+	if exists('a:1')
+		for l:o in a:1
+			silent execute 'setlocal ' . l:o
+		endfor
 	endif
 
 	" Go back to initial window

@@ -537,7 +537,7 @@ function! s:Preview(start, end) abort " {{{2
 				\	'ruby'      : {'cmd': 'ruby'},
 				\	'scss'      : {'cmd': 'node-sass --output-style=expanded', 'ft': 'css'},
 				\	'sh'        : {'cmd': 'bash'},
-				\ })
+				\ }, ['buftype=nofile', 'nobuflisted'])
 endfunction " 2}}}
 " >>> Persistent scratch buffer {{{1
 command! Scratch :call s:Scratch()
