@@ -339,6 +339,7 @@ let g:gitgutter_sign_removed = '❙'
 let g:gitgutter_sign_modified_removed = '❙'
 nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
+nnoremap <silent> <F6> :GitGutterToggle<CR>
 command! GP :GitGutterPreviewHunk
 if g:has_win | let g:gitgutter_enabled = 0 | endif
 " 1}}}
