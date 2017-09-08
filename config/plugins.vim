@@ -1,60 +1,57 @@
-" ========== Vim plugins configurations (Unix & Windows) =========
+" ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-05
-" ================================================================
+" Last modification: 2017-09-08
+" ==============================================================
 
 
 " My plugins {{{1
-let s:labMode = 0
-let s:myPluginsDir = g:hasWin ?
-			\ 'z:\\k-bag\\Projects\\pluginsVim\\' :
-			\ $HOME . '/Projects/pluginsVim/'
-let s:myPlugins = {
-			\	'breaktime'     : '',
-			\	'gulp-vim'      : '',
-			\	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
-			\	'lazyList'      : '',
-			\	'unite-cmus'    : '',
-			\	'vBox'          : '',
-			\	'vCoolor'       : '',
-			\	'vPreview'      : '',
-			\	'vt'            : '',
-			\	'yowish'        : '',
-			\	'zeavim'        : "{'on': [
-			\		'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
-			\		'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
-			\	]}"
-			\ }
+let s:my_plugins_dir = g:has_win ?
+            \ 'z:\\k-bag\\Projects\\pluginsVim\\' :
+            \ $HOME . '/Projects/pluginsVim/'
+let s:my_plugins = {
+            \	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
+            \ }
+let s:lab_mode = 0
+" 1}}}
+
 " Signs for checkers  {{{1
 let g:checker = {
-			\	'error_sign'   : '⨉',
-			\	'warning_sign' : '⬥',
-			\	'success_sign' : ' ',
-			\	'error_group'  : 'Error',
-			\	'warning_group': 'Function',
-			\ }
-" Functions {{{1
+            \	'error_sign'   : '⨉',
+            \	'warning_sign' : '⬥',
+            \	'success_sign' : ' ',
+            \	'error_group'  : 'Error',
+            \	'warning_group': 'Function',
+            \ }
+" 1}}}
+
+" Helpers {{{1
+
 function! s:MyPlugs() abort " {{{2
-	let [l:pn, l:pl] = [keys(s:myPlugins), values(s:myPlugins)]
-	for l:i in range(0, len(l:pn) - 1)
-		let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
-		exec printf("Plug '%s'%s", expand(s:myPluginsDir) . l:pn[l:i], l:opt)
-	endfor
+    let [l:pn, l:pl] = [keys(s:my_plugins), values(s:my_plugins)]
+    for l:i in range(0, len(l:pn) - 1)
+        let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
+        exec printf("Plug '%s'%s", expand(s:my_plugins_dir) . l:pn[l:i], l:opt)
+    endfor
 endfunction
+" 2}}}
+
 function! s:PlugInOs(link, param, os) abort " {{{2
-	if has(a:os)
-		let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
-		exe printf("Plug '%s'%s", a:link, l:opt)
-	endif
+    if has(a:os)
+        let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
+        exe printf("Plug '%s'%s", a:link, l:opt)
+    endif
 endfunction
 " 2}}}
 " 1}}}
 
-" ========== VIM-PLUG ==============================================
+" =========== VIM-PLUG =========================================
 
 " Initialization {{{1
-call plug#begin(g:vimDir . '/plugs')
+call plug#begin(g:vim_dir . '/plugs')
+" 1}}}
+
 " Plugins {{{1
+
 " Syntaxes {{{2
 Plug 'digitaltoad/vim-pug'
 Plug 'kchmck/vim-coffee-script'
@@ -63,44 +60,67 @@ Plug 'rhysd/vim-gfm-syntax'
 Plug 'stephpy/vim-yaml'
 Plug 'tbastos/vim-lua'
 Plug 'tpope/vim-haml'
+" 2}}}
+
 " Css {{{2
 Plug 'othree/csscomplete.vim', {'for': 'css'}
+" 2}}}
+
 " PHP {{{2
 Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
+" 2}}}
+
 " JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc'
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
+" 2}}}
+
 " Python {{{2
-Plug 'davidhalter/jedi-vim', {'do': 'git submodule update --init', 'for': 'python'}
+Plug 'davidhalter/jedi-vim',
+            \ {'do': 'git submodule update --init', 'for': 'python'}
 Plug 'vim-python/python-syntax'
+" 2}}}
+
 " Web development {{{2
 Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
 Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
 Plug 'mattn/emmet-vim'
+" 2}}}
+
 " Git {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim', {'on': ['Agit', 'AgitFile']}
 Plug 'tpope/vim-fugitive'
-" (( ultisnips )) {{{2
+" 2}}}
+
+" Snippets engine {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" 2}}}
+
 " Fuzzy finder {{{2
 Plug 'Shougo/denite.nvim'
-			\| Plug 'Shougo/neomru.vim'
-			\| Plug 'Shougo/neoyank.vim'
+            \| Plug 'Shougo/neomru.vim'
+            \| Plug 'Shougo/neoyank.vim'
+" 2}}}
+
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
-			\| Plug 'glts/vim-textobj-comment'
-			\| Plug 'kana/vim-textobj-fold'
-			\| Plug 'kana/vim-textobj-function'
-			\| Plug 'haya14busa/vim-textobj-function-syntax'
-			\| Plug 'bps/vim-textobj-python'                 , {'for': 'python'}
-			\| Plug 'kentaro/vim-textobj-function-php'       , {'for': 'php'}
-			\| Plug 'thinca/vim-textobj-function-javascript' , {'for': 'javascript'}
+            \| Plug 'glts/vim-textobj-comment'
+            \| Plug 'kana/vim-textobj-fold'
+            \| Plug 'kana/vim-textobj-function'
+            \| Plug 'haya14busa/vim-textobj-function-syntax'
+            \| Plug 'bps/vim-textobj-python',
+            \       {'for': 'python'}
+            \| Plug 'kentaro/vim-textobj-function-php',
+            \       {'for': 'php'}
+            \| Plug 'thinca/vim-textobj-function-javascript',
+            \       {'for': 'javascript'}
+" 2}}}
+
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -111,10 +131,14 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
+" 2}}}
+
 " Completion {{{2
 Plug 'Shougo/neocomplete.vim'
-			\| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-			\| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
+            \| Plug 'Shougo/neco-vim' , {'for': 'vim'}
+            \| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
+" 2}}}
+
 " Misc {{{2
 call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
@@ -126,64 +150,79 @@ Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'w0rp/ale'
+" 2}}}
+
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
-Plug 'machakann/vim-highlightedyank', {'on': '<Plug>(highlightedyank)'}
-Plug 'troydm/zoomwintab.vim'        , {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
+Plug 'machakann/vim-highlightedyank',
+            \ {'on': '<Plug>(highlightedyank)'}
+Plug 'troydm/zoomwintab.vim',
+            \ {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
+" 2}}}
+
 " My Plugins {{{2
-if !s:labMode
-	" Plug 'KabbAmine/gulp-vim'
-	Plug 'KabbAmine/lazyList.vim'
-	" Plug 'KabbAmine/unite-cmus'
-	Plug 'KabbAmine/vBox.vim'
-	Plug 'KabbAmine/vCoolor.vim'
-	Plug 'KabbAmine/vullscreen.vim'
-	Plug 'KabbAmine/yowish.vim'
-	Plug 'KabbAmine/zeavim.vim', {'on': [
-				\	'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
-				\	'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
-				\ ]}
+if !s:lab_mode
+    " Plug 'KabbAmine/gulp-vim'
+    Plug 'KabbAmine/lazyList.vim'
+    " Plug 'KabbAmine/unite-cmus'
+    Plug 'KabbAmine/vBox.vim'
+    Plug 'KabbAmine/vCoolor.vim'
+    Plug 'KabbAmine/vullscreen.vim'
+    Plug 'KabbAmine/yowish.vim'
+    Plug 'KabbAmine/zeavim.vim', {'on': [
+                \	'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
+                \	'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
+                \ ]}
 else
-	call s:MyPlugs()
+    call s:MyPlugs()
 endif
+" 2}}}
+" 1}}}
+
 " End {{{1
 call plug#end()
 " 1}}}
 
-" ========== MISC  ===========================================
+" =========== MISC  ============================================
 
 " Colors {{{1
 let g:yowish = {
-			\	'term_italic' : 0,
-			\	'colors': {
-			\		'background'       : ['#2f343f', 'none'],
-			\		'backgroundDark'   : ['#191d27', '16'],
-			\		'backgroundLight'  : ['#464b5b', '59'],
-			\		'blue'             : ['#5295e2', '68'],
-			\		'comment'          : ['#5b6176', '242'],
-			\		'lightBlue'        : ['#e39f52', '179'],
-			\		'lightYellow'      : ['#80aee3', '110'],
-			\		'yellow'           : ['#5295e2', '68'],
-			\	}
-			\ }
+            \	'term_italic' : 0,
+            \	'colors': {
+            \		'background'       : ['#2f343f', 'none'],
+            \		'backgroundDark'   : ['#191d27', '16'],
+            \		'backgroundLight'  : ['#464b5b', '59'],
+            \		'blue'             : ['#5295e2', '68'],
+            \		'comment'          : ['#5b6176', '242'],
+            \		'lightBlue'        : ['#e39f52', '179'],
+            \		'lightYellow'      : ['#80aee3', '110'],
+            \		'yellow'           : ['#5295e2', '68'],
+            \	}
+            \ }
 colo yowish
+
 hi! link TabLineSel Search
 hi CursorLine ctermbg=none ctermfg=none cterm=bold
+
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
 " }}}
 
-" =========== PLUGINS CONFIGS =======================
+" =========== PLUGINS CONFIGS ==================================
+
 " >>> (( closetag )) {{{1
 let g:closetag_filenames = '*.html,*.xml,*.php'
+" 1}}}
+
 " >>> (( NERDTree )) {{{1
 nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q> :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
-let g:NERDTreeBookmarksFile = g:hasWin ?
-			\ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
-			\ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
+nnoremap <silent> <S-q>
+            \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
+let g:NERDTreeBookmarksFile = g:has_win ?
+            \ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
+            \ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
 let g:NERDTreeIgnore = ['\~$', '\.class$']
 " Single-clic for folder nodes and double for files.
 let g:NERDTreeMouseMode = 2
@@ -199,11 +238,15 @@ let g:NERDTreeCascadeOpenSingleChildDir = 0
 let g:NERDTreeMapOpenSplit = 's'
 let g:NERDTreeMapOpenVSplit = 'v'
 augroup NerdTreeLocOptions
-	autocmd!
-	autocmd FileType nerdtree setlocal nolist
+    autocmd!
+    autocmd FileType nerdtree setlocal nolist
 augroup END
+" 1}}}
+
 " >>> (( python-syntax )) {{{1
 let python_highlight_all = 1
+" 1}}}
+
 " >>> (( ale )) {{{1
 " Disabled by default
 let g:ale_enabled = 0
@@ -223,48 +266,58 @@ exe 'hi! link ALEErrorSign ' . g:checker.error_group
 exe 'hi! link ALEWarningSign ' . g:checker.warning_group
 " Specific to file types and are here for reference
 let g:ale_linters = {
-			\	'c'              : ['gcc'],
-			\	'coffee'         : ['coffee', 'coffeelint'],
-			\	'css'            : ['csslint'],
-			\	'html'           : ['htmlhint', 'tidy'],
-			\	'javascript'     : ['eslint'],
-			\	'json'           : ['jsonlint'],
-			\	'markdown'       : ['mdl'],
-			\	'php'            : ['php'],
-			\	'python'         : ['flake8'],
-			\	'scss'           : ['sasslint'],
-			\	'sh'             : ['shellcheck', 'shell'],
-			\	'vim'            : ['vint'],
-			\	'yaml'           : ['yamllint'],
-			\ }
+            \	'c'              : ['gcc'],
+            \	'coffee'         : ['coffee', 'coffeelint'],
+            \	'css'            : ['csslint'],
+            \	'html'           : ['htmlhint', 'tidy'],
+            \	'javascript'     : ['eslint'],
+            \	'json'           : ['jsonlint'],
+            \	'markdown'       : ['mdl'],
+            \	'php'            : ['php'],
+            \	'python'         : ['flake8'],
+            \	'scss'           : ['sasslint'],
+            \	'sh'             : ['shellcheck', 'shell'],
+            \	'vim'            : ['vint'],
+            \	'yaml'           : ['yamllint'],
+            \ }
 let g:ale_html_tidy_executable = 'tidy5'
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_vim_vint_show_style_issues = 0
+" 1}}}
+
 " >>> (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
 augroup emmet
-	autocmd!
-	autocmd FileType html,scss,css,pug EmmetInstall
-	autocmd FileType html,scss,css,pug imap <buffer> jha <plug>(emmet-anchorize-url)
-	autocmd FileType html,scss,css,pug imap <buffer> jhh <plug>(emmet-expand-abbr)
-	autocmd FileType html,scss,css,pug imap <buffer> jhn <plug>(emmet-move-next)
-	autocmd FileType html,scss,css,pug imap <buffer> jhp <plug>(emmet-move-prev)
+    autocmd!
+    autocmd FileType html,scss,css,pug EmmetInstall
+    autocmd FileType html,scss,css,pug
+                \ imap <buffer> jha <plug>(emmet-anchorize-url)
+    autocmd FileType html,scss,css,pug
+                \ imap <buffer> jhh <plug>(emmet-expand-abbr)
+    autocmd FileType html,scss,css,pug
+                \ imap <buffer> jhn <plug>(emmet-move-next)
+    autocmd FileType html,scss,css,pug
+                \ imap <buffer> jhp <plug>(emmet-move-prev)
 augroup END
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
+" 1}}}
+
 " >>> (( undotree )) {{{1
 nnoremap <silent> ,U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 'botright'
+" 1}}}
+
 " >>> (( delimitmate )) {{{1
 imap <S-space> <Plug>delimitMateS-Tab
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = '(:),[:],{:}'
-" >>> (( javascript-libraries-syntax )) {{{1
-" let g:used_javascript_libs = 'jquery'
+" 1}}}
+
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
@@ -273,8 +326,11 @@ let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
-let g:UltiSnipsSnippetsDir = g:vimDir . '/misc/ultisnips'
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', g:vimDir . '/misc/ultisnips']
+let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
+let g:UltiSnipsSnippetDirectories =
+            \ ['UltiSnips', g:vim_dir . '/misc/ultisnips']
+" 1}}}
+
 " >>> (( gitgutter )) {{{1
 let g:gitgutter_map_keys = 0
 let g:gitgutter_sign_added = '❙'
@@ -284,10 +340,14 @@ let g:gitgutter_sign_modified_removed = '❙'
 nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
 command! GP :GitGutterPreviewHunk
-if g:hasWin | let g:gitgutter_enabled = 0 | endif
+if g:has_win | let g:gitgutter_enabled = 0 | endif
+" 1}}}
+
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
 hi! link PlugDeleted Conceal
+" 1}}}
+
 " >>> (( jedi-vim )) {{{1
 let g:jedi#completions_command = ''
 let g:jedi#completions_enabled = 1
@@ -301,36 +361,51 @@ let g:jedi#goto_assignments_command= ''
 let g:jedi#show_call_signatures = 2
 " Don't use, buggy as hell
 let g:jedi#rename_command = ''
+" 1}}}
+
 " >>> (( autoformat )) {{{1
-let g:formatters_html = ['htmlbeautify']
-let g:formatdef_htmlbeautify = '"html-beautify --indent-size 2 --indent-inner-html true  --preserve-newlines -f - "'
 " let g:autoformat_verbosemode = 1
+let g:formatters_html = ['htmlbeautify']
+let g:formatdef_htmlbeautify =
+            \ '"html-beautify --indent-size 2 --indent-inner-html true ' .
+            \ '--preserve-newlines -f - "'
 " Make =ie autoformat for some ft
 augroup Autoformat
-	autocmd!
-	autocmd Filetype python,html,json,css,javascript,scss nnoremap <buffer> =ie :Autoformat<CR>
+    autocmd!
+    autocmd Filetype python,html,json,css,javascript,scss
+                \ nnoremap <buffer> =ie :Autoformat<CR>
 augroup END
+" 1}}}
+
 " >>> (( colorizer )) {{{1
- let g:colorizer_colornames = 0
+let g:colorizer_colornames = 0
+" 1}}}
+
 " >>> (( php-documentor )) {{{1
 augroup PhpDoc
-	autocmd!
-	autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
-	autocmd Filetype php inoremap <buffer> <silent> <C-d> <C-o>:call PhpDoc()<CR>
-	autocmd Filetype php vnoremap <buffer> <silent> <C-d> :call PhpDocRange()<CR>
+    autocmd!
+    autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
+    autocmd Filetype php inoremap <buffer> <silent> <C-d>
+                \ <C-o>:call PhpDoc()<CR>
+    autocmd Filetype php vnoremap <buffer> <silent> <C-d>
+                \ :call PhpDocRange()<CR>
 augroup END
 let g:pdv_cfg_ClassTags = []
+" 1}}}
+
 " >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
+" 1}}}
+
 " >>> (( fugitive )) {{{1
 " Split, vsplit & tab
 augroup FugitiveMaps
-	autocmd!
-	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-s> :norm o<CR>
-	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-v> :norm S<CR>
-	autocmd FileType gitcommit nnoremap <silent> <buffer> <C-t> :norm O<CR>
+    autocmd!
+    autocmd FileType gitcommit nnoremap <silent> <buffer> <C-s> :norm o<CR>
+    autocmd FileType gitcommit nnoremap <silent> <buffer> <C-v> :norm S<CR>
+    autocmd FileType gitcommit nnoremap <silent> <buffer> <C-t> :norm O<CR>
 augroup END
 " Aliases
 cabbrev Ga Git add
@@ -342,33 +417,50 @@ cabbrev Gm Gmerge
 cabbrev Gs Gstatus
 cabbrev Gst Git stash
 cabbrev Gt Git tag
+" 1}}}
+
 " >>> (( vim-commentary )) {{{1
 augroup Commentary
-	autocmd!
-	autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
-	autocmd FileType xdefaults setlocal commentstring=!\ %s
+    autocmd!
+    autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
+    autocmd FileType xdefaults setlocal commentstring=!\ %s
 augroup END
+" 1}}}
+
 " >>> (( agit )) {{{1
 let g:agit_no_default_mappings = 1
 augroup Agit
-	autocmd!
-	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> ch <Plug>(agit-git-checkout)
-	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> P <Plug>(agit-print-commitmsg)
-	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> q <Plug>(agit-exit)
-	autocmd Filetype agit,agit_stat,agit_diff nmap <buffer> R <Plug>(agit-reload)
-	autocmd Filetype agit,agit_stat nmap <buffer> D <Plug>(agit-diff)
-	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
-	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
-	autocmd Filetype agit,agit_stat nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
-	autocmd Filetype agit,agit_stat nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
+    autocmd!
+    autocmd Filetype agit,agit_stat,agit_diff
+                \ nmap <buffer> ch <Plug>(agit-git-checkout)
+    autocmd Filetype agit,agit_stat,agit_diff
+                \ nmap <buffer> P <Plug>(agit-print-commitmsg)
+    autocmd Filetype agit,agit_stat,agit_diff
+                \ nmap <buffer> q <Plug>(agit-exit)
+    autocmd Filetype agit,agit_stat,agit_diff
+                \ nmap <buffer> R <Plug>(agit-reload)
+    autocmd Filetype agit,agit_stat
+                \ nmap <buffer> D <Plug>(agit-diff)
+    autocmd Filetype agit,agit_stat
+                \ nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
+    autocmd Filetype agit,agit_stat
+                \ nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
+    autocmd Filetype agit,agit_stat
+                \ nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
+    autocmd Filetype agit,agit_stat
+                \ nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
 augroup END
+" 1}}}
+
 " >>> (( vim-rvm )) {{{1
-if g:hasUnix && executable('rvm')
-	augroup Rvm
-		autocmd!
-		autocmd GUIEnter * Rvm
-	augroup END
+if g:has_unix && executable('rvm')
+    augroup Rvm
+        autocmd!
+        autocmd GUIEnter * Rvm
+    augroup END
 endif
+" 1}}}
+
 " >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
 map <silent> y <Plug>(highlightedyank)
@@ -376,6 +468,8 @@ map <silent> Y <Plug>(highlightedyank)$
 " The following mappings are already defined in /config/minimal.vim
 nmap <silent> cy "+<Plug>(highlightedyank)
 nmap <silent> cY "+<Plug>(highlightedyank)$
+" 1}}}
+
 " >>> (( vim-sandwich )) {{{1
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'hi_duration', 50)
@@ -383,71 +477,93 @@ vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
+" 1}}}
+
 " >>> (( vim-jsdoc )) {{{1
 augroup JsDoc
-	autocmd!
-	autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
-	autocmd Filetype javascript inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
+    autocmd!
+    autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
+    autocmd Filetype javascript
+                \ inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
 augroup END
-" Check doc when needed!!!
+" 1}}}
+
 " >>> (( tern_for_vim )) {{{1
 let tern_show_signature_in_pum = 1
 augroup Tern
-	autocmd!
-	autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
+    autocmd!
+    autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
 augroup END
+" 1}}}
+
 " >>> (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 0
 hi! link ParenMatch WarningMsg
+" 1}}}
+
 " >>> (( vim-emoji )) {{{1
 augroup Emoji
-	autocmd!
-	autocmd FileType markdown,gitcommit :setl completefunc=emoji#complete
+    autocmd!
+    autocmd FileType markdown,gitcommit :setl completefunc=emoji#complete
 augroup END
+" 1}}}
+
 " >>> (( zoomwintab )) {{{1
 nnoremap gsz :ZoomWinTabToggle<CR>
+" 1}}}
+
 " >>> (( textobj-usr )) & its plugins {{{1
+
 " (( vim-textobj-comment )) {{{2
 let g:textobj_comment_no_default_key_mappings = 1
 xmap ic <Plug>(textobj-comment-i)
 omap ic <Plug>(textobj-comment-i)
 xmap ac <Plug>(textobj-comment-a)
 omap ac <Plug>(textobj-comment-a)
+" 2}}}
+
 " (( vim-textobj-python )) {{{2
 let g:textobj_python_no_default_key_mappings = 1
 call textobj#user#map('python', {
-			\	'class': {
-			\		'select-a': '<buffer>aC',
-			\		'select-i': '<buffer>iC',
-			\	}
-			\ })
+            \	'class': {
+            \		'select-a': '<buffer>aC',
+            \		'select-i': '<buffer>iC',
+            \	}
+            \ })
+" 2}}}
+" 1}}}
+
 " >>> (( vim-gutentags )) {{{1
 let g:gutentags_ctags_executable = 'ctags-exuberant'
-let g:gutentags_cache_dir = g:vimDir . '/misc/tags/'
+let g:gutentags_cache_dir = g:vim_dir . '/misc/tags/'
 let g:gutentags_define_advanced_commands = 1
+" 1}}}
+
 " >>> (( vim-visualstar )) {{{1
 noremap <Plug>N N
 map * <Plug>(visualstar-*)<Plug>N
 map # <Plug>(visualstar-#)<Plug>N
+" 1}}}
+
 " >>> (( Denite )) {{{1
 if executable('rg')
-	call denite#custom#var('file_rec', 'command',
-				\ ['rg', '--files', '--hidden', '--glob', '!.git/'])
+    call denite#custom#var('file_rec', 'command',
+                \ ['rg', '--files', '--hidden', '--glob', '!.git/'])
 elseif executable('ag')
-	call denite#custom#var('file_rec', 'command',
-				\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#var('file_rec', 'command',
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 endif
 call denite#custom#var('buffer', 'date_format', '')
 call denite#custom#var('outline', 'options', ['-u'])
 call denite#custom#option('_', {
-			\	'highlight_matched_char' : 'WarningMsg',
-			\	'highlight_matched_range': 'None',
-			\	'highlight_mode_normal'  : 'CursorLine',
-			\	'prompt'                 : '>',
-			\	'smartcase'              : v:true,
-			\	'statusline'             : v:false,
-			\	'winheight'              : 15,
-			\ })
+            \	'highlight_matched_char' : 'WarningMsg',
+            \	'highlight_matched_range': 'None',
+            \	'highlight_mode_normal'  : 'CursorLine',
+            \	'prompt'                 : '>',
+            \	'smartcase'              : v:true,
+            \	'statusline'             : v:false,
+            \	'winheight'              : 15,
+            \ })
 hi! link deniteSource_buffer None
 hi! link deniteSource_Name Question
 hi! link deniteSource_buffer_Info None
@@ -457,32 +573,35 @@ hi! link deniteSelectedLine ModeMsg
 nnoremap <silent> ,f :Denite -buffer-name=Files file_rec<CR>
 nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=10 buffer<CR>
 nnoremap <silent> ,r :Denite -buffer-name=MRU file_mru<CR>
-nnoremap <silent> ,d :Denite -buffer-name=Directories -default-action=cd directory_rec<CR>
+nnoremap <silent> ,d
+            \ :Denite -buffer-name=Directories
+            \   -default-action=cd directory_rec<CR>
 nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
 nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
 nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
-nnoremap <silent> ,T :Denite -buffer-name=OutlineT -no-statusline -split=vertical
-			\ -mode=normal -no-empty -winwidth=40 outline<CR>
+nnoremap <silent> ,T
+            \ :Denite -buffer-name=OutlineT -split=vertical
+            \   -mode=normal -no-empty -winwidth=40 outline<CR>
 nnoremap <silent> ,y :Denite -buffer-name=Yanks neoyank<CR>
 inoremap <silent> <A-y> <Esc>:Denite -buffer-name=Yanks
-			\ -default-action=append neoyank<CR>
+            \ -default-action=append neoyank<CR>
 " ***** Insert mode
 call denite#custom#map('insert', '<C-d>',
-			\ '<denite:do_action:delete>', 'noremap')
+            \ '<denite:do_action:delete>', 'noremap')
 call denite#custom#map('insert', '<C-n>',
-			\ '<denite:move_to_next_line>', 'noremap')
+            \ '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-p>',
-			\ '<denite:move_to_previous_line>', 'noremap')
+            \ '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#map('insert', '<C-s>',
-			\ '<denite:do_action:split>', 'noremap')
+            \ '<denite:do_action:split>', 'noremap')
 call denite#custom#map('insert', '<C-a>',
-			\ '<denite:toggle_select_all>', 'noremap')
+            \ '<denite:toggle_select_all>', 'noremap')
 call denite#custom#map('insert', '<C-space>',
-			\ '<denite:toggle_select_down>', 'noremap')
+            \ '<denite:toggle_select_down>', 'noremap')
 call denite#custom#map('insert', '<C-t>',
-			\ '<denite:do_action:tabopen>', 'noremap')
+            \ '<denite:do_action:tabopen>', 'noremap')
 call denite#custom#map('insert', '<C-v>',
-			\ '<denite:do_action:vsplit>', 'noremap')
+            \ '<denite:do_action:vsplit>', 'noremap')
 call denite#custom#map('insert', 'jk', '<denite:quit>', 'noremap')
 " ***** Normal mode
 call denite#custom#map('normal', 's', '<denite:do_action:split>', 'noremap')
@@ -492,30 +611,34 @@ call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
 call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
 call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
+" 1}}}
+
 " >>> (( Neocomplete )) {{{1
 nnoremap <silent> <F7> :NeoCompleteToggle<CR>
 inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
-			\ neocomplete#start_manual_complete()
+            \ neocomplete#start_manual_complete()
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#auto_completion_start_length = 3
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#data_directory = g:vimDir . '/misc/neocomplete'
+let g:neocomplete#data_directory = g:vim_dir . '/misc/neocomplete'
 if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
+    let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.php =
-			\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+            \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python =
-			\ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.markdown = ':'
 let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
 let g:neocomplete#force_omni_input_patterns.ruby =
-			\ '[^. *\t]\.\w*\|\h\w*::'
+            \ '[^. *\t]\.\w*\|\h\w*::'
+" 1}}}
+
 " >>> (( airnote )) {{{1
-let g:airnote_path = expand(g:vimDir . '/misc/memos')
+let g:airnote_path = expand(g:vim_dir . '/misc/memos')
 let g:airnote_suffix = 'md'
 let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
@@ -523,13 +646,15 @@ let g:airnote_delete_prompt = 'Delete note > '
 let g:airnote_default_open_cmd = 'vsplit'
 " Auto-generate the date when the file is saved
 augroup Airnote
-	autocmd!
-	execute printf(
-				\ 'autocmd BufWrite %s/*.%s :call setline(1,  "> " . strftime(g:airnote_date_format))',
-				\ g:airnote_path,
-				\ g:airnote_suffix
-				\ )
+    autocmd!
+    let s:str =
+                \ 'autocmd BufWrite %s/*.%s ' .
+                \ ':call setline(1,  "> " . strftime(g:airnote_date_format))'
+    execute printf(s:str, g:airnote_path, g:airnote_suffix)
+    unlet! s:str
 augroup END
+" 1}}}
+
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -537,86 +662,101 @@ nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-			\	'help'                 : 'vim',
-			\	'.htaccess'            : 'apache http server',
-			\	'javascript'           : 'javascript,nodejs',
-			\	'python'               : 'python 3',
-			\	'\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
-			\ }
-let g:zv_zeal_args = g:hasUnix ? '--style=gtk+' : ''
-let g:zv_docsets_dir = g:hasUnix ?
-			\ '~/Important!/docsets_Zeal/' : 'Z:/k-bag/Important!/docsets_Zeal/'
+            \	'help'                 : 'vim',
+            \	'.htaccess'            : 'apache http server',
+            \	'javascript'           : 'javascript,nodejs',
+            \	'python'               : 'python 3',
+            \	'\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
+            \ }
+let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
+let g:zv_docsets_dir = g:has_unix ?
+            \ '~/Important!/docsets_Zeal/' :
+            \ 'Z:/k-bag/Important!/docsets_Zeal/'
+" 1}}}
+
 " >>> (( vcoolor )) {{{1
 let g:vcoolor_lowercase = 1
 let g:vcoolor_disable_mappings = 1
 let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
+" 1}}}
+
 " >>> (( gulp-vim )) {{{1
 let g:gv_rvm_hack = 1
+" 1}}}
+
 " >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
 vnoremap gli :LazyList ''<Left>
 let g:lazylist_maps = [
-			\	'gl',
-			\	{
-			\		'l'  : '',
-			\		'*'  : '* ',
-			\		'-'   : '- ',
-			\		'+'   : '+ ',
-			\		't'   : '- [ ] ',
-			\		'2'  : '%2%. ',
-			\		'3'  : '%3%. ',
-			\		'.1' : '1.%1%. ',
-			\		'.2' : '2.%1%. ',
-			\		'.3' : '3.%1%. ',
-			\		'##': '# ',
-			\		'#2': '## ',
-			\		'#3': '### ',
-			\	}
-			\ ]
+            \	'gl',
+            \	{
+            \		'l'  : '',
+            \		'*'  : '* ',
+            \		'-'   : '- ',
+            \		'+'   : '+ ',
+            \		't'   : '- [ ] ',
+            \		'2'  : '%2%. ',
+            \		'3'  : '%3%. ',
+            \		'.1' : '1.%1%. ',
+            \		'.2' : '2.%1%. ',
+            \		'.3' : '3.%1%. ',
+            \		'##': '# ',
+            \		'#2': '## ',
+            \		'#3': '### ',
+            \	}
+            \ ]
+" 1}}}
+
 " >>> (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
-			\	'dir': g:vimDir . '/misc/templates',
-			\	'empty_buffer_only': 0
-			\ }
+            \	'dir': g:vim_dir . '/misc/templates',
+            \	'empty_buffer_only': 0
+            \ }
 let g:vbox.variables = {
-			\	'%LICENSE%'  : 'MIT',
-			\	'%MAIL%'     : 'amine.kabb@gmail.com',
-			\	'%NAME%'     : 'Kabbaj Amine',
-			\	'%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
-			\	'%REPO%'     : 'https://github.com/KabbAmine/',
-			\	'%USERNAME%' : 'KabbAmine',
-			\	'%YEAR%'     : 'f=strftime("%Y")',
-			\ }
+            \	'%LICENSE%'  : 'MIT',
+            \	'%MAIL%'     : 'amine.kabb@gmail.com',
+            \	'%NAME%'     : 'Kabbaj Amine',
+            \	'%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
+            \	'%REPO%'     : 'https://github.com/KabbAmine/',
+            \	'%USERNAME%' : 'KabbAmine',
+            \	'%YEAR%'     : 'f=strftime("%Y")',
+            \ }
 " For ALE
 call extend(g:vbox.variables, {
-			\	'%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
-			\ })
+            \	'%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
+            \ })
 augroup VBoxAuto
-	autocmd!
-	" For vim plugins
-	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/README.md :VBTemplate README.md-vim'
-	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/**/*.vim :VBTemplate vim-plugin'
-	exe 'autocmd BufNewFile ' . s:myPluginsDir . '*/doc/*.txt :VBTemplate vim-doc'
-	" Misc
-	autocmd BufNewFile LICENSE                          :VBTemplate license-MIT
-	autocmd BufNewFile CHANGELOG.md,.tern-project       :VBTemplate
-	autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c  :VBTemplate
+    autocmd!
+    " For vim plugins
+    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/README.md ' .
+                \ ':VBTemplate README.md-vim'
+    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/**/*.vim ' .
+                \ ':VBTemplate vim-plugin'
+    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/doc/*.txt ' .
+                \ ':VBTemplate vim-doc'
+    " Misc
+    autocmd BufNewFile LICENSE                         :VBTemplate license-MIT
+    autocmd BufNewFile CHANGELOG.md,.tern-project      :VBTemplate
+    autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c :VBTemplate
 augroup END
+" 1}}}
+
 " >>> (( imagePreview )) {{{1
 nmap gi <Plug>(image-preview)
 let g:image_preview = {
-			\	'_': {
-			\		'prg'  : 'feh',
-			\		'args' : '--scale-down --no-menus --quiet --magick-timeout 1',
-			\	},
-			\	'gif': {
-			\		'prg'  : 'exo-open',
-			\		'args' : '',
-			\	},
-			\ }
+            \	'_': {
+            \		'prg'  : 'feh',
+            \		'args' :
+            \           '--scale-down --no-menus --quiet --magick-timeout 1',
+            \	},
+            \	'gif': {
+            \		'prg'  : 'exo-open',
+            \		'args' : '',
+            \	},
+            \ }
 " 1}}}
 
 

@@ -1,321 +1,364 @@
-" ========== Helpers & useful functions ======
+" ========== Helpers & useful functions ========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-08-31
-" ============================================
+" Last modification: 2017-09-08
+" ==============================================================
 
-" Misc
+
+" ========== MISC ==============================================
+
 function! helpers#AutoCmd(name, cmd, events) abort " {{{1
-	" Execute a:cmd in a:name augroup when [a:event] is(are) executed.
-	" Re-execute the function toggle the state.
+    " Execute a:cmd in a:name augroup when [a:event] is(are) executed.
+    " Re-execute the function toggle the state.
 
-	if !exists('#' . a:name)
-		execute 'augroup ' . a:name
-			autocmd!
-			execute 'autocmd ' . join(a:events) . ' <buffer> :' . a:cmd
-		augroup END
-		echo 'Auto ' . a:name .' update enabled'
-		silent execute a:cmd
-	else
-		execute 'augroup ' . a:name
-			autocmd!
-		augroup END
-		execute 'augroup! ' . a:name
-		echo 'Auto ' . a:name .' update disabled'
-	endif
+    if !exists('#' . a:name)
+        execute 'augroup ' . a:name
+        autocmd!
+        execute 'autocmd ' . join(a:events) . ' <buffer> :' . a:cmd
+    augroup END
+    echo 'Auto ' . a:name .' update enabled'
+    silent execute a:cmd
+else
+    execute 'augroup ' . a:name
+    autocmd!
+augroup END
+execute 'augroup! ' . a:name
+echo 'Auto ' . a:name .' update disabled'
+    endif
 endfunction
+" 1}}}
+
 function! helpers#Log(message, ...) abort " {{{1
-	" Echo message with a:1 index hi group.
+    " Echo message with a:1 index hi group.
 
-	let l:t = exists('a:1') ? a:1 : 0
-	let l:hi = ['WarningMsg', 'ErrorMsg', 'DiffAdd']
-	execute 'echohl ' . l:hi[l:t]
-	echomsg a:message
-	echohl None
+    let l:t = exists('a:1') ? a:1 : 0
+    let l:hi = ['WarningMsg', 'ErrorMsg', 'DiffAdd']
+    execute 'echohl ' . l:hi[l:t]
+    echomsg a:message
+    echohl None
 endfunction
+" 1}}}
+
 function! helpers#GetVisualSelection() abort " {{{1
-	let l:pos = getpos("'<")
-	call setpos('.', l:pos)
-	return getline('.')[col("'<") - 1 : col("'>") - 1]
+    let l:pos = getpos("'<")
+    call setpos('.', l:pos)
+    return getline('.')[col("'<") - 1 : col("'>") - 1]
 endfunction
+" 1}}}
+
 function! helpers#GetMotionResult() abort " {{{1
-	return getline('.')[col("'[") - 1 : col("']") - 1]
+    return getline('.')[col("'[") - 1 : col("']") - 1]
 endfunction
-function! helpers#OpenOrMove2Buffer(bufName, ft, split,...) abort " {{{1
-	" Open or move to a:bufname (non scratch buffer if a:1 exists)
+" 1}}}
 
-	let l:scratch = !exists('a:1') ? 1 : 0
+function! helpers#OpenOrMove2Buffer(buf_name, ft, split,...) abort " {{{1
+    " Open or move to a:bufname (non scratch buffer if a:1 exists)
 
-	if !bufexists(a:bufName)
-		silent execute a:split . ' ' . a:bufName
-	elseif !bufloaded(a:bufName)
-		silent execute a:split . ' ' . a:bufName
-	elseif winnr('$') ># 1
-		for l:w in range(1, winnr('$'))
-			if bufname(winbufnr(l:w)) ==# a:bufName
-				execute l:w . 'wincmd w'
-			endif
-		endfor
-	endif
+    let l:scratch = !exists('a:1') ? 1 : 0
 
-	if !empty(a:ft)
-		let &filetype = a:ft
-	endif
+    if !bufexists(a:buf_name)
+        silent execute a:split . ' ' . a:buf_name
+    elseif !bufloaded(a:buf_name)
+        silent execute a:split . ' ' . a:buf_name
+    elseif winnr('$') ># 1
+        for l:w in range(1, winnr('$'))
+            if bufname(winbufnr(l:w)) ==# a:buf_name
+                execute l:w . 'wincmd w'
+            endif
+        endfor
+    endif
 
-	if l:scratch
-		setlocal noswapfile
-		setlocal buftype=nofile
-	endif
+    if !empty(a:ft)
+        let &filetype = a:ft
+    endif
+
+    if l:scratch
+        setlocal noswapfile
+        setlocal buftype=nofile
+    endif
 endfunction
-function! helpers#ExecuteInBuffer(bufName, start, end, ftDict, ...) abort " {{{1
-	" Execute lines[a:start, a:end] in a:bufName using values from a:ftDict
-	" a:1 is/are local option(s)
+" 1}}}
 
-	" Get content and current filetype
-	let l:sel = getline(a:start, a:end)
-	let l:ft = &ft
+fun! helpers#ExecuteInBuffer(buf_name, start, end, ft_dict, ...) abort " {{{1
+    " Execute lines[a:start, a:end] in a:buf_name using values from a:ft_dict
+    " a:1 is/are local option(s)
+    " a:2 is/are command(s) that will be executed
 
-	if l:sel ==# [''] || !has_key(a:ftDict, l:ft)
-		call helpers#Log('No content or provider found', 1)
-		return 0
-	endif
+    " Get content and current filetype
+    let l:sel = getline(a:start, a:end)
+    let l:ft = &ft
 
-	let l:_ = get(a:ftDict, l:ft)
+    if l:sel ==# [''] || !has_key(a:ft_dict, l:ft)
+        call helpers#Log('No content or provider found', 1)
+        return 0
+    endif
 
-	let l:cmd = get(l:_, 'cmd')
-	let l:newFt = get(l:_, 'ft')
-	let l:exec = get(l:_, 'exec')
-	let l:tmp = get(l:_, 'tmp')
+    let l:_ = get(a:ft_dict, l:ft)
 
-	" Check if the 1st word in cmd is an executable
-	if !executable(split(l:cmd)[0])
-		call helpers#Log(split(l:cmd)[0] . ' was not found')
-		return 0
-	endif
+    let l:cmd = get(l:_, 'cmd')
+    let l:new_ft = get(l:_, 'ft')
+    let l:exec = get(l:_, 'exec')
+    let l:tmp = get(l:_, 'tmp')
 
-	if l:tmp
-		" Use a temporary file
-		call helpers#OpenOrMove2Buffer(a:bufName, l:newFt, 'vs', 1)
-		silent %delete_
-		call setline(1, l:sel)
+    " Check if the 1st word in cmd is an executable
+    if !executable(split(l:cmd)[0])
+        call helpers#Log(split(l:cmd)[0] . ' was not found')
+        return 0
+    endif
 
-		let l:tmpFile = tempname()
+    if l:tmp
+        " Use a temporary file
+        call helpers#OpenOrMove2Buffer(a:buf_name, l:new_ft, 'vs', 1)
+        silent %delete_
+        call setline(1, l:sel)
 
-		let l:extIn = matchstr(l:cmd, '%i\zs.\S*')
-		let l:extIn = !empty(l:extIn) ? l:extIn : ''
-		let l:inFile = l:tmpFile . l:extIn
+        let l:tmp_file = tempname()
 
-		let l:extOut = matchstr(l:cmd, '%o\zs.\S*')
-		let l:extOut = !empty(l:extOut) ? l:extOut : ''
-		let l:outFile = l:tmpFile . l:extOut
+        let l:ext_in = matchstr(l:cmd, '%i\zs.\S*')
+        let l:ext_in = !empty(l:ext_in) ? l:ext_in : ''
+        let l:in_file = l:tmp_file . l:ext_in
 
-		silent execute 'saveas ' . l:inFile
+        let l:ext_out = matchstr(l:cmd, '%o\zs.\S*')
+        let l:ext_out = !empty(l:ext_out) ? l:ext_out : ''
+        let l:out_file = l:tmp_file . l:ext_out
 
-		let l:cmd = substitute(l:cmd, '%i', l:tmpFile, '')
-		let l:cmd = substitute(l:cmd, '%o', l:tmpFile, '')
+        silent execute 'saveas ' . l:in_file
 
-		call system(l:cmd)
+        let l:cmd = substitute(l:cmd, '%i', l:tmp_file, '')
+        let l:cmd = substitute(l:cmd, '%o', l:tmp_file, '')
 
-		let l:res = l:exec ?
-					\ systemlist(fnamemodify(l:tmpFile, ':p:h') .
-					\		'/./' . fnamemodify(l:tmpFile, ':t:r') . l:extOut) :
-					\ readfile(l:outFile)
+        call system(l:cmd)
 
-		silent %delete_
-		call setline(1, l:res)
+        let l:res = !l:exec ? readfile(l:out_file) :
+                    \ systemlist(fnamemodify(l:tmp_file, ':p:h') .
+                    \ '/./' . fnamemodify(l:tmp_file, ':t:r') . l:ext_out)
 
-		call delete(l:inFile)
-		call delete(l:outFile)
+        silent %delete_
+        call setline(1, l:res)
 
-		silent execute 'file ' . a:bufName
-	else
-		" Filter buffer using :!
-		call helpers#OpenOrMove2Buffer(a:bufName, l:newFt, 'vs')
-		silent %delete_
-		call setline(1, l:sel)
+        call delete(l:in_file)
+        call delete(l:out_file)
 
-		silent execute '%!' . l:cmd
-	endif
+        silent execute 'file ' . a:buf_name
+    else
+        " Filter buffer using :!
+        call helpers#OpenOrMove2Buffer(a:buf_name, l:new_ft, 'vs')
+        silent %delete_
+        call setline(1, l:sel)
 
-	" Set options locally if needed
-	if exists('a:1')
-		for l:o in a:1
-			silent execute 'setlocal ' . l:o
-		endfor
-	endif
+        silent execute '%!' . l:cmd
+    endif
 
-	" Go back to initial window
-	wincmd p
+    " Set options locally if needed
+    if exists('a:1')
+        for l:o in a:1
+            silent execute 'setlocal ' . l:o
+        endfor
+    endif
+
+    " Execute passed commands
+    if exists('a:2')
+        for l:o in a:2
+            silent execute l:o
+        endfor
+    endif
+
+    " Go back to initial window
+    wincmd p
 
 endfunction
+" 1}}}
+
 function! helpers#MakeTextObjects(to) abort " {{{1
-	" a:to is a dictionnary
-	" e.g.
+    " a:to is a dictionnary
+    " e.g.
 
-	let l:to = a:to
+    let l:to = a:to
 
-	" For all ft
-	for [l:k, l:m] in l:to._
-		execute 'onoremap <silent> ' . l:k . ' :normal! ' . l:m . '<CR>'
-		execute 'vnoremap <silent> ' . l:k . ' :<C-u>normal! ' . l:m . '<CR>'
-	endfor
-	call remove(l:to, '_')
+    " For all ft
+    for [l:k, l:m] in l:to._
+        execute 'onoremap <silent> ' . l:k . ' :normal! ' . l:m . '<CR>'
+        execute 'vnoremap <silent> ' . l:k . ' :<C-u>normal! ' . l:m . '<CR>'
+    endfor
+    call remove(l:to, '_')
 
-	augroup MyTextObjects
-		autocmd!
-		for l:ft in keys(l:to)
-			for [l:k, l:m] in l:to[l:ft]
-				execute 'autocmd FileType ' . l:ft . ' onoremap <buffer> <silent> ' . l:k . ' :normal! ' . l:m . '<CR>'
-				execute 'autocmd FileType ' . l:ft . ' vnoremap <buffer> <silent> ' . l:k . ' :<C-u>normal! ' . l:m . '<CR>'
-			endfor
-		endfor
-	augroup END
+    augroup MyTextObjects
+        autocmd!
+        for l:ft in keys(l:to)
+            for [l:k, l:m] in l:to[l:ft]
+                execute 'autocmd FileType ' . l:ft .
+                            \ ' onoremap <buffer> <silent> ' . l:k .
+                            \ ' :normal! ' . l:m . '<CR>'
+                execute 'autocmd FileType ' . l:ft .
+                            \ ' vnoremap <buffer> <silent> ' . l:k .
+                            \ ' :<C-u>normal! ' . l:m . '<CR>'
+            endfor
+        endfor
+    augroup END
 
 endfunction
-
 " 1}}}
 
-" Jobs
-function! s:HasJob() abort " {{{1
-	if !has('job')
-		call helpers#Log('Your vim version does not support "jobs"', 1)
-		return 0
-	else
-		return 1
-	endif
+" ========== JOBS ==============================================
+
+function! s:hasJob() abort " {{{1
+    if !has_unix('job')
+        call helpers#Log('Your vim version does not support "jobs"', 1)
+        return 0
+    else
+        return 1
+    endif
 endfunction
+" 1}}}
+
 function! helpers#KillAllJobs() abort " {{{1
-	if exists('g:jobs') && !empty(g:jobs)
-		let l:nJobs = len(g:jobs)
-		let l:i = 0
-		for l:j in keys(g:jobs)
-			call job_stop(g:jobs[l:j])
-			let l:i += 1
-			unlet! g:jobs[l:j]
-		endfor
-		call helpers#Log(l:i . '/' . l:nJobs . ' job(s) was(were) terminated', 2)
-	endif
+    if exists('g:jobs') && !empty(g:jobs)
+        let l:n_jobs = len(g:jobs)
+        let l:i = 0
+        for l:j in keys(g:jobs)
+            call job_stop(g:jobs[l:j])
+            let l:i += 1
+            unlet! g:jobs[l:j]
+        endfor
+        call helpers#Log(l:i . '/' . l:n_jobs . ' job(s) was(were) terminated',
+                    \ 2)
+    endif
 endfunction
+" 1}}}
+
 function! helpers#Job(name, cmd, ...) abort " {{{1
-	" $1 is job options: {}
+    " $1 is job options: {}
 
-	let l:hasJob = s:HasJob()
-	if !l:hasJob
-		return 0
-	endif
+    let l:has_job = s:hasJob()
+    if !l:has_job
+        return 0
+    endif
 
-	if !exists('g:jobs')
-		let g:jobs = {}
-	endif
+    if !exists('g:jobs')
+        let g:jobs = {}
+    endif
 
-	if !has_key(g:jobs, a:name)
-		let l:job = exists('a:1') ?
-					\	job_start(a:cmd, a:1) :
-					\	job_start(a:cmd, {
-					\		'err_cb' : 'helpers#ErrorHandler'
-					\	})
-		if job_status(l:job) ==# 'run'
-			call helpers#Log('Job: ' . a:name . ' is running', 2)
-			let g:jobs[a:name] = l:job
-		else
-			call helpers#Log('Job: ' . a:name . ' is not running')
-		endif
-	else
-		call job_stop(g:jobs[a:name], 'kill')
-		unlet! g:jobs[a:name]
-		call helpers#Log('Job: ' . a:name . ' stopped', 2)
-	endif
+    if !has_key(g:jobs, a:name)
+        let l:job = exists('a:1') ?
+                    \	job_start(a:cmd, a:1) :
+                    \	job_start(a:cmd, {'err_cb' : 'helpers#ErrorHandler'})
+        if job_status(l:job) ==# 'run'
+            call helpers#Log('Job: ' . a:name . ' is running', 2)
+            let g:jobs[a:name] = l:job
+        else
+            call helpers#Log('Job: ' . a:name . ' is not running')
+        endif
+    else
+        call job_stop(g:jobs[a:name], 'kill')
+        unlet! g:jobs[a:name]
+        call helpers#Log('Job: ' . a:name . ' stopped', 2)
+    endif
 endfunction
+" 1}}}
+
 function! helpers#ErrorHandler(channel, msg) abort " {{{1
-	if !empty(a:msg)
-		let l:msg = printf('Job: %s: %s', a:channel, a:msg)
-		call helpers#Log(l:msg, 1)
-	endif
+    if !empty(a:msg)
+        let l:msg = printf('Job: %s: %s', a:channel, a:msg)
+        call helpers#Log(l:msg, 1)
+    endif
 endfunction
 " 1}}}
 
-" System
+" ========== SYSTEM ============================================
+
 function! helpers#OpenHere(type, ...) abort " {{{1
-	" type: (t)erminal, (f)ilemanager
-	" a:1: Location (pwd by default)
+    " type: (t)erminal, (f)ilemanager
+    " a:1: Location (pwd by default)
 
-	let l:cmd = {
-				\ 't': (g:hasUnix ?
-				\	'exo-open --launch TerminalEmulator --working-directory %s 2> /dev/null &' :
-				\	'start cmd /k cd %s'),
-				\ 'f': (g:hasUnix ?
-				\	'xdg-open %s 2> /dev/null &' :
-				\	'start explorer %s')
-				\ }
-	execute printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
+    let l:cmd = {
+                \ 't': (g:has_unix ?
+                \	'exo-open --launch TerminalEmulator ' .
+                \       '--working-directory %s 2> /dev/null &' :
+                \	'start cmd /k cd %s'),
+                \ 'f': (g:has_unix ?
+                \	'xdg-open %s 2> /dev/null &' :
+                \	'start explorer %s')
+                \ }
+    exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
 
-	if !g:hasGui | redraw! | endif
+    if !g:has_gui | redraw! | endif
 
-endfunction
-function! helpers#OpenUrl() abort " {{{1
-	" Open the current URL
-	" - If line begins with "Plug" or "call s:PlugInOs", open the github page of the plugin
-
-	let l:cl = getline('.')
-	let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
-	if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
-		let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 : match(l:cl, "'", 0, 2) - 1]
-		let l:url = printf('https://github.com/%s', l:pn)
-	endif
-	if !empty(l:url)
-		let l:url = substitute(l:url, "'", '', 'g')
-		let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
-					\ ' && wmctrl -ia ' . v:windowid : ''
-		exe 'silent :!' . (g:hasUnix ?
-					\	'x-www-browser ' . shellescape(l:url) :
-					\	' start "' . shellescape(l:url)) .
-					\ l:wmctrl .
-					\ (g:hasUnix ? ' 2> /dev/null &' : '')
-		if !g:hasGui | redraw! | endif
-	endif
-	
-endfunction
-function! helpers#Delete(...) abort " {{{1
-	let l:a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
-	for l:f in l:a
-		if filereadable(l:f)
-			if delete(l:f) ==# 0
-				call helpers#Log('"' . l:f . '" was deleted', 2)
-			else
-				call helpers#Log('"' . l:f . '" was not deleted', 1)
-			endif
-		elseif isdirectory(l:f)
-			let l:cmd = g:hasUnix ?
-						\ 'rm -vr %s' :
-						\ 'RD /S %s'
-			echo split(system(printf(l:cmd, escape(l:f, ' '))), "\n")[0]
-		endif
-	endfor
-endfunction
-function! helpers#MakeDir(...) abort " {{{1
-	for l:d in a:000
-		if !isdirectory(l:d)
-			call mkdir(l:d, 'p')
-			call helpers#Log('"' . l:d . '" was created', 2)
-		else
-			call helpers#Log('"' . l:d . '" exists already')
-		endif
-	endfor
-endfunction
-function! helpers#Rename(to) abort " {{{1
-	let l:file = expand('%:p')
-	if !filereadable(l:file)
-		call helpers#Log('Not a valid file', 1)
-	else
-		let l:buf = expand('%')
-		silent execute 'saveas ' . a:to
-		silent execute 'bdelete! ' . l:buf
-		if delete(l:file) ==# 0
-			call helpers#Log('Renamed to "' . a:to . '"', 2)
-		else
-			call helpers#Log('"' . l:file . '" was not renamed', 1)
-		endif
-	endif
 endfunction
 " 1}}}
+
+function! helpers#OpenUrl() abort " {{{1
+    " Open the current URL
+    " - If line begins with "Plug" or "call s:PlugInOs", open the github page
+    " of the plugin.
+
+    let l:cl = getline('.')
+    let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
+    if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
+        let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 :
+                    \ match(l:cl, "'", 0, 2) - 1]
+        let l:url = printf('https://github.com/%s', l:pn)
+    endif
+    if !empty(l:url)
+        let l:url = substitute(l:url, "'", '', 'g')
+        let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
+                    \ ' && wmctrl -ia ' . v:windowid : ''
+        exe 'silent :!' . (g:has_unix ?
+                    \	'x-www-browser ' . shellescape(l:url) :
+                    \	' start "' . shellescape(l:url)) .
+                    \ l:wmctrl .
+                    \ (g:has_unix ? ' 2> /dev/null &' : '')
+        if !g:has_gui | redraw! | endif
+    endif
+
+endfunction
+" 1}}}
+
+function! helpers#Delete(...) abort " {{{1
+    let l:a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
+    for l:f in l:a
+        if filereadable(l:f)
+            if delete(l:f) ==# 0
+                call helpers#Log('"' . l:f . '" was deleted', 2)
+            else
+                call helpers#Log('"' . l:f . '" was not deleted', 1)
+            endif
+        elseif isdirectory(l:f)
+            let l:cmd = g:has_unix ?
+                        \ 'rm -vr %s' :
+                        \ 'RD /S %s'
+            echo split(system(printf(l:cmd, escape(l:f, ' '))), "\n")[0]
+        endif
+    endfor
+endfunction
+" 1}}}
+
+function! helpers#MakeDir(...) abort " {{{1
+    for l:d in a:000
+        if !isdirectory(l:d)
+            call mkdir(l:d, 'p')
+            call helpers#Log('"' . l:d . '" was created', 2)
+        else
+            call helpers#Log('"' . l:d . '" exists already')
+        endif
+    endfor
+endfunction
+" 1}}}
+
+function! helpers#Rename(to) abort " {{{1
+    let l:file = expand('%:p')
+    if !filereadable(l:file)
+        call helpers#Log('Not a valid file', 1)
+    else
+        let l:buf = expand('%')
+        silent execute 'saveas ' . a:to
+        silent execute 'bdelete! ' . l:buf
+        if delete(l:file) ==# 0
+            call helpers#Log('Renamed to "' . a:to . '"', 2)
+        else
+            call helpers#Log('"' . l:file . '" was not renamed', 1)
+        endif
+    endif
+endfunction
+" 1}}}
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
