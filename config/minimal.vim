@@ -381,12 +381,7 @@ vnoremap Cy "+y
 " All ***
 "	- ie         : Entire file
 "	- il         : Current line without whitespace
-"	- i{X}/a{X}  : Inside/around {X}
-"					* dots
-"					* commas
-"					* underscores
-"					* stars
-"					* #, :, +, -, /, =
+"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / =
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -629,22 +624,23 @@ endfunction " 2}}}
 " >>> Preview buffer {{{1
 " TODO: Find a way to execute vimscript.
 command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
+let s:ft_dict = {
+            \ 'c'         : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
+            \ 'coffee'    : {'cmd': 'coffee -spb', 'ft': 'javascript'},
+            \ 'cpp'       : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
+            \ 'javascript': {'cmd': 'nodejs'},
+            \ 'lua'       : {'cmd': 'lua'},
+            \ 'markdown'  : {'cmd': 'markdown', 'ft': 'html'},
+            \ 'php'       : {'cmd': 'php'},
+            \ 'pug'       : {'cmd': 'pug --pretty', 'ft': 'html'},
+            \ 'python'    : {'cmd': 'python3'},
+            \ 'ruby'      : {'cmd': 'ruby'},
+            \ 'sh'        : {'cmd': 'bash'},
+            \ 'scss'      :
+            \   {'cmd': 'node-sass --output-style=expanded', 'ft': 'css'},
+            \ }
 function! s:Preview(start, end) abort " {{{2
-    call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, {
-                \ 'c'     : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
-                \ 'coffee': {'cmd': 'coffee -spb', 'ft': 'javascript'},
-                \ 'cpp'   : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
-                \ 'javascript': {'cmd': 'nodejs'},
-                \ 'lua'      : {'cmd': 'lua'},
-                \ 'markdown' : {'cmd': 'markdown', 'ft': 'html'},
-                \ 'php'      : {'cmd': 'php'},
-                \ 'pug'      : {'cmd': 'pug --pretty', 'ft': 'html'},
-                \ 'python'   : {'cmd': 'python3'},
-                \ 'ruby'     : {'cmd': 'ruby'},
-                \ 'scss'     :
-                \	{'cmd': 'node-sass --output-style=expanded', 'ft': 'css'},
-                \ 'sh'      : {'cmd': 'bash'},
-                \ },
+    call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, s:ft_dict,
                 \ ['nonumber', 'nobuflisted'],
                 \ ['wincmd J', 'resize 10', 'normal! G']
                 \ )
