@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-07
+" Last modification: 2017-09-10
 " ==============================================================
 
 
@@ -102,8 +102,8 @@ set linebreak
 let &showbreak='⤷ '
 set scrolloff=3			" Number of screen lines to show around the cursor.
 set display=lastline	" Show the last line even if it doesn't fit.
-set lazyredraw			" Don't redraw while executing macros
-set breakindent			" Preserve indentation in wrapped text
+set lazyredraw
+set breakindent
 let &listchars = g:has_win ?
             \ 'tab:¦ ,trail:~,extends:>,precedes:<' :
             \ 'tab:¦ ,trail:~,extends:#,nbsp:.'
@@ -119,7 +119,7 @@ set modeline
 " >>> Move, search & patterns {{{1
 set ignorecase
 set smartcase
-set incsearch	" Incremental search.
+set incsearch
 " List of flags specifying which commands wrap to another line.
 set whichwrap=b,s,<,>,[,]
 " 1}}}
@@ -140,7 +140,7 @@ unlet! s:grep_prg s:grep_format
 set background=dark
 set hlsearch
 set spelllang=fr
-set synmaxcol=200	" Max column to look for syntax items
+set synmaxcol=200
 " 1}}}
 
 " >>> Tabs & indenting {{{1
@@ -148,12 +148,12 @@ set tabstop=4			" Number of spaces a <Tab> in the text stands for.
 set softtabstop=4		" Number of spaces to insert for a <Tab>.
 set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
 set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
-set autoindent			" Automatically set the indent of a new line.
+set autoindent
 set copyindent			" Copy whitespace for indenting from previous line.
 " 1}}}
 
 " >>> Folding {{{1
-set foldcolumn=1	" Width of the column used to indicate fold.
+set foldcolumn=1
 " 1}}}
 
 " >>> Command line editing {{{1
@@ -171,7 +171,7 @@ set encoding=utf-8
 " 1}}}
 
 " >>> Multiple windows {{{1
-set splitright	" A new window is put right of the current one.
+set splitright
 set hidden
 " 1}}}
 
@@ -216,13 +216,11 @@ nnoremap K {
 nnoremap j gj
 nnoremap k gk
 
-" Make movements after f mappings family more convenient
-" (And because I use , and ; a lot).
-for s:k in ['f', 'F', 't', 'T']
-    execute 'nnoremap ' . s:k . '<CR> ;'
-    execute 'nnoremap ' . s:k . '<BS> ,'
-endfor
-unlet! s:k
+" Repeat f/t/F/T movements without ,/; (Because I need them elsewhere)
+nnoremap f<CR> ;
+nnoremap t<CR> ;
+nnoremap f<BS> ,
+nnoremap t<BS> ,
 
 " Move current line or visual selection & auto indent
 nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>==
@@ -299,7 +297,9 @@ inoremap jk <Esc>
 inoremap JK <Esc>
 cnoremap jk <C-c>
 cnoremap JK <Esc>
-" Enable Paste when using <C-r>
+" 1}}}
+
+" >>> Enable Paste when using <C-r> {{{1
 inoremap <silent> <C-r> <C-r><C-p>
 " 1}}}
 
@@ -349,10 +349,6 @@ endfunction " 2}}}
 " e.g. "q\r
 nnoremap <leader>r :<c-u><c-r>='let @'. v:register 
             \ .' = '. string(getreg(v:register))<cr><c-f><left>
-" 1}}}
-
-" >>> Marks {{{1
-nnoremap <silent> m<space> :delmarks!<CR>
 " 1}}}
 
 " >>> Open (with) external programs {{{1
