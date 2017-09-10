@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-08
+" Last modification: 2017-09-10
 " ==============================================================
 
 
@@ -11,22 +11,30 @@
 function! MyBufLine() abort " {{{1
     let l:bl = '%#TablineFill#'
     let l:bufs = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    let l:bufs_n = len(l:bufs)
     for l:b in l:bufs
+
         " Show buffers only when we have more than one
-        if len(l:bufs) ==# 1
+        if l:bufs_n ==# 1
             break
         endif
+
+        " If more than 8
+        if l:bufs_n >=# 8
+            let l:bl .= '%#TabLineSel# [B] ' . l:bufs_n . ' %#TabLineFill# '
+            break
+        endif
+
         let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
         let l:name = (!empty(bufname(l:b)) ?
                     \	pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
                     \	'[No Name]'
                     \ )
-        if l:b ==# bufnr('%')
-            let l:bl .= '%#TabLineSel# ' . l:name . ' %#TabLineFill# '
-        else
-            let l:bl .= '%#TabLine# ' . l:name . ' %#TabLineFill# '
-        endif
+
+        let l:bl .= (l:b ==# bufnr('%') ? '%#TabLineSel# ' . l:name :
+                    \ '%#TabLine# ' . ' ' . l:name) . ' %#TabLineFill# '
     endfor
+
     let l:get_cwd = fnamemodify(getcwd(), ':~')
     if l:get_cwd !=# '~/'
         let l:cwd = len(l:get_cwd) >=# 15 ? pathshorten(l:get_cwd) : l:get_cwd
