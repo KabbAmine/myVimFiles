@@ -337,11 +337,16 @@ let g:gitgutter_sign_added = '❙'
 let g:gitgutter_sign_modified = '❙'
 let g:gitgutter_sign_removed = '❙'
 let g:gitgutter_sign_modified_removed = '❙'
-nmap [c <Plug>GitGutterPrevHunk
-nmap ]c <Plug>GitGutterNextHunk
 nnoremap <silent> <F6> :GitGutterToggle<CR>
 command! GP :GitGutterPreviewHunk
 if g:has_win | let g:gitgutter_enabled = 0 | endif
+nmap [c <Plug>GitGutterPrevHunk
+nmap ]c <Plug>GitGutterNextHunk
+" mnemonic: h for hunk.
+omap ih <Plug>GitGutterTextObjectInnerPending
+omap ah <Plug>GitGutterTextObjectOuterPending
+xmap ih <Plug>GitGutterTextObjectInnerVisual
+xmap ah <Plug>GitGutterTextObjectOuterVisual
 " 1}}}
 
 " >>> (( vim-plug )) {{{1
