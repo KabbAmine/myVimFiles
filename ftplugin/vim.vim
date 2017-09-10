@@ -1,6 +1,7 @@
-" For Vim files.
-" Last modification: 2016-03-28
+" Last modification: 2017-09-10
 
-" =========== MAPPINGS =======================
+
 nnoremap <buffer> <F9> :so %<CR>
 
+
+" vim:ft=vim:fdm=marker:fmr={{{,}}}:

@@ -1,51 +1,53 @@
-" For HTML files.
-" Last modification: 2016-03-28
+" Last modification: 2017-09-10
 
-" =========== MAPPINGS =======================
-" Open a html file into the browser
-if has ('win32') || has('win64')
-	nnoremap <silent> <buffer> <c-F9> :!start cmd /c '%:p'<CR>
-else
-	nnoremap <silent> <buffer> <c-F9> :!x-www-browser '%:p' &<CR><CR>
-endif
 
-" =========== FUNCTIONS =======================
-" Replace special character with his HTML entity *******
-command! -range=% SpecChar :call SpecChar()
-function! SpecChar() abort
-	silent s/&/\&amp;/e
-	silent s/</\&lt;/e
-	silent s/>/\&gt;/e
-	silent s/À/\&Agrave;/e
-	silent s/Â/\&Acirc;/e
-	silent s/Æ/\&AElig;/e
-	silent s/Ç/\&Ccedil;/e
-	silent s/È/\&Egrave;/e
-	silent s/É/\&Eacute;/e
-	silent s/Ê/\&Ecirc;/e
-	silent s/Ë/\&Euml;/e
-	silent s/Î/\&Icirc;/e
-	silent s/Ô/\&Ocirc;/e
-	silent s/Ø/\&Oslash;/e
-	silent s/Ù/\&Ugrave;/e
-	silent s/Ú/\&Uacute;/e
-	silent s/Û/\&Ucirc;/e
-	silent s/à/\&agrave;/e
-	silent s/á/\&aacute;/e
-	silent s/â/\&acirc;/e
-	silent s/ä/\&auml;/e
-	silent s/æ/\&aelig;/e
-	silent s/ç/\&ccedil;/e
-	silent s/è/\&egrave;/e
-	silent s/é/\&eacute;/e
-	silent s/ê/\&ecirc;/e
-	silent s/ë/\&euml;/e
-	silent s/î/\&icirc;/e
-	silent s/ï/\&iuml;/e
-	silent s/ô/\&ocirc;/e
-	silent s/ö/\&ouml;/e
-	silent s/ø/\&oslash;/e
-	silent s/ù/\&ugrave;/e
-	silent s/û/\&ucirc;/e
-	silent s/ü/\&uuml;/e
+" Open file in the browser {{{1
+nnoremap <silent> <buffer> <expr> <C-F9> expand(g:has_win) ?
+            \ ":!start cmd /c '%:p'" : ":!x-www-browser '%:p' &<CR><CR>"
+" 1}}}
+
+" Replace special characters with their HTML entities {{{1
+command! -range=% SpecChar :call SpecChar(<line1>, <line2>)
+
+function! SpecChar(start, end) abort " {{{2
+    let l:pos = getpos('.')
+    let l:pat = '^\s*<.*>\zs\(.*\)\ze</\w\+>$'
+
+    " All special html characters except '&'
+    let l:spec_chars = {
+                \	'á': '&aacute;', 'â': '&acirc;'  ,
+                \	'Â': '&Acirc;' , 'à': '&agrave;' ,
+                \	'À': '&Agrave;', 'ä': '&auml;'   ,
+                \	'æ': '&aelig;' , 'Æ': '&AElig;'  ,
+                \	'ç': '&ccedil;', 'Ç': '&Ccedil;' ,
+                \	'é': '&eacute;', 'É': '&Eacute;' ,
+                \	'ê': '&ecirc;' , 'Ê': '&Ecirc;'  ,
+                \	'è': '&egrave;', 'È': '&Egrave;' ,
+                \	'ë': '&euml;'  , 'Ë': '&Euml;'   ,
+                \	'>': '&gt;'    , '<': '&lt;'     ,
+                \	'î': '&icirc;' , 'Î': '&Icirc;'  , 'ï': '&iuml;'  ,
+                \	'ô': '&ocirc;' , 'Ô': '&Ocirc;'  ,
+                \	'ø': '&oslash;', 'Ø': '&Oslash;' , 'ö': '&ouml;'  ,
+                \	'Ú': '&Uacute;', 'Ù': '&Ugrave;' , 'ù': '&ugrave;',
+                \	'û': '&ucirc;' , 'Û': '&Ucirc;'  , 'ü': '&uuml;'  ,
+                \ }
+
+    " Replace all '&' occurences first
+    silent execute printf(
+                \ "%d,%ds@%s@\\=substitute(submatch(1),'&','\&amp;','gc')@ge",
+                \ a:start, a:end, l:pat)
+
+    for l:i in items(l:spec_chars)
+        let [l:char, l:escaped] = [l:i[0], escape(l:i[1], '&')]
+        silent execute printf(
+                    \ "%d,%ds@%s@\\=substitute(submatch(1),'\\C%s','%s','gcI')@ge",
+                    \ a:start, a:end, l:pat, l:char, l:escaped)
+    endfor
+
+    call setpos('.', l:pos)
 endfunction
+" 2}}}
+" 1}}}
+
+
+" vim:ft=vim:fdm=marker:fmr={{{,}}}:

@@ -1,8 +1,7 @@
-" Last modification: 2016-09-15
+" Last modification: 2017-09-10
 
-" =========== OPTIONS =======================
+
 setlocal conceallevel=0
-" 1}}}
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
-
