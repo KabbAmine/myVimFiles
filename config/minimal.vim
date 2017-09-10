@@ -152,10 +152,6 @@ set autoindent
 set copyindent			" Copy whitespace for indenting from previous line.
 " 1}}}
 
-" >>> Folding {{{1
-set foldcolumn=1
-" 1}}}
-
 " >>> Command line editing {{{1
 set wildmenu
 set wildmode=list:longest,full
@@ -593,11 +589,15 @@ function! s:Fold() abort " {{{2
         setlocal foldenable
         normal! zR
         call setbufvar('%', 'fold_by_marker', 1)
+
+        " Be sure to have foldcolumn enabled
+        setlocal foldcolumn=1
     else
         setlocal nofoldenable
         silent execute 'setlocal foldmethod=' . l:old_foldmethod
         silent execute 'setlocal foldmarker=' . escape(l:old_foldmarker, ' ')
         call setbufvar('%', 'fold_by_marker', 0)
+        setlocal foldcolumn=0
     endif
 endfunction " 2}}}
 " 1}}}
@@ -702,6 +702,39 @@ augroup FormatOpt
     " To make it work on vim ft damn it!
     autocmd InsertEnter * setl fo-=o fo-=c fo-=r
 augroup END
+" 1}}}
+
+" >>> Enable foldcolumn only when folds are present {{{1
+function! s:AutoFoldColumn() abort " {{{2
+    let l:pos = getpos('.')
+    let l:c_l = line('.')
+    let l:there_are_folds = 0
+
+    if foldlevel(l:c_l)
+        let l:there_are_folds = 1
+    endif
+
+    normal! ggzj
+    if line('.') !=# 1
+        let l:there_are_folds = 1
+    endif
+
+    normal! ]z
+    if line('.') !=# 1
+        let l:there_are_folds = 1
+    endif
+
+    call setpos('.', l:pos)
+
+    if l:there_are_folds
+        setlocal foldcolumn=1
+    endif
+endfunction " 2}}}
+augroup AutoFoldColumn
+    autocmd!
+    autocmd BufWinEnter * :call <SID>AutoFoldColumn()
+augroup END
+
 " 1}}}
 
 " =========== JOBS =============================================
