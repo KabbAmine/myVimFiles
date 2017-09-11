@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-10
+" Last modification: 2017-09-11
 " ==============================================================
 
 
@@ -373,7 +373,7 @@ vnoremap Cy "+y
 " All ***
 "	- ie         : Entire file
 "	- il         : Current line without whitespace
-"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / =
+"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / = @
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -394,6 +394,7 @@ let s:to = {
             \			['i-', 'T-vt-'], ['a-', 'F-vf-'],
             \			['i/', 'T/vt/'], ['a/', 'F/vf/'],
             \			['i=', 'T=vt='], ['a=', 'F=vf='],
+            \			['i@', 'T@vt@'], ['a@', 'F@vf@'],
             \	],
             \	'scss,css' : [
             \		['iV', '^f:wvt;'], ['iP', '^f:Bvt:'],
