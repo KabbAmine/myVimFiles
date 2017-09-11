@@ -1,4 +1,4 @@
-" Last modification: 2017-09-10
+" Last modification: 2017-09-11
 
 
 " Open file in the browser {{{1
@@ -11,7 +11,7 @@ command! -range=% SpecChar :call SpecChar(<line1>, <line2>)
 
 function! SpecChar(start, end) abort " {{{2
     let l:pos = getpos('.')
-    let l:pat = '^\s*<.*>\zs\(.*\)\ze</\w\+>$'
+    let l:pat = '^\s*<[a-zA-Z0-9-_"'' =]\+>\zs\(.*\)\ze</\w\+>$'
 
     " All special html characters except '&'
     let l:spec_chars = {
