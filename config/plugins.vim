@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-08
+" Last modification: 2017-09-11
 " ==============================================================
 
 
@@ -70,11 +70,12 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
-Plug 'sumpygump/php-documentor-vim'   , {'for': 'php'}
+Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
+
 " 2}}}
 
 " JavaScript {{{2
-Plug 'heavenshell/vim-jsdoc'
+Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'pangloss/vim-javascript'
 " 2}}}
@@ -82,6 +83,7 @@ Plug 'pangloss/vim-javascript'
 " Python {{{2
 Plug 'davidhalter/jedi-vim',
             \ {'do': 'git submodule update --init', 'for': 'python'}
+Plug 'heavenshell/vim-pydocstring', {'for': 'python'}
 Plug 'vim-python/python-syntax'
 " 2}}}
 
@@ -387,16 +389,26 @@ augroup END
 let g:colorizer_colornames = 0
 " 1}}}
 
-" >>> (( php-documentor )) {{{1
-augroup PhpDoc
+" >>> (( vim-pydocstring )) {{{1
+augroup PydocStringMaps
+    autocmd!
+    autocmd Filetype python
+                \ nnoremap <buffer> <silent> <C-d> <Plug>(pydocstring)
+augroup END
+" 1}}}
+
+" >>> (( php-doc-modded )) {{{1
+let g:pdv_cfg_ClassTags = []
+let g:pdv_cfg_autoEndFunction = 0
+let g:pdv_cfg_autoEndClass = 0
+augroup PhpDocMaps
     autocmd!
     autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
     autocmd Filetype php inoremap <buffer> <silent> <C-d>
-                \ <C-o>:call PhpDoc()<CR>
+                \ <C-o>:call PhpDoc()<CR>i
     autocmd Filetype php vnoremap <buffer> <silent> <C-d>
                 \ :call PhpDocRange()<CR>
 augroup END
-let g:pdv_cfg_ClassTags = []
 " 1}}}
 
 " >>> (( vim-lion )) {{{1
