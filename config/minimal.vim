@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-11
+" Last modification: 2017-09-13
 " ==============================================================
 
 
@@ -209,6 +209,8 @@ let g:loaded_zipPlugin = 1
 " >>> Movement {{{1
 nnoremap J }
 nnoremap K {
+vnoremap J }
+vnoremap K {
 nnoremap j gj
 nnoremap k gk
 
@@ -623,7 +625,7 @@ endfunction " 2}}}
 command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
 let s:ft_dict = {
             \ 'c'         : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
-            \ 'coffee'    : {'cmd': 'coffee -spb', 'ft': 'javascript'},
+            \ 'coffee'    : {'cmd': 'coffee -s'},
             \ 'cpp'       : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
             \ 'javascript': {'cmd': 'nodejs'},
             \ 'lua'       : {'cmd': 'lua'},
@@ -639,7 +641,7 @@ let s:ft_dict = {
 function! s:Preview(start, end) abort " {{{2
     call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, s:ft_dict,
                 \ ['nonumber', 'nobuflisted'],
-                \ ['wincmd J', 'resize 10', 'normal! G']
+                \ ['wincmd J', 'resize 10', 'normal! gg']
                 \ )
 endfunction " 2}}}
 " 1}}}
