@@ -390,6 +390,7 @@ let g:colorizer_colornames = 0
 " 1}}}
 
 " >>> (( vim-pydocstring )) {{{1
+let g:pydocstring_enable_mapping = 0
 augroup PydocStringMaps
     autocmd!
     autocmd Filetype python
@@ -649,8 +650,8 @@ let g:neocomplete#force_omni_input_patterns.php =
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-let g:neocomplete#force_omni_input_patterns.markdown = ':'
-let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
+" let g:neocomplete#force_omni_input_patterns.markdown = ':'
+" let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
 let g:neocomplete#force_omni_input_patterns.ruby =
             \ '[^. *\t]\.\w*\|\h\w*::'
 " 1}}}
