@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-13
+" Last modification: 2017-09-14
 " ==============================================================
 
 
@@ -87,7 +87,7 @@ set confirm		" Start a dialog when a command fails
 
 " >>> Edit text {{{1
 set infercase		" Adjust case of a keyword completion match.
-set completeopt=menuone,noselect
+set completeopt=longest,menuone
 set textwidth=0		" Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -209,8 +209,8 @@ let g:loaded_zipPlugin = 1
 " >>> Movement {{{1
 nnoremap J }
 nnoremap K {
-vnoremap J }
-vnoremap K {
+xnoremap J }
+xnoremap K {
 nnoremap j gj
 nnoremap k gk
 
@@ -223,8 +223,8 @@ nnoremap t<BS> ,
 " Move current line or visual selection & auto indent
 nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>==
 nnoremap <silent> <A-j> :call <SID>Move(1)<CR>==
-vnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv=gv
-vnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
+xnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv=gv
+xnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
 function! s:Move(to) range " {{{2
     " a:to : -1/1 <=> up/down
     let l:fl = a:firstline | let l:ll = a:lastline
@@ -241,7 +241,7 @@ endfunction " 2}}}
 " >>> Yanking {{{1
 nnoremap Y y$
 nnoremap <silent> yd :call <SID>Duplicate()<CR>
-vnoremap <silent> <C-d> :t'><CR>gv<Esc>
+xnoremap <silent> <C-d> :t'><CR>gv<Esc>
 function! s:Duplicate() abort " {{{2
     let l:ip = getpos('.') | silent .t. | call setpos('.', l:ip)
 endfunction " 2}}}
@@ -249,7 +249,7 @@ endfunction " 2}}}
 
 " >>> Folding {{{1
 nnoremap <silent> <space> za
-vnoremap <silent> <space> :fold<CR>
+xnoremap <silent> <space> :fold<CR>
 " 1}}}
 
 " >>> Searching {{{1
@@ -335,7 +335,7 @@ endfunction " 2}}}
 " 1}}}
 
 " >>> Sort {{{1
-vnoremap <silent> <leader>s :!sort<CR>
+xnoremap <silent> <leader>s :!sort<CR>
 nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
 function! s:Sort(...) abort " {{{2
     execute printf('%d,%d:!sort', line("'["), line("']"))
@@ -365,17 +365,17 @@ nnoremap cp "+p
 nnoremap cP "+P
 nnoremap cy "+y
 nnoremap cY "+y$
-vnoremap Cd "+d
-vnoremap Cp "+p
-vnoremap CP "+P
-vnoremap Cy "+y
+xnoremap Cd "+d
+xnoremap Cp "+p
+xnoremap CP "+P
+xnoremap Cy "+y
 " 1}}}
 
 " >>> Text objects {{{1
 " All ***
 "	- ie         : Entire file
 "	- il         : Current line without whitespace
-"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / = @
+"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / = @ &
 " Scss/Css ***
 "	 - iV     : Value
 "	 - iP     : Property
@@ -397,6 +397,7 @@ let s:to = {
             \			['i/', 'T/vt/'], ['a/', 'F/vf/'],
             \			['i=', 'T=vt='], ['a=', 'F=vf='],
             \			['i@', 'T@vt@'], ['a@', 'F@vf@'],
+            \			['i&', 'T&vt&'], ['a&', 'F&vf&'],
             \	],
             \	'scss,css' : [
             \		['iV', '^f:wvt;'], ['iP', '^f:Bvt:'],
@@ -412,7 +413,7 @@ unlet! s:to
 
 " >>> Preview {{{1
 nnoremap <silent> gPr :Preview<CR>
-vnoremap <silent> gPr :Preview<CR>
+xnoremap <silent> gPr :Preview<CR>
 nnoremap <silent> gaPr :call helpers#AutoCmd(
             \	'Preview', 'Preview',
             \	['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI']
@@ -460,7 +461,7 @@ xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
 " 1}}}
 
-" Go to line using relative numbers {{{1
+" >>> Go to line using relative numbers {{{1
 nnoremap gj :call <SID>GoTo('j')<CR>
 nnoremap gk :call <SID>GoTo('k')<CR>
 function! s:GoTo(direction) abort " {{{2
@@ -489,6 +490,30 @@ function! s:GoTo(direction) abort " {{{2
         execute 'highlight! ' . l:h
     endfor
 endfunction " 2}}}
+" 1}}}
+
+" >>> Completion {{{1
+inoremap <Tab>o <C-x><C-o>
+inoremap <Tab>n <C-x><C-n>
+inoremap <Tab>f <C-x><C-f>
+inoremap <Tab>t <C-x><C-]>
+inoremap <Tab>l <C-x><C-l>
+inoremap <Tab>u <C-x><C-u>
+inoremap <Tab>k <C-x><C-k>
+inoremap <Tab>s <C-x>s
+" A small sacrifice for a big cause
+inoremap <Tab><Tab> <Tab>
+" Triggers for auto completion
+" call helpers#AutoCompleteWithMapTriggers({
+"             \   'css'        : {':': 'o'},
+"             \   'gitcommit'  : {':': 'u'},
+"             \   'html'       : {'<': 'o'},
+"             \   'javascript' : {'.': 'o'},
+"             \   'markdown'   : {':': 'u'},
+"             \   'php'        : {'->': 'o', '::': 'o'},
+"             \   'python'     : {'.': 'o', '__': 'o'},
+"             \   'scss'       : {':': 'o'},
+"             \ })
 " 1}}}
 
 " =========== (AUTO)COMMANDS ===================================
@@ -556,9 +581,17 @@ endif
 " >>> Set spelllang & spell in one command {{{1
 command! -nargs=? Spell call <SID>SetSpell(<f-args>)
 function! s:SetSpell(...) abort " {{{2
-    let l:l = exists('a:1') ? a:1 : 'fr'
-    execute 'setlocal spelllang=' . l:l
-    setlocal spell!
+    if !&l:spell
+        let s:old_complete = &l:complete
+        let l:l = exists('a:1') ? a:1 : 'fr'
+        let &l:spelllang = l:l
+        setlocal complete+=kspell
+        setlocal spell
+    else
+        setlocal nospell
+        let &l:complete = exists('s:old_complete') ?
+                    \ s:old_complete : &l:complete
+    endif
 endfunction " 2}}}
 " 1}}}
 
@@ -699,11 +732,9 @@ augroup END
 " 1}}}
 
 " >>> Disable continuation of comments when using o/O {{{1
-augroup FormatOpt
+augroup ResetFormatOptions
     autocmd!
-    autocmd FileType * setl fo-=o fo-=c fo-=r
-    " To make it work on vim ft damn it!
-    autocmd InsertEnter * setl fo-=o fo-=c fo-=r
+    autocmd FileType vim setl formatoptions&
 augroup END
 " 1}}}
 
