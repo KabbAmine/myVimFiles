@@ -1,12 +1,12 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-14
+" Last modification: 2017-09-16
 " ==============================================================
 
 
 " =========== MISC =============================================
 
-" Unsure to use french locale if it exists {{{1
+" Ensure to use french locale if it exists {{{1
 let s:curr_locale = v:lang
 try
     language fr_FR.utf8
