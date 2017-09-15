@@ -1,6 +1,6 @@
 " ========== Helpers & useful functions ========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-08
+" Last modification: 2017-09-15
 " ==============================================================
 
 
@@ -169,15 +169,12 @@ endfunction
 " 1}}}
 
 function! helpers#MakeTextObjects(to) abort " {{{1
-    " a:to is a dictionnary
-    " e.g.
-
     let l:to = a:to
 
     " For all ft
     for [l:k, l:m] in l:to._
         execute 'onoremap <silent> ' . l:k . ' :normal! ' . l:m . '<CR>'
-        execute 'vnoremap <silent> ' . l:k . ' :<C-u>normal! ' . l:m . '<CR>'
+        execute 'xnoremap <silent> ' . l:k . ' :<C-u>normal! ' . l:m . '<CR>'
     endfor
     call remove(l:to, '_')
 
@@ -189,13 +186,26 @@ function! helpers#MakeTextObjects(to) abort " {{{1
                             \ ' onoremap <buffer> <silent> ' . l:k .
                             \ ' :normal! ' . l:m . '<CR>'
                 execute 'autocmd FileType ' . l:ft .
-                            \ ' vnoremap <buffer> <silent> ' . l:k .
+                            \ ' xnoremap <buffer> <silent> ' . l:k .
                             \ ' :<C-u>normal! ' . l:m . '<CR>'
             endfor
         endfor
     augroup END
 
 endfunction
+" 1}}}
+
+" function! helpers#AutoCompleteWithMapTriggers(triggers) abort " {{{1
+"     augroup AutoCompletion
+"         autocmd!
+"         for l:ft in keys(a:triggers)
+"             for [l:trigger, l:key] in items(a:triggers[l:ft])
+"                 silent execute printf('autocmd FileType %s inoremap <silent> <buffer> %s %s<C-x><C-%s>',
+"                             \   l:ft, l:trigger, l:trigger, l:key)
+"             endfor
+"         endfor
+"     augroup END
+" endfunction
 " 1}}}
 
 " ========== JOBS ==============================================
