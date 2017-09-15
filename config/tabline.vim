@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-10
+" Last modification: 2017-09-14
 " ==============================================================
 
 
@@ -10,18 +10,15 @@
 
 function! MyBufLine() abort " {{{1
     let l:bl = '%#TablineFill#'
-    let l:bufs = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    let l:bufs = s:Buffers()
     let l:bufs_n = len(l:bufs)
     for l:b in l:bufs
 
-        " Show buffers only when we have more than one
-        if l:bufs_n ==# 1
-            break
-        endif
+        " The case where we have 1 buffer is checked in TLInit().
 
         " If more than 8
         if l:bufs_n >=# 8
-            let l:bl .= '%#TabLineSel# [B] ' . l:bufs_n . ' %#TabLineFill# '
+            let l:bl .= '%#TabLine# [B] ' . l:bufs_n . ' %#TabLineFill# '
             break
         endif
 
@@ -31,8 +28,8 @@ function! MyBufLine() abort " {{{1
                     \	'[No Name]'
                     \ )
 
-        let l:bl .= (l:b ==# bufnr('%') ? '%#TabLineSel# ' . l:name :
-                    \ '%#TabLine# ' . ' ' . l:name) . ' %#TabLineFill# '
+        let l:bl .= (l:b ==# bufnr('%') ? '%#TabLine# ' . l:name :
+                    \ '%#Folded# ' . ' ' . l:name) . ' %#TabLineFill# '
     endfor
 
     let l:get_cwd = fnamemodify(getcwd(), ':~')
@@ -48,11 +45,11 @@ endfunction
 function! MyTabLine() abort " {{{1
     " :h setting-tabline
 
-    let l:tl = ''
+    let l:tl = '%#TabLineSel# T %#TabLineFill#'
     for i in range(tabpagenr('$'))
         let l:i = i + 1
         let l:tl .= (l:i ==# tabpagenr()) ?
-                    \ ' %#TabLineSel#' : ' %#TabLine#'
+                    \ ' %#TabLine#' : ' %#Folded#'
         " Set the tab page number (for mouse clicks)
         let l:tl .= '%' . l:i . 'T '
         " Get working directory (Use tabpagecd if present, otherwise use
@@ -70,17 +67,21 @@ function! MyTabLine() abort " {{{1
         " Fill with TabLineFill and reset tab page nr
         let l:tl .= ' %#TabLineFill#%T'
     endfor
-    let l:tl .= '%=%#TabLineSel# T '
 
     return l:tl
 endfunction
 " 1}}}
 
 function! TLInit() abort " {{{1
+    let l:bufs = s:Buffers()
+    if len(s:Buffers()) ==# 1
+        set showtabline=0
+        return
+    endif
     set tabline=
     set showtabline=2
     if tabpagenr('$') ==# 1
-        let l:bufs = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+        let l:bufs = l:bufs
         let &showtabline = len(l:bufs) ># 1 ? 2 : &showtabline
         set tabline=%!MyBufLine()
     else
@@ -90,13 +91,21 @@ function! TLInit() abort " {{{1
 endfunction
 " 1}}}
 
+" ========== HELPERS ========================================
+
+function! s:Buffers() abort " {{{1
+    return filter(range(1, bufnr('$')), 'buflisted(v:val)')
+endfunction
+" 1}}}
+
 " ========== INITIALIZE ========================================
 
 " {{{1
 hi! link TablineSel StatusLine
 augroup TabBufLine
     autocmd!
-    autocmd BufAdd,BufDelete,TabEnter,TabLeave,VimEnter * call TLInit()
+    autocmd BufAdd,BufDelete,BufWinEnter,TabEnter,TabLeave,VimEnter *
+                \ call TLInit()
 augroup END
 call TLInit()
 " 1}}}
