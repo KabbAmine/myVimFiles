@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-11
+" Last modification: 2017-09-15
 " ==============================================================
 
 
@@ -87,6 +87,10 @@ Plug 'heavenshell/vim-pydocstring', {'for': 'python'}
 Plug 'vim-python/python-syntax'
 " 2}}}
 
+" VimL {{{2
+Plug 'machakann/vim-Verdin'
+" 2}}}
+
 " Web development {{{2
 Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
 Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
@@ -133,12 +137,6 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-" 2}}}
-
-" Completion {{{2
-Plug 'Shougo/neocomplete.vim'
-            \| Plug 'Shougo/neco-vim' , {'for': 'vim'}
-            \| call s:PlugInOs('Shougo/vimproc.vim', "{'do': 'make'}", 'unix')
 " 2}}}
 
 " Misc {{{2
@@ -315,6 +313,7 @@ let g:undotree_WindowLayout = 'botright'
 
 " >>> (( delimitmate )) {{{1
 imap <S-space> <Plug>delimitMateS-Tab
+imap <expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = '(:),[:],{:}'
@@ -323,9 +322,9 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger = '<Tab>'
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+let g:UltiSnipsExpandTrigger = 'jj'
+let g:UltiSnipsJumpForwardTrigger = 'jj'
+let g:UltiSnipsJumpBackwardTrigger = 'jJ'
 let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
@@ -361,6 +360,7 @@ let g:jedi#completions_command = ''
 let g:jedi#completions_enabled = 1
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_on_dot = 0
 " Keybindings
 let g:jedi#goto_command = 'gd'
 let g:jedi#documentation_command = ''
@@ -405,10 +405,6 @@ let g:pdv_cfg_autoEndClass = 0
 augroup PhpDocMaps
     autocmd!
     autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
-    autocmd Filetype php inoremap <buffer> <silent> <C-d>
-                \ <C-o>:call PhpDoc()<CR>i
-    autocmd Filetype php vnoremap <buffer> <silent> <C-d>
-                \ :call PhpDocRange()<CR>
 augroup END
 " 1}}}
 
@@ -502,8 +498,6 @@ hi link OperatorSandwichStuff StatusLine
 augroup JsDoc
     autocmd!
     autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
-    autocmd Filetype javascript
-                \ inoremap <buffer> <silent> <C-d> <C-o>:JsDoc<CR>
 augroup END
 " 1}}}
 
@@ -632,30 +626,6 @@ call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
 " 1}}}
 
-" >>> (( Neocomplete )) {{{1
-nnoremap <silent> <F7> :NeoCompleteToggle<CR>
-inoremap <silent> <expr> <C-space> pumvisible() ? "\<Down>" :
-            \ neocomplete#start_manual_complete()
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#auto_completion_start_length = 3
-let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#data_directory = g:vim_dir . '/misc/neocomplete'
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.php =
-            \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-" let g:neocomplete#force_omni_input_patterns.markdown = ':'
-" let g:neocomplete#force_omni_input_patterns.gitcommit = ':'
-let g:neocomplete#force_omni_input_patterns.ruby =
-            \ '[^. *\t]\.\w*\|\h\w*::'
-" 1}}}
-
 " >>> (( airnote )) {{{1
 let g:airnote_path = expand(g:vim_dir . '/misc/memos')
 let g:airnote_suffix = 'md'
@@ -707,7 +677,7 @@ let g:gv_rvm_hack = 1
 " >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
-vnoremap gli :LazyList ''<Left>
+xnoremap gli :LazyList ''<Left>
 let g:lazylist_maps = [
             \	'gl',
             \	{
