@@ -24,8 +24,8 @@ function! MyBufLine() abort " {{{1
 
         let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
         let l:name = (!empty(bufname(l:b)) ?
-                    \	pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
-                    \	'[No Name]'
+                    \   pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
+                    \   '[No Name]'
                     \ )
 
         let l:bl .= (l:b ==# bufnr('%') ? '%#TabLine# ' . l:name :

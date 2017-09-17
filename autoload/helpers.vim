@@ -249,8 +249,8 @@ function! helpers#Job(name, cmd, ...) abort " {{{1
 
     if !has_key(g:jobs, a:name)
         let l:job = exists('a:1') ?
-                    \	job_start(a:cmd, a:1) :
-                    \	job_start(a:cmd, {'err_cb' : 'helpers#ErrorHandler'})
+                    \   job_start(a:cmd, a:1) :
+                    \   job_start(a:cmd, {'err_cb' : 'helpers#ErrorHandler'})
         if job_status(l:job) ==# 'run'
             call helpers#Log('Job: ' . a:name . ' is running', 2)
             let g:jobs[a:name] = l:job
@@ -281,12 +281,12 @@ function! helpers#OpenHere(type, ...) abort " {{{1
 
     let l:cmd = {
                 \ 't': (g:has_unix ?
-                \	'exo-open --launch TerminalEmulator ' .
+                \   'exo-open --launch TerminalEmulator ' .
                 \       '--working-directory %s 2> /dev/null &' :
-                \	'start cmd /k cd %s'),
+                \   'start cmd /k cd %s'),
                 \ 'f': (g:has_unix ?
-                \	'xdg-open %s 2> /dev/null &' :
-                \	'start explorer %s')
+                \   'xdg-open %s 2> /dev/null &' :
+                \   'start explorer %s')
                 \ }
     exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
 
@@ -312,8 +312,8 @@ function! helpers#OpenUrl() abort " {{{1
         let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
                     \ ' && wmctrl -ia ' . v:windowid : ''
         exe 'silent :!' . (g:has_unix ?
-                    \	'x-www-browser ' . shellescape(l:url) :
-                    \	' start "' . shellescape(l:url)) .
+                    \   'x-www-browser ' . shellescape(l:url) :
+                    \   ' start "' . shellescape(l:url)) .
                     \ l:wmctrl .
                     \ (g:has_unix ? ' 2> /dev/null &' : '')
         if !g:has_gui | redraw! | endif

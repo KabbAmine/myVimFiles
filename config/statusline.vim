@@ -17,39 +17,39 @@
 
 " {{{1
 let s:SL  = {
-            \	'separator': '',
-            \	'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
-            \	'apply': {
-            \	'denite' : [
-            \		'denite#get_status_mode()',
-            \		'denite#get_status_sources()',
-            \		'denite#get_status_linenr()',
+            \   'separator': '',
+            \   'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
+            \   'apply': {
+            \   'denite' : [
+            \       'denite#get_status_mode()',
+            \       'denite#get_status_sources()',
+            \       'denite#get_status_linenr()',
             \       ],
             \   },
-            \	'checker': g:checker,
-            \	'colors': {
-            \	'background'      : ['#2f343f', 'none'],
-            \	'backgroundDark'  : ['#191d27', '16'],
-            \	'backgroundLight' : ['#464b5b', '59'],
-            \	'green'           : ['#2acf2a', '40'],
-            \	'main'            : ['#5295e2', '68'],
-            \	'red'             : ['#f01d22', '160'],
-            \	'text'            : ['#cbcbcb', '251'],
-            \	'textDark'        : ['#8c8c8c', '244'],
-            \	},
-            \	'modes': {
-            \	'n': 'N',
-            \	'i': 'I',
-            \	'R': 'R',
-            \	'v': 'V',
-            \	'V': 'V-L',
-            \	'c': 'C',
-            \	"\<C-v>": 'V-B',
-            \	's': 'S',
-            \	'S': 'S-L',
-            \	"\<C-s>": 'S-B',
-            \	'?': '',
-            \	}
+            \   'checker': g:checker,
+            \   'colors': {
+            \   'background'      : ['#2f343f', 'none'],
+            \   'backgroundDark'  : ['#191d27', '16'],
+            \   'backgroundLight' : ['#464b5b', '59'],
+            \   'green'           : ['#2acf2a', '40'],
+            \   'main'            : ['#5295e2', '68'],
+            \   'red'             : ['#f01d22', '160'],
+            \   'text'            : ['#cbcbcb', '251'],
+            \   'textDark'        : ['#8c8c8c', '244'],
+            \   },
+            \   'modes': {
+            \   'n': 'N',
+            \   'i': 'I',
+            \   'R': 'R',
+            \   'v': 'V',
+            \   'V': 'V-L',
+            \   'c': 'C',
+            \   "\<C-v>": 'V-B',
+            \   's': 'S',
+            \   'S': 'S-L',
+            \   "\<C-s>": 'S-B',
+            \   '?': '',
+            \   }
             \ }
 " 1}}}
 
@@ -122,7 +122,7 @@ endfunction
 function! SLIndentation() abort " {{{1
     return winwidth(0) <# 55 ? '' :
                 \ &expandtab ?
-                \	's:' . &shiftwidth : 't:' . &shiftwidth
+                \   's:' . &shiftwidth : 't:' . &shiftwidth
 endfunction
 " 1}}}
 
@@ -149,8 +149,8 @@ function! SLToggled() abort " {{{1
     for [l:k, l:v] in items(g:SL_toggle)
         let l:str = call(l:v, [])
         let l:sl .= empty(l:sl) ?
-                    \	l:str . ' ' :
-                    \	s:SL.separator . ' ' . l:str . ' '
+                    \   l:str . ' ' :
+                    \   s:SL.separator . ' ' . l:str . ' '
     endfor
     return l:sl[:-2]
 endfunction
@@ -219,9 +219,9 @@ function! SLAle(mode) abort " {{{1
     let l:warnings = l:counts.warning + l:counts.style_warning
 
     let l:errors_str = l:errors !=# 0 ?
-                \	printf('%s %s', s:SL.checker.error_sign, l:errors) : ''
+                \   printf('%s %s', s:SL.checker.error_sign, l:errors) : ''
     let l:warnings_str = l:warnings !=# 0 ?
-                \	printf('%s %s', s:SL.checker.warning_sign, l:warnings) : ''
+                \   printf('%s %s', s:SL.checker.warning_sign, l:warnings) : ''
 
     let l:def_str = printf('%s %s', l:errors_str, l:warnings_str)
     " Trim spaces
@@ -387,11 +387,11 @@ endfunction
 
 " {{{1
 let s:args = [
-            \	['toggle', 'clear'],
-            \	[
-            \		'column-and-percent', 'format-and-encoding', 'indentation',
-            \		'hi-group', 'ruby', 'python'
-            \	]
+            \   ['toggle', 'clear'],
+            \   [
+            \       'column-and-percent', 'format-and-encoding', 'indentation',
+            \       'hi-group', 'ruby', 'python'
+            \   ]
             \ ]
 command! -nargs=? -complete=custom,s:SLCompleteArgs
             \ SL :call s:SLCommand(<f-args>)
