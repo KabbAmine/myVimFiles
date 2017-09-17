@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-15
+" Last modification: 2017-09-17
 " ==============================================================
 
 
@@ -9,18 +9,18 @@ let s:my_plugins_dir = g:has_win ?
             \ 'z:\\k-bag\\Projects\\pluginsVim\\' :
             \ $HOME . '/Projects/pluginsVim/'
 let s:my_plugins = {
-            \	'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
+            \   'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
             \ }
 let s:lab_mode = 0
 " 1}}}
 
 " Signs for checkers  {{{1
 let g:checker = {
-            \	'error_sign'   : '⨉',
-            \	'warning_sign' : '⬥',
-            \	'success_sign' : ' ',
-            \	'error_group'  : 'Error',
-            \	'warning_group': 'Function',
+            \   'error_sign'   : '⨉',
+            \   'warning_sign' : '⬥',
+            \   'success_sign' : ' ',
+            \   'error_group'  : 'Error',
+            \   'warning_group': 'Function',
             \ }
 " 1}}}
 
@@ -37,7 +37,7 @@ endfunction
 
 function! s:PlugInOs(link, param, os) abort " {{{2
     if has(a:os)
-        let l:opt = (!empty(a:param) ? ', ' . a:param : '')	
+        let l:opt = (!empty(a:param) ? ', ' . a:param : '') 
         exe printf("Plug '%s'%s", a:link, l:opt)
     endif
 endfunction
@@ -116,7 +116,7 @@ Plug 'Shougo/denite.nvim'
 " (( textobj-user )) {{{2
 Plug 'kana/vim-textobj-user'
             \| Plug 'glts/vim-textobj-comment'
-            \| Plug 'kana/vim-textobj-fold'
+            \| Plug 'somini/vim-textobj-fold', {'branch': 'foldmarker'},
             \| Plug 'kana/vim-textobj-function'
             \| Plug 'haya14busa/vim-textobj-function-syntax'
             \| Plug 'bps/vim-textobj-python',
@@ -170,8 +170,8 @@ if !s:lab_mode
     Plug 'KabbAmine/vullscreen.vim'
     Plug 'KabbAmine/yowish.vim'
     Plug 'KabbAmine/zeavim.vim', {'on': [
-                \	'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
-                \	'<Plug>ZVKeyDocset', '<Plug>ZVMotion'
+                \   'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
+                \   '<Plug>ZVKeyDocset', '<Plug>ZVMotion'
                 \ ]}
 else
     call s:MyPlugs()
@@ -187,17 +187,17 @@ call plug#end()
 
 " Colors {{{1
 let g:yowish = {
-            \	'term_italic' : 0,
-            \	'colors': {
-            \		'background'       : ['#2f343f', 'none'],
-            \		'backgroundDark'   : ['#191d27', '16'],
-            \		'backgroundLight'  : ['#464b5b', '59'],
-            \		'blue'             : ['#5295e2', '68'],
-            \		'comment'          : ['#5b6176', '242'],
-            \		'lightBlue'        : ['#e39f52', '179'],
-            \		'lightYellow'      : ['#80aee3', '110'],
-            \		'yellow'           : ['#5295e2', '68'],
-            \	}
+            \   'term_italic' : 0,
+            \   'colors': {
+            \       'background'       : ['#2f343f', 'none'],
+            \       'backgroundDark'   : ['#191d27', '16'],
+            \       'backgroundLight'  : ['#464b5b', '59'],
+            \       'blue'             : ['#5295e2', '68'],
+            \       'comment'          : ['#5b6176', '242'],
+            \       'lightBlue'        : ['#e39f52', '179'],
+            \       'lightYellow'      : ['#80aee3', '110'],
+            \       'yellow'           : ['#5295e2', '68'],
+            \   }
             \ }
 colo yowish
 
@@ -266,19 +266,19 @@ exe 'hi! link ALEErrorSign ' . g:checker.error_group
 exe 'hi! link ALEWarningSign ' . g:checker.warning_group
 " Specific to file types and are here for reference
 let g:ale_linters = {
-            \	'c'              : ['gcc'],
-            \	'coffee'         : ['coffee', 'coffeelint'],
-            \	'css'            : ['csslint'],
-            \	'html'           : ['htmlhint', 'tidy'],
-            \	'javascript'     : ['eslint'],
-            \	'json'           : ['jsonlint'],
-            \	'markdown'       : ['mdl'],
-            \	'php'            : ['php'],
-            \	'python'         : ['flake8'],
-            \	'scss'           : ['sasslint'],
-            \	'sh'             : ['shellcheck', 'shell'],
-            \	'vim'            : ['vint'],
-            \	'yaml'           : ['yamllint'],
+            \   'c'              : ['gcc'],
+            \   'coffee'         : ['coffee', 'coffeelint'],
+            \   'css'            : ['csslint'],
+            \   'html'           : ['htmlhint', 'tidy'],
+            \   'javascript'     : ['eslint'],
+            \   'json'           : ['jsonlint'],
+            \   'markdown'       : ['mdl'],
+            \   'php'            : ['php'],
+            \   'python'         : ['flake8'],
+            \   'scss'           : ['sasslint'],
+            \   'sh'             : ['shellcheck', 'shell'],
+            \   'vim'            : ['vint'],
+            \   'yaml'           : ['yamllint'],
             \ }
 let g:ale_html_tidy_executable = 'tidy5'
 let g:ale_javascript_eslint_executable = 'eslint_d'
@@ -322,14 +322,27 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger = 'jj'
-let g:UltiSnipsJumpForwardTrigger = 'jj'
-let g:UltiSnipsJumpBackwardTrigger = 'jJ'
+let g:UltiSnipsExpandTrigger = '<NUL>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsEditSplit = 'vertical'
+
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
 let g:UltiSnipsSnippetDirectories =
             \ ['UltiSnips', g:vim_dir . '/misc/ultisnips']
+
+" A custom function to make the future mapping of Tab more clever.
+function! s:IsASnippet() abort " {{{2
+    if !exists('g:ulti_expand_or_jump_res')
+        let g:ulti_expand_or_jump_res = 0
+    endif
+    call UltiSnips#ExpandSnippetOrJump()
+    return g:ulti_expand_or_jump_res ? 1 : 0
+endfunction " 2}}}
+" And here the (very poor) magic operates.
+inoremap <silent> <Tab> <C-R>=<SID>IsASnippet() ?
+            \ '' : helpers#AllInOneCompletion()<CR>
 " 1}}}
 
 " >>> (( gitgutter )) {{{1
@@ -538,10 +551,10 @@ omap ac <Plug>(textobj-comment-a)
 " (( vim-textobj-python )) {{{2
 let g:textobj_python_no_default_key_mappings = 1
 call textobj#user#map('python', {
-            \	'class': {
-            \		'select-a': '<buffer>aC',
-            \		'select-i': '<buffer>iC',
-            \	}
+            \   'class': {
+            \       'select-a': '<buffer>aC',
+            \       'select-i': '<buffer>iC',
+            \   }
             \ })
 " 2}}}
 " 1}}}
@@ -569,13 +582,13 @@ endif
 call denite#custom#var('buffer', 'date_format', '')
 call denite#custom#var('outline', 'options', ['-u'])
 call denite#custom#option('_', {
-            \	'highlight_matched_char' : 'WarningMsg',
-            \	'highlight_matched_range': 'None',
-            \	'highlight_mode_normal'  : 'CursorLine',
-            \	'prompt'                 : '>',
-            \	'smartcase'              : v:true,
-            \	'statusline'             : v:false,
-            \	'winheight'              : 15,
+            \   'highlight_matched_char' : 'WarningMsg',
+            \   'highlight_matched_range': 'None',
+            \   'highlight_mode_normal'  : 'CursorLine',
+            \   'prompt'                 : '>',
+            \   'smartcase'              : v:true,
+            \   'statusline'             : v:false,
+            \   'winheight'              : 15,
             \ })
 hi! link deniteSource_buffer None
 hi! link deniteSource_Name Question
@@ -651,11 +664,11 @@ nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-            \	'help'                 : 'vim',
-            \	'.htaccess'            : 'apache http server',
-            \	'javascript'           : 'javascript,nodejs',
-            \	'python'               : 'python 3',
-            \	'\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
+            \   'help'                 : 'vim',
+            \   '.htaccess'            : 'apache http server',
+            \   'javascript'           : 'javascript,nodejs',
+            \   'python'               : 'python 3',
+            \   '\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
             \ }
 let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
 let g:zv_docsets_dir = g:has_unix ?
@@ -679,43 +692,43 @@ let g:lazylist_omap = 'ii'
 nnoremap gli :LazyList ''<Left>
 xnoremap gli :LazyList ''<Left>
 let g:lazylist_maps = [
-            \	'gl',
-            \	{
-            \		'l'  : '',
-            \		'*'  : '* ',
-            \		'-'   : '- ',
-            \		'+'   : '+ ',
-            \		't'   : '- [ ] ',
-            \		'2'  : '%2%. ',
-            \		'3'  : '%3%. ',
-            \		'.1' : '1.%1%. ',
-            \		'.2' : '2.%1%. ',
-            \		'.3' : '3.%1%. ',
-            \		'##': '# ',
-            \		'#2': '## ',
-            \		'#3': '### ',
-            \	}
+            \   'gl',
+            \   {
+            \       'l'  : '',
+            \       '*'  : '* ',
+            \       '-'   : '- ',
+            \       '+'   : '+ ',
+            \       't'   : '- [ ] ',
+            \       '2'  : '%2%. ',
+            \       '3'  : '%3%. ',
+            \       '.1' : '1.%1%. ',
+            \       '.2' : '2.%1%. ',
+            \       '.3' : '3.%1%. ',
+            \       '##': '# ',
+            \       '#2': '## ',
+            \       '#3': '### ',
+            \   }
             \ ]
 " 1}}}
 
 " >>> (( vBox )) {{{1
 nnoremap <S-F2> :VBEdit 
 let g:vbox = {
-            \	'dir': g:vim_dir . '/misc/templates',
-            \	'empty_buffer_only': 0
+            \   'dir': g:vim_dir . '/misc/templates',
+            \   'empty_buffer_only': 0
             \ }
 let g:vbox.variables = {
-            \	'%LICENSE%'  : 'MIT',
-            \	'%MAIL%'     : 'amine.kabb@gmail.com',
-            \	'%NAME%'     : 'Kabbaj Amine',
-            \	'%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
-            \	'%REPO%'     : 'https://github.com/KabbAmine/',
-            \	'%USERNAME%' : 'KabbAmine',
-            \	'%YEAR%'     : 'f=strftime("%Y")',
+            \   '%LICENSE%'  : 'MIT',
+            \   '%MAIL%'     : 'amine.kabb@gmail.com',
+            \   '%NAME%'     : 'Kabbaj Amine',
+            \   '%PROJECT%'  : 'f=fnamemodify(getcwd(), ":t")',
+            \   '%REPO%'     : 'https://github.com/KabbAmine/',
+            \   '%USERNAME%' : 'KabbAmine',
+            \   '%YEAR%'     : 'f=strftime("%Y")',
             \ }
 " For ALE
 call extend(g:vbox.variables, {
-            \	'%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
+            \   '%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
             \ })
 augroup VBoxAuto
     autocmd!
@@ -736,15 +749,15 @@ augroup END
 " >>> (( imagePreview )) {{{1
 nmap gi <Plug>(image-preview)
 let g:image_preview = {
-            \	'_': {
-            \		'prg'  : 'feh',
-            \		'args' :
+            \   '_': {
+            \       'prg'  : 'feh',
+            \       'args' :
             \           '--scale-down --no-menus --quiet --magick-timeout 1',
-            \	},
-            \	'gif': {
-            \		'prg'  : 'exo-open',
-            \		'args' : '',
-            \	},
+            \   },
+            \   'gif': {
+            \       'prg'  : 'exo-open',
+            \       'args' : '',
+            \   },
             \ }
 " 1}}}
 
