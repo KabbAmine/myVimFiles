@@ -195,7 +195,7 @@ function! helpers#MakeTextObjects(to) abort " {{{1
 endfunction
 " 1}}}
 
-function! helpers#AllInOneCompletion() abort " {{{1
+function! helpers#TabComplete() abort " {{{1
     let l:c = getchar()
     " 9 is a tab
     if empty(l:c) || l:c ==# '9'
@@ -206,9 +206,10 @@ function! helpers#AllInOneCompletion() abort " {{{1
                 \   'f': "\<C-x>\<C-f>",
                 \   'o': "\<C-x>\<C-o>",
                 \   'n': "\<C-x>\<C-n>",
+                \   'i': "\<C-x>\<C-i>",
                 \   'k': "\<C-x>\<C-k>",
                 \   'u': "\<C-x>\<C-u>",
-                \   't': "\<C-x>\<C-t>",
+                \   't': "\<C-x>\<C-]>",
                 \   's': "\<C-x>s",
                 \   'l': "\<C-x>\<C-l>",
                 \ }

@@ -342,7 +342,7 @@ function! s:IsASnippet() abort " {{{2
 endfunction " 2}}}
 " And here the (very poor) magic operates.
 inoremap <silent> <Tab> <C-R>=<SID>IsASnippet() ?
-            \ '' : helpers#AllInOneCompletion()<CR>
+            \ '' : helpers#TabComplete()<CR>
 " 1}}}
 
 " >>> (( gitgutter )) {{{1

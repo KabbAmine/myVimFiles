@@ -492,7 +492,7 @@ endfunction " 2}}}
 
 " >>> Completion {{{1
 " Tab is remapped in config/plugins.vim:ultisnips
-inoremap <silent> <Tab> <C-r>=helpers#AllInOneCompletion<CR>
+inoremap <silent> <Tab> <C-r>=helpers#TabComplete<CR>
 " Triggers for auto completion
 " call helpers#AutoCompleteWithMapTriggers({
 "             \   'css'        : {':': 'o'},
