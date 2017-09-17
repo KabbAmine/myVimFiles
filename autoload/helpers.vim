@@ -1,6 +1,6 @@
 " ========== Helpers & useful functions ========================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-15
+" Last modification: 2017-09-17
 " ==============================================================
 
 
@@ -192,6 +192,27 @@ function! helpers#MakeTextObjects(to) abort " {{{1
         endfor
     augroup END
 
+endfunction
+" 1}}}
+
+function! helpers#AllInOneCompletion() abort " {{{1
+    let l:c = getchar()
+    " 9 is a tab
+    if empty(l:c) || l:c ==# '9'
+        return "\<Tab>"
+    endif
+    let l:c = nr2char(l:c)
+    let l:t_c = {
+                \   'f': "\<C-x>\<C-f>",
+                \   'o': "\<C-x>\<C-o>",
+                \   'n': "\<C-x>\<C-n>",
+                \   'k': "\<C-x>\<C-k>",
+                \   'u': "\<C-x>\<C-u>",
+                \   't': "\<C-x>\<C-t>",
+                \   's': "\<C-x>s",
+                \   'l': "\<C-x>\<C-l>",
+                \ }
+    return has_key(l:t_c, l:c) ? l:t_c[l:c] : "\<Tab>" . l:c
 endfunction
 " 1}}}
 

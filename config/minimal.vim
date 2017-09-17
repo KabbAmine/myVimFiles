@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-16
+" Last modification: 2017-09-17
 " ==============================================================
 
 
@@ -17,7 +17,9 @@ unlet! s:curr_locale
 " 1}}}
 
 " Enable syntax and indentation {{{1
-syntax on
+if !exists('g:syntax_on')
+    syntax enable
+endif
 filetype plugin indent on
 " 1}}}
 
@@ -80,15 +82,15 @@ let &guifont = g:has_win ?
 " 1}}}
 
 " >>> Messages & info {{{1
+set confirm         " Start a dialog when a command fails
+set shortmess+=c    " Disable ins-completion-menu messages with c
 set showcmd
-set ruler
-set confirm		" Start a dialog when a command fails
 " 1}}}
 
 " >>> Edit text {{{1
-set infercase		" Adjust case of a keyword completion match.
+set infercase       " Adjust case of a keyword completion match.
 set completeopt=longest,menuone
-set textwidth=0		" Don't insert automatically newlines
+set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
     set backspace=2
@@ -100,8 +102,8 @@ set matchpairs+=<:>
 set number
 set linebreak
 let &showbreak='⤷ '
-set scrolloff=3			" Number of screen lines to show around the cursor.
-set display=lastline	" Show the last line even if it doesn't fit.
+set scrolloff=3         " Number of screen lines to show around the cursor.
+set display=lastline    " Show the last line even if it doesn't fit.
 set lazyredraw
 set breakindent
 let &listchars = g:has_win ?
@@ -120,8 +122,6 @@ set modeline
 set ignorecase
 set smartcase
 set incsearch
-" List of flags specifying which commands wrap to another line.
-set whichwrap=b,s,<,>,[,]
 " 1}}}
 
 " >>> Running make and jumping to errors {{{1
@@ -137,19 +137,16 @@ unlet! s:grep_prg s:grep_format
 " 1}}}
 
 " >>> Syntax, highlighting and spelling {{{1
-set background=dark
 set hlsearch
-set spelllang=fr
 set synmaxcol=200
 " 1}}}
 
 " >>> Tabs & indenting {{{1
-set tabstop=4			" Number of spaces a <Tab> in the text stands for.
-set softtabstop=4		" Number of spaces to insert for a <Tab>.
-set shiftwidth=4		" Number of spaces used for each step of (auto)indent.
-set smarttab			" A <Tab> in an indent inserts 'shiftwidth' spaces.
+set softtabstop=4       " Number of spaces to insert for a <Tab>.
+set shiftwidth=4        " Number of spaces used for each step of (auto)indent.
+set smarttab            " A <Tab> in an indent inserts 'shiftwidth' spaces.
 set autoindent
-set copyindent			" Copy whitespace for indenting from previous line.
+set copyindent          " Copy whitespace for indenting from previous line.
 " 1}}}
 
 " >>> Command line editing {{{1
@@ -160,10 +157,6 @@ if has('persistent_undo')
     let &undodir = g:vim_dir . '/misc/undodir/'
     set undofile
 endif
-" 1}}}
-
-" >>> Multi-byte characters {{{1
-set encoding=utf-8
 " 1}}}
 
 " >>> Multiple windows {{{1
@@ -180,18 +173,23 @@ let &directory = g:has_win ?
 " >>> Mapping {{{1
 " Remove the delay when escaping from insert-mode in terminal
 if !g:has_gui
-    set timeoutlen=1000 ttimeoutlen=0
+    set ttimeoutlen=0
 endif
 " 1}}}
 
 " >>> Executing external commands {{{1
 " Allows using shell aliases & functions
 " if g:has_gui
-" 	let &shell = '/bin/bash -i'
+"   let &shell = '/bin/bash -i'
 " endif
 " }}}
 
+" >>> Various {{{1
+set virtualedit=block
+" 1}}}
+
 " =========== DEFAULT PLUGINS ==================================
+
 
 " Disable non-used default plugins {{{1
 let g:loaded_2html_plugin = 1
@@ -228,13 +226,13 @@ xnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
 function! s:Move(to) range " {{{2
     " a:to : -1/1 <=> up/down
     let l:fl = a:firstline | let l:ll = a:lastline
+    let l:cl = line('.')
     let l:to = a:to ==# -1 ?
                 \ l:fl - 2 : (l:ll + 1 >=# line('$') ? line('$') : l:ll + 1)
-    execute printf(':%d,%dm%d', l:fl, l:ll, l:to)
-    let l:cl = line('.')
-    if foldlevel(l:cl) !=# 0
-        normal! zaza
+    if foldlevel(l:to) !=# 0
+        silent execute l:to ' | normal! zO | ' . l:cl
     endif
+    execute printf(':%d,%dm%d', l:fl, l:ll, l:to)
 endfunction " 2}}}
 " 1}}}
 
@@ -352,11 +350,11 @@ nnoremap <leader>r :<c-u><c-r>='let @'. v:register
 " >>> Open (with) external programs {{{1
 nnoremap <silent> gx :call helpers#OpenUrl()<CR>
 " Terminal
-nnoremap <silent> ;t   :call helpers#OpenHere('t')<CR>
-nnoremap <silent> ;;t  :call helpers#OpenHere('t', expand('%:h:p'))<CR>
+nnoremap <silent> ;t :call helpers#OpenHere('t')<CR>
+nnoremap <silent> ;;t :call helpers#OpenHere('t', expand('%:h:p'))<CR>
 " File manager
-nnoremap <silent> ;f   :call helpers#OpenHere('f')<CR>
-nnoremap <silent> ;;f  :call helpers#OpenHere('f', expand('%:h:p'))<CR>
+nnoremap <silent> ;f :call helpers#OpenHere('f')<CR>
+nnoremap <silent> ;;f :call helpers#OpenHere('f', expand('%:h:p'))<CR>
 " 1}}}
 
 " >>> Use c for manipulating + register {{{1
@@ -373,39 +371,39 @@ xnoremap Cy "+y
 
 " >>> Text objects {{{1
 " All ***
-"	- ie         : Entire file
-"	- il         : Current line without whitespace
-"	- i{X}/a{X}  : Inside/around: . , _ * # : + - / = @ &
+"   - ie         : Entire file
+"   - il         : Current line without whitespace
+"   - i{X}/a{X}  : Inside/around: . , _ * # : + - / = @ &
 " Scss/Css ***
-"	 - iV     : Value
-"	 - iP     : Property
-"	 - if/af  : Inside/around a selector block
+"    - iV     : Value
+"    - iP     : Property
+"    - if/af  : Inside/around a selector block
 " Sh ***
-"	 - if/af  : Inside/around a function
+"    - if/af  : Inside/around a function
 let s:to = {
-            \	'_' : [
-            \			['ie', 'ggVG'],
-            \			['il', '^vg_'],
-            \			['i.', 'F.WvEf.ge'], ['a.', 'F.vEf.'],
-            \			['i_', 'T_vt_'], ['a_', 'F_vf_'],
-            \			['i*', 'T*vt*'], ['a*', 'F*vf*'],
-            \			['i,', 'T,vt,'], ['a,', 'F,vf,'],
-            \			['i#', 'T#vt#'], ['a#', 'F#vf#'],
-            \			['i:', 'T:vt:'], ['a:', 'F:vf:'],
-            \			['i+', 'T+vt+'], ['a+', 'F+vf+'],
-            \			['i-', 'T-vt-'], ['a-', 'F-vf-'],
-            \			['i/', 'T/vt/'], ['a/', 'F/vf/'],
-            \			['i=', 'T=vt='], ['a=', 'F=vf='],
-            \			['i@', 'T@vt@'], ['a@', 'F@vf@'],
-            \			['i&', 'T&vt&'], ['a&', 'F&vf&'],
-            \	],
-            \	'scss,css' : [
-            \		['iV', '^f:wvt;'], ['iP', '^f:Bvt:'],
-            \		['if', '][kvi{V'], ['af', '][kva{Vo[]j'],
-            \	],
-            \	'sh' : [
-            \		['if', 'vi{V'], ['af', 'va{V'],
-            \	]
+            \   '_' : [
+            \           ['ie', 'ggVG'],
+            \           ['il', '^vg_'],
+            \           ['i.', 'F.WvEf.ge'], ['a.', 'F.vEf.'],
+            \           ['i_', 'T_vt_'], ['a_', 'F_vf_'],
+            \           ['i*', 'T*vt*'], ['a*', 'F*vf*'],
+            \           ['i,', 'T,vt,'], ['a,', 'F,vf,'],
+            \           ['i#', 'T#vt#'], ['a#', 'F#vf#'],
+            \           ['i:', 'T:vt:'], ['a:', 'F:vf:'],
+            \           ['i+', 'T+vt+'], ['a+', 'F+vf+'],
+            \           ['i-', 'T-vt-'], ['a-', 'F-vf-'],
+            \           ['i/', 'T/vt/'], ['a/', 'F/vf/'],
+            \           ['i=', 'T=vt='], ['a=', 'F=vf='],
+            \           ['i@', 'T@vt@'], ['a@', 'F@vf@'],
+            \           ['i&', 'T&vt&'], ['a&', 'F&vf&'],
+            \   ],
+            \   'scss,css' : [
+            \       ['iV', '^f:wvt;'], ['iP', '^f:Bvt:'],
+            \       ['if', '][kvi{V'], ['af', '][kva{Vo[]j'],
+            \   ],
+            \   'sh' : [
+            \       ['if', 'vi{V'], ['af', 'va{V'],
+            \   ]
             \ }
 call helpers#MakeTextObjects(s:to)
 unlet! s:to
@@ -415,8 +413,8 @@ unlet! s:to
 nnoremap <silent> gPr :Preview<CR>
 xnoremap <silent> gPr :Preview<CR>
 nnoremap <silent> gaPr :call helpers#AutoCmd(
-            \	'Preview', 'Preview',
-            \	['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI']
+            \   'Preview', 'Preview',
+            \   ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI']
             \ )<CR>
 " 1}}}
 
@@ -437,7 +435,7 @@ nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
 function! s:Grep(...) abort " {{{2
     if exists('a:1')
         let l:q = a:1 ==# 1 ?
-                    \	helpers#GetVisualSelection() : helpers#GetMotionResult()
+                    \   helpers#GetVisualSelection() : helpers#GetMotionResult()
     else
         echohl ModeMsg | let l:q = input('grep> ') | echohl None
     endif
@@ -493,16 +491,8 @@ endfunction " 2}}}
 " 1}}}
 
 " >>> Completion {{{1
-inoremap <Tab>o <C-x><C-o>
-inoremap <Tab>n <C-x><C-n>
-inoremap <Tab>f <C-x><C-f>
-inoremap <Tab>t <C-x><C-]>
-inoremap <Tab>l <C-x><C-l>
-inoremap <Tab>u <C-x><C-u>
-inoremap <Tab>k <C-x><C-k>
-inoremap <Tab>s <C-x>s
-" A small sacrifice for a big cause
-inoremap <Tab><Tab> <Tab>
+" Tab is remapped in config/plugins.vim:ultisnips
+inoremap <silent> <Tab> <C-r>=helpers#AllInOneCompletion<CR>
 " Triggers for auto completion
 " call helpers#AutoCompleteWithMapTriggers({
 "             \   'css'        : {':': 'o'},
@@ -538,15 +528,15 @@ command! -nargs=1 -complete=file Rename :call helpers#Rename(<f-args>)
 command! -nargs=? Indent :call <SID>Indent(<f-args>)
 function! s:Indent(...) abort " {{{2
     let l:pos = getpos('.')
-    let l:opts = ['tabstop', 'softtabstop', 'shiftwidth']
+    let l:opts = ['softtabstop', 'shiftwidth']
     let l:old_i = []
     for l:o in l:opts
         call add(l:old_i, getbufvar('%', '&' . l:o))
     endfor
     echohl Question
     let l:new_i = exists('a:1') ? a:1 :
-                \ input(printf('%d:%d:%d> ',
-                \	l:old_i[0], l:old_i[1], l:old_i[2]))
+                \ input(printf('%d:%d> ',
+                \   l:old_i[0], l:old_i[1]))
     echohl None
     if !empty(l:new_i)
         for l:o in l:opts
@@ -599,10 +589,10 @@ endfunction " 2}}}
 command! Fold :call <SID>Fold()
 function! s:Fold() abort " {{{2
     let l:indentations = {
-                \	'css'       : ['marker', ' {,}'],
-                \	'javascript': ['marker', ' {,}'],
-                \	'python'    : ['indent'],
-                \	'sh'        : ['marker', ' {,}'],
+                \   'css'       : ['marker', ' {,}'],
+                \   'javascript': ['marker', ' {,}'],
+                \   'python'    : ['indent'],
+                \   'sh'        : ['marker', ' {,}'],
                 \ }
 
     if !has_key(l:indentations, &ft)
@@ -731,10 +721,10 @@ augroup QLWindows
 augroup END
 " 1}}}
 
-" >>> Disable continuation of comments when using o/O {{{1
-augroup ResetFormatOptions
+" >>> Fix all annoyances here instead of using an after/ftplugin file {{{1
+augroup FixIt
     autocmd!
-    autocmd FileType vim setl formatoptions&
+    autocmd FileType vim setl formatoptions& textwidth=0
 augroup END
 " 1}}}
 
@@ -783,14 +773,14 @@ if g:has_job
     " Browser-sync
     if executable('browser-sync')
         command! -nargs=* BrowserSync call helpers#Job(
-                    \	'browserSync', <SID>BrowserSync(<f-args>))
+                    \   'browserSync', <SID>BrowserSync(<f-args>))
         function! s:BrowserSync(...) abort " {{{2
             let l:cwd = getcwd()
             let l:files = exists('a:1') ?
                         \   join(map(
                         \       split(a:1, ','), 'l:cwd . "/" . v:val'), ',') :
-                        \	printf('%s/*.html,%s/*.css,%s/*.js',
-                        \		l:cwd, l:cwd, l:cwd)
+                        \   printf('%s/*.html,%s/*.css,%s/*.js',
+                        \       l:cwd, l:cwd, l:cwd)
             let l:opts = exists('a:2') ? a:2 : '--directory --no-online'
             return printf(
                         \ "browser-sync start --server --files=%s %s",
@@ -824,7 +814,7 @@ augroup Omni
     if exists('+omnifunc')
         autocmd! Filetype *
                     \ if empty(&omnifunc)
-                    \|	setlocal omnifunc=syntaxcomplete#Complete
+                    \|  setlocal omnifunc=syntaxcomplete#Complete
                     \| endif
     endif
 augroup END
