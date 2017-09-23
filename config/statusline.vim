@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-08
+" Last modification: 2017-09-22
 " ==============================================================
 
 
@@ -10,7 +10,6 @@
 " * Rvm
 " * ALE
 " * Denite
-" * zoomwintab
 " * gutentags
 
 " ========== CONFIGURATION =====================================
@@ -127,10 +126,14 @@ endfunction
 " 1}}}
 
 function! SLColumnAndPercent() abort " {{{1
-    let l:col = col('.')
-    let l:perc = (line('.') * 100) / line('$')
-    return winwidth(0) <# 55 ?
-                \ '' : l:col . ' ' . l:perc . '%'
+    " The percent part was inspired by vim-line-no-indicator plugin.
+
+    let l:chars = ['⎺', '⎻', '─', '⎼', '⎽']
+    let [l:c_l, l:l_l] = [line('.'), line('$')]
+    let l:index = float2nr(ceil((l:c_l * len(l:chars) * 1.0) / l:l_l)) - 1
+
+    let l:perc = l:chars[l:index]
+    return winwidth(0) <# 55 ? '' : l:perc . ' ' . col('.')
 endfunction
 " 1}}}
 
@@ -236,8 +239,8 @@ function! SLAle(mode) abort " {{{1
 endfunction
 " 1}}}
 
-function! SLZoomWinTab() abort " {{{1
-    return exists('t:zoomwintab') ? ' ' : ''
+function! SLRAP() abort " {{{1
+    return exists('g:rap') ? rap#Statusline() : ''
 endfunction
 " 1}}}
 
@@ -328,7 +331,6 @@ function! GetSL(...) abort " {{{1
 
     " ACTIVE STATUSLINE
     let l:sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
-    let l:sl .= '%3*%( %{SLZoomWinTab()}%)'
     let l:sl .= '%2* %{SLFilename()}'
     let l:sl .= '%5*%( %{SLModified()}% %)'
 
