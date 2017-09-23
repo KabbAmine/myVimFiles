@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-17
+" Last modification: 2017-09-18
 " ==============================================================
 
 
@@ -156,15 +156,14 @@ Plug 'w0rp/ale'
 Plug 'itchyny/vim-parenmatch'
 Plug 'machakann/vim-highlightedyank',
             \ {'on': '<Plug>(highlightedyank)'}
-Plug 'troydm/zoomwintab.vim',
-            \ {'on': ['ZoomWinTabToggle', 'ZoomWinTabIn', 'ZoomWinTab']}
 " 2}}}
 
 " My Plugins {{{2
 if !s:lab_mode
+    " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
     Plug 'KabbAmine/lazyList.vim'
-    " Plug 'KabbAmine/unite-cmus'
+    Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
     Plug 'KabbAmine/vCoolor.vim'
     Plug 'KabbAmine/vullscreen.vim'
@@ -341,8 +340,7 @@ function! s:IsASnippet() abort " {{{2
     return g:ulti_expand_or_jump_res ? 1 : 0
 endfunction " 2}}}
 " And here the (very poor) magic operates.
-inoremap <silent> <Tab> <C-R>=<SID>IsASnippet() ?
-            \ '' : helpers#TabComplete()<CR>
+inoremap <silent> <Tab> <C-r>=<SID>IsASnippet()? '' : helpers#TabComplete()<CR>
 " 1}}}
 
 " >>> (( gitgutter )) {{{1
@@ -534,10 +532,6 @@ augroup Emoji
 augroup END
 " 1}}}
 
-" >>> (( zoomwintab )) {{{1
-nnoremap gsz :ZoomWinTabToggle<CR>
-" 1}}}
-
 " >>> (( textobj-usr )) & its plugins {{{1
 
 " (( vim-textobj-comment )) {{{2
@@ -560,9 +554,10 @@ call textobj#user#map('python', {
 " 1}}}
 
 " >>> (( vim-gutentags )) {{{1
-let g:gutentags_ctags_executable = 'ctags-exuberant'
 let g:gutentags_cache_dir = g:vim_dir . '/misc/tags/'
+let g:gutentags_ctags_executable = 'ctags-exuberant'
 let g:gutentags_define_advanced_commands = 1
+let g:gutentags_generate_on_new = 0
 " 1}}}
 
 " >>> (( vim-visualstar )) {{{1
@@ -640,7 +635,7 @@ call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
 " 1}}}
 
 " >>> (( airnote )) {{{1
-let g:airnote_path = expand(g:vim_dir . '/misc/memos')
+let g:airnote_path = expand(g:vim_dir . '/misc/notes')
 let g:airnote_suffix = 'md'
 let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
@@ -744,6 +739,12 @@ augroup VBoxAuto
     autocmd BufNewFile CHANGELOG.md,.tern-project      :VBTemplate
     autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c :VBTemplate
 augroup END
+" 1}}}
+
+" >>> (( vzoom )) {{{1
+nmap gsz <Plug>(vzoom)
+nnoremap gsZ :VZoomAutoToggle<CR>
+let g:vzoom = {'equalise_windows': 1}
 " 1}}}
 
 " >>> (( imagePreview )) {{{1
