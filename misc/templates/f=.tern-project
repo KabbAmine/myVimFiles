@@ -1,15 +1,18 @@
 {
     "libs": [
-        "browser"%_%,
-        "jquery"
+	"browser"%_%,
+	"ecma5",
+	"ecma6"
     ],
-    "loadEagerly": [
-        "./path/to/*.js"
-    ],
-    "dontLoad": [
-        "./path/to/not/*.js"
-    ],
-    "plugins": {
-        "node": {}
-    }
+  "plugins": {
+    "node": {},
+    "es_modules": {}
+  },
+  "ecmaVersion": 6,
+  "loadEagerly": [
+      "./path/to/*.js"
+  ],
+  "dontLoad": [
+      "./path/to/not/*.js"
+  ]
 }
