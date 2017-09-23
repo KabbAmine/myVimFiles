@@ -89,7 +89,7 @@ set showcmd
 
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
-set completeopt=longest,menuone
+set completeopt=menuone,noselect
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -491,8 +491,8 @@ endfunction " 2}}}
 " 1}}}
 
 " >>> Completion {{{1
-" Tab is remapped in config/plugins.vim:ultisnips
-inoremap <silent> <Tab> <C-r>=helpers#TabComplete<CR>
+" Is remapped in config/plugins.vim:ultisnips
+" inoremap <silent> <Tab> <C-r>=helpers#TabComplete<CR>
 " Triggers for auto completion
 " call helpers#AutoCompleteWithMapTriggers({
 "             \   'css'        : {':': 'o'},
