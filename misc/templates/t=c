@@ -2,6 +2,6 @@
 
 int main(int argc, char *argv[])
 {
-	%_%
-	return 0;
+    %_%
+    return 0;
 }
