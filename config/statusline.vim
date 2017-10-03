@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-22
+" Last modification: 2017-10-01
 " ==============================================================
 
 
@@ -11,6 +11,7 @@
 " * ALE
 " * Denite
 " * gutentags
+" * RAP
 
 " ========== CONFIGURATION =====================================
 
@@ -140,7 +141,7 @@ endfunction
 function! SLJobs() abort " {{{1
     let l:n_jobs = exists('g:jobs') ? len(g:jobs) : 0
     return winwidth(0) <# 55 ? '' :
-                \ (l:n_jobs !=# 0) ? ' ' . l:n_jobs : ''
+                \ (l:n_jobs? ' ' . l:n_jobs : '')
 endfunction
 " 1}}}
 
@@ -203,7 +204,7 @@ endfunction
 function! SLAle(mode) abort " {{{1
     " a:mode: 1/0 = errors/ok
 
-    if !g:loaded_ale
+    if exists('g:loaded_ale') && !g:loaded_ale
         return ''
     endif
 
@@ -352,6 +353,9 @@ function! GetSL(...) abort " {{{1
 
     " Gutentags
     let l:sl .= '%( %{SLGutentags()} %)'
+
+    " RAP
+    let l:sl .= '%( %{SLRAP()} %)'
 
     " Jobs
     let l:sl .= '%( %{SLJobs()} %)'
