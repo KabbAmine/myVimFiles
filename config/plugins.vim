@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-02
+" Last modification: 2017-10-03
 " ==============================================================
 
 
@@ -534,7 +534,7 @@ augroup END " 2}}}
 
 function! s:TernPrevWinToggle() abort " {{{2
     if exists('g:tern_doc_window')
-        silent execute 'wincmd k | bwipeout'
+        silent pclose
         unlet g:tern_doc_window
     else
         TernDoc
