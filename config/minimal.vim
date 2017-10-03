@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-17
+" Last modification: 2017-10-03
 " ==============================================================
 
 
@@ -125,7 +125,7 @@ set incsearch
 " 1}}}
 
 " >>> Running make and jumping to errors {{{1
-let [s:grep_prg, s:grep_format] = ['%s -S --vimgrep $*', '%f:%l:%c:%m']
+let [s:grep_prg, s:grep_format] = ['%s -S --vimgrep', '%f:%l:%c:%m']
 if executable('rg')
     let &grepprg = printf(s:grep_prg, 'rg')
     let &grepformat = s:grep_format
@@ -190,7 +190,6 @@ set virtualedit=block
 
 " =========== DEFAULT PLUGINS ==================================
 
-
 " Disable non-used default plugins {{{1
 let g:loaded_2html_plugin = 1
 let g:loaded_getscriptPlugin = 1
@@ -219,11 +218,12 @@ nnoremap f<BS> ,
 nnoremap t<BS> ,
 
 " Move current line or visual selection & auto indent
-nnoremap <silent> <A-k> :call <SID>Move(-1)<CR>==
-nnoremap <silent> <A-j> :call <SID>Move(1)<CR>==
-xnoremap <silent> <A-k> :call <SID>Move(-1)<CR>gv=gv
-xnoremap <silent> <A-j> :call <SID>Move(1)<CR>gv=gv
-function! s:Move(to) range " {{{2
+nnoremap <silent> <A-k> :call <SID>MoveSelection(-1)<CR>==
+nnoremap <silent> <A-j> :call <SID>MoveSelection(1)<CR>==
+xnoremap <silent> <A-k> :call <SID>MoveSelection(-1)<CR>gv=gv
+xnoremap <silent> <A-j> :call <SID>MoveSelection(1)<CR>gv=gv
+
+function! s:MoveSelection(to) range " {{{2
     " a:to : -1/1 <=> up/down
     let l:fl = a:firstline | let l:ll = a:lastline
     let l:cl = line('.')
@@ -309,6 +309,7 @@ nnoremap <silent> <Up> <C-w>K
 nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
+
 if g:has_gui
     nnoremap <silent> <c-h> <C-w><Left>
     nnoremap <silent> <c-j> <C-w><Down>
@@ -320,6 +321,7 @@ else
     nnoremap <silent> <c-k> :call <SID>TmuxMove('k')<CR>
     nnoremap <silent> <c-l> :call <SID>TmuxMove('l')<CR>
 endif
+
 " Move between splits & tmux " {{{2
 " https://gist.github.com/mislav/5189704#gistcomment-1735600
 function! s:TmuxMove(direction) abort
@@ -348,13 +350,13 @@ nnoremap <leader>r :<c-u><c-r>='let @'. v:register
 " 1}}}
 
 " >>> Open (with) external programs {{{1
-nnoremap <silent> gx :call helpers#OpenUrl()<CR>
+nnoremap <silent> gx :call ka#sys#E('OpenUrl')<CR>
 " Terminal
-nnoremap <silent> ;t :call helpers#OpenHere('t')<CR>
-nnoremap <silent> ;;t :call helpers#OpenHere('t', expand('%:h:p'))<CR>
+nnoremap <silent> ;t :call ka#sys#E('OpenHere', ['t'])<CR>
+nnoremap <silent> ;;t :call ka#sys#E('OpenHere', ['t', expand('%:h:p')])<CR>
 " File manager
-nnoremap <silent> ;f :call helpers#OpenHere('f')<CR>
-nnoremap <silent> ;;f :call helpers#OpenHere('f', expand('%:h:p'))<CR>
+nnoremap <silent> ;f :call ka#sys#E('OpenHere', ['f'])<CR>
+nnoremap <silent> ;;f :call ka#sys#E('OpenHere', ['f', expand('%:h:p')])<CR>
 " 1}}}
 
 " >>> Use c for manipulating + register {{{1
@@ -405,24 +407,13 @@ let s:to = {
             \       ['if', 'vi{V'], ['af', 'va{V'],
             \   ]
             \ }
-call helpers#MakeTextObjects(s:to)
+call ka#utils#E('MakeTextObjects', [s:to])
 unlet! s:to
 " 1}}}
 
-" >>> Preview {{{1
-nnoremap <silent> gPr :Preview<CR>
-xnoremap <silent> gPr :Preview<CR>
-nnoremap <silent> gaPr :call helpers#AutoCmd(
-            \   'Preview', 'Preview',
-            \   ['BufWritePost,InsertLeave,TextChanged,CursorHold,CursorHoldI']
-            \ )<CR>
-" 1}}}
-
 " >>> Toggle options {{{1
-nnoremap <silent> <leader><leader>n :setl number!<CR>
 nnoremap <silent> <leader><leader>w :setl wrap!<CR>
 nnoremap <silent> <leader><leader>l :setl list!<CR>
-nnoremap <silent> <leader><leader>f :set fo-=o fo-=c fo-=r<CR>
 nnoremap <silent> <leader><leader>c
             \ :execute 'setl colorcolumn=' . (&cc ? '' : 80)<CR>
 " 1}}}
@@ -432,10 +423,12 @@ nnoremap <silent> <leader><leader>c
 nnoremap ,,g :call <SID>Grep()<CR>
 xnoremap <silent> ,,g :call <SID>Grep(1)<CR>
 nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
+
 function! s:Grep(...) abort " {{{2
     if exists('a:1')
         let l:q = a:1 ==# 1 ?
-                    \   helpers#GetVisualSelection() : helpers#GetMotionResult()
+                    \   ka#utils#E('GetVisualSelection', [], 1) :
+                    \   ka#utils#E('GetMotionResult', [], 1)
     else
         echohl ModeMsg | let l:q = input('grep> ') | echohl None
     endif
@@ -462,6 +455,7 @@ xnoremap <C-x> <C-x>gv
 " >>> Go to line using relative numbers {{{1
 nnoremap gj :call <SID>GoTo('j')<CR>
 nnoremap gk :call <SID>GoTo('k')<CR>
+
 function! s:GoTo(direction) abort " {{{2
     let [l:n, l:rn] = [&l:number, &l:relativenumber]
     redir => l:hi
@@ -492,7 +486,7 @@ endfunction " 2}}}
 
 " >>> Completion {{{1
 " Is remapped in config/plugins.vim:ultisnips
-" inoremap <silent> <Tab> <C-r>=helpers#TabComplete<CR>
+" inoremap <silent> <Tab> <C-r>=ka#utils#E('TabComplete', [], 1)<CR>
 " Triggers for auto completion
 " call helpers#AutoCompleteWithMapTriggers({
 "             \   'css'        : {':': 'o'},
@@ -519,13 +513,14 @@ augroup END
 " 1}}}
 
 " >>> Commands for folders & files {{{1
-command! -nargs=+ -complete=file Mkdir  :call helpers#MakeDir(<f-args>)
-command! -nargs=+ -complete=file Rm     :call helpers#Delete(<f-args>)
-command! -nargs=1 -complete=file Rename :call helpers#Rename(<f-args>)
+command! -nargs=+ -complete=file Mkdir  :call ka#sys#E('MakeDir', [<f-args>])
+command! -nargs=+ -complete=file Rm     :call ka#sys#E('Delete', [<f-args>])
+command! -nargs=1 -complete=file Rename :call ka#sys#E('Rename', [<f-args>])
 " 1}}}
 
 " >>> Specify indentation (ts,sts,sw) & reindent {{{1
 command! -nargs=? Indent :call <SID>Indent(<f-args>)
+
 function! s:Indent(...) abort " {{{2
     let l:pos = getpos('.')
     let l:opts = ['softtabstop', 'shiftwidth']
@@ -570,23 +565,26 @@ endif
 
 " >>> Set spelllang & spell in one command {{{1
 command! -nargs=? Spell call <SID>SetSpell(<f-args>)
+
 function! s:SetSpell(...) abort " {{{2
     if !&l:spell
-        let s:old_complete = &l:complete
+        let [s:old_complete, s:old_spelllang] = [&l:complete, &l:spelllang]
         let l:l = exists('a:1') ? a:1 : 'fr'
         let &l:spelllang = l:l
-        setlocal complete+=kspell
-        setlocal spell
+        setlocal complete+=kspell spell
     else
         setlocal nospell
         let &l:complete = exists('s:old_complete') ?
                     \ s:old_complete : &l:complete
+        let &l:spelllang = exists('s:old_spelllang') ?
+                    \ s:old_spelllang : &l:spelllang
     endif
 endfunction " 2}}}
 " 1}}}
 
 " >>> Enable folding when needed {{{1
 command! Fold :call <SID>Fold()
+
 function! s:Fold() abort " {{{2
     let l:indentations = {
                 \   'css'       : ['marker', ' {,}'],
@@ -636,43 +634,18 @@ function! s:Echo(...) abort " {{{2
     silent execute 'echo ' . join(a:000, '')
     redir END
     if !empty(l:out[1:])
-        call helpers#OpenOrMove2Buffer('__Echo__', 'vim', 'sp')
+        call ka#ui#E('CreateOrGoTo', ['__Echo__', 'vim', 'sp'])
         call setline(1, l:out[1:])
         wincmd p
     endif
 endfunction " 2}}}
 " 1}}}
 
-" >>> Preview buffer {{{1
-" TODO: Find a way to execute vimscript.
-command! -range=% Preview :call <SID>Preview(<line1>, <line2>)
-let s:ft_dict = {
-            \ 'c'         : {'cmd': 'gcc -o %o.out %i.c', 'tmp': 1, 'exec': 1},
-            \ 'coffee'    : {'cmd': 'coffee -s'},
-            \ 'cpp'       : {'cmd': 'g++ -o %o.out %i.c', 'tmp': 1, 'exec': 1},
-            \ 'javascript': {'cmd': 'nodejs'},
-            \ 'lua'       : {'cmd': 'lua'},
-            \ 'markdown'  : {'cmd': 'markdown', 'ft': 'html'},
-            \ 'php'       : {'cmd': 'php'},
-            \ 'pug'       : {'cmd': 'pug --pretty', 'ft': 'html'},
-            \ 'python'    : {'cmd': 'python3'},
-            \ 'ruby'      : {'cmd': 'ruby'},
-            \ 'sh'        : {'cmd': 'bash'},
-            \ 'scss'      :
-            \   {'cmd': 'node-sass --output-style=expanded', 'ft': 'css'},
-            \ }
-function! s:Preview(start, end) abort " {{{2
-    call helpers#ExecuteInBuffer('__Preview__', a:start, a:end, s:ft_dict,
-                \ ['nonumber', 'nobuflisted'],
-                \ ['wincmd J', 'resize 10', 'normal! gg']
-                \ )
-endfunction " 2}}}
-" 1}}}
-
 " >>> Persistent scratch buffer {{{1
 command! Scratch :call s:Scratch()
+
 function! s:Scratch() abort " {{{2
-    call helpers#OpenOrMove2Buffer('__Scratch__', 'markdown', 'topleft sp')
+    call ka#ui#E('CreateOrGoTo', ['__Scratch__', 'markdown', 'topleft sp'])
     if exists('g:scratch')
         silent %delete_
         call append(0, g:scratch)
@@ -717,8 +690,25 @@ augroup END
 augroup QLWindows
     autocmd!
     autocmd FileType qf setl nowrap
-    autocmd FileType qf nnoremap <buffer> <CR> <CR><C-w>p
+    autocmd FileType qf nnoremap <buffer> <CR> <CR>
+    autocmd FileType qf nnoremap <silent> <buffer> p
+                \ :call <SID>PreviewQItem()<CR>
 augroup END
+
+function! s:PreviewQItem() abort " {{{2
+    let s:is_loclist = getwininfo(bufwinid('%'))[0].loclist
+    silent execute "norm! \<CR>"
+    if foldlevel(line('.')) !=# 0
+        normal! zO
+    endif
+    call ka#ui#E('FlashLine', [100, 4, function('<SID>FlashQLine')])
+endfunction " 2}}}
+function! s:FlashQLine(timer) abort " {{{2
+    execute s:is_loclist ? 'll' : 'cc'
+    setlocal cursorline!
+    " silent execute 'setl ' . (&l:cursorline ? 'nocursorline' : 'cursorline')
+    wincmd p
+endfunction " 2}}}
 " 1}}}
 
 " >>> Fix all annoyances here instead of using an after/ftplugin file {{{1
@@ -761,48 +751,92 @@ augroup END
 
 " 1}}}
 
-" =========== JOBS =============================================
+" >>> Operate on multiple files/buffers at once {{{1
+command! -bar -bang -nargs=* -complete=file E
+            \ call <SID>CmdOnMultipleFiles('edit', [<f-args>], '<bang>')
+command! -bar -bang -nargs=* -complete=file Sp
+            \ call <SID>CmdOnMultipleFiles('split', [<f-args>], '<bang>')
+command! -bar -bang -nargs=* -complete=file VS
+            \ call <SID>CmdOnMultipleFiles('vsplit', [<f-args>], '<bang>')
+command! -bar -bang -nargs=* -complete=file TabEdit
+            \ call <SID>CmdOnMultipleFiles('tabedit', [<f-args>], '<bang>')
+command! -bar -bang -nargs=* -complete=buffer Bd
+            \ call <SID>CmdOnMultipleBuffers('bdelete', [<f-args>], '<bang>')
 
-" Command for executing external tools using vim jobs {{{1
+cabbrev e E
+cabbrev sp Sp
+cabbrev vs VS
+cabbrev tabe TabEdit
+cabbrev bd Bd
+
+function! s:CmdOnMultipleFiles(cmd, list_pattern, bang) " {{{2
+    let l:cmd = a:cmd . a:bang
+
+    if a:list_pattern ==# []
+        execute l:cmd
+        return
+    endif
+
+    for l:p in a:list_pattern
+        if match(l:p, '\v\?|*|\[|\]') >=# 0
+            " Expand wildcards only if they exist
+            for l:f in glob(l:p, 0, 1)
+                execute l:cmd . ' ' . l:f
+            endfor
+        else
+            " Otherwise execute the command
+            execute l:cmd . ' ' . l:p
+        endif
+    endfor
+endfunction
+function! s:CmdOnMultipleBuffers(cmd, list_pattern, bang) " {{{2
+    let l:cmd = a:cmd . a:bang
+
+    if a:list_pattern ==# []
+        execute l:cmd
+        return
+    endif
+
+    for l:p in a:list_pattern
+        for l:f in getcompletion(l:p, 'buffer', 1)
+            if bufloaded(l:f)
+                try
+                    execute l:cmd . ' ' . l:f
+                catch
+                    break
+                endtry
+            endif
+        endfor
+    endfor
+endfunction " 2}}}
+" 1}}}
+
+" >>> Jobs {{{1
 if g:has_job
-    command! KillJobs call helpers#KillAllJobs()
-    " Live-server
-    if executable('live-server')
-        command! LiveServer call helpers#Job('liveServer', 'live-server')
-    endif
-    " Browser-sync
-    if executable('browser-sync')
-        command! -nargs=* BrowserSync call helpers#Job(
-                    \   'browserSync', <SID>BrowserSync(<f-args>))
-        function! s:BrowserSync(...) abort " {{{2
-            let l:cwd = getcwd()
-            let l:files = exists('a:1') ?
-                        \   join(map(
-                        \       split(a:1, ','), 'l:cwd . "/" . v:val'), ',') :
-                        \   printf('%s/*.html,%s/*.css,%s/*.js',
-                        \       l:cwd, l:cwd, l:cwd)
-            let l:opts = exists('a:2') ? a:2 : '--directory --no-online'
-            return printf(
-                        \ "browser-sync start --server --files=%s %s",
-                        \ l:files, l:opts
-                        \ )
-        endfunction " 2}}}
-    endif
+    command! -nargs=1 Job :call <SID>Job(<f-args>)
+    command! -nargs=1 JobStop :call ka#job#E('Stop', [<f-args>])
+    command! JobStopAll :call ka#job#E('StopAll')
+    command! JobList :call ka#job#E('List')
+
+    function! s:Job(params) abort " {{{2
+        let l:args = split(a:params)
+        call ka#job#E('Create', [l:args[0], l:args[1:]])
+    endfunction " 2}}}
 endif
 " 1}}}
 
 " =========== ABBREVIATIONS ====================================
 
 " No more rage {{{1
-cab W! w!
-cab Q! q!
-cab QA! qa!
-cab QA qa
-cab Wq wq
-cab wQ wq
-cab WQ wq
-cab W w
-cab Q q
+cabbrev W! w!
+cabbrev Q! q!
+cabbrev QA! qa!
+cabbrev QA qa
+cabbrev Wq wq
+cabbrev wQ wq
+cabbrev WQ wq
+cabbrev W w
+cabbrev Q q
 " 1}}}
 
 " =========== OMNIFUNC =========================================
@@ -818,18 +852,6 @@ augroup Omni
                     \| endif
     endif
 augroup END
-" 1}}}
-
-" =========== EXTERNAL APPLICATIONS INTEGRATION ================
-
-" >>> Use Shiba with some file types {{{1
-if executable('shiba')
-    augroup Shiba
-        autocmd!
-        autocmd Filetype html,markdown command! -buffer Shiba
-                    \ silent exe '!shiba --detach %' | redraw!
-    augroup END
-endif
 " 1}}}
 
 
