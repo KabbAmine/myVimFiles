@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-18
+" Last modification: 2017-10-02
 " ==============================================================
 
 
@@ -32,14 +32,6 @@ function! s:MyPlugs() abort " {{{2
         let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
         exec printf("Plug '%s'%s", expand(s:my_plugins_dir) . l:pn[l:i], l:opt)
     endfor
-endfunction
-" 2}}}
-
-function! s:PlugInOs(link, param, os) abort " {{{2
-    if has(a:os)
-        let l:opt = (!empty(a:param) ? ', ' . a:param : '') 
-        exe printf("Plug '%s'%s", a:link, l:opt)
-    endif
 endfunction
 " 2}}}
 " 1}}}
@@ -140,7 +132,6 @@ Plug 'tpope/vim-repeat'
 " 2}}}
 
 " Misc {{{2
-call s:PlugInOs('tpope/vim-rvm'  , "{'on': 'Rvm'}" , 'unix')
 Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
 Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
@@ -150,6 +141,7 @@ Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
 Plug 'w0rp/ale'
+if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
 " 2}}}
 
 " Interface {{{2
@@ -162,6 +154,7 @@ Plug 'machakann/vim-highlightedyank',
 if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
+    Plug $HOME . '/Temp/lab/RAP/'
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
@@ -198,11 +191,7 @@ let g:yowish = {
             \       'yellow'           : ['#5295e2', '68'],
             \   }
             \ }
-colo yowish
-
-hi! link TabLineSel Search
-hi CursorLine ctermbg=none ctermfg=none cterm=bold
-
+colorscheme yowish
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
 " }}}
@@ -218,7 +207,7 @@ nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q>
-            \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
+            \ :silent execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
 let g:NERDTreeBookmarksFile = g:has_win ?
             \ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
             \ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
@@ -236,10 +225,6 @@ let g:NERDTreeCascadeOpenSingleChildDir = 0
 " Mappings
 let g:NERDTreeMapOpenSplit = 's'
 let g:NERDTreeMapOpenVSplit = 'v'
-augroup NerdTreeLocOptions
-    autocmd!
-    autocmd FileType nerdtree setlocal nolist
-augroup END
 " 1}}}
 
 " >>> (( python-syntax )) {{{1
@@ -287,7 +272,8 @@ let g:ale_vim_vint_show_style_issues = 0
 " >>> (( emmet )) {{{1
 " Enable emmet for specific files.
 let g:user_emmet_install_global = 0
-augroup emmet
+
+augroup EmmetMaps " {{{2
     autocmd!
     autocmd FileType html,scss,css,pug EmmetInstall
     autocmd FileType html,scss,css,pug
@@ -298,7 +284,8 @@ augroup emmet
                 \ imap <buffer> jhn <plug>(emmet-move-next)
     autocmd FileType html,scss,css,pug
                 \ imap <buffer> jhp <plug>(emmet-move-prev)
-augroup END
+augroup END " 2}}}
+
 " In INSERT & VISUAL modes only.
 let g:user_emmet_mode='iv'
 let g:emmet_html5 = 1
@@ -340,7 +327,8 @@ function! s:IsASnippet() abort " {{{2
     return g:ulti_expand_or_jump_res ? 1 : 0
 endfunction " 2}}}
 " And here the (very poor) magic operates.
-inoremap <silent> <Tab> <C-r>=<SID>IsASnippet()? '' : helpers#TabComplete()<CR>
+inoremap <silent> <Tab> <C-r>=<SID>IsASnippet()?
+            \ '' : ka#utils#E('TabComplete', [], 1)<CR>
 " 1}}}
 
 " >>> (( gitgutter )) {{{1
@@ -380,6 +368,21 @@ let g:jedi#goto_assignments_command= ''
 let g:jedi#show_call_signatures = 2
 " Don't use, buggy as hell
 let g:jedi#rename_command = ''
+
+augroup JediCustomMaps " {{{2
+    autocmd!
+    autocmd Filetype python nmap <silent> <buffer> gH
+                \ :call <SID>JediDocWinToggle()<CR>
+augroup END " 2}}}
+
+function! s:JediDocWinToggle() " {{{2
+    if bufloaded('__doc__')
+        silent bwipeout __doc__
+    else
+        silent call jedi#show_documentation()
+        silent wincmd p
+    endif
+endfunction " 2}}}
 " 1}}}
 
 " >>> (( autoformat )) {{{1
@@ -388,12 +391,14 @@ let g:formatters_html = ['htmlbeautify']
 let g:formatdef_htmlbeautify =
             \ '"html-beautify --indent-size 2 --indent-inner-html true ' .
             \ '--preserve-newlines -f - "'
-" Make =ie autoformat for some ft
-augroup Autoformat
+let g:formatdef_jsbeautify_javascript =
+            \ '"js-beautify -X -s 4 "' . (&textwidth ? " -w " . &textwidth : "")"
+
+augroup AutoformatFt " {{{2
     autocmd!
     autocmd Filetype python,html,json,css,javascript,scss
                 \ nnoremap <buffer> =ie :Autoformat<CR>
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( colorizer )) {{{1
@@ -402,21 +407,23 @@ let g:colorizer_colornames = 0
 
 " >>> (( vim-pydocstring )) {{{1
 let g:pydocstring_enable_mapping = 0
-augroup PydocStringMaps
+
+augroup PydocStringMaps " {{{2
     autocmd!
     autocmd Filetype python
                 \ nnoremap <buffer> <silent> <C-d> <Plug>(pydocstring)
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( php-doc-modded )) {{{1
 let g:pdv_cfg_ClassTags = []
 let g:pdv_cfg_autoEndFunction = 0
 let g:pdv_cfg_autoEndClass = 0
-augroup PhpDocMaps
+
+augroup PhpDocMaps " {{{2
     autocmd!
     autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-lion )) {{{1
@@ -427,12 +434,13 @@ let g:lion_map_left = ''
 
 " >>> (( fugitive )) {{{1
 " Split, vsplit & tab
-augroup FugitiveMaps
+augroup FugitiveMaps " {{{2
     autocmd!
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-s> :norm o<CR>
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-v> :norm S<CR>
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-t> :norm O<CR>
-augroup END
+augroup END " 2}}}
+
 " Aliases
 cabbrev Ga Git add
 cabbrev Gb Git branch
@@ -446,16 +454,17 @@ cabbrev Gt Git tag
 " 1}}}
 
 " >>> (( vim-commentary )) {{{1
-augroup Commentary
+augroup Commentary " {{{2
     autocmd!
     autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
     autocmd FileType xdefaults setlocal commentstring=!\ %s
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( agit )) {{{1
 let g:agit_no_default_mappings = 1
-augroup Agit
+
+augroup Agit " {{{2
     autocmd!
     autocmd Filetype agit,agit_stat,agit_diff
                 \ nmap <buffer> ch <Plug>(agit-git-checkout)
@@ -475,15 +484,15 @@ augroup Agit
                 \ nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
     autocmd Filetype agit,agit_stat
                 \ nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-rvm )) {{{1
 if g:has_unix && executable('rvm')
-    augroup Rvm
+    augroup Rvm " {{{2
         autocmd!
         autocmd GUIEnter * Rvm
-    augroup END
+    augroup END " 2}}}
 endif
 " 1}}}
 
@@ -506,18 +515,32 @@ hi link OperatorSandwichStuff StatusLine
 " 1}}}
 
 " >>> (( vim-jsdoc )) {{{1
-augroup JsDoc
+augroup JsDoc " {{{2
     autocmd!
     autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( tern_for_vim )) {{{1
-let tern_show_signature_in_pum = 1
-augroup Tern
+let g:tern_show_argument_hints = 'on_move'
+let g:tern_show_signature_in_pum = 1
+
+augroup Tern " {{{2
     autocmd!
-    autocmd Filetype javascript nmap <buffer> gd :TernDef<CR>
-augroup END
+    autocmd Filetype javascript nmap <silent> <buffer> gd :TernDef<CR>
+    autocmd Filetype javascript nmap <silent> <buffer> gH
+                \ :call <SID>TernPrevWinToggle()<CR>
+augroup END " 2}}}
+
+function! s:TernPrevWinToggle() abort " {{{2
+    if exists('g:tern_doc_window')
+        silent execute 'wincmd k | bwipeout'
+        unlet g:tern_doc_window
+    else
+        TernDoc
+        let g:tern_doc_window = 1
+    endif
+endfunction " 2}}}
 " 1}}}
 
 " >>> (( vim-parenmatch )) {{{1
@@ -529,7 +552,7 @@ hi! link ParenMatch WarningMsg
 augroup Emoji
     autocmd!
     autocmd FileType markdown,gitcommit :setl completefunc=emoji#complete
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( textobj-usr )) & its plugins {{{1
@@ -641,15 +664,16 @@ let g:airnote_date_format = '%d %b %Y %X'
 let g:airnote_open_prompt = 'Open note > '
 let g:airnote_delete_prompt = 'Delete note > '
 let g:airnote_default_open_cmd = 'vsplit'
+
 " Auto-generate the date when the file is saved
-augroup Airnote
+augroup Airnote " {{{2
     autocmd!
     let s:str =
                 \ 'autocmd BufWrite %s/*.%s ' .
                 \ ':call setline(1,  "> " . strftime(g:airnote_date_format))'
     execute printf(s:str, g:airnote_path, g:airnote_suffix)
     unlet! s:str
-augroup END
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( zeavim )) {{{1
@@ -659,16 +683,12 @@ nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
 let g:zv_file_types = {
-            \   'help'                 : 'vim',
-            \   '.htaccess'            : 'apache http server',
-            \   'javascript'           : 'javascript,nodejs',
-            \   'python'               : 'python 3',
-            \   '\v^(G|g)ulpfile\.js'  : 'gulp,javascript,nodejs',
+            \   'help'                : 'vim',
+            \   'javascript'          : 'javascript,nodejs',
+            \   'python'              : 'python3',
+            \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
             \ }
 let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
-let g:zv_docsets_dir = g:has_unix ?
-            \ '~/Important!/docsets_Zeal/' :
-            \ 'Z:/k-bag/Important!/docsets_Zeal/'
 " 1}}}
 
 " >>> (( vcoolor )) {{{1
@@ -725,7 +745,8 @@ let g:vbox.variables = {
 call extend(g:vbox.variables, {
             \   '%TYPE%'     : 'f=split(expand("%:p:h"), "/")[-1]',
             \ })
-augroup VBoxAuto
+
+augroup VBoxAuto " {{{2
     autocmd!
     " For vim plugins
     exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/README.md ' .
@@ -735,10 +756,10 @@ augroup VBoxAuto
     exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/doc/*.txt ' .
                 \ ':VBTemplate vim-doc'
     " Misc
-    autocmd BufNewFile LICENSE                         :VBTemplate license-MIT
-    autocmd BufNewFile CHANGELOG.md,.tern-project      :VBTemplate
-    autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c :VBTemplate
-augroup END
+    autocmd BufNewFile LICENSE VBTemplate license-MIT
+    autocmd BufNewFile Makefile,CHANGELOG.md,.tern-project VBTemplate
+    autocmd BufNewFile *.py,*.sh,*.php,*.html,*.js,*.c VBTemplate
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( vzoom )) {{{1
