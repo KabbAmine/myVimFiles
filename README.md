@@ -4,7 +4,7 @@ My configuration for the best program of the world :heart:
 I'm not a vim master, but my configuration works great for me so feel free to
 use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-![My vim](.img/myvim.jpg)
+![My vim](.img/my_vim.jpg)
 
 It works on both GNU/Linux and Windows (Starting from `old` tag, it was not
 tested on Windows).
@@ -13,8 +13,7 @@ tested on Windows).
 
 ### :one: Vim
 
-Some plugins need a relatively new version of vim which supports such features:
-`+job`, and `+timers` and compiled with `+python3`, `+lua` and `+ruby`.
+To make use of all the features you need a relatively new version of vim which supports `+job` and `+timers`, and compiled with `+python3` and `+ruby`.
 
 ### :two: Font(s)
 
@@ -53,20 +52,23 @@ are here just for reference (And for windows obviously).
 | `viml`                     | `vim-vint`<sup>P</sup>
 | `yaml`                     | `yamllint`<sup>P</sup>
 
-#### Misc
 
-- **gutentags**: `ctags-exuberant`<sup>B</sup>
-- **Denite** & grep: [`Rg`](https://github.com/BurntSushi/ripgrep) or
-  Ag`<sup>B</sup>
-- **vCoolor**: `yad`<sup>B</sup> or `zenity`<sup>B</sup>
+And:
 
-### :four: External applications (Not mandatory)
+- `ctags-exuberant`<sup>B</sup> for tag's generation with **gutentags**.
+- `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **Denite**.
+- `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
+- [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things (Not mandatory).
 
-- `live-server`<sup>N</sup> & `browser-sync`<sup>N</sup> for live preview of
-  web projects using jobs.
-- `shiba`<sup>N</sup> for live preview of html/markdown
-- [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things
-  :beer:
+### :four: Extra
+
+Some npm packages that will make you developer's life easier:
+
+- `Shiba` for live previewing markdown.
+- `live-server` for live previewing static sites.
+- `browser-sync` for live previewing dynamic sites.
+
+Use them with `Job` command.
 
 -----------------------------
 
