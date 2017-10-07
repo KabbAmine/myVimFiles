@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-06
+" Last modification: 2017-10-07
 " ==============================================================
 
 
@@ -715,7 +715,8 @@ endfunction " 2}}}
 " >>> Fix all annoyances here instead of using an after/ftplugin file {{{1
 augroup FixIt
     autocmd!
-    autocmd FileType vim,javascript setl formatoptions& textwidth=0
+    autocmd FileType vim setlocal textwidth=0
+    autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 " 1}}}
 
