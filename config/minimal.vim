@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-03
+" Last modification: 2017-10-06
 " ==============================================================
 
 
@@ -85,6 +85,7 @@ let &guifont = g:has_win ?
 set confirm         " Start a dialog when a command fails
 set shortmess+=c    " Disable ins-completion-menu messages with c
 set showcmd
+set nomore
 " 1}}}
 
 " >>> Edit text {{{1
@@ -506,9 +507,9 @@ endfunction " 2}}}
 augroup Indentation
     autocmd!
     autocmd FileType coffee,html,css,scss,pug,vader,ruby,markdown
-                \ setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType vim,python,json
-                \ setlocal ts=4 sts=4 sw=4 expandtab
+                \ setlocal sts=2 sw=2 expandtab
+    autocmd FileType vim,python,json,javascript
+                \ setlocal sts=4 sw=4 expandtab
 augroup END
 " 1}}}
 
@@ -714,7 +715,7 @@ endfunction " 2}}}
 " >>> Fix all annoyances here instead of using an after/ftplugin file {{{1
 augroup FixIt
     autocmd!
-    autocmd FileType vim setl formatoptions& textwidth=0
+    autocmd FileType vim,javascript setl formatoptions& textwidth=0
 augroup END
 " 1}}}
 
@@ -758,18 +759,24 @@ command! -bar -bang -nargs=* -complete=file Sp
             \ call <SID>CmdOnMultipleFiles('split', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file VS
             \ call <SID>CmdOnMultipleFiles('vsplit', [<f-args>], '<bang>')
-command! -bar -bang -nargs=* -complete=file TabEdit
+command! -bar -bang -nargs=* -complete=file TabE
             \ call <SID>CmdOnMultipleFiles('tabedit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=buffer Bd
             \ call <SID>CmdOnMultipleBuffers('bdelete', [<f-args>], '<bang>')
 
+" An alternative to :find
+if executable('rg')
+    command! -bar -bang -nargs=* -complete=customlist,<SID>CompleteFiles F
+                \ execute 'E ' . <q-args>
+endif
+
 cabbrev e E
 cabbrev sp Sp
 cabbrev vs VS
-cabbrev tabe TabEdit
+cabbrev tabe TabE
 cabbrev bd Bd
 
-function! s:CmdOnMultipleFiles(cmd, list_pattern, bang) " {{{2
+function! s:CmdOnMultipleFiles(cmd, list_pattern, bang) abort " {{{2
     let l:cmd = a:cmd . a:bang
 
     if a:list_pattern ==# []
@@ -789,7 +796,7 @@ function! s:CmdOnMultipleFiles(cmd, list_pattern, bang) " {{{2
         endif
     endfor
 endfunction
-function! s:CmdOnMultipleBuffers(cmd, list_pattern, bang) " {{{2
+function! s:CmdOnMultipleBuffers(cmd, list_pattern, bang) abort " {{{2
     let l:cmd = a:cmd . a:bang
 
     if a:list_pattern ==# []
@@ -808,6 +815,10 @@ function! s:CmdOnMultipleBuffers(cmd, list_pattern, bang) " {{{2
             endif
         endfor
     endfor
+endfunction " 2}}}
+function! s:CompleteFiles(a, c, p) abort " {{{2
+    let l:cmd = 'rg --files --hidden --glob !.git/'
+    return filter(systemlist(l:cmd), 'v:val =~ a:a')
 endfunction " 2}}}
 " 1}}}
 
