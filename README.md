@@ -41,7 +41,7 @@ To make use of all the features you need a relatively new version of vim which s
 | filetype                   | linter
 | :------------------------- | :-------------------------
 | `c`                        | `gcc`<sup>B</sup>
-| `coffee`                   | `coffeelint`<sup>N</sup>
+| `coffee`                   | `coffe-script`<sup>N</sup>, `coffeelint`<sup>N</sup>
 | `css`                      | `csslint`<sup>N</sup>
 | `html`                     | `HTMLHint`<sup>N</sup>
 | `javascript`               | `standard`<sup>N</sup>
