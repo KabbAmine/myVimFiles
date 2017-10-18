@@ -1,5 +1,4 @@
-(function() {
-    'use strict';
-
-    %_%
-}());
+(function () {
+  'use strict'
+  %_%
+}())
