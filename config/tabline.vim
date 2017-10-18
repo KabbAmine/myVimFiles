@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-14
+" Last modification: 2017-10-13
 " ==============================================================
 
 
@@ -74,7 +74,7 @@ endfunction
 
 function! TLInit() abort " {{{1
     let l:bufs = s:Buffers()
-    if len(s:Buffers()) ==# 1
+    if len(s:Buffers()) ==# 1 && getcwd() ==# $HOME
         set showtabline=0
         return
     endif
