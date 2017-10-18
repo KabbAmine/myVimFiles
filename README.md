@@ -1,50 +1,51 @@
 # MyVimFiles
 
-My configuration for the best program of the world :heart:  
+My configuration for the best program of the world.  
+
 I'm not a vim master, but my configuration works great for me so feel free to
 use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
 ![My vim](.img/my_vim.jpg)
 
-It works on both GNU/Linux and Windows (Starting from `old` tag, it was not
-tested on Windows).
+It works on both GNU/Linux and Windows (The `>old` versions were not tested on
+windows).
 
 ## Requirements
-
-### :one: Vim
-
-To make use of all the features you need a relatively new version of vim which supports `+job` and `+timers`, and compiled with `+python3` and `+ruby`.
-
-### :two: Font(s)
-
-- [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts)
-  for both GNU/Linux & windows (Included in the repo).
-
-### :three: For the plugins
 
 The requirements listed below (GNU/Linux) are managed and installed via scripts
 from my [dotfiles](https://github.com/kabbamine/mydotfiles) repository, they
 are here just for reference (And for windows obviously).
 
-#### Autoformat
+Note that the external programs/packages are not mandatory.
 
-| Filetype(s)                         | formatter
-| :-------------------------          | :-------------------------
-| `html`, `css`, `json`, `javascript` | `js-beautify`<sup>N</sup>
-| `python`                            | `autopep8`<sup>P</sup>
-| `sass/scss`                         | `sass-convert` (Shipped with `sass`<sup>R</sup>)
+### Vim
 
-#### Linters for ALE
+To make use of all the features you need a relatively new version of vim which supports `+job` and `+timers`, and compiled with `+python3` and `+ruby`.
 
-| filetype                   | checker/linter
+### Font(s)
+
+- [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts)
+  for both GNU/Linux & windows (Included in the repo).
+
+### Formatters & fixers
+
+| Filetype(s)                | formatter
+| :------------------------- | :-------------------------
+| `html`, `json`             | `js-beautify`<sup>N</sup>
+| `python`                   | `autopep8`<sup>P</sup>
+| `scss`, `css`              | `prettier`<sup>N</sup>
+| `javascript`               | `standard`<sup>N</sup>
+
+### Linters
+
+| filetype                   | linter
 | :------------------------- | :-------------------------
 | `c`                        | `gcc`<sup>B</sup>
 | `coffee`                   | `coffeelint`<sup>N</sup>
 | `css`                      | `csslint`<sup>N</sup>
-| `html`                     | `HTMLHint`<sup>N</sup>, [`tidy5`](https://github.com/htacg/tidy-html5)
-| `javascript`               | `eslint_d`<sup>N</sup>
+| `html`                     | `HTMLHint`<sup>N</sup>
+| `javascript`               | `standard`<sup>N</sup>
 | `json`                     | `jsonlint`<sup>N</sup>
-| `markdown`                 | `mdl`<sup>R</sup>
 | `php`                      | `php`<sup>B</sup>
 | `python`                   | `flake8`<sup>P</sup>
 | `sass/scss`                | `sass-lint`<sup>N</sup>
@@ -52,23 +53,20 @@ are here just for reference (And for windows obviously).
 | `viml`                     | `vim-vint`<sup>P</sup>
 | `yaml`                     | `yamllint`<sup>P</sup>
 
+### Miscellaneous
 
-And:
-
-- `ctags-exuberant`<sup>B</sup> for tag's generation with **gutentags**.
+- `ctags-exuberant`<sup>B</sup> for tag's generation (Used by **gutentags**).
 - `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **Denite**.
 - `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
-- [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things (Not mandatory).
+- [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things.
 
-### :four: Extra
+### Extra
 
 Some npm packages that will make you developer's life easier:
 
 - `Shiba` for live previewing markdown.
 - `live-server` for live previewing static sites.
 - `browser-sync` for live previewing dynamic sites.
-
-Use them with `Job` command.
 
 -----------------------------
 
@@ -108,6 +106,6 @@ Have fun :smile:
 
 ## Notes
 
-This config is not a ready-to-use vim distribution, it contains a lot of
+This configuration is not a ready-to-use vim distribution, it contains a lot of
 settings that may no suit everyone, so take a look, test and take what you want
 :beer:.
