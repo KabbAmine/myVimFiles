@@ -1,6 +1,6 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-08
+" Last modification: 2017-10-09
 " ==============================================================
 
 
@@ -22,7 +22,6 @@ let g:dot_files = expand('$HOME/.dotfiles')
 " Commands for quick access to config files {{{1
 " >>> Vim {{{2
 command! Ev :e! $MYVIMRC
-execute 'command! Evh :e! ' . g:vim_dir . '/autoload/helpers.vim'
 for s:f in s:vim_cfg_files
     execute 'command! Ev' . s:f[0] .
                 \' :e! ' . g:vim_dir . '/config/' . s:f . '.vim'
