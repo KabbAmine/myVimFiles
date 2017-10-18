@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-01
+" Last modification: 2017-10-14
 " ==============================================================
 
 
@@ -20,35 +20,35 @@ let s:SL  = {
             \   'separator': '',
             \   'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
             \   'apply': {
-            \   'denite' : [
-            \       'denite#get_status_mode()',
-            \       'denite#get_status_sources()',
-            \       'denite#get_status_linenr()',
-            \       ],
+            \       'denite' : [
+            \           'denite#get_status_mode()',
+            \           'denite#get_status_sources()',
+            \           'denite#get_status_linenr()',
+            \           ],
             \   },
             \   'checker': g:checker,
             \   'colors': {
-            \   'background'      : ['#2f343f', 'none'],
-            \   'backgroundDark'  : ['#191d27', '16'],
-            \   'backgroundLight' : ['#464b5b', '59'],
-            \   'green'           : ['#2acf2a', '40'],
-            \   'main'            : ['#5295e2', '68'],
-            \   'red'             : ['#f01d22', '160'],
-            \   'text'            : ['#cbcbcb', '251'],
-            \   'textDark'        : ['#8c8c8c', '244'],
+            \       'background'      : ['#2f343f', 'none'],
+            \       'backgroundDark'  : ['#191d27', '16'],
+            \       'backgroundLight' : ['#464b5b', '59'],
+            \       'green'           : ['#2acf2a', '40'],
+            \       'main'            : ['#5295e2', '68'],
+            \       'red'             : ['#f01d22', '160'],
+            \       'text'            : ['#cbcbcb', '251'],
+            \       'textDark'        : ['#8c8c8c', '244'],
             \   },
             \   'modes': {
-            \   'n': 'N',
-            \   'i': 'I',
-            \   'R': 'R',
-            \   'v': 'V',
-            \   'V': 'V-L',
-            \   'c': 'C',
-            \   "\<C-v>": 'V-B',
-            \   's': 'S',
-            \   'S': 'S-L',
-            \   "\<C-s>": 'S-B',
-            \   '?': '',
+            \       'n': 'N',
+            \       'i': 'I',
+            \       'R': 'R',
+            \       'v': 'V',
+            \       'V': 'V-L',
+            \       'c': 'C',
+            \       "\<C-v>": 'V-B',
+            \       's': 'S',
+            \       'S': 'S-L',
+            \       "\<C-s>": 'S-B',
+            \       '?': '',
             \   }
             \ }
 " 1}}}
@@ -275,7 +275,7 @@ function! s:SetColors() abort " {{{1
     " Modified state
     call s:Hi('User5', s:SL.colors['backgroundLight'], s:SL.colors['main'],
                 \ 'bold')
-    " Error & success states
+    " Success & error states
     call s:Hi('User6', s:SL.colors['green'], s:SL.colors['backgroundLight'],
                 \ 'bold')
     call s:Hi('User7', s:SL.colors['red'], s:SL.colors['text'], 'bold')
