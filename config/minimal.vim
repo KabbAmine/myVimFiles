@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-07
+" Last modification: 2017-10-18
 " ==============================================================
 
 
@@ -85,7 +85,6 @@ let &guifont = g:has_win ?
 set confirm         " Start a dialog when a command fails
 set shortmess+=c    " Disable ins-completion-menu messages with c
 set showcmd
-set nomore
 " 1}}}
 
 " >>> Edit text {{{1
@@ -280,6 +279,7 @@ nnoremap <silent> <S-q> :silent bw<CR>
 
 " >>> Commandline {{{1
 nnoremap !z @:
+nnoremap !: :Job 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-j> <Left>
@@ -501,14 +501,27 @@ endfunction " 2}}}
 "             \ })
 " 1}}}
 
+" >>> Auto format using external formatters {{{1
+" Fall back to default = when no formatter.
+nnoremap <silent> =ie :call ka#buffer#E('AutoFormat', [
+            \ {
+            \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
+            \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
+            \   'javascript': 'standard --fix --stdin',
+            \   'json'      : 'js-beautify -f - -s ' . shiftwidth(),
+            \   'python'    : 'autopep8 -',
+            \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
+            \ }])<CR>
+" 1}}}
+
 " =========== (AUTO)COMMANDS ===================================
 
 " >>> Indentation for specific filetypes {{{1
 augroup Indentation
     autocmd!
-    autocmd FileType coffee,html,css,scss,pug,vader,ruby,markdown
+    autocmd FileType javascript,coffee,html,css,scss,pug,vader,ruby,markdown
                 \ setlocal sts=2 sw=2 expandtab
-    autocmd FileType vim,python,json,javascript
+    autocmd FileType vim,python,json
                 \ setlocal sts=4 sw=4 expandtab
 augroup END
 " 1}}}
@@ -825,16 +838,51 @@ endfunction " 2}}}
 
 " >>> Jobs {{{1
 if g:has_job
-    command! -nargs=1 Job :call <SID>Job(<f-args>)
+    command! -nargs=1 Job :call ka#job#E('Create', [<f-args>])
     command! -nargs=1 JobStop :call ka#job#E('Stop', [<f-args>])
     command! JobStopAll :call ka#job#E('StopAll')
     command! JobList :call ka#job#E('List')
-
-    function! s:Job(params) abort " {{{2
-        let l:args = split(a:params)
-        call ka#job#E('Create', [l:args[0], l:args[1:]])
-    endfunction " 2}}}
 endif
+" 1}}}
+
+" >>> Notes  {{{1
+let s:notes_dir = g:vim_dir . '/misc/notes'
+
+command! -nargs=+ -complete=customlist,CompleteNotes Note
+            \ call <SID>Note(<f-args>)
+command! -nargs=+ -complete=customlist,CompleteNotes NoteDelete
+            \ call <SID>NoteDelete(<f-args>)
+
+" Update the date when the file is saved {{{2
+augroup Airnote
+    autocmd!
+    let s:str =
+                \ 'autocmd BufWrite %s/*.md ' .
+                \ ':call setline(1,  "> " . strftime("%%d %%b %%Y %%X"))'
+    execute printf(s:str, s:notes_dir)
+    unlet! s:str
+augroup END " 2}}}
+
+function! s:Note(file) abort " {{{2
+    let l:file_name = s:notes_dir . '/' .
+                \ (a:file =~# '\.md$' ? a:file : a:file . '.md')
+
+    let l:add_date = file_readable(l:file_name) ? 0 : 1
+    silent execute 'vnew! ' . l:file_name
+    if l:add_date
+        call setline(1,  ["> " . strftime("%d %b %Y %X"), ''])
+        normal! G
+    endif
+endfunction " 2}}}
+function! s:NoteDelete(file) abort " {{{2
+    let l:file_name = s:notes_dir . '/' .
+                \ (a:file =~# '\.md$' ? a:file : a:file . '.md')
+    call ka#sys#E('Delete', [l:file_name])
+endfunction " 2}}}
+function! CompleteNotes(a, c, p) " {{{2
+    return filter(map(glob(s:notes_dir . '/*', 1, 1), 'fnamemodify(v:val, ":p:t")'),
+                \ 'v:val =~ a:a')
+endfunction " 2}}}
 " 1}}}
 
 " =========== ABBREVIATIONS ====================================
