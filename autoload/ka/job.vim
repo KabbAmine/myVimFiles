@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-01
+" Last modification: 2017-10-13
 " ==============================================================
 
 
@@ -17,7 +17,7 @@ endfunction
 " 1}}}
 
 
-function! s:Create(name, cmd) abort " {{{1
+function! s:Create(cmd, ...) abort " {{{1
     if !g:has_job
         call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
         return 0
@@ -27,14 +27,17 @@ function! s:Create(name, cmd) abort " {{{1
         let g:jobs = {}
     endif
 
-    let l:cmd = map(a:cmd, 'expand(v:val)')
-
-    let l:job = job_start(l:cmd, {
+    let l:cmd = map(split(a:cmd), 'expand(v:val)')
+    let l:name = l:cmd[0]
+    let l:j_opts = exists('a:1') ? a:1 :
+                \ {
                 \   'err_cb'  : 'ka#job#OnError',
                 \   'exit_cb' : 'ka#job#OnExit',
-                \ })
+                \ }
 
-    let g:jobs[a:name] = {
+    let l:job = job_start(l:cmd, l:j_opts)
+
+    let g:jobs[l:name] = {
                 \   'cmd'   : l:cmd,
                 \   'errors': [],
                 \   'object': l:job,
