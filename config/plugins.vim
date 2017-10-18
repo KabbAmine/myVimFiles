@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-03
+" Last modification: 2017-10-18
 " ==============================================================
 
 
@@ -132,14 +132,12 @@ Plug 'tpope/vim-repeat'
 " 2}}}
 
 " Misc {{{2
-Plug 'Chiel92/vim-autoformat'    , {'on': 'Autoformat'}
-Plug 'iwataka/airnote.vim'       , {'on': ['Note', 'NoteDelete']}
 Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
 Plug 'jwhitley/vim-matchit'
 Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
-Plug 'scrooloose/nerdtree'       , {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
 if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
 " 2}}}
@@ -185,7 +183,7 @@ let g:yowish = {
             \       'backgroundDark'   : ['#191d27', '16'],
             \       'backgroundLight'  : ['#464b5b', '59'],
             \       'blue'             : ['#5295e2', '68'],
-            \       'comment'          : ['#5b6176', '242'],
+            \       'comment'          : ['#5b6176', '245'],
             \       'lightBlue'        : ['#e39f52', '179'],
             \       'lightYellow'      : ['#80aee3', '110'],
             \       'yellow'           : ['#5295e2', '68'],
@@ -207,7 +205,7 @@ nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q>
-            \ :silent execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
+            \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
 let g:NERDTreeBookmarksFile = g:has_win ?
             \ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
             \ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
@@ -253,8 +251,8 @@ let g:ale_linters = {
             \   'c'              : ['gcc'],
             \   'coffee'         : ['coffee', 'coffeelint'],
             \   'css'            : ['csslint'],
-            \   'html'           : ['htmlhint', 'tidy'],
-            \   'javascript'     : ['eslint'],
+            \   'html'           : ['htmlhint'],
+            \   'javascript'     : ['standard'],
             \   'json'           : ['jsonlint'],
             \   'markdown'       : ['mdl'],
             \   'php'            : ['php'],
@@ -264,8 +262,6 @@ let g:ale_linters = {
             \   'vim'            : ['vint'],
             \   'yaml'           : ['yamllint'],
             \ }
-let g:ale_html_tidy_executable = 'tidy5'
-let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_vim_vint_show_style_issues = 0
 " 1}}}
 
@@ -362,43 +358,12 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_on_dot = 0
 " Keybindings
 let g:jedi#goto_command = 'gd'
-let g:jedi#documentation_command = ''
+let g:jedi#documentation_command = 'gH'
 let g:jedi#usages_command = ''
 let g:jedi#goto_assignments_command= ''
 let g:jedi#show_call_signatures = 2
-" Don't use, buggy as hell
+" Don't use it, buggy as hell
 let g:jedi#rename_command = ''
-
-augroup JediCustomMaps " {{{2
-    autocmd!
-    autocmd Filetype python nmap <silent> <buffer> gH
-                \ :call <SID>JediDocWinToggle()<CR>
-augroup END " 2}}}
-
-function! s:JediDocWinToggle() " {{{2
-    if bufloaded('__doc__')
-        silent bwipeout __doc__
-    else
-        silent call jedi#show_documentation()
-        silent wincmd p
-    endif
-endfunction " 2}}}
-" 1}}}
-
-" >>> (( autoformat )) {{{1
-" let g:autoformat_verbosemode = 1
-let g:formatters_html = ['htmlbeautify']
-let g:formatdef_htmlbeautify =
-            \ '"html-beautify --indent-size 2 --indent-inner-html true ' .
-            \ '--preserve-newlines -f - "'
-let g:formatdef_jsbeautify_javascript =
-            \ '"js-beautify -X -s 4 "' . (&textwidth ? " -w " . &textwidth : "")"
-
-augroup AutoformatFt " {{{2
-    autocmd!
-    autocmd Filetype python,html,json,css,javascript,scss
-                \ nnoremap <buffer> =ie :Autoformat<CR>
-augroup END " 2}}}
 " 1}}}
 
 " >>> (( colorizer )) {{{1
@@ -528,19 +493,8 @@ let g:tern_show_signature_in_pum = 1
 augroup Tern " {{{2
     autocmd!
     autocmd Filetype javascript nmap <silent> <buffer> gd :TernDef<CR>
-    autocmd Filetype javascript nmap <silent> <buffer> gH
-                \ :call <SID>TernPrevWinToggle()<CR>
+    autocmd Filetype javascript nmap <silent> <buffer> gH :TernDoc<CR>:wincmd k<CR>
 augroup END " 2}}}
-
-function! s:TernPrevWinToggle() abort " {{{2
-    if exists('g:tern_doc_window')
-        silent pclose
-        unlet g:tern_doc_window
-    else
-        TernDoc
-        let g:tern_doc_window = 1
-    endif
-endfunction " 2}}}
 " 1}}}
 
 " >>> (( vim-parenmatch )) {{{1
@@ -655,25 +609,6 @@ call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
 call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
 call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
-" 1}}}
-
-" >>> (( airnote )) {{{1
-let g:airnote_path = expand(g:vim_dir . '/misc/notes')
-let g:airnote_suffix = 'md'
-let g:airnote_date_format = '%d %b %Y %X'
-let g:airnote_open_prompt = 'Open note > '
-let g:airnote_delete_prompt = 'Delete note > '
-let g:airnote_default_open_cmd = 'vsplit'
-
-" Auto-generate the date when the file is saved
-augroup Airnote " {{{2
-    autocmd!
-    let s:str =
-                \ 'autocmd BufWrite %s/*.%s ' .
-                \ ':call setline(1,  "> " . strftime(g:airnote_date_format))'
-    execute printf(s:str, g:airnote_path, g:airnote_suffix)
-    unlet! s:str
-augroup END " 2}}}
 " 1}}}
 
 " >>> (( zeavim )) {{{1
