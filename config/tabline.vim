@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-13
+" Last modification: 2017-10-29
 " ==============================================================
 
 
@@ -104,7 +104,7 @@ endfunction
 hi! link TablineSel StatusLine
 augroup TabBufLine
     autocmd!
-    autocmd BufAdd,BufDelete,BufWinEnter,TabEnter,TabLeave,VimEnter *
+    autocmd BufAdd,BufDelete,BufWinEnter,TabNew,TabClosed,VimEnter *
                 \ call TLInit()
 augroup END
 call TLInit()
