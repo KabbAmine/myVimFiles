@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-18
+" Last modification: 2017-11-03
 " ==============================================================
 
 
@@ -211,6 +211,9 @@ xnoremap K {
 nnoremap j gj
 nnoremap k gk
 
+" Tags
+nnoremap <C-]> <C-]>zz
+
 " Repeat f/t/F/T movements without ,/; (Because I need them elsewhere)
 nnoremap f<CR> ;
 nnoremap t<CR> ;
@@ -254,6 +257,7 @@ xnoremap <silent> <space> :fold<CR>
 nnoremap <silent> ghh :nohlsearch<CR>
 nnoremap <silent> * *``
 nnoremap / /\V
+nnoremap # /\V
 nnoremap ? ?\V
 nnoremap n nzz
 nnoremap N Nzz
@@ -420,7 +424,7 @@ nnoremap <silent> <leader><leader>c
 " 1}}}
 
 " >>> Grep {{{1
-" To use with ag
+" To use with rg or ag
 nnoremap ,,g :call <SID>Grep()<CR>
 xnoremap <silent> ,,g :call <SID>Grep(1)<CR>
 nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
@@ -454,35 +458,36 @@ xnoremap <C-x> <C-x>gv
 " 1}}}
 
 " >>> Go to line using relative numbers {{{1
-nnoremap gj :call <SID>GoTo('j')<CR>
-nnoremap gk :call <SID>GoTo('k')<CR>
+" Overwritten in config/plugins.vim for now
+" nnoremap gj :call <SID>GoTo('j')<CR>
+" nnoremap gk :call <SID>GoTo('k')<CR>
 
-function! s:GoTo(direction) abort " {{{2
-    let [l:n, l:rn] = [&l:number, &l:relativenumber]
-    redir => l:hi
-    silent highlight LineNr
-    silent highlight CursorLineNr
-    redir END
-    let l:hi = map(split(l:hi, "\n"), 'substitute(v:val, "xxx", "", "")')
+" function! s:GoTo(direction) abort " {{{2
+"     let [l:n, l:rn] = [&l:number, &l:relativenumber]
+"     redir => l:hi
+"     silent highlight LineNr
+"     silent highlight CursorLineNr
+"     redir END
+"     let l:hi = map(split(l:hi, "\n"), 'substitute(v:val, "xxx", "", "")')
 
-    setlocal nonumber relativenumber
-    hi! link LineNr ModeMsg
-    hi! link CursorLineNr Search
-    redraw
+"     setlocal nonumber relativenumber
+"     hi! link LineNr ModeMsg
+"     hi! link CursorLineNr Search
+"     redraw
 
-    echohl ModeMsg
-    let l:goto = input('Goto> ')
-    echohl None
-    if !empty(l:goto)
-        execute 'normal! ' . l:goto . a:direction
-    endif
+"     echohl ModeMsg
+"     let l:goto = input('Goto> ')
+"     echohl None
+"     if !empty(l:goto)
+"         execute 'normal! ' . l:goto . a:direction
+"     endif
 
-    call setbufvar('%', '&number', l:n)
-    call setbufvar('%', '&relativenumber', l:rn)
-    for l:h in l:hi
-        execute 'highlight! ' . l:h
-    endfor
-endfunction " 2}}}
+"     call setbufvar('%', '&number', l:n)
+"     call setbufvar('%', '&relativenumber', l:rn)
+"     for l:h in l:hi
+"         execute 'highlight! ' . l:h
+"     endfor
+" endfunction " 2}}}
 " 1}}}
 
 " >>> Completion {{{1
@@ -501,17 +506,23 @@ endfunction " 2}}}
 "             \ })
 " 1}}}
 
-" >>> Auto format using external formatters {{{1
-" Fall back to default = when no formatter.
-nnoremap <silent> =ie :call ka#buffer#E('AutoFormat', [
-            \ {
-            \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
-            \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
-            \   'javascript': 'standard --fix --stdin',
-            \   'json'      : 'js-beautify -f - -s ' . shiftwidth(),
-            \   'python'    : 'autopep8 -',
-            \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
-            \ }])<CR>
+" >>> Clever gf {{{1
+nnoremap <silent> gf :call <SID>CleverGf()<CR>
+
+function! s:CleverGf() abort " {{{2
+    let l:f = expand('%:p:h') . '/' . expand('<cfile>')
+    silent execute filereadable(l:f) ? 'norma! gf' : 'edit ' . l:f
+endfunction " 2}}}
+" 1}}}
+
+" >>> Replace = default behavior {{{1
+nnoremap <silent> == :.,.AutoFormat<CR>
+nnoremap <silent> = <Esc>:setlocal operatorfunc=<SID>AutoFormat<CR>g@
+xnoremap <silent> = :'<,'>AutoFormat<CR>
+
+function! s:AutoFormat(...) abort " {{{2
+    execute printf('%d,%d:AutoFormat', line("'["), line("']"))
+endfunction " 2}}}
 " 1}}}
 
 " =========== (AUTO)COMMANDS ===================================
@@ -519,7 +530,7 @@ nnoremap <silent> =ie :call ka#buffer#E('AutoFormat', [
 " >>> Indentation for specific filetypes {{{1
 augroup Indentation
     autocmd!
-    autocmd FileType javascript,coffee,html,css,scss,pug,vader,ruby,markdown
+    autocmd FileType yaml,javascript,coffee,html,css,scss,pug,vader,ruby,markdown
                 \ setlocal sts=2 sw=2 expandtab
     autocmd FileType vim,python,json
                 \ setlocal sts=4 sw=4 expandtab
@@ -601,6 +612,7 @@ command! Fold :call <SID>Fold()
 
 function! s:Fold() abort " {{{2
     let l:indentations = {
+                \   'coffee'    : ['indent'],
                 \   'css'       : ['marker', ' {,}'],
                 \   'javascript': ['marker', ' {,}'],
                 \   'python'    : ['indent'],
@@ -642,6 +654,7 @@ endfunction " 2}}}
 
 " >>> Echo vim expression in a buffer __Echo__ {{{1
 command! -nargs=* -complete=expression Echo :call <SID>Echo(<f-args>)
+
 function! s:Echo(...) abort " {{{2
     let l:out = ''
     redir => l:out
@@ -690,8 +703,10 @@ function! s:AutoMkdir() abort " {{{2
         endif
         call mkdir(l:dir, 'p')
         silent execute 'saveas ' . l:dir . '/' . l:file
-        " Then wipeout the 1st buffer (alternative).
-        silent execute 'bwipeout! ' . bufnr('#')
+        " Then wipeout the alternative buffer if it have the same name.
+        if bufname('#') ==# l:dir . '/' . l:file
+            silent execute 'bwipeout! ' . bufnr('#')
+        endif
     endif
 endfunction " 2}}}
 augroup AutoMkdir
@@ -701,6 +716,11 @@ augroup END
 " 1}}}
 
 " >>> Quickfix & location fix windows {{{1
+nnoremap <silent> ]q :cnext<CR>
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]l :lnext<CR>
+nnoremap <silent> [l :lprevious<CR>
+
 augroup QLWindows
     autocmd!
     autocmd FileType qf setl nowrap
@@ -883,6 +903,19 @@ function! CompleteNotes(a, c, p) " {{{2
     return filter(map(glob(s:notes_dir . '/*', 1, 1), 'fnamemodify(v:val, ":p:t")'),
                 \ 'v:val =~ a:a')
 endfunction " 2}}}
+" 1}}}
+
+" >>> Autoformat  {{{1
+" Fall back to default = when no formatter.
+command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
+            \ {
+            \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
+            \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
+            \   'javascript': 'standard --fix --stdin',
+            \   'json'      : 'js-beautify -f - -s ' . shiftwidth(),
+            \   'python'    : 'autopep8 -',
+            \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
+            \ }])
 " 1}}}
 
 " =========== ABBREVIATIONS ====================================
