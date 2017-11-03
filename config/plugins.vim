@@ -1,13 +1,13 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-18
+" Last modification: 2017-10-28
 " ==============================================================
 
 
 " My plugins {{{1
-let s:my_plugins_dir = g:has_win ?
-            \ 'z:\\k-bag\\Projects\\pluginsVim\\' :
-            \ $HOME . '/Projects/pluginsVim/'
+let s:my_plugins_dir = g:has_win
+            \ ? 'z:\\k-bag\\Projects\\pluginsVim\\'
+            \ : $HOME . '/Projects/pluginsVim/'
 let s:my_plugins = {
             \   'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
             \ }
@@ -49,8 +49,6 @@ Plug 'digitaltoad/vim-pug'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'rhysd/vim-gfm-syntax'
-Plug 'stephpy/vim-yaml'
-Plug 'tbastos/vim-lua'
 Plug 'tpope/vim-haml'
 " 2}}}
 
@@ -121,10 +119,12 @@ Plug 'kana/vim-textobj-user'
 
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'haya14busa/vim-signjk-motion',
+            \ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'
-Plug 'thinca/vim-visualstar'
 Plug 'Raimondi/delimitMate'
+Plug 'thinca/vim-visualstar'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
@@ -152,7 +152,7 @@ Plug 'machakann/vim-highlightedyank',
 if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
-    Plug $HOME . '/Temp/lab/RAP/'
+    Plug $HOME . '/Temp/lab/RAP/', {'on': ['RAP']}
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
@@ -233,10 +233,10 @@ let python_highlight_all = 1
 " Disabled by default
 let g:ale_enabled = 0
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
-nmap <silent> ]e <Plug>(ale_next_wrap)
-nmap <silent> [e <Plug>(ale_previous_wrap)
 nmap <silent> <F8> :ALEToggle<CR>
 let g:ale_lint_on_enter = 0
+" Do not check in insert mode
+let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
 let g:ale_sign_error = g:checker.error_sign
@@ -473,6 +473,7 @@ nmap <silent> cY "+<Plug>(highlightedyank)$
 " >>> (( vim-sandwich )) {{{1
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'hi_duration', 50)
+call operator#sandwich#set('all', 'all', 'autoindent', 0)
 vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
@@ -611,6 +612,11 @@ call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
 call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
 " 1}}}
 
+" >>> (( vim-signjk-motion )) {{{1
+nmap gj <Plug>(signjk-j)
+nmap gk <Plug>(signjk-k)
+" 1}}}
+
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
@@ -715,6 +721,15 @@ let g:image_preview = {
             \       'prg'  : 'exo-open',
             \       'args' : '',
             \   },
+            \ }
+" 1}}}
+
+" >>> (( RAP )) {{{1
+let g:rap_cfg = {'runners': {}}
+let g:rap_cfg.runners = {
+            \   'lua'   : {'cmd' : 'lua5.3'},
+            \   'python': {'cmd' : 'python3'},
+            \   'sh'    : {'cmd' : 'bash'},
             \ }
 " 1}}}
 
