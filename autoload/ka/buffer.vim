@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-31
+" Last modification: 2017-11-03
 " ==============================================================
 
 
@@ -20,7 +20,7 @@ endfunction
 function! s:AutoFormat(start, end, formatters) abort " {{{1
     let l:p = getpos('.')
     let l:format_cmd = get(a:formatters, &ft, '')
-    let l:n_lines = line('$')
+    let l:content = getline(1, line('$'))
 
     if empty(l:format_cmd)
         silent execute 'normal! ' . a:start . 'ggV' . a:end . 'gg='
@@ -34,17 +34,15 @@ function! s:AutoFormat(start, end, formatters) abort " {{{1
         return
     endif
 
-    let l:msg = 'Formatting [' . l:executable . '] from ' . a:start . ' to ' . a:end . '...'
+    let l:msg = 'Formatting using [' . l:executable . '] from ' . a:start . ' to ' . a:end . '...'
     call ka#ui#E('Log', [l:msg])
 
     silent execute a:start . ',' . a:end . '!' . l:format_cmd
     redraw
 
     if v:shell_error
-        if line('$') !=# l:n_lines
-            " We undo what was added
-            silent normal! u
-        endif
+        silent %delete_
+        call setline(1, l:content)
         call ka#ui#E('Log', [l:msg . 'Not done :('])
     else
         call ka#ui#E('Log', [l:msg . 'Done'])
