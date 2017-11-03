@@ -22,6 +22,8 @@ function! s:Log(message, ...) abort " {{{1
 
     let l:t = exists('a:1') ? a:1 : 0
     let l:hi = ['WarningMsg', 'ErrorMsg', 'Question']
+
+    redraw
     execute 'echohl ' . l:hi[l:t]
     echomsg a:message
     echohl None
