@@ -32,9 +32,9 @@ To make use of all the features you need a relatively new version of vim which s
 | Filetype(s)                | formatter
 | :------------------------- | :-------------------------
 | `html`, `json`             | `js-beautify`<sup>N</sup>
+| `javascript`               | `standard`<sup>N</sup>
 | `python`                   | `autopep8`<sup>P</sup>
 | `scss`, `css`              | `prettier`<sup>N</sup>
-| `javascript`               | `standard`<sup>N</sup>
 
 ### Linters
 
@@ -55,8 +55,8 @@ To make use of all the features you need a relatively new version of vim which s
 
 ### Miscellaneous
 
-- `ctags-exuberant`<sup>B</sup> for tag's generation (Used by **gutentags**).
 - `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **Denite**.
+- `ctags-exuberant`<sup>B</sup> for tag's generation (Used by **gutentags**).
 - `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
 - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things.
 
@@ -64,9 +64,9 @@ To make use of all the features you need a relatively new version of vim which s
 
 Some npm packages that will make you developer's life easier:
 
-- `Shiba` for live previewing markdown.
-- `live-server` for live previewing static sites.
 - `browser-sync` for live previewing dynamic sites.
+- `live-server` for live previewing static sites.
+- `shiba` for live previewing markdown.
 
 -----------------------------
 
