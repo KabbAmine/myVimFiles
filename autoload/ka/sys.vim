@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-01
+" Last modification: 2017-10-31
 " ==============================================================
 
 
@@ -30,7 +30,7 @@ function! s:OpenHere(type, ...) abort " {{{1
                 \   'xdg-open %s 2> /dev/null &' :
                 \   'start explorer %s')
                 \ }
-    exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? a:1 : getcwd()))
+    exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? shellescape(a:1) : getcwd()))
 
     if !g:has_gui | redraw! | endif
 endfunction
@@ -38,12 +38,12 @@ endfunction
 
 function! s:OpenUrl() abort " {{{1
     " Open the current URL
-    " - If line begins with "Plug" or "call s:PlugInOs", open the github page
+    " - If line begins with "Plug" open the github page
     " of the plugin.
 
     let l:cl = getline('.')
     let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
-    if l:cl =~# 'Plug' || l:cl =~# 'call s:PlugInOs'
+    if l:cl =~# 'Plug'
         let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 :
                     \ match(l:cl, "'", 0, 2) - 1]
         let l:url = printf('https://github.com/%s', l:pn)
