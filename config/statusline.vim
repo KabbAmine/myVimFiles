@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-14
+" Last modification: 2017-11-03
 " ==============================================================
 
 
@@ -11,7 +11,6 @@
 " * ALE
 " * Denite
 " * gutentags
-" * RAP
 
 " ========== CONFIGURATION =====================================
 
@@ -240,11 +239,6 @@ function! SLAle(mode) abort " {{{1
 endfunction
 " 1}}}
 
-function! SLRAP() abort " {{{1
-    return exists('g:rap') ? rap#Statusline() : ''
-endfunction
-" 1}}}
-
 " ========== HELPERS ===========================================
 
 function! s:Hi(group, bg, fg, opt) abort " {{{1
@@ -353,9 +347,6 @@ function! GetSL(...) abort " {{{1
 
     " Gutentags
     let l:sl .= '%( %{SLGutentags()} %)'
-
-    " RAP
-    let l:sl .= '%( %{SLRAP()} %)'
 
     " Jobs
     let l:sl .= '%( %{SLJobs()} %)'
