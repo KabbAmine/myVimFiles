@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-03
+" Last modification: 2017-11-06
 " ==============================================================
 
 
@@ -23,8 +23,7 @@ function! s:AutoFormat(start, end, formatters) abort " {{{1
     let l:content = getline(1, line('$'))
 
     if empty(l:format_cmd)
-        silent execute 'normal! ' . a:start . 'ggV' . a:end . 'gg='
-        call setpos('.', l:p)
+        call ka#ui#E('Log', ['No formatter found for "' . &ft . '"'])
         return
     endif
 

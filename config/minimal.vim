@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-03
+" Last modification: 2017-11-06
 " ==============================================================
 
 
@@ -515,16 +515,6 @@ function! s:CleverGf() abort " {{{2
 endfunction " 2}}}
 " 1}}}
 
-" >>> Replace = default behavior {{{1
-nnoremap <silent> == :.,.AutoFormat<CR>
-nnoremap <silent> = <Esc>:setlocal operatorfunc=<SID>AutoFormat<CR>g@
-xnoremap <silent> = :'<,'>AutoFormat<CR>
-
-function! s:AutoFormat(...) abort " {{{2
-    execute printf('%d,%d:AutoFormat', line("'["), line("']"))
-endfunction " 2}}}
-" 1}}}
-
 " =========== (AUTO)COMMANDS ===================================
 
 " >>> Indentation for specific filetypes {{{1
@@ -612,11 +602,12 @@ command! Fold :call <SID>Fold()
 
 function! s:Fold() abort " {{{2
     let l:indentations = {
-                \   'coffee'    : ['indent'],
-                \   'css'       : ['marker', ' {,}'],
-                \   'javascript': ['marker', ' {,}'],
-                \   'python'    : ['indent'],
-                \   'sh'        : ['marker', ' {,}'],
+                \   'coffee'     : ['indent'],
+                \   'css'        : ['marker', ' {,}'],
+                \   'javascript' : ['marker', ' {,}'],
+                \   'python'     : ['indent'],
+                \   'scss'       : ['marker', ' {,}'],
+                \   'sh'         : ['marker', ' {,}'],
                 \ }
 
     if !has_key(l:indentations, &ft)
@@ -858,7 +849,7 @@ endfunction " 2}}}
 
 " >>> Jobs {{{1
 if g:has_job
-    command! -nargs=1 Job :call ka#job#E('Create', [<f-args>])
+    command! -nargs=1 -complete=shellcmd Job :call ka#job#E('Create', [<f-args>])
     command! -nargs=1 JobStop :call ka#job#E('Stop', [<f-args>])
     command! JobStopAll :call ka#job#E('StopAll')
     command! JobList :call ka#job#E('List')
@@ -906,7 +897,6 @@ endfunction " 2}}}
 " 1}}}
 
 " >>> Autoformat  {{{1
-" Fall back to default = when no formatter.
 command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
             \ {
             \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
