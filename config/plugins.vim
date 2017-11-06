@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-28
+" Last modification: 2017-11-03
 " ==============================================================
 
 
@@ -488,7 +488,6 @@ augroup END " 2}}}
 " 1}}}
 
 " >>> (( tern_for_vim )) {{{1
-let g:tern_show_argument_hints = 'on_move'
 let g:tern_show_signature_in_pum = 1
 
 augroup Tern " {{{2
