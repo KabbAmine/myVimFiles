@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-06
+" Last modification: 2017-11-07
 " ==============================================================
 
 
@@ -510,8 +510,13 @@ xnoremap <C-x> <C-x>gv
 nnoremap <silent> gf :call <SID>CleverGf()<CR>
 
 function! s:CleverGf() abort " {{{2
-    let l:f = expand('%:p:h') . '/' . expand('<cfile>')
-    silent execute filereadable(l:f) ? 'norma! gf' : 'edit ' . l:f
+    " Expand 2 times in case we have $HOME or ~
+    let l:cf = fnamemodify(expand(expand('<cfile>')), '%:p')
+    silent execute isdirectory(l:cf)
+                \ ? 'edit ' . l:cf
+                \ : filereadable(l:cf)
+                \ ? 'normal! gf'
+                \ : 'edit ' . expand('%:p:h') . '/' . expand('<cfile>')
 endfunction " 2}}}
 " 1}}}
 
