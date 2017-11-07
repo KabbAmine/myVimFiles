@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-09-30
+" Last modification: 2017-11-07
 " ==============================================================
 
 
@@ -70,18 +70,16 @@ function! s:TabComplete() abort " {{{1
                 \   'u': "\<C-x>\<C-u>",
                 \ }
 
-    let l:inp_char = getchar()
+    let l:inp = getchar()
 
-    " 9:<tab> & 13:<CR>
-    if l:inp_char ==# 9
+    " 9:<tab>
+    if l:inp ==# 9
         return "\<Tab>"
-    elseif l:inp_char ==# 13
-        return ''
+    else
+        let l:inp = nr2char(l:inp)
+        return has_key(l:compl_maps, l:inp)
+                    \ ? l:compl_maps[l:inp] : ''
     endif
-
-    let l:inp_char = nr2char(l:inp_char)
-    return has_key(l:compl_maps, l:inp_char) ?
-                \ l:compl_maps[l:inp_char] : "\<Tab>" . l:inp_char
 endfunction
 " 1}}}
 
