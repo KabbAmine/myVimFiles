@@ -125,7 +125,7 @@ set incsearch
 " 1}}}
 
 " >>> Running make and jumping to errors {{{1
-let [s:grep_prg, s:grep_format] = ['%s -S --vimgrep', '%f:%l:%c:%m']
+let [s:grep_prg, s:grep_format] = ['%s -SF --vimgrep', '%f:%l:%c:%m']
 if executable('rg')
     let &grepprg = printf(s:grep_prg, 'rg')
     let &grepformat = s:grep_format
@@ -426,29 +426,46 @@ nnoremap <silent> <leader><leader>c
 " >>> Grep {{{1
 " To use with rg or ag
 nnoremap ,,g :call <SID>Grep()<CR>
+nnoremap ,,G :call <SID>Grep('', '!')<CR>
 xnoremap <silent> ,,g :call <SID>Grep(1)<CR>
+xnoremap <silent> ,,G :call <SID>Grep(1, '!')<CR>
 nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
+nnoremap <silent> ,G <Esc>:setlocal operatorfunc=<SID>GrepRegMotion<CR>g@
 
 function! s:Grep(...) abort " {{{2
-    if exists('a:1')
-        let l:q = a:1 ==# 1 ?
-                    \   ka#utils#E('GetVisualSelection', [], 1) :
-                    \   ka#utils#E('GetMotionResult', [], 1)
+    let l:use_regex = 0
+
+    if exists('a:1') && type(a:1) ==# type(1)
+        let l:q = a:1 ==# 1
+                    \ ? ka#utils#E('GetVisualSelection', [], 1)
+                    \ : ka#utils#E('GetMotionResult', [], 1)
     else
         echohl ModeMsg | let l:q = input('grep> ') | echohl None
     endif
-    " Escape spaces in strings between double quotes then delete them
-    let l:q = substitute(l:q, '\v(".*")', '\=escape(submatch(1), " ")', 'g')
-    let l:q = substitute(l:q, '"', '', 'g')
-    " Escape special spaces & characters
-    let l:q = map(split(l:q, ' '), 'escape(v:val, "%# ")')
+
+    if exists('a:2')
+        let l:use_regex = 1
+        let l:old_grepprg = &grepprg
+        let &grepprg = substitute(&grepprg, '-SF', '-S', '')
+    endif
+
     if !empty(l:q)
-        silent execute 'grep! ' . join(l:q, ' ') | botright copen 10 | wincmd p
+        let l:q = split(l:q)
+        let l:q[0] = l:q[0] =~# '^".*"$' ? l:q[0] : '"' . l:q[0] . '"'
+        call map(l:q, 'escape(v:val, "%#")')
+        silent execute 'grep! ' . join(l:q) | botright copen 10 | wincmd p
         redraw!
+    endif
+
+    if l:use_regex
+        let &grepprg = l:old_grepprg
     endif
 endfunction
 function! s:GrepMotion(...) abort " {{{2
     call <SID>Grep(2)
+endfunction " 2}}}
+function! s:GrepRegMotion(...) abort " {{{2
+    call <SID>Grep(2, '!')
 endfunction " 2}}}
 " 1}}}
 
