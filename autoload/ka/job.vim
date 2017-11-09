@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-09
+" Last modification: 2017-11-10
 " ==============================================================
 
 
@@ -40,6 +40,7 @@ function! s:Create(cmd, ...) abort " {{{1
 
     let l:job = job_start(join(l:cmd), l:j_opts)
     call setqflist([], 'r')
+    call setqflist([], 'a', {'title': join(l:cmd)})
 
     let g:jobs[l:name] = {
                 \   'cmd'   : l:cmd,
@@ -126,7 +127,7 @@ function! s:OnError(channel, msg) abort " {{{1
     if !exists('s:errors') && !exists('s:out')
         let s:errors = 1
     endif
-    call setqflist([{'text': a:msg}], 'a')
+    caddexpr a:msg
 endfunction
 " 1}}}
 
@@ -142,13 +143,14 @@ function! s:OnOut(channel, msg) abort " {{{1
     if !exists('s:errors') && !exists('s:out')
         let s:out = 1
     endif
-    call setqflist([{'text': a:msg}], 'a')
+    caddexpr a:msg
 endfunction
 " 1}}}
 
 function! s:OnExit(job, exit_status) abort " {{{1
     " Populate quickfix window with all the output if there is one (stdout +
     " stderr).
+    " The output is parsed with the global errorformat.
 
     for l:n in keys(g:jobs)
         if g:jobs[l:n].object ==# a:job
@@ -157,18 +159,10 @@ function! s:OnExit(job, exit_status) abort " {{{1
         endif
     endfor
 
-    let l:output = []
-    let l:log = ''
-
-    if a:exit_status && g:jobs[l:job_name].errors !=# []
-        let l:log = '[exit status ' . a:exit_status . ']'
-        let l:output += g:jobs[l:job_name].errors
-        call ka#ui#E('Log', ['Job: ' . l:log])
-    endif
-
-    if g:jobs[l:job_name].out !=# []
-        let l:output += g:jobs[l:job_name].out
-    endif
+    let l:log_args = a:exit_status
+                \ ? ['exit status ' . a:exit_status, 1]
+                \ : ['finished', 2]
+    call ka#ui#E('Log', ['Job [' . l:job_name . ']: ' . l:log_args[0], l:log_args[1]])
 
     if exists('s:errors') || exists('s:out')
         copen | wincmd p
