@@ -39,6 +39,7 @@ function! s:Create(cmd, ...) abort " {{{1
     endif
 
     let l:job = job_start(join(l:cmd), l:j_opts)
+    call setqflist([], 'r')
 
     let g:jobs[l:name] = {
                 \   'cmd'   : l:cmd,
@@ -49,7 +50,7 @@ function! s:Create(cmd, ...) abort " {{{1
 endfunction
 " 1}}}
 
-function! s:StopAll() abort " {{{1
+function! s:StopAll(bang) abort " {{{1
     if !exists('g:jobs')
         call ka#ui#E('Log', ['Job: No jobs running'])
         return
@@ -60,7 +61,8 @@ function! s:StopAll() abort " {{{1
 
     for l:n in keys(g:jobs)
         let l:j = g:jobs[l:n].object
-        call job_stop(l:j)
+        let l:how = a:bang ==# '!' ? 'kill' : 'term'
+        call job_stop(l:j, l:how)
         sleep 150m
 
         if job_status(l:j) !=# 'run'
@@ -86,7 +88,7 @@ function! s:List() abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Stop(job) abort " {{{1
+function! s:Stop(job, bang) abort " {{{1
     if !exists('g:jobs')
         call ka#ui#E('Log', ['Job: No jobs running'])
         return
@@ -99,7 +101,8 @@ function! s:Stop(job) abort " {{{1
 
     let l:j = g:jobs[a:job].object
 
-    call job_stop(l:j)
+    let l:how = a:bang ==# '!' ? 'kill' : 'term'
+    call job_stop(l:j, l:how)
     sleep 150m
 
     if job_status(l:j) !=# 'run'
@@ -120,7 +123,10 @@ function! s:OnError(channel, msg) abort " {{{1
         endif
     endfor
 
-    call add(g:jobs[l:job_name].errors, a:msg)
+    if !exists('s:errors') && !exists('s:out')
+        let s:errors = 1
+    endif
+    call setqflist([{'text': a:msg}], 'a')
 endfunction
 " 1}}}
 
@@ -133,7 +139,10 @@ function! s:OnOut(channel, msg) abort " {{{1
         endif
     endfor
 
-    call add(g:jobs[l:job_name].out, a:msg)
+    if !exists('s:errors') && !exists('s:out')
+        let s:out = 1
+    endif
+    call setqflist([{'text': a:msg}], 'a')
 endfunction
 " 1}}}
 
@@ -161,13 +170,15 @@ function! s:OnExit(job, exit_status) abort " {{{1
         let l:output += g:jobs[l:job_name].out
     endif
 
-    if l:output !=# []
-        call setqflist([], 'r')
-        call setqflist(map(l:output, {i, v -> {'text': v}}), 'r')
-        copen
+    if exists('s:errors') || exists('s:out')
+        copen | wincmd p
     endif
 
-    unlet! g:jobs[l:job_name]
+    if getqflist() ==# []
+        silent cclose
+    endif
+
+    unlet! g:jobs[l:job_name] s:errors s:out
 endfunction
 " 1}}}
 
