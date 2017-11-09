@@ -21,7 +21,7 @@ function! s:Log(message, ...) abort " {{{1
     " Echo message with a:1 index hi group.
 
     let l:t = exists('a:1') ? a:1 : 0
-    let l:hi = ['WarningMsg', 'ErrorMsg', 'Question']
+    let l:hi = ['WarningMsg', 'Error', 'Question']
 
     redraw
     execute 'echohl ' . l:hi[l:t]
