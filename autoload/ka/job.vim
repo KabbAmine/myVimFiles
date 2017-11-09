@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-13
+" Last modification: 2017-11-09
 " ==============================================================
 
 
@@ -29,16 +29,20 @@ function! s:Create(cmd, ...) abort " {{{1
 
     let l:cmd = map(split(a:cmd), 'expand(v:val)')
     let l:name = l:cmd[0]
-    let l:j_opts = exists('a:1') ? a:1 :
-                \ {
-                \   'err_cb'  : 'ka#job#OnError',
-                \   'exit_cb' : 'ka#job#OnExit',
+    let l:j_opts = {
+                \   'out_cb' : function('s:OnOut'),
+                \   'err_cb' : function('s:OnError'),
+                \   'exit_cb': function('s:OnExit'),
                 \ }
+    if exists('a:1')
+        call extend(l:j_opts, a:1, 'force')
+    endif
 
-    let l:job = job_start(l:cmd, l:j_opts)
+    let l:job = job_start(join(l:cmd), l:j_opts)
 
     let g:jobs[l:name] = {
                 \   'cmd'   : l:cmd,
+                \   'out'   : [],
                 \   'errors': [],
                 \   'object': l:job,
                 \ }
@@ -107,7 +111,7 @@ endfunction
 " 1}}}
 
 
-function! ka#job#OnError(channel, msg) abort " {{{1
+function! s:OnError(channel, msg) abort " {{{1
     let l:j = ch_getjob(a:channel)
     for l:n in keys(g:jobs)
         if g:jobs[l:n].object ==# l:j
@@ -120,7 +124,23 @@ function! ka#job#OnError(channel, msg) abort " {{{1
 endfunction
 " 1}}}
 
-function! ka#job#OnExit(job, exit_status) abort " {{{1
+function! s:OnOut(channel, msg) abort " {{{1
+    let l:j = ch_getjob(a:channel)
+    for l:n in keys(g:jobs)
+        if g:jobs[l:n].object ==# l:j
+            let l:job_name = l:n
+            break
+        endif
+    endfor
+
+    call add(g:jobs[l:job_name].out, a:msg)
+endfunction
+" 1}}}
+
+function! s:OnExit(job, exit_status) abort " {{{1
+    " Populate quickfix window with all the output if there is one (stdout +
+    " stderr).
+
     for l:n in keys(g:jobs)
         if g:jobs[l:n].object ==# a:job
             let l:job_name = l:n
@@ -128,15 +148,23 @@ function! ka#job#OnExit(job, exit_status) abort " {{{1
         endif
     endfor
 
+    let l:output = []
     let l:log = ''
 
-    if a:exit_status
-        let l:log .= '[exit status ' . a:exit_status . ']'
+    if a:exit_status && g:jobs[l:job_name].errors !=# []
+        let l:log = '[exit status ' . a:exit_status . ']'
+        let l:output += g:jobs[l:job_name].errors
+        call ka#ui#E('Log', ['Job: ' . l:log])
     endif
-    let l:log .= join(g:jobs[l:job_name].errors, "\n")
 
-    if !empty(l:log)
-        call ka#ui#E('Log', ['Job: ' . l:log, 1])
+    if g:jobs[l:job_name].out !=# []
+        let l:output += g:jobs[l:job_name].out
+    endif
+
+    if l:output !=# []
+        call setqflist([], 'r')
+        call setqflist(map(l:output, {i, v -> {'text': v}}), 'r')
+        copen
     endif
 
     unlet! g:jobs[l:job_name]
