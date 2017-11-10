@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-03
+" Last modification: 2017-11-10
 " ==============================================================
 
 
@@ -140,7 +140,7 @@ endfunction
 function! SLJobs() abort " {{{1
     let l:n_jobs = exists('g:jobs') ? len(g:jobs) : 0
     return winwidth(0) <# 55 ? '' :
-                \ (l:n_jobs? ' ' . l:n_jobs : '')
+                \ (l:n_jobs? ' ' . l:n_jobs : '')
 endfunction
 " 1}}}
 
