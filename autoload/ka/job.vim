@@ -42,12 +42,7 @@ function! s:Create(cmd, ...) abort " {{{1
     call setqflist([], 'r')
     call setqflist([], 'a', {'title': join(l:cmd)})
 
-    let g:jobs[l:name] = {
-                \   'cmd'   : l:cmd,
-                \   'out'   : [],
-                \   'errors': [],
-                \   'object': l:job,
-                \ }
+    let g:jobs[l:name] = {'cmd' : l:cmd, 'object': l:job}
 endfunction
 " 1}}}
 
