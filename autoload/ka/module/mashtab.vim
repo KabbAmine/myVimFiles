@@ -1,7 +1,8 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-17
+" Last modification: 2017-11-27
 " ==============================================================
+
 
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " DESCRIPTION
@@ -14,20 +15,7 @@
 " REQUIREMENTS
 " has('timers') && has('lambda')
 
-" FIXES
-" Line pattern is not respected (something with the ^)
-" Uniq with different cases (amine & Amine in evp)
-" Fix echo()
-
-" TODO
-" [ ] Make only 1 loop then close the pmenu (?) and re-tab reopen it.
-" [ ] Verify the regex patterns
-" [ ] Directions with tab/s-tab (?)
-" [ ] A function for <BS> (?)
-" [ ] Improve kspell source (async or external program)
-" [ ] Make a <plug> instead of using the autoloaded function directly.
-" [ ] A custom tags source (?)
-" [ ] Make it a plugin apart (?)
+" TODO & FIXES
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Config {{{1
@@ -60,7 +48,7 @@ call extend(g:mashtab_patterns.omni, {
 
 " Utilities {{{1
 let s:has_ultisnips = g:did_plugin_ultisnips ? 1 : 0
-let s:grepper = !executable('rg') ? 'rg --no-messages -Nio' :
+let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
             \ executable('ag') ? 'ag --silent --nonumber -io' :
             \ executable('grep') ? 'grep -io -E' :
             \ ''
@@ -70,7 +58,7 @@ let s:grepper = !executable('rg') ? 'rg --no-messages -Nio' :
 " 	        	Main
 " ==========================================================
 
-function! ka#module#mashtab#Tab(...) " {{{1
+function! ka#module#mashtab#Complete(...) " {{{1
     try
         return exists('a:1') ? s:Tab(a:1) : s:Tab()
     catch
@@ -87,6 +75,8 @@ function! s:Tab(...) abort " {{{1
 
     let l:to_complete = strpart(getline('.'), 0, col('.')-1)
     let l:keys = ""
+    let l:completions = []
+    let s:last_completion = get(s:, 'last_completion', 'tab')
 
     if !pumvisible() && !exists('s:no_candidates')
         let s:last_completion = 'tab'
@@ -96,19 +86,31 @@ function! s:Tab(...) abort " {{{1
     let l:last_completion_i = index(l:def_completions, s:last_completion)
     if l:last_completion_i !=# -1 || l:last_completion_i <# len(l:def_completions) - 1
         let l:from = l:last_completion_i + 1
-        let l:completions = l:from !=# len(l:def_completions)
+        " let l:completions = l:from !=# len(l:def_completions)
+        "             \ ? l:def_completions[l:from :]
+        "             \ : l:def_completions
+        let l:completions = l:from <# len(l:def_completions)
                     \ ? l:def_completions[l:from :]
-                    \ : l:def_completions
+                    \ : []
+    endif
+
+    if empty(l:completions)
+        unlet! s:last_completion s:no_candidates
+        " Close the pmenu
+        return pumvisible() ? "\<C-e>" : ''
     endif
 
     for l:c in (['tab'] + l:completions)
+        " if pumvisible()
+        "     call feedkeys("\<C-e>")
+        " endif
         if !empty(l:keys)
             break
         elseif s:last_completion ==# l:c && s:last_completion !=# 'tab'
             continue
         else
             " For debugging
-            " call s:Echo('[' . l:c . ']', 'Normal')
+            " call s:Echo('[' . l:c . ']', 'Normal', 1)
             let l:f = 's:Complete' . toupper(l:c[0]) . l:c[1:]
             let l:keys = call(l:f, [l:to_complete])
             let s:last_completion = l:c
@@ -132,7 +134,7 @@ endfunction
 " 1}}}
 
 function! s:HasPopped() abort " {{{1
-    if !pumvisible()
+    if !pumvisible() && exists('s:last_completion')
         " For debugging
         " call s:Echo('No [' . s:last_completion . ']', 'Comment')
         let s:no_candidates = 1
@@ -231,7 +233,7 @@ endfunction
 " 1}}}
 
 function! s:CompleteLine(to_complete) abort " {{{1
-    if a:to_complete =~# '^\s*\S$'
+    if a:to_complete =~# '^\s*\S\+.*$'
         return g:mashtab_custom_sources.line
                 \ ? ['s:SourceLine', [a:to_complete]]
                 \ : "\<C-x>\<C-l>"
@@ -399,11 +401,7 @@ function! s:Echo(msg, hi_group, ...) abort " {{{1
     let l:msg = '[mashtab] ' . a:msg
 
     silent execute 'echohl ' . a:hi_group
-    if exists('a:1')
-        echomsg l:msg
-    else
-        echo l:msg
-    endif
+    if exists('a:1') | echomsg l:msg | else | echo l:msg | endif
     echohl None
 endfunction
 " 1}}}

@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-07
+" Last modification: 2017-11-14
 " ==============================================================
 
 
@@ -53,33 +53,6 @@ function! s:MakeTextObjects(to) abort " {{{1
         endfor
     augroup END
 
-endfunction
-" 1}}}
-
-function! s:TabComplete() abort " {{{1
-    let l:compl_maps = {
-                \   'c': "\<C-x>\<C-v>",
-                \   'f': "\<C-x>\<C-f>",
-                \   'i': "\<C-x>\<C-i>",
-                \   'k': "\<C-x>\<C-k>",
-                \   'l': "\<C-x>\<C-l>",
-                \   'n': "\<C-x>\<C-n>",
-                \   'o': "\<C-x>\<C-o>",
-                \   's': "\<C-x>s",
-                \   't': "\<C-x>\<C-]>",
-                \   'u': "\<C-x>\<C-u>",
-                \ }
-
-    let l:inp = getchar()
-
-    " 9:<tab>
-    if l:inp ==# 9
-        return "\<Tab>"
-    else
-        let l:inp = nr2char(l:inp)
-        return has_key(l:compl_maps, l:inp)
-                    \ ? l:compl_maps[l:inp] : ''
-    endif
 endfunction
 " 1}}}
 
