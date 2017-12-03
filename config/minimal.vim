@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-27
+" Last modification: 2017-12-04
 " ==============================================================
 
 
@@ -752,14 +752,18 @@ function! s:AutoFoldColumn() abort " {{{2
         let l:there_are_folds = 1
     endif
 
-    normal! ggzj
-    if line('.') !=# 1
-        let l:there_are_folds = 1
+    if !l:there_are_folds
+        normal! ggzj
+        if line('.') !=# 1
+            let l:there_are_folds = 1
+        endif
     endif
 
-    normal! ]z
-    if line('.') !=# 1
-        let l:there_are_folds = 1
+    if !l:there_are_folds
+        normal! ]z
+        if line('.') !=# 1
+            let l:there_are_folds = 1
+        endif
     endif
 
     call setpos('.', l:pos)
