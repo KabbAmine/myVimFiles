@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-03
+" Last modification: 2017-11-29
 " ==============================================================
 
 
@@ -132,11 +132,10 @@ Plug 'tpope/vim-repeat'
 " 2}}}
 
 " Misc {{{2
-Plug 'junegunn/vader.vim'        , {'on': 'Vader', 'for': 'vader'}
-Plug 'junegunn/vim-emoji'        , {'for': ['markdown', 'gitcommit']}
-Plug 'jwhitley/vim-matchit'
+Plug 'junegunn/vader.vim', {'on': 'Vader', 'for': 'vader'}
+Plug 'junegunn/vim-emoji', {'for': ['markdown', 'gitcommit']}
 Plug 'kana/vim-tabpagecd'
-Plug 'mbbill/undotree'           , {'on': 'UndotreeToggle'}
+Plug 'mbbill/undotree'   , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
 if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
@@ -152,7 +151,9 @@ Plug 'machakann/vim-highlightedyank',
 if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
-    Plug $HOME . '/Temp/lab/RAP/', {'on': ['RAP']}
+    " Plug $HOME . '/Temp/lab/RAP/', {'on': ['RAP']}
+    Plug $HOME . '/Temp/lab/RAP/'
+    Plug $HOME . '/Temp/lab/vtree/'
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
@@ -304,27 +305,15 @@ let delimitMate_matchpairs = '(:),[:],{:}'
 " >>> (( ultisnips )) {{{1
 nnoremap <C-F2> :UltiSnipsEdit<CR>
 let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger = '<NUL>'
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsEditSplit = 'vertical'
 
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
 let g:UltiSnipsSnippetDirectories =
             \ ['UltiSnips', g:vim_dir . '/misc/ultisnips']
-
-" A custom function to make the future mapping of Tab more clever.
-function! s:IsASnippet() abort " {{{2
-    if !exists('g:ulti_expand_or_jump_res')
-        let g:ulti_expand_or_jump_res = 0
-    endif
-    call UltiSnips#ExpandSnippetOrJump()
-    return g:ulti_expand_or_jump_res ? 1 : 0
-endfunction " 2}}}
-" And here the (very poor) magic operates.
-inoremap <silent> <Tab> <C-r>=<SID>IsASnippet()?
-            \ '' : ka#utils#E('TabComplete', [], 1)<CR>
 " 1}}}
 
 " >>> (( gitgutter )) {{{1
@@ -506,7 +495,7 @@ hi! link ParenMatch WarningMsg
 augroup Emoji
     autocmd!
     autocmd FileType markdown,gitcommit :setl completefunc=emoji#complete
-augroup END " 2}}}
+augroup END
 " 1}}}
 
 " >>> (( textobj-usr )) & its plugins {{{1
@@ -614,6 +603,10 @@ call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
 " >>> (( vim-signjk-motion )) {{{1
 nmap gj <Plug>(signjk-j)
 nmap gk <Plug>(signjk-k)
+" 1}}}
+
+" >>> (( vim-Verdin )) {{{1
+let g:Verdin#fuzzymatch = 0
 " 1}}}
 
 " >>> (( zeavim )) {{{1
@@ -730,6 +723,9 @@ let g:rap_cfg.runners = {
             \   'python': {'cmd' : 'python3'},
             \   'sh'    : {'cmd' : 'bash'},
             \ }
+nnoremap <silent> gpp :RAP<CR>
+xnoremap <silent> gpp :RAP<CR>
+nnoremap <silent> gp! :RAP!<CR>
 " 1}}}
 
 
