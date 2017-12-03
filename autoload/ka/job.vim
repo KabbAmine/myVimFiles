@@ -160,7 +160,7 @@ function! s:OnExit(job, exit_status) abort " {{{1
     call ka#ui#E('Log', ['Job [' . l:job_name . ']: ' . l:log_args[0], l:log_args[1]])
 
     if exists('s:errors') || exists('s:out')
-        copen | wincmd p
+        cwindow | wincmd p
     endif
 
     if getqflist() ==# []
