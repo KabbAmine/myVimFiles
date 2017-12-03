@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-08
+" Last modification: 2017-11-27
 " ==============================================================
 
 
@@ -89,7 +89,7 @@ set showcmd
 
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
-set completeopt=menuone,noselect
+set completeopt=menuone,noselect,preview
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -160,6 +160,7 @@ endif
 " 1}}}
 
 " >>> Multiple windows {{{1
+set splitbelow
 set splitright
 set hidden
 " 1}}}
@@ -190,15 +191,20 @@ set virtualedit=block
 
 " =========== DEFAULT PLUGINS ==================================
 
-" Disable non-used default plugins {{{1
-let g:loaded_2html_plugin = 1
-let g:loaded_getscriptPlugin = 1
+" {{{1
+packadd! matchit
+let g:loaded_logiPat = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_netrw = 1
 let g:loaded_gzip = 1
 let g:loaded_matchparen = 1
-let g:loaded_netrwPlugin = 1
-let g:loaded_tarPlugin= 1
+let g:loaded_tarPlugin = 1
+let g:loaded_tar = 1
 let g:loaded_vimballPlugin = 1
-let g:loaded_zipPlugin = 1
+let g:loaded_zipPlugin= 1
+let g:loaded_zip = 1
+let g:loaded_getscriptPlugin = 1
+let g:loaded_2html_plugin = 1
 " }}}
 
 " =========== MAPPINGS =========================================
@@ -274,6 +280,7 @@ nnoremap <silent> <F5> :tabonly<CR>
 " 1}}}
 
 " >>> Buffers {{{1
+nnoremap ,b :b 
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
 nnoremap <silent> <BS> <C-^>
@@ -453,7 +460,7 @@ function! s:Grep(...) abort " {{{2
         let l:q = split(l:q)
         let l:q[0] = l:q[0] =~# '^".*"$' ? l:q[0] : '"' . l:q[0] . '"'
         call map(l:q, 'escape(v:val, "%#")')
-        silent execute 'grep! ' . join(l:q) | botright copen 10 | wincmd p
+        silent execute 'grep! ' . join(l:q) | botright cwindow 10 | wincmd p
         redraw!
     endif
 
@@ -508,19 +515,13 @@ xnoremap <C-x> <C-x>gv
 " 1}}}
 
 " >>> Completion {{{1
-" Is remapped in config/plugins.vim:ultisnips
-" inoremap <silent> <Tab> <C-r>=ka#utils#E('TabComplete', [], 1)<CR>
-" Triggers for auto completion
-" call helpers#AutoCompleteWithMapTriggers({
-"             \   'css'        : {':': 'o'},
-"             \   'gitcommit'  : {':': 'u'},
-"             \   'html'       : {'<': 'o'},
-"             \   'javascript' : {'.': 'o'},
-"             \   'markdown'   : {':': 'u'},
-"             \   'php'        : {'->': 'o', '::': 'o'},
-"             \   'python'     : {'.': 'o', '__': 'o'},
-"             \   'scss'       : {':': 'o'},
-"             \ })
+inoremap <silent> <Tab> <C-r>=ka#module#mashtab#Complete({})<CR>
+
+let g:mashtab_patterns = {}
+let g:mashtab_patterns.user = {
+            \   'gitcommit': ':\w*[^:]$',
+            \   'markdown' : ':\w*[^:]$'
+            \ }
 " 1}}}
 
 " >>> Clever gf {{{1
@@ -537,17 +538,11 @@ function! s:CleverGf() abort " {{{2
 endfunction " 2}}}
 " 1}}}
 
-" =========== (AUTO)COMMANDS ===================================
-
-" >>> Indentation for specific filetypes {{{1
-augroup Indentation
-    autocmd!
-    autocmd FileType yaml,javascript,coffee,html,css,scss,pug,vader,ruby,markdown
-                \ setlocal sts=2 sw=2 expandtab
-    autocmd FileType vim,python,json
-                \ setlocal sts=4 sw=4 expandtab
-augroup END
+" >>> Super Find {{{1
+nnoremap ,f :F 
 " 1}}}
+
+" =========== COMMANDS ===================================
 
 " >>> Commands for folders & files {{{1
 command! -nargs=+ -complete=file Mkdir  :call ka#sys#E('MakeDir', [<f-args>])
@@ -723,10 +718,6 @@ function! s:AutoMkdir() abort " {{{2
         endif
     endif
 endfunction " 2}}}
-augroup AutoMkdir
-    autocmd!
-    autocmd BufWritePre * call <SID>AutoMkdir()
-augroup END
 " 1}}}
 
 " >>> Quickfix & location fix windows {{{1
@@ -734,14 +725,6 @@ nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]l :lnext<CR>
 nnoremap <silent> [l :lprevious<CR>
-
-augroup QLWindows
-    autocmd!
-    autocmd FileType qf setl nowrap
-    autocmd FileType qf nnoremap <buffer> <CR> <CR>
-    autocmd FileType qf nnoremap <silent> <buffer> p
-                \ :call <SID>PreviewQItem()<CR>
-augroup END
 
 function! s:PreviewQItem() abort " {{{2
     let s:is_loclist = getwininfo(bufwinid('%'))[0].loclist
@@ -757,14 +740,6 @@ function! s:FlashQLine(timer) abort " {{{2
     " silent execute 'setl ' . (&l:cursorline ? 'nocursorline' : 'cursorline')
     wincmd p
 endfunction " 2}}}
-" 1}}}
-
-" >>> Fix all annoyances here instead of using an after/ftplugin file {{{1
-augroup FixIt
-    autocmd!
-    autocmd FileType vim setlocal textwidth=0
-    autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
-augroup END
 " 1}}}
 
 " >>> Enable foldcolumn only when folds are present {{{1
@@ -793,11 +768,6 @@ function! s:AutoFoldColumn() abort " {{{2
         setlocal foldcolumn=1
     endif
 endfunction " 2}}}
-augroup AutoFoldColumn
-    autocmd!
-    autocmd BufWinEnter * :call <SID>AutoFoldColumn()
-augroup END
-
 " 1}}}
 
 " >>> Operate on multiple files/buffers at once {{{1
@@ -938,6 +908,49 @@ command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
             \ }])
 " 1}}}
 
+" =========== AUTOCOMMANDS ===================================
+
+" All custom autocommands {{{1
+augroup CustomAutoCmds
+    autocmd!
+
+    " Indentation per filetype
+    autocmd FileType yaml,javascript,coffee,html,css,scss,pug,vader,ruby,markdown
+                \ setlocal sts=2 sw=2 expandtab
+    autocmd FileType vim,python,json
+                \ setlocal sts=4 sw=4 expandtab
+
+    " Keep cursor position when switching buffers
+    autocmd BufLeave * let b:winview = winsaveview()
+    autocmd BufEnter * if(exists('b:winview'))
+                \|  call winrestview(b:winview)
+                \| endif
+
+    " Quicklist & location window related
+    autocmd FileType qf setl nowrap
+    autocmd FileType qf nnoremap <buffer> <CR> <CR>
+    autocmd FileType qf nnoremap <silent> <buffer> p
+                \ :call <SID>PreviewQItem()<CR>
+
+    " Set omni-completion if the appropriate syntax file is present otherwise
+    " use the syntax completion
+    if exists('+omnifunc')
+        autocmd! Filetype *
+                    \ if empty(&omnifunc)
+                    \|  setlocal omnifunc=syntaxcomplete#Complete
+                    \| endif
+    endif
+
+    autocmd CompleteDone * pclose
+    autocmd BufWritePre * call <SID>AutoMkdir()
+    autocmd BufWinEnter * call <SID>AutoFoldColumn()
+
+    " Fix some annoyances
+    autocmd FileType vim setlocal textwidth=0
+    autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
+" 1}}}
+
 " =========== ABBREVIATIONS ====================================
 
 " No more rage {{{1
@@ -950,21 +963,6 @@ cabbrev wQ wq
 cabbrev WQ wq
 cabbrev W w
 cabbrev Q q
-" 1}}}
-
-" =========== OMNIFUNC =========================================
-
-" Set omni-completion if the appropriate syntax file is present otherwise {{{1
-" use the syntax completion.
-augroup Omni
-    autocmd!
-    if exists('+omnifunc')
-        autocmd! Filetype *
-                    \ if empty(&omnifunc)
-                    \|  setlocal omnifunc=syntaxcomplete#Complete
-                    \| endif
-    endif
-augroup END
 " 1}}}
 
 
