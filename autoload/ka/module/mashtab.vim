@@ -81,13 +81,9 @@ function! s:Tab() abort " {{{1
         let s:last_completion = 'tab'
     endif
 
-    " TODO Reverify!!!
     let l:last_completion_i = index(l:def_completions, s:last_completion)
     if l:last_completion_i !=# -1 || l:last_completion_i <# len(l:def_completions) - 1
         let l:from = l:last_completion_i + 1
-        " let l:completions = l:from !=# len(l:def_completions)
-        "             \ ? l:def_completions[l:from :]
-        "             \ : l:def_completions
         let l:completions = l:from <# len(l:def_completions)
                     \ ? l:def_completions[l:from :]
                     \ : []
@@ -100,9 +96,6 @@ function! s:Tab() abort " {{{1
     endif
 
     for l:c in (['tab'] + l:completions)
-        " if pumvisible()
-        "     call feedkeys("\<C-e>")
-        " endif
         if !empty(l:keys)
             break
         elseif s:last_completion ==# l:c && s:last_completion !=# 'tab'
@@ -221,7 +214,7 @@ endfunction
 " 1}}}
 
 function! s:CompleteBuffer(to_complete) abort " {{{1
-    if !empty(s:grepper) && a:to_complete =~# '\w\+'
+    if a:to_complete =~# '\w\+'
         return g:mashtab_custom_sources.buffer
                 \ ? ['s:SourceBuffer', [a:to_complete]]
                 \ : "\<C-x>\<C-n>"
