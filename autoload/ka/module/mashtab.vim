@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-27
+" Last modification: 2017-12-04
 " ==============================================================
 
 
@@ -30,11 +30,6 @@ let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 1)
 let g:mashtab_patterns = get(g:, 'mashtab_patterns', {})
 
 let g:mashtab_patterns.user = get(g:mashtab_patterns, 'user', {})
-" call extend(g:mashtab_patterns.user, {
-"             \   'gitcommit': ':\w*[^:]$',
-"             \   'markdown' : ':\w*[^:]$'
-"             \ }, 'keep')
-
 let g:mashtab_patterns.omni = get(g:mashtab_patterns, 'omni', {})
 call extend(g:mashtab_patterns.omni, {
             \   'css'       : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
@@ -322,16 +317,19 @@ endfunction
 " 1}}}
 
 function! s:SourceBuffer(to_complete) abort " {{{1
-    let l:tmp_file = tempname()
-    call s:Save2File(l:tmp_file)
-
+    let l:cl = line('.')
     let l:word = matchstr(a:to_complete, '\k\+$')
-    let l:words = uniq(s:Filter(s:Grep('\w+', l:tmp_file), '^\c\V' . l:word))
+    let l:words = []
+    for l:w in split(join(s:GetLines(), "\n"), '\W\+')
+        if l:w !=# l:word && l:w =~# '^\c\V' . l:word && len(l:w) ># 1
+            call add(l:words, {
+                        \   'word': s:MatchCase(l:word, l:w),
+                        \   'menu': '[buffer]'
+                        \ })
+        endif
+    endfor
 
-    call complete(col('.') - len(l:word), map(l:words, '{
-                    \   "word": v:val !=# l:word ? s:MatchCase(l:word, v:val) : "",
-                    \   "menu": "[buffer]"
-                    \ }'))
+    call complete(col('.') - len(l:word), l:words)
     return ''
 endfunction
 " 1}}}
@@ -416,10 +414,9 @@ function! s:Filter(list, pattern) abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Save2File(file) abort " {{{1
+function! s:GetLines() abort " {{{1
     let l:cl = line('.')
-    call writefile(getline(l:cl, line('$')), a:file)
-    call writefile(getline(1, l:cl - 1), a:file, 'a')
+    return getline(l:cl + 1, '$') + getline(1, l:cl)
 endfunction
 " 1}}}
 
