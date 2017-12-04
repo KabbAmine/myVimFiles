@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-04
+" Last modification: 2017-12-05
 " ==============================================================
 
 
@@ -515,8 +515,8 @@ xnoremap <C-x> <C-x>gv
 " 1}}}
 
 " >>> Completion {{{1
-inoremap <silent> <Tab> <C-r>=ka#module#mashtab#Complete({})<CR>
-
+inoremap <silent> <Tab> <C-r>=ka#module#mashtab#Complete()<CR>
+let g:mashtab_ft_chains = {}
 let g:mashtab_patterns = {}
 let g:mashtab_patterns.user = {
             \   'gitcommit': ':\w*[^:]$',
