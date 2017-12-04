@@ -356,16 +356,24 @@ endfunction
 " 1}}}
 
 function! s:SourceLine(to_complete) abort " {{{1
-    let l:lines = getline(line('.'), line('$')) + getline(1, line('.') - 1)
-    " Trim first whitespace characters.
-    call map(l:lines, {i, v -> substitute(v:val, '^\s*', '', '')})
-    let l:lines = s:Filter(l:lines, '^\s*\c\V' . a:to_complete)
+    let l:all_lines = s:GetLines()
+    let l:line_without_start_spaces = substitute(a:to_complete, '^\s*', '', '')
+    let l:indent = matchstr(a:to_complete, '^\s*')
+    let l:lines = []
+    for l:l in l:all_lines
+        " Trim starting whitespace characters.
+        let l:l = substitute(l:l, '^\s*', '', '')
+        " The line could contain '\' so we escape it coz it can be interpreted
+        " as a regex atom.
+        if l:l !=# l:line_without_start_spaces && l:l =~# '^\s*\c\V' . escape(l:line_without_start_spaces, '\')
+            call add(l:lines, {
+                        \   'word': l:indent . s:MatchCase(l:line_without_start_spaces, l:l),
+                        \   'menu': '[line]'
+                        \ })
+        endif
+    endfor
 
-    call complete(col('.') - len(a:to_complete), map(l:lines, '{
-                    \   "word": v:val !=# a:to_complete
-                    \       ? s:MatchCase(a:to_complete, v:val) : "",
-                    \   "menu": "[line]"
-                    \ }'))
+    call complete(col('.') - len(a:to_complete), l:lines)
     return ''
 endfunction
 " 1}}}
@@ -406,11 +414,6 @@ endfunction
 
 function! s:Grep(pattern, file) abort " {{{1
     return systemlist(printf('%s "%s" %s', s:grepper, a:pattern, a:file))
-endfunction
-" 1}}}
-
-function! s:Filter(list, pattern) abort " {{{1
-    return filter(copy(a:list), {i, v -> v =~# a:pattern})
 endfunction
 " 1}}}
 
