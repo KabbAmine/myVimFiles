@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-04
+" Last modification: 2017-12-05
 " ==============================================================
 
 
@@ -28,10 +28,10 @@ let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
 " 	        	Main
 " ==========================================================
 
-function! ka#module#mashtab#Complete(...) " {{{1
-    call s:SetConfig()
+function! ka#module#mashtab#Complete() " {{{1
     try
-        return exists('a:1') ? s:Tab(a:1) : s:Tab()
+        call s:SetConfig()
+        return s:Tab()
     catch
         call s:Echo(v:exception, 'Error', 1)
         return ''
@@ -48,6 +48,8 @@ function! s:SetConfig() abort " {{{1
     let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 1)
     let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 1)
 
+    let g:mashtab_ft_chains = get(g:, 'mashtab_ft_chains', {})
+
     let g:mashtab_patterns = get(g:, 'mashtab_patterns', {})
 
     let g:mashtab_patterns.user = get(g:mashtab_patterns, 'user', {})
@@ -63,9 +65,11 @@ function! s:SetConfig() abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Tab(...) abort " {{{1
-    let l:def_completions = exists('a:1') && has_key(a:1, &ft)
-                \ ? a:1[&ft]
+function! s:Tab() abort " {{{1
+    let l:def_completions = has_key(g:mashtab_ft_chains, &ft)
+                \ ? g:mashtab_ft_chains[&ft]
+                \ : has_key(g:mashtab_ft_chains, '_')
+                \ ? g:mashtab_ft_chains._
                 \ : ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
 
     let l:to_complete = strpart(getline('.'), 0, col('.')-1)
