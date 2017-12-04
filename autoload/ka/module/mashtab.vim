@@ -14,32 +14,7 @@
 
 " REQUIREMENTS
 " has('timers') && has('lambda')
-
-" TODO & FIXES
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Config {{{1
-let g:mashtab_custom_sources = get(g:, 'mashtab_custom_sources', {})
-let g:mashtab_custom_sources.path = get(g:mashtab_custom_sources, 'path', 1)
-let g:mashtab_custom_sources.spell = get(g:mashtab_custom_sources, 'spell', 1)
-let g:mashtab_custom_sources.kspell = get(g:mashtab_custom_sources, 'kspell', 1)
-let g:mashtab_custom_sources.dict = get(g:mashtab_custom_sources, 'dict', 1)
-let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 1)
-let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 1)
-
-let g:mashtab_patterns = get(g:, 'mashtab_patterns', {})
-
-let g:mashtab_patterns.user = get(g:mashtab_patterns, 'user', {})
-let g:mashtab_patterns.omni = get(g:mashtab_patterns, 'omni', {})
-call extend(g:mashtab_patterns.omni, {
-            \   'css'       : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
-            \   'html'      : '<\|\s[[:alnum:]-]*',
-            \   'javascript': '[^. \t]\.\w*',
-            \   'python'    : '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*',
-            \   'scss'      : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
-            \   'vim'       : '\v(<SID>)?\k*[^/]$'
-            \ }, 'keep')
-" 1}}}
 
 " Utilities {{{1
 let s:has_ultisnips = g:did_plugin_ultisnips ? 1 : 0
@@ -54,12 +29,37 @@ let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
 " ==========================================================
 
 function! ka#module#mashtab#Complete(...) " {{{1
+    call s:SetConfig()
     try
         return exists('a:1') ? s:Tab(a:1) : s:Tab()
     catch
         call s:Echo(v:exception, 'Error', 1)
         return ''
     endtry
+endfunction
+" 1}}}
+
+function! s:SetConfig() abort " {{{1
+    let g:mashtab_custom_sources = get(g:, 'mashtab_custom_sources', {})
+    let g:mashtab_custom_sources.path = get(g:mashtab_custom_sources, 'path', 1)
+    let g:mashtab_custom_sources.spell = get(g:mashtab_custom_sources, 'spell', 1)
+    let g:mashtab_custom_sources.kspell = get(g:mashtab_custom_sources, 'kspell', 1)
+    let g:mashtab_custom_sources.dict = get(g:mashtab_custom_sources, 'dict', 1)
+    let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 1)
+    let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 1)
+
+    let g:mashtab_patterns = get(g:, 'mashtab_patterns', {})
+
+    let g:mashtab_patterns.user = get(g:mashtab_patterns, 'user', {})
+    let g:mashtab_patterns.omni = get(g:mashtab_patterns, 'omni', {})
+    call extend(g:mashtab_patterns.omni, {
+                \   'css'       : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
+                \   'html'      : '<\|\s[[:alnum:]-]*',
+                \   'javascript': '[^. \t]\.\w*',
+                \   'python'    : '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*',
+                \   'scss'      : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
+                \   'vim'       : '\v(<SID>)?\k*[^/]$'
+                \ }, 'keep')
 endfunction
 " 1}}}
 
