@@ -112,13 +112,13 @@ function! s:Tab() abort " {{{1
     if s:last_completion ==# 'tab'
         return l:keys
     else
-        call timer_start(60, {t -> s:HasPopped()})
+        call timer_start(200, {t -> s:HasPopped()})
         if type(l:keys) ==# type([])
             " e.g. l:keys = [fun, list_of_params]
-            call timer_start(50, {t -> call(l:keys[0], l:keys[1])})
+            call timer_start(150, {t -> call(l:keys[0], l:keys[1])})
         else
             " e.g. l:keys = "\<C-x>s"
-            call timer_start(50, {t -> feedkeys(l:keys)})
+            call timer_start(150, {t -> feedkeys(l:keys)})
         endif
         return ''
     endif

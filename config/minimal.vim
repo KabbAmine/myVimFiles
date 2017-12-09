@@ -551,7 +551,7 @@ nnoremap ,f :F
 " 1}}}
 
 " >>> Completion  {{{1
-inoremap <silent> <Tab> <C-r>=mashtab#Complete()<CR>
+inoremap <silent> <Tab> <C-r>=ka#module#mashtab#Complete()<CR>
 let g:mashtab_patterns = {}
 let g:mashtab_patterns.user = {
             \   'gitcommit': '\s*:\w*$',
