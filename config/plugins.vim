@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-29
+" Last modification: 2017-12-10
 " ==============================================================
 
 
@@ -615,6 +615,7 @@ vmap gzz <Plug>ZVVisSelection
 nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
+let g:zv_keep_focus = 0
 let g:zv_file_types = {
             \   'help'                : 'vim',
             \   'javascript'          : 'javascript,nodejs',
