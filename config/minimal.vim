@@ -225,6 +225,10 @@ nnoremap f<CR> ;
 nnoremap t<CR> ;
 nnoremap f<BS> ,
 nnoremap t<BS> ,
+vnoremap f<CR> ;
+vnoremap t<CR> ;
+vnoremap f<BS> ,
+vnoremap t<BS> ,
 
 " Move current line or visual selection & auto indent
 nnoremap <silent> <A-k> :call <SID>MoveSelection(-1)<CR>==
@@ -514,14 +518,18 @@ xnoremap <C-x> <C-x>gv
 " endfunction " 2}}}
 " 1}}}
 
-" >>> Completion {{{1
-inoremap <silent> <Tab> <C-r>=ka#module#mashtab#Complete()<CR>
-let g:mashtab_ft_chains = {}
-let g:mashtab_patterns = {}
-let g:mashtab_patterns.user = {
-            \   'gitcommit': ':\w*[^:]$',
-            \   'markdown' : ':\w*[^:]$'
-            \ }
+" >>> Terminal mode {{{1
+if g:has_term
+    " This one overwrite the external terminal mapping
+    nnoremap <silent> ;t :call <SID>Terminal()<CR>
+    tnoremap jk <C-w>N
+
+    function! s:Terminal() abort " {{{2
+        let l:w = bufwinnr('!/bin/bash')
+        silent execute l:w !=# -1 ?
+                    \   l:w . 'wincmd w' : 'rightbelow terminal ++rows=10'
+    endfunction " 2}}}
+endif
 " 1}}}
 
 " >>> Clever gf {{{1
@@ -540,6 +548,15 @@ endfunction " 2}}}
 
 " >>> Super Find {{{1
 nnoremap ,f :F 
+" 1}}}
+
+" >>> Completion  {{{1
+inoremap <silent> <Tab> <C-r>=mashtab#Complete()<CR>
+let g:mashtab_patterns = {}
+let g:mashtab_patterns.user = {
+            \   'gitcommit': '\s*:\w*$',
+            \   'markdown' : ':\w*$'
+            \ }
 " 1}}}
 
 " =========== COMMANDS ===================================
@@ -952,6 +969,10 @@ augroup CustomAutoCmds
     " Fix some annoyances
     autocmd FileType vim setlocal textwidth=0
     autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
+
+    autocmd BufWinEnter * if &buftype == 'terminal'
+                \|  setlocal nonumber bufhidden=hide noswapfile
+                \| endif
 augroup END
 " 1}}}
 
