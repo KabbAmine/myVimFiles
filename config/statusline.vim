@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-10
+" Last modification: 2017-12-10
 " ==============================================================
 
 
@@ -43,6 +43,7 @@ let s:SL  = {
             \       'v': 'V',
             \       'V': 'V-L',
             \       'c': 'C',
+            \       't': '>_',
             \       "\<C-v>": 'V-B',
             \       's': 'S',
             \       'S': 'S-L',
