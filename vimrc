@@ -1,6 +1,6 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-09
+" Last modification: 2017-12-10
 " ==============================================================
 
 
@@ -9,6 +9,7 @@ let g:has_unix = has('unix')
 let g:has_win = has('win32')
 let g:has_gui = has('gui_running')
 let g:has_job = has('job')
+let g:has_term = has('terminal')
 " 1}}}
 
 " Vim & dotfiles directories {{{1
