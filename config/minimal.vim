@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-05
+" Last modification: 2017-12-10
 " ==============================================================
 
 
@@ -523,6 +523,7 @@ if g:has_term
     " This one overwrite the external terminal mapping
     nnoremap <silent> ;t :call <SID>Terminal()<CR>
     tnoremap jk <C-w>N
+    tnoremap <silent> <S-q> <C-w>Na<C-u><C-d><C-d><C-d><C-w>N:bw!<CR>
 
     function! s:Terminal() abort " {{{2
         let l:w = bufwinnr('!/bin/bash')
