@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-05
+" Last modification: 2017-12-10
 " ==============================================================
 
 
@@ -58,6 +58,7 @@ function! s:SetConfig() abort " {{{1
                 \   'css'       : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
                 \   'html'      : '<\|\s[[:alnum:]-]*',
                 \   'javascript': '[^. \t]\.\w*',
+                \   'php'       : '\w\+\|\[^. \t]->\w*\|\w\+::\w*',
                 \   'python'    : '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*',
                 \   'scss'      : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
                 \   'vim'       : '\v(<SID>)?\k*[^/]$'
