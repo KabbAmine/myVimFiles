@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-10
+" Last modification: 2017-12-20
 " ==============================================================
 
 
@@ -160,10 +160,7 @@ if !s:lab_mode
     Plug 'KabbAmine/vCoolor.vim'
     Plug 'KabbAmine/vullscreen.vim'
     Plug 'KabbAmine/yowish.vim'
-    Plug 'KabbAmine/zeavim.vim', {'on': [
-                \   'Zeavim', 'Docset', '<Plug>Zeavim', '<Plug>ZVVisSelection',
-                \   '<Plug>ZVKeyDocset', '<Plug>ZVMotion'
-                \ ]}
+    Plug 'KabbAmine/zeavim.vim'
 else
     call s:MyPlugs()
 endif
@@ -619,7 +616,7 @@ let g:zv_keep_focus = 0
 let g:zv_file_types = {
             \   'help'                : 'vim',
             \   'javascript'          : 'javascript,nodejs',
-            \   'python'              : 'python3',
+            \   'python'              : 'python_3',
             \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
             \ }
 let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
