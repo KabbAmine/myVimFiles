@@ -319,7 +319,7 @@ function! s:SourceBuffer(to_complete) abort " {{{1
     let l:word = matchstr(a:to_complete, '\k\+$')
     let l:words = []
     for l:w in split(join(s:GetLines(), "\n"), '\W\+')
-        if l:w !=# l:word && l:w =~# '^\c\V' . l:word && len(l:w) ># 1
+        if l:w !=# l:word && l:w =~# '^\c\V' . escape(l:word, '%') && len(l:w) ># 1
             call add(l:words, {
                         \   'word': s:MatchCase(l:word, l:w),
                         \   'menu': '[buffer]'
