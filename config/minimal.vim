@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-10
+" Last modification: 2017-12-14
 " ==============================================================
 
 
@@ -318,6 +318,7 @@ inoremap <silent> <C-r> <C-r><C-p>
 " >>> Windows  {{{1
 nnoremap <silent> gs <C-w>
 nnoremap <silent> gsnv :vnew<CR>
+nnoremap <silent> gsh :hide<CR>
 nnoremap <silent> gsns :split +enew<CR>
 nnoremap <silent> <C-Up> <C-w>+
 nnoremap <silent> <C-Down> <C-w>-
@@ -971,9 +972,11 @@ augroup CustomAutoCmds
     autocmd FileType vim setlocal textwidth=0
     autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
 
-    autocmd BufWinEnter * if &buftype == 'terminal'
-                \|  setlocal nonumber bufhidden=hide noswapfile
-                \| endif
+    if g:has_term
+        autocmd BufWinEnter * if &buftype ==# 'terminal'
+                    \|  setlocal nonumber bufhidden=hide noswapfile
+                    \| endif
+    endif
 augroup END
 " 1}}}
 
