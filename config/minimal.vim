@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-14
+" Last modification: 2018-01-14
 " ==============================================================
 
 
@@ -24,9 +24,9 @@ filetype plugin indent on
 " 1}}}
 
 " Set some folders for viminfo, tags & mkdir {{{1
-execute "set viminfo='100,<50,s10,h,n" . g:vim_dir . "/misc/viminfo"
-execute 'set tags+=' . g:vim_dir . '/misc/systags'
-execute 'set viewdir=' . g:vim_dir . '/misc/view'
+let &viminfo = '''100,<50,s10,h,n' . g:vim_dir . '/misc/viminfo'
+let &tags .= ',' . g:vim_dir. '/misc/systags'
+let &viewdir = g:vim_dir. '/misc/view'
 " 1}}}
 
 " Disable Background Color Erase (BCE) so that color schemes work properly {{{1
@@ -163,6 +163,7 @@ endif
 set splitbelow
 set splitright
 set hidden
+" let &previewheight = winwidth(0) / 2
 " 1}}}
 
 " >>> Swap file {{{1
@@ -284,7 +285,7 @@ nnoremap <silent> <F5> :tabonly<CR>
 " 1}}}
 
 " >>> Buffers {{{1
-nnoremap ,b :b 
+nnoremap ,b :ls<CR>:b 
 nnoremap <silent> <S-h> :silent bp!<CR>
 nnoremap <silent> <S-l> :silent bn!<CR>
 nnoremap <silent> <BS> <C-^>
@@ -888,7 +889,7 @@ command! -nargs=+ -complete=customlist,CompleteNotes NoteDelete
             \ call <SID>NoteDelete(<f-args>)
 
 " Update the date when the file is saved {{{2
-augroup Airnote
+augroup Notes
     autocmd!
     let s:str =
                 \ 'autocmd BufWrite %s/*.md ' .
