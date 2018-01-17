@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-14
+" Last modification: 2018-01-17
 " ==============================================================
 
 
@@ -926,7 +926,7 @@ command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
             \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
             \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
             \   'javascript': 'standard --fix --stdin',
-            \   'json'      : 'js-beautify -f - -s ' . shiftwidth(),
+            \   'json'      : 'fixjson -indent ' . shiftwidth(),
             \   'python'    : 'autopep8 -',
             \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
             \ }])
