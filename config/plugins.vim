@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-20
+" Last modification: 2018-01-17
 " ==============================================================
 
 
@@ -61,7 +61,6 @@ Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
 Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
-
 " 2}}}
 
 " JavaScript {{{2
@@ -121,7 +120,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/vim-signjk-motion',
             \ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'thinca/vim-visualstar'
@@ -144,7 +142,7 @@ if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
 Plug 'machakann/vim-highlightedyank',
-            \ {'on': '<Plug>(highlightedyank)'}
+if g:has_unix | Plug 'machakann/vim-highlightedundo' | endif
 " 2}}}
 
 " My Plugins {{{2
@@ -153,6 +151,7 @@ if !s:lab_mode
     " Plug 'KabbAmine/gulp-vim'
     " Plug $HOME . '/Temp/lab/RAP/', {'on': ['RAP']}
     Plug $HOME . '/Temp/lab/RAP/'
+    Plug $HOME . '/Temp/lab/vfinder/'
     Plug $HOME . '/Temp/lab/vtree/'
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
@@ -458,7 +457,7 @@ nmap <silent> cY "+<Plug>(highlightedyank)$
 
 " >>> (( vim-sandwich )) {{{1
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
-call operator#sandwich#set('all', 'all', 'hi_duration', 50)
+call operator#sandwich#set('all', 'all', 'hi_duration', 150)
 call operator#sandwich#set('all', 'all', 'autoindent', 0)
 vmap v ab
 " Allow using . with the keep cursor option enabled
@@ -514,13 +513,6 @@ call textobj#user#map('python', {
             \   }
             \ })
 " 2}}}
-" 1}}}
-
-" >>> (( vim-gutentags )) {{{1
-let g:gutentags_cache_dir = g:vim_dir . '/misc/tags/'
-let g:gutentags_ctags_executable = 'ctags-exuberant'
-let g:gutentags_define_advanced_commands = 1
-let g:gutentags_generate_on_new = 0
 " 1}}}
 
 " >>> (( vim-visualstar )) {{{1
@@ -604,6 +596,19 @@ nmap gk <Plug>(signjk-k)
 
 " >>> (( vim-Verdin )) {{{1
 let g:Verdin#fuzzymatch = 0
+" 1}}}
+
+" >>> (( vim-highlightedundo )) {{{1
+if g:has_unix && executable('diff')
+    let g:highlightedundo#highlight_mode = 2
+    let g:highlightedundo#highlight_duration_delete = 150
+    let g:highlightedundo#highlight_duration_add = 150
+    nmap u <Plug>(highlightedundo-undo)
+    nmap <C-r> <Plug>(highlightedundo-redo)
+    nmap U <Plug>(highlightedundo-Undo)
+    nmap g- <Plug>(highlightedundo-gminus)
+    nmap g+ <Plug>(highlightedundo-gplus)
+endif
 " 1}}}
 
 " >>> (( zeavim )) {{{1
@@ -700,18 +705,18 @@ let g:vzoom = {'equalise_windows': 1}
 " 1}}}
 
 " >>> (( imagePreview )) {{{1
-nmap gi <Plug>(image-preview)
-let g:image_preview = {
-            \   '_': {
-            \       'prg'  : 'feh',
-            \       'args' :
-            \           '--scale-down --no-menus --quiet --magick-timeout 1',
-            \   },
-            \   'gif': {
-            \       'prg'  : 'exo-open',
-            \       'args' : '',
-            \   },
-            \ }
+" nmap gi <Plug>(image-preview)
+" let g:image_preview = {
+"             \   '_': {
+"             \       'prg'  : 'feh',
+"             \       'args' :
+"             \           '--scale-down --no-menus --quiet --magick-timeout 1',
+"             \   },
+"             \   'gif': {
+"             \       'prg'  : 'exo-open',
+"             \       'args' : '',
+"             \   },
+"             \ }
 " 1}}}
 
 " >>> (( RAP )) {{{1
@@ -726,5 +731,11 @@ xnoremap <silent> gpp :RAP<CR>
 nnoremap <silent> gp! :RAP!<CR>
 " 1}}}
 
+" >>> (( vfinder )) {{{1
+nnoremap <silent> ,f :VFFiles<CR>
+nnoremap <silent> ,b :VFBuffers<CR>
+nnoremap <silent> ,r :VFOldfiles<CR>
+nnoremap <silent> ,c :VFCommands<CR>
+" 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
