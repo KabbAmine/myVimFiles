@@ -31,8 +31,9 @@ To make use of all the features you need a relatively new version of vim which s
 
 | Filetype(s)                | formatter
 | :------------------------- | :-------------------------
-| `html`, `json`             | `js-beautify`<sup>N</sup>
+| `html`                     | `js-beautify`<sup>N</sup>
 | `javascript`               | `standard`<sup>N</sup>
+| `json`                     | `fixjson`<sup>N</sup>
 | `python`                   | `autopep8`<sup>P</sup>
 | `scss`, `css`              | `prettier`<sup>N</sup>
 
