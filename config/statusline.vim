@@ -17,7 +17,7 @@
 " {{{1
 let s:SL  = {
             \   'separator': '',
-            \   'ignore': ['qf', 'nerdtree', 'undotree', 'diff'],
+            \   'ignore': ['vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
             \   'apply': {
             \       'denite' : [
             \           'denite#get_status_mode()',
