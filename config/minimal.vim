@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-17
+" Last modification: 2018-01-20
 " ==============================================================
 
 
@@ -25,7 +25,9 @@ filetype plugin indent on
 
 " Set some folders for viminfo, tags & mkdir {{{1
 let &viminfo = '''100,<50,s10,h,n' . g:vim_dir . '/misc/viminfo'
-let &tags .= ',' . g:vim_dir. '/misc/systags'
+if &tags !~# 'systags'
+    let &tags .= ',' . g:vim_dir. '/misc/systags'
+endif
 let &viewdir = g:vim_dir. '/misc/view'
 " 1}}}
 
@@ -930,6 +932,13 @@ command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
             \   'python'    : 'autopep8 -',
             \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
             \ }])
+" 1}}}
+
+" >>> Tags {{{1
+if &tags !~# '\.tags'
+    let &tags .= ',.tags'
+endif
+command! GenTags :call ka#module#gentags#Auto()
 " 1}}}
 
 " =========== AUTOCOMMANDS ===================================
