@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-11-10
+" Last modification: 2018-01-20
 " ==============================================================
 
 
@@ -27,6 +27,8 @@ function! s:Create(cmd, ...) abort " {{{1
         let g:jobs = {}
     endif
 
+    let l:silent = exists('a:1') && a:1 ? 1 : 0
+
     let l:cmd = map(split(a:cmd), 'expand(v:val)')
     let l:name = l:cmd[0]
     let l:j_opts = {
@@ -34,7 +36,7 @@ function! s:Create(cmd, ...) abort " {{{1
                 \   'err_cb' : function('s:OnError'),
                 \   'exit_cb': function('s:OnExit'),
                 \ }
-    if exists('a:1')
+    if exists('a:2')
         call extend(l:j_opts, a:1, 'force')
     endif
 
@@ -43,6 +45,7 @@ function! s:Create(cmd, ...) abort " {{{1
     call setqflist([], 'a', {'title': join(l:cmd)})
 
     let g:jobs[l:name] = {'cmd' : l:cmd, 'object': l:job}
+    let s:silent = l:silent
 endfunction
 " 1}}}
 
@@ -154,20 +157,22 @@ function! s:OnExit(job, exit_status) abort " {{{1
         endif
     endfor
 
-    let l:log_args = a:exit_status
-                \ ? ['exit status ' . a:exit_status, 1]
-                \ : ['finished', 2]
-    call ka#ui#E('Log', ['Job [' . l:job_name . ']: ' . l:log_args[0], l:log_args[1]])
+    if exists('s:silent') && !s:silent
+        let l:log_args = a:exit_status
+                    \ ? ['exit status ' . a:exit_status, 1]
+                    \ : ['finished', 2]
+        call ka#ui#E('Log', ['Job [' . l:job_name . ']: ' . l:log_args[0], l:log_args[1]])
 
-    if exists('s:errors') || exists('s:out')
-        cwindow | wincmd p
+        if exists('s:errors') || exists('s:out')
+            cwindow | wincmd p
+        endif
+
+        if getqflist() ==# []
+            silent cclose
+        endif
     endif
 
-    if getqflist() ==# []
-        silent cclose
-    endif
-
-    unlet! g:jobs[l:job_name] s:errors s:out
+    unlet! g:jobs[l:job_name] s:errors s:out s:silent
 endfunction
 " 1}}}
 

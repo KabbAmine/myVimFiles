@@ -51,7 +51,7 @@ endfunction
 function! s:GenerateTags() abort " {{{1
     let cwd = getcwd() . '/'
     let ctags_cmd = 'ctags -f ./.tags ' . s:CmdOptionsForFiles(cwd)
-    call ka#job#E('Create', [ctags_cmd])
+    call ka#job#E('Create', [ctags_cmd, 1])
 endfunction
 " 1}}}
 
