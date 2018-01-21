@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-10
+" Last modification: 2018-01-21
 " ==============================================================
 
 
@@ -10,7 +10,6 @@
 " * Rvm
 " * ALE
 " * Denite
-" * gutentags
 
 " ========== CONFIGURATION =====================================
 
@@ -141,7 +140,7 @@ endfunction
 function! SLJobs() abort " {{{1
     let l:n_jobs = exists('g:jobs') ? len(g:jobs) : 0
     return winwidth(0) <# 55 ? '' :
-                \ (l:n_jobs? ' ' . l:n_jobs : '')
+                \ (l:n_jobs ? ' ' . l:n_jobs : '')
 endfunction
 " 1}}}
 
@@ -181,11 +180,6 @@ function! SLGitGutter() abort " {{{1
     else
         return ''
     endif
-endfunction
-" 1}}}
-
-function! SLGutentags() abort " {{{1
-    return exists('*gutentags#statusline') ? gutentags#statusline(' ') : ''
 endfunction
 " 1}}}
 
@@ -345,9 +339,6 @@ function! GetSL(...) abort " {{{1
     let l:sl .= '%7*%( %{SLAle(1)} %)'
 
     let l:sl .= '%4*'
-
-    " Gutentags
-    let l:sl .= '%( %{SLGutentags()} %)'
 
     " Jobs
     let l:sl .= '%( %{SLJobs()} %)'
