@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-20
+" Last modification: 2018-01-22
 " ==============================================================
 
 
@@ -41,8 +41,10 @@ function! s:Create(cmd, ...) abort " {{{1
     endif
 
     let l:job = job_start(join(l:cmd), l:j_opts)
-    call setqflist([], 'r')
-    call setqflist([], 'a', {'title': join(l:cmd)})
+    if !l:silent
+        call setqflist([], 'r')
+        call setqflist([], 'a', {'title': join(l:cmd)})
+    endif
 
     let g:jobs[l:name] = {'cmd' : l:cmd, 'object': l:job}
     let s:silent = l:silent
@@ -158,6 +160,7 @@ function! s:OnExit(job, exit_status) abort " {{{1
     endfor
 
     if exists('s:silent') && !s:silent
+        echo "pas silent"
         let l:log_args = a:exit_status
                     \ ? ['exit status ' . a:exit_status, 1]
                     \ : ['finished', 2]
