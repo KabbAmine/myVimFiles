@@ -1,29 +1,35 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-20
+" Last modification: 2018-01-23
 " ==============================================================
 
 
 function! ka#module#gentags#Auto() abort " {{{1
-    if getcwd() is# expand($HOME)
-        call ka#ui#E('Log', ['Hell no, I will not generate tags for ~!', 1])
-        return ''
+    let cwd = getcwd()
+    if !filereadable('./.tags')
+        echohl Question
+        let res = input('Auto generate tags for "' . cwd . '"? [Y/n] ')
+        echohl None
+        if !empty(res) && res !~ '^y$'
+            redraw!
+            return ''
+        endif
     endif
     if !exists('s:autogen_tags')
         let s:autogen_tags = 1
         call <SID>GenerateTags()
         augroup AutogenTags
             autocmd!
-            execute 'autocmd BufWritePost ' . getcwd() . '/* :call <SID>GenerateTags()'
+            execute 'autocmd BufWritePost ' . cwd . '/* :call <SID>GenerateTags()'
         augroup END
-        call ka#ui#E('Log', ['Autogen tags enabled'])
+        call ka#ui#E('Log', ['GenTags enabled'])
     else
         augroup AutogenTags
             autocmd!
         augroup END
         augroup! AutogenTags
         unlet! s:autogen_tags
-        call ka#ui#E('Log', ['Autogen tags disabled'])
+        call ka#ui#E('Log', ['GenTags disabled'])
     endif
 endfunction
 " 1}}}
