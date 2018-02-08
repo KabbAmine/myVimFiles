@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-10
+" Last modification: 2018-02-08
 " ==============================================================
 
 
@@ -263,7 +263,7 @@ function! s:SourcePath(to_complete) abort " {{{1
 
     call complete(col('.') - len(l:path), map(l:all_files, '{
                     \   "word": v:val,
-                    \   "menu": isdirectory(v:val) ? "[dir]" : "[file]",
+                    \   "menu": "[" . getftype(v:val) . "]",
                     \ }'))
     return ''
 endfunction
