@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-08
+" Last modification: 2018-02-09
 " ==============================================================
 
 
@@ -148,7 +148,7 @@ endfunction
 " 1}}}
 
 function! s:CompletePath(to_complete) abort " {{{1
-    if a:to_complete =~# '\f*/\f*$'
+    if a:to_complete =~# '\f\+/\?$'
         return g:mashtab_custom_sources.path
                 \ ? ['s:SourcePath', [a:to_complete]]
                 \ : "\<C-x>\<C-f>"
