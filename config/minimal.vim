@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-20
+" Last modification: 2018-02-20
 " ==============================================================
 
 
@@ -140,7 +140,7 @@ unlet! s:grep_prg s:grep_format
 
 " >>> Syntax, highlighting and spelling {{{1
 set hlsearch
-set synmaxcol=200
+set synmaxcol=1000
 " 1}}}
 
 " >>> Tabs & indenting {{{1
@@ -172,6 +172,7 @@ set hidden
 let &directory = g:has_win ?
             \ g:vim_dir . '\\misc\\swap_dir,c:\\tmp,c:\\temp\\' :
             \ g:vim_dir . '/misc/swap_dir,~/tmp,/var/tmp,/tmp\'
+set updatetime=1000    " time in msec after which the swap file will be updated
 " 1}}}
 
 " >>> Mapping {{{1
@@ -524,16 +525,8 @@ xnoremap <C-x> <C-x>gv
 
 " >>> Terminal mode {{{1
 if g:has_term
-    " This one overwrite the external terminal mapping
-    nnoremap <silent> ;t :call <SID>Terminal()<CR>
     tnoremap jk <C-w>N
     tnoremap <silent> <S-q> <C-w>Na<C-u><C-d><C-d><C-d><C-w>N:bw!<CR>
-
-    function! s:Terminal() abort " {{{2
-        let l:w = bufwinnr('!/bin/bash')
-        silent execute l:w !=# -1 ?
-                    \   l:w . 'wincmd w' : 'rightbelow terminal ++rows=10'
-    endfunction " 2}}}
 endif
 " 1}}}
 
@@ -935,10 +928,12 @@ command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
 " 1}}}
 
 " >>> Tags {{{1
-if &tags !~# '\.tags'
-    let &tags .= ',.tags'
+if executable('ctags')
+    if &tags !~# '\.tags'
+        let &tags .= ',.tags'
+    endif
+    command! GenTags :call ka#module#gentags#Auto()
 endif
-command! GenTags :call ka#module#gentags#Auto()
 " 1}}}
 
 " =========== AUTOCOMMANDS ===================================
@@ -949,9 +944,9 @@ augroup CustomAutoCmds
 
     " Indentation per filetype
     autocmd FileType yaml,javascript,coffee,html,css,scss,pug,vader,ruby,markdown
-                \ setlocal sts=2 sw=2 expandtab
+                \ setlocal softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType vim,python,json
-                \ setlocal sts=4 sw=4 expandtab
+                \ setlocal softtabstop=4 shiftwidth=4 expandtab
 
     " Keep cursor position when switching buffers
     autocmd BufLeave * let b:winview = winsaveview()
@@ -986,6 +981,7 @@ augroup CustomAutoCmds
         autocmd BufWinEnter * if &buftype ==# 'terminal'
                     \|  setlocal nonumber bufhidden=hide noswapfile
                     \| endif
+
     endif
 augroup END
 " 1}}}
