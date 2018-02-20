@@ -1,6 +1,6 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-12-10
+" Last modification: 2018-02-20
 " ==============================================================
 
 
@@ -13,11 +13,10 @@ let g:has_term = has('terminal')
 " 1}}}
 
 " Vim & dotfiles directories {{{1
-let g:vim_dir = g:has_win ?
-            \ substitute(expand('$HOME/vimfiles'), '\', '/', 'g') :
-            \ expand('$HOME/.vim')
+let g:vim_dir = g:has_win
+            \ ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g')
+            \ : expand('$HOME/.vim')
 let s:vim_cfg_files = ['minimal', 'plugins', 'tabline', 'statusline']
-let g:dot_files = expand('$HOME/.dotfiles')
 " 1}}}
 
 " Commands for quick access to config files {{{1
@@ -27,17 +26,6 @@ for s:f in s:vim_cfg_files
     execute 'command! Ev' . s:f[0] .
                 \' :e! ' . g:vim_dir . '/config/' . s:f . '.vim'
 endfor
-
-" >>> Bash {{{2
-execute 'command! Eb :e! ' . g:dot_files . '/bash/bashrc'
-for s:f in ['aliases', 'functions']
-    execute 'command! Eb' . s:f[0] .
-                \ ' :e! ' . g:dot_files . '/bash/bash_' . s:f
-endfor
-
-" >>> Tmux {{{2
-execute 'command! Et :e! ' . g:dot_files . '/tmux/tmux.conf'
-" 2}}}
 " 1}}}
 
 " Automatically source vimrc & vim config files on save  {{{1
