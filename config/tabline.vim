@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-29
+" Last modification: 2018-02-24
 " ==============================================================
 
 
@@ -28,6 +28,7 @@ function! MyBufLine() abort " {{{1
                     \   '[No Name]'
                     \ )
 
+        let l:name = substitute(l:name, '%', '%%', 'g')
         let l:bl .= (l:b ==# bufnr('%') ? '%#TabLine# ' . l:name :
                     \ '%#Folded# ' . ' ' . l:name) . ' %#TabLineFill# '
     endfor
