@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-21
+" Last modification: 2018-03-01
 " ==============================================================
 
 
@@ -9,7 +9,6 @@
 " * GitGutter
 " * Rvm
 " * ALE
-" * Denite
 
 " ========== CONFIGURATION =====================================
 
@@ -17,13 +16,7 @@
 let s:SL  = {
             \   'separator': '',
             \   'ignore': ['vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
-            \   'apply': {
-            \       'denite' : [
-            \           'denite#get_status_mode()',
-            \           'denite#get_status_sources()',
-            \           'denite#get_status_linenr()',
-            \           ],
-            \   },
+            \   'apply': {},
             \   'checker': g:checker,
             \   'colors': {
             \       'background'      : ['#2f343f', 'none'],
