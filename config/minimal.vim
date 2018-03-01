@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-20
+" Last modification: 2018-02-22
 " ==============================================================
 
 
@@ -154,6 +154,7 @@ set copyindent          " Copy whitespace for indenting from previous line.
 " >>> Command line editing {{{1
 set wildmenu
 set wildmode=list:longest,full
+set history=1000
 " Persistent undo.
 if has('persistent_undo')
     let &undodir = g:vim_dir . '/misc/undodir/'
