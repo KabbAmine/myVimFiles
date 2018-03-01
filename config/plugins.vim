@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-17
+" Last modification: 2018-02-18
 " ==============================================================
 
 
@@ -142,17 +142,14 @@ if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
 " Interface {{{2
 Plug 'itchyny/vim-parenmatch'
 Plug 'machakann/vim-highlightedyank',
-if g:has_unix | Plug 'machakann/vim-highlightedundo' | endif
 " 2}}}
 
 " My Plugins {{{2
 if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
-    " Plug $HOME . '/Temp/lab/RAP/', {'on': ['RAP']}
     Plug $HOME . '/Temp/lab/RAP/'
     Plug $HOME . '/Temp/lab/vfinder/'
-    Plug $HOME . '/Temp/lab/vtree/'
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
@@ -377,6 +374,7 @@ augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-lion )) {{{1
+let b:lion_squeeze_spaces = 1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
@@ -516,77 +514,8 @@ call textobj#user#map('python', {
 " 1}}}
 
 " >>> (( vim-visualstar )) {{{1
-noremap <Plug>N N
-map * <Plug>(visualstar-*)<Plug>N
-map # <Plug>(visualstar-#)<Plug>N
-" 1}}}
-
-" >>> (( Denite )) {{{1
-if executable('rg')
-    call denite#custom#var('file_rec', 'command',
-                \ ['rg', '--files', '--hidden', '--glob', '!.git/'])
-elseif executable('ag')
-    call denite#custom#var('file_rec', 'command',
-                \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-endif
-call denite#custom#var('buffer', 'date_format', '')
-call denite#custom#var('outline', 'options', ['-u'])
-call denite#custom#option('_', {
-            \   'highlight_matched_char' : 'WarningMsg',
-            \   'highlight_matched_range': 'None',
-            \   'highlight_mode_normal'  : 'CursorLine',
-            \   'prompt'                 : '>',
-            \   'smartcase'              : v:true,
-            \   'statusline'             : v:false,
-            \   'winheight'              : 15,
-            \ })
-hi! link deniteSource_buffer None
-hi! link deniteSource_Name Question
-hi! link deniteSource_buffer_Info None
-hi! link deniteSource_buffer_Prefix None
-hi! link deniteSelectedLine ModeMsg
-" Mappings
-nnoremap <silent> ,f :Denite -buffer-name=Files file_rec<CR>
-nnoremap <silent> ,b :Denite -buffer-name=Buffers -winheight=10 buffer<CR>
-nnoremap <silent> ,r :Denite -buffer-name=MRU file_mru<CR>
-nnoremap <silent> ,d
-            \ :Denite -buffer-name=Directories
-            \   -default-action=cd directory_rec<CR>
-nnoremap <silent> ,c :Denite -buffer-name=Commands command<CR>
-nnoremap <silent> ,h :Denite -buffer-name=Help help<CR>
-nnoremap <silent> ,,f :Denite -buffer-name=Outline outline<CR>
-nnoremap <silent> ,T
-            \ :Denite -buffer-name=OutlineT -split=vertical
-            \   -mode=normal -no-empty -winwidth=40 outline<CR>
-nnoremap <silent> ,y :Denite -buffer-name=Yanks neoyank<CR>
-inoremap <silent> <A-y> <Esc>:Denite -buffer-name=Yanks
-            \ -default-action=append neoyank<CR>
-" ***** Insert mode
-call denite#custom#map('insert', '<C-d>',
-            \ '<denite:do_action:delete>', 'noremap')
-call denite#custom#map('insert', '<C-n>',
-            \ '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>',
-            \ '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<C-s>',
-            \ '<denite:do_action:split>', 'noremap')
-call denite#custom#map('insert', '<C-a>',
-            \ '<denite:toggle_select_all>', 'noremap')
-call denite#custom#map('insert', '<C-space>',
-            \ '<denite:toggle_select_down>', 'noremap')
-call denite#custom#map('insert', '<C-t>',
-            \ '<denite:do_action:tabopen>', 'noremap')
-call denite#custom#map('insert', '<C-v>',
-            \ '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('insert', 'jk', '<denite:quit>', 'noremap')
-" ***** Normal mode
-call denite#custom#map('normal', 's', '<denite:do_action:split>', 'noremap')
-call denite#custom#map('normal', 'v', '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('normal', 'p', '<denite:do_action:preview>', 'noremap')
-call denite#custom#map('normal', '<C-h>', '<denite:wincmd:h>', 'noremap')
-call denite#custom#map('normal', '<C-j>', '<denite:wincmd:j>', 'noremap')
-call denite#custom#map('normal', '<C-k>', '<denite:wincmd:k>', 'noremap')
-call denite#custom#map('normal', '<C-l>', '<denite:wincmd:l>', 'noremap')
+map * <Plug>(visualstar-*)``
+map # <Plug>(visualstar-#)
 " 1}}}
 
 " >>> (( vim-signjk-motion )) {{{1
@@ -596,19 +525,6 @@ nmap gk <Plug>(signjk-k)
 
 " >>> (( vim-Verdin )) {{{1
 let g:Verdin#fuzzymatch = 0
-" 1}}}
-
-" >>> (( vim-highlightedundo )) {{{1
-if g:has_unix && executable('diff')
-    let g:highlightedundo#highlight_mode = 2
-    let g:highlightedundo#highlight_duration_delete = 150
-    let g:highlightedundo#highlight_duration_add = 150
-    nmap u <Plug>(highlightedundo-undo)
-    nmap <C-r> <Plug>(highlightedundo-redo)
-    nmap U <Plug>(highlightedundo-Undo)
-    nmap g- <Plug>(highlightedundo-gminus)
-    nmap g+ <Plug>(highlightedundo-gplus)
-endif
 " 1}}}
 
 " >>> (( zeavim )) {{{1
@@ -732,10 +648,26 @@ nnoremap <silent> gp! :RAP!<CR>
 " 1}}}
 
 " >>> (( vfinder )) {{{1
-nnoremap <silent> ,f :VFFiles<CR>
-nnoremap <silent> ,b :VFBuffers<CR>
-nnoremap <silent> ,r :VFOldfiles<CR>
-nnoremap <silent> ,c :VFCommands<CR>
+let g:vfinder_fuzzy = 0
+nnoremap <silent> ,f :call vfinder#i('files')<CR>
+nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
+nnoremap <silent> ,d :call vfinder#i('directories')<CR>
+nnoremap <silent> ,r :call vfinder#i('mru')<CR>
+nnoremap <silent> ,c :call vfinder#i('commands')<CR>
+nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
+nnoremap <silent> ,t :call vfinder#i('tags')<CR>
+nnoremap <silent> ,,f :call vfinder#i('outline')<CR>
+nnoremap <silent> ,y :call vfinder#i('yank')<CR>
+inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
+" nnoremap <silent> ,C :call vfinder#i('colors')<CR>
+" nnoremap <silent> ,,r :call vfinder#i('oldfiles')<CR>
+" nnoremap <silent> ,Y :call vfinder#i('registers')<CR>
+nnoremap <silent> ,B :call vfinder#i({
+            \   'name'      : 'bookmarks',
+            \   'to_execute': ['~/.vim', '~/Temp/lab'],
+            \   'maps'      : vfinder#sources#directories#maps()
+            \ })<CR>
 " 1}}}
+
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
