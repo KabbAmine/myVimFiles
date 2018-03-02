@@ -5,7 +5,7 @@
 
 
 let s:higroup_none = '%#None#'
-let s:higroup_selected = '%#User4#'
+let s:higroup_selected = '%#StatusLine#'
 let s:higroup_non_selected = '%#Comment#'
 let s:higroup_cwd = '%#TabLine#'
 
