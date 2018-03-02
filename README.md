@@ -56,8 +56,8 @@ To make use of all the features you need a relatively new version of vim which s
 
 ### Miscellaneous
 
-- `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **Denite**.
-- `ctags-exuberant`<sup>B</sup> for tag's generation (Used by **gutentags**).
+- `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **vFinder**.
+- `ctags-exuberant`<sup>B</sup> for tag's generation.
 - `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
 - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things.
 
