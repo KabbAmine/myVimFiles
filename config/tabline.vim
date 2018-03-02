@@ -1,94 +1,65 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-24
+" Last modification: 2018-03-02
 " ==============================================================
 
 
-" Not mandatory, but the bufline uses the following plugins:
-" * tabpagecd
-
+let s:higroup_none = '%#None#'
+let s:higroup_selected = '%#User4#'
+let s:higroup_non_selected = '%#Comment#'
+let s:higroup_cwd = '%#TabLine#'
 
 function! MyBufLine() abort " {{{1
-    let l:bl = '%#TablineFill#'
-    let l:bufs = s:Buffers()
-    let l:bufs_n = len(l:bufs)
-    for l:b in l:bufs
+    let bl = []
+    let current_nr = bufnr('%')
+    let bufs = s:Buffers()
+    let bufs_count = len(bufs)
 
-        " The case where we have 1 buffer is checked in TLInit().
-
-        " If more than 8
-        if l:bufs_n >=# 8
-            let l:bl .= '%#TabLine# [B] ' . l:bufs_n . ' %#TabLineFill# '
-            break
-        endif
-
-        let l:mod = (getbufvar(l:b, '&modified') ==# 1 ? ' +' : '')
-        let l:name = (!empty(bufname(l:b)) ?
-                    \   pathshorten(fnamemodify(bufname(l:b), ':.')) . l:mod :
-                    \   '[No Name]'
-                    \ )
-
-        let l:name = substitute(l:name, '%', '%%', 'g')
-        let l:bl .= (l:b ==# bufnr('%') ? '%#TabLine# ' . l:name :
-                    \ '%#Folded# ' . ' ' . l:name) . ' %#TabLineFill# '
-    endfor
-
-    let l:get_cwd = fnamemodify(getcwd(), ':~')
-    if l:get_cwd !=# '~/'
-        let l:cwd = len(l:get_cwd) >=# 15 ? pathshorten(l:get_cwd) : l:get_cwd
-        let l:bl .= '%=%#IncSearch# ' . l:cwd . ' '
+    " Show 3 buffers maximum when the joined buffer's list string is bigger
+    " than the window's width.
+    if strlen(join(map(copy(bufs), 'bufname(v:val)'))) ># &columns
+        let bl += [s:higroup_cwd, '[' . bufs_count . ']']
+        let current_i = index(bufs, current_nr)
+        let prev_nr = current_i - 1 >=# 0 ? bufs[current_i - 1] : bufs[0]
+        let next_nr = bufs[current_i + 1]
+        let current = s:GetFormattedBuffer(current_nr)
+        let prev = prev_nr isnot# current_nr
+                    \ ? s:GetFormattedBuffer(prev_nr)
+                    \ : ''
+        let next = next_nr isnot# current_nr
+                    \ ? s:GetFormattedBuffer(next_nr)
+                    \ : ''
+        let bl += [prev, current, next]
+    else
+        for b in bufs
+            call add(bl, s:GetFormattedBuffer(b))
+        endfor
     endif
 
-    return l:bl
-endfunction
-" 1}}}
+    let bl += [s:higroup_none, '%=']
 
-function! MyTabLine() abort " {{{1
-    " :h setting-tabline
+    let cwd = fnamemodify(getcwd(), ':~')
+    if cwd isnot# '~/'
+        let cwd = len(cwd) >=# 15 ? pathshorten(cwd) : cwd
+        let bl += [s:higroup_cwd . ' ' . cwd . ' ']
+    endif
 
-    let l:tl = '%#TabLineSel# T %#TabLineFill#'
-    for i in range(tabpagenr('$'))
-        let l:i = i + 1
-        let l:tl .= (l:i ==# tabpagenr()) ?
-                    \ ' %#TabLine#' : ' %#Folded#'
-        " Set the tab page number (for mouse clicks)
-        let l:tl .= '%' . l:i . 'T '
-        " Get working directory (Use tabpagecd if present, otherwise use
-        " getcwd()).
-        if !empty(gettabvar(l:i, 'cwd'))
-            let l:tl .= tabpagenr('$') >=# 5 ?
-                        \ fnamemodify(gettabvar(l:i, 'cwd'), ':t') :
-                        \ pathshorten(fnamemodify(gettabvar(l:i, 'cwd'), ':~'))
-        else
-            let l:tl .= tabpagenr('$') >=# 5 ?
-                        \ fnamemodify(getcwd(), ':t') :
-                        \ pathshorten(fnamemodify(getcwd(), ':~'))
-        endif
-        let l:tl .= '%' . l:i . 'X ⨉'
-        " Fill with TabLineFill and reset tab page nr
-        let l:tl .= ' %#TabLineFill#%T'
-    endfor
+    if tabpagenr('$') isnot# 1
+        let bl += [s:higroup_selected, tabpagenr() . ' ']
+    endif
 
-    return l:tl
+    return join(bl)
 endfunction
 " 1}}}
 
 function! TLInit() abort " {{{1
-    let l:bufs = s:Buffers()
+    let bufs = s:Buffers()
     if len(s:Buffers()) ==# 1 && getcwd() ==# $HOME
         set showtabline=0
         return
     endif
-    set tabline=
     set showtabline=2
-    if tabpagenr('$') ==# 1
-        let l:bufs = l:bufs
-        let &showtabline = len(l:bufs) ># 1 ? 2 : &showtabline
-        set tabline=%!MyBufLine()
-    else
-        set showtabline=2
-        set tabline=%!MyTabLine()
-    endif
+    set tabline=%!MyBufLine()
 endfunction
 " 1}}}
 
@@ -99,10 +70,22 @@ function! s:Buffers() abort " {{{1
 endfunction
 " 1}}}
 
+function! s:GetFormattedBuffer(buf) abort " {{{1
+    let buf_name = pathshorten(bufname(a:buf))
+    if empty(buf_name)
+        let buf_name = 'no name'
+    endif
+    let modified = getbufvar(a:buf, '&modified') ? '[+]' : ''
+    let higroup = a:buf is# bufnr('%')
+                \ ? s:higroup_selected
+                \ : s:higroup_non_selected
+    return printf('%s %d. %s %s', higroup, a:buf, buf_name, modified)
+endfunction
+" 1}}}
+
 " ========== INITIALIZE ========================================
 
 " {{{1
-hi! link TablineSel StatusLine
 augroup TabBufLine
     autocmd!
     autocmd BufAdd,BufDelete,BufWinEnter,TabNew,TabClosed,VimEnter *
