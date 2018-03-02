@@ -5,11 +5,11 @@
 
 
 let s:higroup_none = '%#None#'
-let s:higroup_selected = '%#StatusLine#'
+let s:higroup_selected = '%#User4#'
 let s:higroup_non_selected = '%#Comment#'
 let s:higroup_cwd = '%#TabLine#'
 
-function! MyBufLine() abort " {{{1
+function! TabLine() abort " {{{1
     let bl = []
     let current_nr = bufnr('%')
     let bufs = s:Buffers()
@@ -21,8 +21,10 @@ function! MyBufLine() abort " {{{1
         let bl += [s:higroup_cwd, '[' . bufs_count . ']']
         let current_i = index(bufs, current_nr)
         let prev_nr = current_i - 1 >=# 0 ? bufs[current_i - 1] : bufs[0]
-        let next_nr = bufs[current_i + 1]
-        let current = s:GetFormattedBuffer(current_nr)
+        let next_nr = current_i + 1 <# len(bufs) - 1
+                    \ ? bufs[current_i + 1]
+                    \ : bufs[-1]
+        let current = s:higroup_selected . ' <' . s:GetFormattedBuffer(current_nr) . '>'
         let prev = prev_nr isnot# current_nr
                     \ ? s:GetFormattedBuffer(prev_nr)
                     \ : ''
@@ -52,14 +54,14 @@ function! MyBufLine() abort " {{{1
 endfunction
 " 1}}}
 
-function! TLInit() abort " {{{1
+function! s:TLInit() abort " {{{1
     let bufs = s:Buffers()
-    if len(s:Buffers()) ==# 1 && getcwd() ==# $HOME
+    if len(s:Buffers()) is# 1 && getcwd() is# $HOME
         set showtabline=0
         return
     endif
     set showtabline=2
-    set tabline=%!MyBufLine()
+    set tabline=%!TabLine()
 endfunction
 " 1}}}
 
@@ -71,7 +73,7 @@ endfunction
 " 1}}}
 
 function! s:GetFormattedBuffer(buf) abort " {{{1
-    let buf_name = pathshorten(bufname(a:buf))
+    let buf_name = pathshorten(fnamemodify(bufname(a:buf), ':.'))
     if empty(buf_name)
         let buf_name = 'no name'
     endif
@@ -88,16 +90,15 @@ endfunction
 " {{{1
 augroup TabBufLine
     autocmd!
-    autocmd BufAdd,BufDelete,BufWinEnter,TabNew,TabClosed,VimEnter *
-                \ call TLInit()
+    autocmd BufAdd,BufDelete,TabNew,TabClosed * call <SID>TLInit()
 augroup END
-call TLInit()
+call s:TLInit()
 " 1}}}
 
 " ========== MAPPINGS ==========================================
 
 " Replace default <F5> {{{1
-nnoremap <silent> <F5> :tabonly\|call TLInit()<CR>
+nnoremap <silent> <F5> :tabonly\|call <SID>TLInit()<CR>
 " 1}}}
 
 
