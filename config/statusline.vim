@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-01
+" Last modification: 2018-03-02
 " ==============================================================
 
 
@@ -13,7 +13,7 @@
 " ========== CONFIGURATION =====================================
 
 " {{{1
-let s:SL  = {
+let s:sl  = {
             \   'separator': '',
             \   'ignore': ['vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
             \   'apply': {},
@@ -29,246 +29,247 @@ let s:SL  = {
             \       'textDark'        : ['#8c8c8c', '244'],
             \   },
             \   'modes': {
-            \       'n': 'N',
-            \       'i': 'I',
-            \       'R': 'R',
-            \       'v': 'V',
-            \       'V': 'V-L',
-            \       'c': 'C',
-            \       't': '>_',
+            \       'n'     : 'N',
+            \       'i'     : 'I',
+            \       'R'     : 'R',
+            \       'v'     : 'V',
+            \       'V'     : 'V-L',
+            \       'c'     : 'C',
+            \       't'     : '>_',
             \       "\<C-v>": 'V-B',
-            \       's': 'S',
-            \       'S': 'S-L',
+            \       's'     : 'S',
+            \       'S'     : 'S-L',
             \       "\<C-s>": 'S-B',
-            \       '?': '',
+            \       '?'     : '',
             \   }
             \ }
 " 1}}}
 
 " ========== GENERAL ===========================================
 
-function! SLFilename() abort " {{{1
+fun! SLFilename() abort " {{{1
     if !empty(expand('%:t'))
-        let l:fn = winwidth(0) <# 55 ?
-                    \ expand('%:t') : (winwidth(0) ># 85 ? expand('%:.') :
-                    \ pathshorten(expand('%:.')))
+        let fn = winwidth(0) <# 55
+                    \ ? expand('%:t')
+                    \ : winwidth(0) ># 85
+                    \ ? expand('%:.')
+                    \ : pathshorten(expand('%:.'))
     else
-        let l:fn = '[No Name]'
+        let fn = '[No Name]'
     endif
-    return
-                \ l:fn .
-                \ (&readonly ? ' ' : '')
-endfunction
+    return fn . (&readonly ? ' ' : '')
+endfun
 " 1}}}
 
-function! SLModified() abort " {{{1
-    return (&modified ? '+' : '')
-endfunction
+fun! SLModified() abort " {{{1
+    return &modified ? '+' : ''
+endfun
 " 1}}}
 
-function! SLFormatAndEncoding() abort " {{{1
-    let l:encoding = winwidth(0) <# 55 ? '' :
-                \ (strlen(&fenc) ? &fenc : &enc)
-    let l:format = winwidth(0) ># 85 ? &fileformat :
-                \ (winwidth(0) <# 55 ? '' : &fileformat[0])
-
-    return printf('%s[%s]', l:encoding, l:format)
-endfunction
+fun! SLFormatAndEncoding() abort " {{{1
+    let encoding = winwidth(0) <# 55
+                \ ? ''
+                \ : strlen(&fenc)
+                \ ? &fenc
+                \ : &enc
+    let format = winwidth(0) ># 85
+                \ ? &fileformat
+                \ : winwidth(0) <# 55
+                \ ? ''
+                \ : &fileformat[0]
+    return printf('%s[%s]', encoding, format)
+endfun
 " 1}}}
 
-function! SLFiletype() abort " {{{1
+fun! SLFiletype() abort " {{{1
     return strlen(&filetype) ? &filetype : ''
-endfunction
+endfun
 " 1}}}
 
-function! SLHiGroup() abort " {{{1
+fun! SLHiGroup() abort " {{{1
     return '> ' . synIDattr(synID(line('.'), col('.'), 1), 'name') . ' <'
-endfunction
+endfun
 " 1}}}
 
-function! SLMode() abort " {{{1
-    return winwidth(0) <# 75 ?
-                \ get(s:SL.modes, mode()) : get(s:SL.modes, mode())
-endfunction
+fun! SLMode() abort " {{{1
+    return get(s:sl.modes, mode())
+endfun
 " 1}}}
 
-function! SLPaste() abort " {{{1
-    return &paste ? (winwidth(0) <# 55 ? '[P]' : '[PASTE]') : ''
-endfunction
+fun! SLPaste() abort " {{{1
+    if &paste
+        return winwidth(0) <# 55 ? '[P]' : '[PASTE]'
+    else
+        return ''
+    endif
+endfun
 " 1}}}
 
-function! SLPython() abort " {{{1
-    let l:p = executable('python') ?
-                \ system('python --version')[7:-2] : ''
-    let l:p3 = executable('python3') ?
-                \ system('python3 --version')[7:-2] : ''
-    return printf('[py %s - %s]', l:p, l:p3)
-endfunction
+fun! SLPython() abort " {{{1
+    let p = executable('python') ? system('python --version')[7:-2] : ''
+    let p3 = executable('python3') ? system('python3 --version')[7:-2] : ''
+    return printf('[py %s - %s]', p, p3)
+endfun
 " 1}}}
 
-function! SLSpell() abort " {{{1
+fun! SLSpell() abort " {{{1
     return &spell ? &spelllang : ''
-endfunction
+endfun
 " 1}}}
 
-function! SLIndentation() abort " {{{1
-    return winwidth(0) <# 55 ? '' :
-                \ &expandtab ?
-                \   's:' . &shiftwidth : 't:' . &shiftwidth
-endfunction
+fun! SLIndentation() abort " {{{1
+    return winwidth(0) <# 55
+                \ ? ''
+                \ : &expandtab
+                \ ? 's:' . &shiftwidth
+                \ : 't:' . &shiftwidth
+endfun
 " 1}}}
 
-function! SLColumnAndPercent() abort " {{{1
+fun! SLColumnAndPercent() abort " {{{1
     " The percent part was inspired by vim-line-no-indicator plugin.
 
-    let l:chars = ['⎺', '⎻', '─', '⎼', '⎽']
-    let [l:c_l, l:l_l] = [line('.'), line('$')]
-    let l:index = float2nr(ceil((l:c_l * len(l:chars) * 1.0) / l:l_l)) - 1
-
-    let l:perc = l:chars[l:index]
-    return winwidth(0) <# 55 ? '' : l:perc . ' ' . col('.')
-endfunction
+    let chars = ['⎺', '⎻', '─', '⎼', '⎽']
+    let [c_l, l_l] = [line('.'), line('$')]
+    let index = float2nr(ceil((c_l * len(chars) * 1.0) / l_l)) - 1
+    let perc = chars[index]
+    return winwidth(0) ># 55 ? perc . ' ' . col('.') : ''
+endfun
 " 1}}}
 
-function! SLJobs() abort " {{{1
-    let l:n_jobs = exists('g:jobs') ? len(g:jobs) : 0
-    return winwidth(0) <# 55 ? '' :
-                \ (l:n_jobs ? ' ' . l:n_jobs : '')
-endfunction
+fun! SLJobs() abort " {{{1
+    let n_jobs = exists('g:jobs') ? len(g:jobs) : 0
+    return winwidth(0) <# 55
+                \ ? ''
+                \ : n_jobs
+                \ ? ' ' . n_jobs
+                \ : ''
+endfun
 " 1}}}
 
-function! SLToggled() abort " {{{1
+fun! SLToggled() abort " {{{1
     if !exists('g:SL_toggle')
         return ''
     endif
-    let l:sl = ''
-    for [l:k, l:v] in items(g:SL_toggle)
-        let l:str = call(l:v, [])
-        let l:sl .= empty(l:sl) ?
-                    \   l:str . ' ' :
-                    \   s:SL.separator . ' ' . l:str . ' '
+    let sl = ''
+    for [k, v] in items(g:SL_toggle)
+        let str = call(v, [])
+        let sl .= empty(sl)
+                    \ ? str . ' '
+                    \ : s:sl.separator . ' ' . str . ' '
     endfor
-    return l:sl[:-2]
-endfunction
+    return sl[:-2]
+endfun
 " 1}}}
 
 " ========== PLUGINS ===========================================
 
-function! SLFugitive() abort " {{{1
-    let l:i = ''
-    return exists('*fugitive#head') && !empty(fugitive#head()) &&
-                \ (winwidth(0) ># 55) ?
-                \   (fugitive#head() ==# 'master' ?
-                \       l:i : l:i . ' ' . fugitive#head()) : ''
-endfunction
-" 1}}}
-
-function! SLGitGutter() abort " {{{1
-    " Note that it uses Fugitive to be sure being in a git project.
-    if exists('g:gitgutter_enabled') && g:gitgutter_enabled
-        let l:h = GitGutterGetHunkSummary()
-        return !empty(SLFugitive()) && !empty(l:h) && l:h !=# [0,0,0] &&
-                    \ (winwidth(0) ># 55) ?
-                    \   printf('+%d ~%d -%d', l:h[0], l:h[1], l:h[2]) : ''
+fun! SLFugitive() abort " {{{1
+    let i = ''
+    if exists('*fugitive#head') && !empty(fugitive#head()) && winwidth(0) ># 55
+        return fugitive#head() isnot# 'master' ? i . ' ' . fugitive#head() : i
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! SLRuby() abort " {{{1
-    if g:has_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
-        let l:r = matchstr(rvm#statusline(), '\d.*[^\]]')
-    elseif executable('ruby')
-        let l:r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
+fun! SLGitGutter() abort " {{{1
+    " Note that it uses Fugitive to be sure being in a git project.
+    if exists('g:gitgutter_enabled') && g:gitgutter_enabled
+        let h = GitGutterGetHunkSummary()
+        return !empty(SLFugitive()) && !empty(h) && h isnot# [0,0,0] && winwidth(0) ># 55
+                    \ ? printf('+%d ~%d -%d', h[0], h[1], h[2])
+                    \ : ''
     else
-        let l:r = ''
+        return ''
     endif
-    return printf('[ruby %s]', l:r)
-endfunction
+endfun
 " 1}}}
 
-function! SLAle(mode) abort " {{{1
+fun! SLRuby() abort " {{{1
+    if g:has_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
+        let r = matchstr(rvm#statusline(), '\d.*[^\]]')
+    elseif executable('ruby')
+        let r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
+    else
+        let r = ''
+    endif
+    return printf('[ruby %s]', r)
+endfun
+" 1}}}
+
+fun! SLAle(mode) abort " {{{1
     " a:mode: 1/0 = errors/ok
 
     if exists('g:loaded_ale') && !g:loaded_ale
         return ''
     endif
 
-    if !g:ale_enabled
+    if !g:ale_enabled || empty(ale#linter#Get(&ft))
         return ''
     endif
 
-    if empty(ale#linter#Get(&ft))
-        return ''
-    endif
+    let counts = ale#statusline#Count(bufnr('%'))
+    let total = counts.total
+    let errors = counts.error + counts.style_error
+    let warnings = counts.warning + counts.style_warning
 
-    let l:counts = ale#statusline#Count(bufnr('%'))
+    let errors_str = errors isnot# 0
+                \ ? printf('%s %s', s:sl.checker.error_sign, errors)
+                \ : ''
+    let warnings_str = warnings isnot# 0
+                \ ? printf('%s %s', s:sl.checker.warning_sign, warnings)
+                \ : ''
 
-    let l:total = l:counts.total
-    let l:errors = l:counts.error + l:counts.style_error
-    let l:warnings = l:counts.warning + l:counts.style_warning
-
-    let l:errors_str = l:errors !=# 0 ?
-                \   printf('%s %s', s:SL.checker.error_sign, l:errors) : ''
-    let l:warnings_str = l:warnings !=# 0 ?
-                \   printf('%s %s', s:SL.checker.warning_sign, l:warnings) : ''
-
-    let l:def_str = printf('%s %s', l:errors_str, l:warnings_str)
+    let def_str = printf('%s %s', errors_str, warnings_str)
     " Trim spaces
-    let l:def_str = substitute(l:def_str, '^\s*\(.\{-}\)\s*$', '\1', '')
-    let l:success_str = s:SL.checker.success_sign
+    let def_str = substitute(def_str, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let success_str = s:sl.checker.success_sign
 
     if a:mode
-        return l:total ==# 0 ? '' : l:def_str
+        return total is# 0 ? '' : def_str
     else
-        return l:total ==# 0 ? l:success_str : ''
+        return total is# 0 ? success_str : ''
     endif
-endfunction
+endfun
 " 1}}}
 
 " ========== HELPERS ===========================================
 
-function! s:Hi(group, bg, fg, opt) abort " {{{1
-    let l:bg = type(a:bg) ==# type('') ? ['none', 'none' ] : a:bg
-    let l:fg = type(a:fg) ==# type('') ? ['none', 'none'] : a:fg
-    let l:opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
-    let l:mode = ['gui', 'cterm']
-    let l:cmd = 'hi ' . a:group . ' term=' . l:opt[1]
-    for l:i in (range(0, len(l:mode)-1))
-        let l:cmd .= printf(' %sbg=%s %sfg=%s %s=%s',
-                    \ l:mode[l:i], l:bg[l:i],
-                    \ l:mode[l:i], l:fg[l:i],
-                    \ l:mode[l:i], l:opt[l:i]
+fun! s:Hi(group, bg, fg, opt) abort " {{{1
+    let bg = type(a:bg) is# type('') ? ['none', 'none' ] : a:bg
+    let fg = type(a:fg) is# type('') ? ['none', 'none'] : a:fg
+    let opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
+    let mode = ['gui', 'cterm']
+    let cmd = 'hi ' . a:group . ' term=' . opt[1]
+    for i in (range(0, len(mode)-1))
+        let cmd .= printf(' %sbg=%s %sfg=%s %s=%s',
+                    \ mode[i], bg[i],
+                    \ mode[i], fg[i],
+                    \ mode[i], opt[i]
                     \ )
     endfor
-    execute l:cmd
-endfunction
+    execute cmd
+endfun
 " 1}}}
 
-function! s:SetColors() abort " {{{1
-    call s:Hi('User1', s:SL.colors['main'], s:SL.colors['background'],
-                \ 'bold')
-    call s:Hi('User2', s:SL.colors['backgroundLight'], s:SL.colors['text'],
-                \ 'none')
-    call s:Hi('User3', s:SL.colors['backgroundLight'], s:SL.colors['textDark'],
-                \ 'none')
-    call s:Hi('User4', s:SL.colors['main'], s:SL.colors['background'], 'none')
+fun! s:SetSLColors() abort " {{{1
+    call s:Hi('User1', s:sl.colors['main'], s:sl.colors['background'], 'bold')
+    call s:Hi('User2', s:sl.colors['backgroundLight'], s:sl.colors['text'], 'none')
+    call s:Hi('User3', s:sl.colors['backgroundLight'], s:sl.colors['textDark'], 'none')
+    call s:Hi('User4', s:sl.colors['main'], s:sl.colors['background'], 'none')
     " Modified state
-    call s:Hi('User5', s:SL.colors['backgroundLight'], s:SL.colors['main'],
-                \ 'bold')
+    call s:Hi('User5', s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold')
     " Success & error states
-    call s:Hi('User6', s:SL.colors['green'], s:SL.colors['backgroundLight'],
-                \ 'bold')
-    call s:Hi('User7', s:SL.colors['red'], s:SL.colors['text'], 'bold')
-    " Inactive SL
-    call s:Hi('User8', s:SL.colors['backgroundDark'],
-                \ s:SL.colors['backgroundLight'], 'none')
-    hi! link StatuslineNC User8
-endfunction
+    call s:Hi('User6', s:sl.colors['green'], s:sl.colors['backgroundLight'], 'bold')
+    call s:Hi('User7', s:sl.colors['red'], s:sl.colors['text'], 'bold')
+    " Inactive statusline
+    call s:Hi('User8', s:sl.colors['backgroundDark'], s:sl.colors['backgroundLight'], 'none')
+endfun
 " 1}}}
 
-function! s:ToggleSLItem(var, funcref) abort " {{{1
+fun! s:ToggleSLItem(var, funcref) abort " {{{1
     if !exists('g:SL_toggle')
         let g:SL_toggle = {}
     endif
@@ -277,92 +278,95 @@ function! s:ToggleSLItem(var, funcref) abort " {{{1
     else
         let g:SL_toggle[a:var] = a:funcref
     endif
-endfunction
+endfun
 " 1}}}
 
-function! GetSL(...) abort " {{{1
-    let l:sl = ''
+fun! GetSL(...) abort " {{{1
+    let sl = ''
 
-    " CUSTOM FUNCTIONS
-    if has_key(s:SL.apply, &ft)
-        let l:f = get(s:SL.apply, &ft)
-        let l:len_f = len(l:f)
-        if l:len_f ==# 1
-            let l:sl = '%{' . l:f[0] . '}'
-        elseif l:len_f ==# 2
-            let l:sl = '%{' . l:f[0] . '}'
-            let l:sl .= '%=%{' . l:f[-1] . '}'
+    " Custom functions
+    " """"""""""""""""
+    if has_key(s:sl.apply, &ft)
+        let fun = get(s:sl.apply, &ft)
+        let len_f = len(fun)
+        if len_f is# 1
+            let sl = '%{' . fun[0] . '}'
+        elseif len_f is# 2
+            let sl = '%{' . fun[0] . '}'
+            let sl .= '%=%{' . fun[-1] . '}'
         else
-            for l:i in range(0, l:len_f - 2)
-                if exists('*' . l:f[l:i])
-                    let l:sl .= (l:i !=# 0 ? s:SL.separator . ' ' : '') .
-                                \ '%{' . l:f[l:i] . '}'
+            for i in range(0, len_f - 2)
+                if exists('*' . fun[i])
+                    let sl .= (i isnot# 0 ? s:sl.separator . ' ' : '') .
+                                \ '%{' . fun[i] . '}'
                 endif
             endfor
-            let l:sl .= '%=%{' . l:f[-1] . '}'
+            let sl .= '%=%{' . fun[-1] . '}'
         endif
-
-        return l:sl
+        return sl
     endif
 
-    " INACTIVE STATUSLINE
+    " Inactive statusline
+    " """""""""""""""""""
     if exists('a:1')
-        let l:sl .= ' %{SLFilename()}'
-        let l:sl .= '%( %{SLModified()}%)'
-        return l:sl
+        let sl .= '%8* %{SLFilename()}'
+        let sl .= '%( %{SLModified()}%)'
+        let sl .= '%( %{SLFiletype()}%)'
+        return sl
     endif
 
-    " ACTIVE STATUSLINE
-    let l:sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
-    let l:sl .= '%2* %{SLFilename()}'
-    let l:sl .= '%5*%( %{SLModified()}% %)'
+    " Active statusline
+    " """""""""""""""""
+    let sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
+    let sl .= '%2* %{SLFilename()}'
+    let sl .= '%5*%( %{SLModified()}% %)'
 
-    let l:sl .= '%3*'
-    let l:sl .= '%='
+    let sl .= '%3*'
+    let sl .= '%='
 
     " Git stuffs
-    let l:sl .= '%( %{SLGitGutter()} %)'
-    let l:sl .= '%(%{SLFugitive()} ' . s:SL.separator . '%)'
+    let sl .= '%( %{SLGitGutter()} %)'
+    let sl .= '%(%{SLFugitive()} ' . s:sl.separator . '%)'
 
-    let l:sl .= '%( %{SLSpell()}' . s:SL.separator . '%)'
-    let l:sl .= '%( %{SLFiletype()} %)'
+    let sl .= '%( %{SLSpell()}' . s:sl.separator . '%)'
+    let sl .= '%( %{SLFiletype()} %)'
 
     " ALE (1st group for no errors)
-    let l:sl .= '%6*%( %{SLAle(0)} %)'
-    let l:sl .= '%7*%( %{SLAle(1)} %)'
+    let sl .= '%6*%( %{SLAle(0)} %)'
+    let sl .= '%7*%( %{SLAle(1)} %)'
 
-    let l:sl .= '%4*'
+    let sl .= '%4*'
 
     " Jobs
-    let l:sl .= '%( %{SLJobs()} %)'
+    let sl .= '%( %{SLJobs()} %)'
 
     " Toggled elements
-    let l:sl .= '%( %{SLToggled()} %)'
+    let sl .= '%( %{SLToggled()} %)'
 
-    return l:sl
-endfunction
+    return sl
+endfun
 " 1}}}
 
-function! <SID>SLInit() abort " {{{1
+fun! s:SLInit() abort " {{{1
     set noshowmode
     set laststatus=2
-    call s:SetColors()
-    call <SID>ApplySL()
+    call s:SetSLColors()
+    call s:ApplySL()
     augroup SL
         autocmd!
-        autocmd TabEnter,BufEnter,BufNew,WinEnter * call <SID>ApplySL()
+        autocmd WinEnter,BufEnter * call <SID>ApplySL()
         autocmd WinLeave * call <SID>ApplySL(1)
     augroup END
-endfunction
+endfun
 " 1}}}
 
-function! <SID>ApplySL(...) abort " {{{1
-    if index(s:SL.ignore, &ft) ==# -1
-        execute !exists('a:1') ?
-                    \ 'setl statusline=%!GetSL()' :
-                    \ 'setl statusline=%!GetSL(0)'
+fun! s:ApplySL(...) abort " {{{1
+    if index(s:sl.ignore, &ft) is# -1
+        execute !exists('a:1')
+                    \ ? 'setlocal statusline=%!GetSL()'
+                    \ : 'setlocal statusline=%!GetSL(0)'
     endif
-endfunction
+endfun
 " 1}}}
 
 " ========== COMMANDS ==========================================
@@ -375,37 +379,38 @@ let s:args = [
             \       'hi-group', 'ruby', 'python'
             \   ]
             \ ]
-command! -nargs=? -complete=custom,s:SLCompleteArgs
-            \ SL :call s:SLCommand(<f-args>)
-function! s:SLCommand(...) abort " {{{2
-    let l:arg = exists('a:1') ? a:1 : 'clear'
+command! -nargs=? -complete=custom,s:SLCompleteArgs SL :call s:SLCommand(<f-args>)
 
-    if l:arg ==# 'toggle'
-        let &laststatus = (&laststatus !=# 0 ? 0 : 2)
-        let &showmode = (&laststatus ==# 0 ? 1 : 0)
+fun! s:SLCommand(...) abort " {{{2
+    let arg = exists('a:1') ? a:1 : 'clear'
+
+    if arg is# 'toggle'
+        let &laststatus = (&laststatus isnot# 0 ? 0 : 2)
+        let &showmode = (&laststatus is# 0 ? 1 : 0)
         return
-    elseif l:arg ==# 'clear'
+    elseif arg is# 'clear'
         unlet! g:SL_toggle
         return
     endif
 
     " Split args in case we have many
-    let l:args = split(l:arg, ' ')
+    let args = split(arg, ' ')
 
     " Check the 1st one only
-    if index(s:args[1], l:args[0], 0) ==# -1
+    if index(s:args[1], args[0], 0) is# -1
         return
     endif
 
-    for l:a in l:args
-        let l:arg = substitute(l:a, '\v(-(\a))', '\=toupper(submatch(2))', 'g')
-        let l:fun_ref = 'SL' . toupper(l:arg[0]) . l:arg[1:]
-        call s:ToggleSLItem(l:arg, l:fun_ref)
+    for a in args
+        let arg = substitute(a, '\v(-(\a))', '\=toupper(submatch(2))', 'g')
+        let fun_ref = 'SL' . toupper(arg[0]) . arg[1:]
+        call s:ToggleSLItem(arg, fun_ref)
     endfor
-endfunction
-function! s:SLCompleteArgs(a, l, p) abort " {{{2
+endfun " 2}}}
+
+fun! s:SLCompleteArgs(a, l, p) abort " {{{2
     return join(s:args[0] + s:args[1], "\n")
-endfunction " 2}}}
+endfun " 2}}}
 " 1}}}
 
 " ========== INITIALIZE ========================================
