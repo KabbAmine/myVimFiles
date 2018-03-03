@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-18
+" Last modification: 2018-03-03
 " ==============================================================
 
 
@@ -446,11 +446,6 @@ endif
 
 " >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
-map <silent> y <Plug>(highlightedyank)
-map <silent> Y <Plug>(highlightedyank)$
-" The following mappings are already defined in /config/minimal.vim
-nmap <silent> cy "+<Plug>(highlightedyank)
-nmap <silent> cY "+<Plug>(highlightedyank)$
 " 1}}}
 
 " >>> (( vim-sandwich )) {{{1
