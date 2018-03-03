@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-09
+" Last modification: 2018-03-03
 " ==============================================================
 
 
@@ -256,13 +256,14 @@ endfunction
 
 function! s:SourcePath(to_complete) abort " {{{1
     let l:path = matchstr(a:to_complete, '\f\+$')
+    let l:contain_tilde = l:path =~# '\~' ? 1 : 0
     let l:parent = l:path =~# '/$'
                 \ ? l:path : fnamemodify(l:path, ':p:h') . '/'
     let l:parent = l:path =~# '//$' ? l:path[:-2] : l:path
     let l:all_files = glob(l:parent . '*', '', 1)
 
     call complete(col('.') - len(l:path), map(l:all_files, '{
-                    \   "word": v:val,
+                    \   "word": !l:contain_tilde ? v:val : substitute(v:val, $HOME, "~", ""),
                     \   "menu": "[" . getftype(v:val) . "]",
                     \ }'))
     return ''
