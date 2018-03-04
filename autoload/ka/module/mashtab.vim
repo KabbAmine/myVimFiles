@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-03
+" Last modification: 2018-03-04
 " ==============================================================
 
 
@@ -114,14 +114,19 @@ function! s:Tab() abort " {{{1
         return l:keys
     else
         call timer_start(200, {t -> s:HasPopped()})
-        if type(l:keys) ==# type([])
-            " e.g. l:keys = [fun, list_of_params]
-            call timer_start(150, {t -> call(l:keys[0], l:keys[1])})
-        else
-            " e.g. l:keys = "\<C-x>s"
-            call timer_start(150, {t -> feedkeys(l:keys)})
-        endif
+        call timer_start(150, {t -> s:Complete(l:keys)})
         return ''
+    endif
+endfunction
+" 1}}}
+
+function! s:Complete(keys) abort " {{{1
+    if type(a:keys) ==# type([])
+        " e.g. a:keys = [fun, list_of_params]
+        call call(a:keys[0], a:keys[1])
+    else
+        " e.g. a:keys = "\<C-x>s"
+        call feedkeys(a:keys)
     endif
 endfunction
 " 1}}}
