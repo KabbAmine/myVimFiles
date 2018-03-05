@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-04
+" Last modification: 2018-03-05
 " ==============================================================
 
 
@@ -67,71 +67,78 @@ endfunction
 " 1}}}
 
 function! s:Tab() abort " {{{1
-    let l:def_completions = has_key(g:mashtab_ft_chains, &ft)
-                \ ? g:mashtab_ft_chains[&ft]
-                \ : has_key(g:mashtab_ft_chains, '_')
-                \ ? g:mashtab_ft_chains._
-                \ : ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
+    if !exists('s:def_completions')
+        let s:def_completions = has_key(g:mashtab_ft_chains, &ft)
+                    \ ? g:mashtab_ft_chains[&ft]
+                    \ : has_key(g:mashtab_ft_chains, '_')
+                    \ ? g:mashtab_ft_chains._
+                    \ : ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
+    endif
 
-    let l:to_complete = strpart(getline('.'), 0, col('.')-1)
+    let l:to_complete = s:StrToComplete()
     let l:keys = ""
-    let l:completions = []
+    let l:completion_chain = []
     let s:last_completion = get(s:, 'last_completion', 'tab')
 
     if !pumvisible() && !exists('s:no_candidates')
         let s:last_completion = 'tab'
     endif
 
-    let l:last_completion_i = index(l:def_completions, s:last_completion)
-    if l:last_completion_i !=# -1 || l:last_completion_i <# len(l:def_completions) - 1
-        let l:from = l:last_completion_i + 1
-        let l:completions = l:from <# len(l:def_completions)
-                    \ ? l:def_completions[l:from :]
-                    \ : []
+    let l:completion_chain = s:def_completions[index(s:def_completions, s:last_completion) + 1 :]
+    " Close the pmenu when no more items in our chain
+    if empty(l:completion_chain)
+        unlet! s:last_completion s:no_candidates s:def_completions
+        return s:ClosePMenuKeys()
     endif
 
-    if empty(l:completions)
-        unlet! s:last_completion s:no_candidates
-        " Close the pmenu
-        return pumvisible() ? "\<C-e>" : ''
-    endif
-
-    for l:c in (['tab'] + l:completions)
+    " Set the next completion item to use
+    for l:c in (['tab'] + l:completion_chain)
         if !empty(l:keys)
             break
-        elseif s:last_completion ==# l:c && s:last_completion !=# 'tab'
+        elseif s:last_completion is# l:c && s:last_completion isnot# 'tab'
             continue
         else
-            " For debugging
-            " call s:Echo('[' . l:c . ']', 'Normal', 1)
-            let l:f = 's:Complete' . toupper(l:c[0]) . l:c[1:]
-            let l:keys = call(l:f, [l:to_complete])
+            let l:keys = s:GetCompleteFun(l:c, l:to_complete)
             let s:last_completion = l:c
         endif
     endfor
 
-    if s:last_completion ==# 'tab'
+    if s:last_completion is# 'tab'
         return l:keys
     else
-        call timer_start(200, {t -> s:HasPopped()})
-        call timer_start(150, {t -> s:Complete(l:keys)})
+        call timer_start(200, {t -> s:AfterCompletion()})
+        call timer_start(150, {t -> s:TriggerCompletion(l:keys)})
         return ''
     endif
 endfunction
 " 1}}}
 
-function! s:Complete(keys) abort " {{{1
-    if type(a:keys) ==# type([])
-        " e.g. a:keys = [fun, list_of_params]
-        call call(a:keys[0], a:keys[1])
-    else
-        " e.g. a:keys = "\<C-x>s"
-        call feedkeys(a:keys)
-    endif
+function! s:GetCompleteFun(comp, to_complete) abort " {{{1
+    let l:f = 's:Complete' . toupper(a:comp[0]) . a:comp[1:]
+    return call(l:f, [a:to_complete])
 endfunction
 " 1}}}
 
-function! s:HasPopped() abort " {{{1
+function! s:StrToComplete() abort " {{{1
+    return strpart(getline('.'), 0, col('.') - 1)
+endfunction
+" 1}}}
+
+function! s:TriggerCompletion(keys) abort " {{{1
+    " e.g. a:keys = [fun, list_of_params]
+    " e.g. a:keys = "\<C-x>s"
+    return type(a:keys) is# v:t_list
+                \ ? call(a:keys[0], a:keys[1])
+                \ : feedkeys(a:keys)
+endfunction
+" 1}}}
+
+function! s:AfterCompletion() abort " {{{1
+    " If the pmenu do not appear, that means that the current item in our
+    " completion chain did not return candidates, so we execute the next item
+    " in our chain.
+    " But if the pmenu popped, there is nothing to do apart deleting the
+    " 'no_candidates' flag if it exists.
     if !pumvisible() && exists('s:last_completion')
         " For debugging
         " call s:Echo('No [' . s:last_completion . ']', 'Comment')
@@ -140,6 +147,11 @@ function! s:HasPopped() abort " {{{1
     else
         unlet! s:no_candidates
     endif
+endfunction
+" 1}}}
+
+function! s:ClosePMenuKeys() abort " {{{1
+    return pumvisible() ? "\<C-e>" : ''
 endfunction
 " 1}}}
 
@@ -186,7 +198,7 @@ endfunction
 
 function! s:CompleteSpell(to_complete) abort " {{{1
     " See previous function for why do we use \S.
-    if &spell && a:to_complete =~# '\S\+$' && spellbadword(a:to_complete) !=# ['', '']
+    if &spell && a:to_complete =~# '\S\+$' && spellbadword(a:to_complete) isnot# ['', '']
         return g:mashtab_custom_sources.spell
                 \ ? ['s:SourceSpell', [a:to_complete]]
                 \ : "\<C-x>s"
@@ -276,7 +288,7 @@ endfunction
 " 1}}}
 
 function! s:SourceKSpell(to_complete) abort " {{{1
-    if !exists('s:complete_spell') || (exists('s:complete_spell') && (s:complete_spell.lang !=# &l:spelllang || !filereadable(s:complete_spell.tmp_file)))
+    if !exists('s:complete_spell') || (exists('s:complete_spell') && (s:complete_spell.lang isnot# &l:spelllang || !filereadable(s:complete_spell.tmp_file)))
         let l:winview = winsaveview()
 
         " Save spelldump content to a temporary file the 1st time can be slow
@@ -325,7 +337,7 @@ function! s:SourceBuffer(to_complete) abort " {{{1
     let l:word = matchstr(a:to_complete, '\k\+$')
     let l:words = []
     for l:w in split(join(s:GetLines(), "\n"), '\W\+')
-        if l:w !=# l:word && l:w =~# '^\c\V' . escape(l:word, '%') && len(l:w) ># 1
+        if l:w isnot# l:word && l:w =~# '^\c\V' . escape(l:word, '%') && len(l:w) ># 1
             call add(l:words, {
                         \   'word': s:MatchCase(l:word, l:w),
                         \   'menu': '[buffer]'
@@ -369,7 +381,7 @@ function! s:SourceLine(to_complete) abort " {{{1
         let l:l = substitute(l:l, '^\s*', '', '')
         " The line could contain '\' so we escape it coz it can be interpreted
         " as a regex atom.
-        if l:l !=# l:line_without_start_spaces && l:l =~# '^\s*\c\V' . escape(l:line_without_start_spaces, '\')
+        if l:l isnot# l:line_without_start_spaces && l:l =~# '^\s*\c\V' . escape(l:line_without_start_spaces, '\')
             call add(l:lines, {
                         \   'word': l:indent . s:MatchCase(l:line_without_start_spaces, l:l),
                         \   'menu': '[line]'
@@ -389,7 +401,7 @@ endfunction
 function! s:IsAnUltisnipsSnippet() abort " {{{1
     " The s:all_ulti_snips will be used in the ultisnips source.
     let s:all_ulti_snips = UltiSnips#SnippetsInCurrentScope()
-    return s:all_ulti_snips !=# {} ? 1 : 0
+    return s:all_ulti_snips isnot# {} ? 1 : 0
 endfunction
 " 1}}}
 
