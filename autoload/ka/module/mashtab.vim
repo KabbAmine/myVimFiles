@@ -1,13 +1,13 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-05
+" Last modification: 2018-03-11
 " ==============================================================
 
 
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " DESCRIPTION
-" A simple vim completion engine using timers() and external grep programs if
-" they exist.
+" A non asynchronous & simple vim completion engine using timers() and
+" external grep programs if they exist.
 
 " USAGE
 " Chain & list all possible completion by mashing <Tab>
@@ -17,7 +17,6 @@
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Utilities {{{1
-let s:has_ultisnips = g:did_plugin_ultisnips ? 1 : 0
 let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
             \ executable('ag') ? 'ag --silent --nonumber -io' :
             \ executable('grep') ? 'grep -io -E' :
@@ -28,10 +27,20 @@ let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
 " 	        	Main
 " ==========================================================
 
-function! ka#module#mashtab#Complete() " {{{1
+function! ka#module#mashtab#i() abort " {{{1
+    inoremap <silent> <Plug>(mashtabTab) <C-r>=<SID>Complete(1)<CR>
+    inoremap <silent> <Plug>(mashtabBS) <C-h><C-r>=<SID>Complete(-1)<CR>
+endfunction
+" 1}}}
+
+function! s:Complete(dir) " {{{1
     try
         call s:SetConfig()
-        return s:Tab()
+        if a:dir ># 0
+            return s:Tab()
+        else
+            return s:Backspace()
+        endif
     catch
         call s:Echo(v:exception, 'Error', 1)
         return ''
@@ -113,6 +122,15 @@ function! s:Tab() abort " {{{1
 endfunction
 " 1}}}
 
+function! s:Backspace() abort " {{{1
+    if exists('s:last_completion')
+        let l:keys = s:GetCompleteFun(s:last_completion, s:StrToComplete())
+        call s:TriggerCompletion(l:keys)
+    endif
+    return ''
+endfunction
+" 1}}}
+
 function! s:GetCompleteFun(comp, to_complete) abort " {{{1
     let l:f = 's:Complete' . toupper(a:comp[0]) . a:comp[1:]
     return call(l:f, [a:to_complete])
@@ -127,9 +145,11 @@ endfunction
 function! s:TriggerCompletion(keys) abort " {{{1
     " e.g. a:keys = [fun, list_of_params]
     " e.g. a:keys = "\<C-x>s"
-    return type(a:keys) is# v:t_list
-                \ ? call(a:keys[0], a:keys[1])
-                \ : feedkeys(a:keys)
+    if type(a:keys) is# v:t_list
+        call call(a:keys[0], a:keys[1])
+    else
+        call feedkeys(a:keys)
+    endif
 endfunction
 " 1}}}
 
@@ -176,7 +196,7 @@ endfunction
 " 1}}}
 
 function! s:CompleteUlti(to_complete) abort " {{{1
-    if s:has_ultisnips && s:IsAnUltisnipsSnippet() && a:to_complete =~# '\w\{1,\}$'
+    if g:did_plugin_ultisnips && s:IsAnUltisnipsSnippet() && a:to_complete =~# '\w\{1,\}$'
         return ['s:SourceUltisnips', [a:to_complete]]
     else
         return ''
