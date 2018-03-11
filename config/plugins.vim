@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-03
+" Last modification: 2018-03-11
 " ==============================================================
 
 
@@ -290,6 +290,7 @@ let g:undotree_WindowLayout = 'botright'
 " >>> (( delimitmate )) {{{1
 imap <S-space> <Plug>delimitMateS-Tab
 imap <expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+imap <expr> <BS> pumvisible() ? "<Plug>(mashtabBS)" : "<Plug>delimitMateBS"
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = '(:),[:],{:}'
