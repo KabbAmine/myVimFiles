@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-11
+" Last modification: 2018-03-12
 " ==============================================================
 
 
@@ -283,9 +283,9 @@ function! s:SourceUltisnips(to_complete) abort " {{{1
     let l:snip_prefix = matchstr(a:to_complete, '\S\+$')
 
     call complete(col('.') - len(l:snip_prefix), map(keys(l:all_snips), '{
-                    \   "word": v:val,
-                    \   "menu": "[ulti]",
-                    \   "info": l:all_snips[v:val]
+                    \   "word" : v:val,
+                    \   "menu" : "[ulti]",
+                    \   "info" : l:all_snips[v:val],
                     \ }'))
     return ''
 endfunction
@@ -300,8 +300,9 @@ function! s:SourcePath(to_complete) abort " {{{1
     let l:all_files = glob(l:parent . '*', '', 1)
 
     call complete(col('.') - len(l:path), map(l:all_files, '{
-                    \   "word": !l:contain_tilde ? v:val : substitute(v:val, $HOME, "~", ""),
-                    \   "menu": "[" . getftype(v:val) . "]",
+                    \   "word" : !l:contain_tilde ? v:val : substitute(v:val, $HOME, "~", ""),
+                    \   "menu" : "[" . getftype(v:val) . "]",
+                    \   "icase": s:ICase(v:val)
                     \ }'))
     return ''
 endfunction
@@ -345,8 +346,9 @@ function! s:SourceSpell(to_complete) abort " {{{1
     let l:all_suggestions = spellsuggest(l:word)
 
     call complete(col('.') - len(l:word), map(l:all_suggestions, '{
-                    \   "word": v:val,
-                    \   "menu": "[spell]"
+                    \   "word" : v:val,
+                    \   "menu" : "[spell]",
+                    \   "icase": s:ICase(v:val),
                     \ }'))
     return ''
 endfunction
@@ -359,8 +361,9 @@ function! s:SourceBuffer(to_complete) abort " {{{1
     for l:w in split(join(s:GetLines(), "\n"), '\W\+')
         if l:w isnot# l:word && l:w =~# '^\c\V' . escape(l:word, '%') && len(l:w) ># 1
             call add(l:words, {
-                        \   'word': s:MatchCase(l:word, l:w),
-                        \   'menu': '[buffer]'
+                        \   'word' : l:w,
+                        \   'menu' : '[buffer]',
+                        \   'icase': s:ICase(l:w),
                         \ })
         endif
     endfor
@@ -381,8 +384,9 @@ function! s:SourceDict(to_complete) abort " {{{1
 
         let l:words += map(readfile(l:f),
                     \ {i, v -> {
-                    \   'word': (v =~# '\c^\V' . l:word ? s:MatchCase(l:word, v) : ''),
-                    \   'menu': '[' . l:file_name . ']'
+                    \   'word' : (v =~# '\c^\V' . l:word ? v : ''),
+                    \   'menu' : '[' . l:file_name . ']',
+                    \   'icase': s:ICase(v)
                     \ }})
     endfor
 
@@ -403,7 +407,7 @@ function! s:SourceLine(to_complete) abort " {{{1
         " as a regex atom.
         if l:l isnot# l:line_without_start_spaces && l:l =~# '^\s*\c\V' . escape(l:line_without_start_spaces, '\')
             call add(l:lines, {
-                        \   'word': l:indent . s:MatchCase(l:line_without_start_spaces, l:l),
+                        \   'word': l:indent . l:l,
                         \   'menu': '[line]'
                         \ })
         endif
@@ -422,6 +426,11 @@ function! s:IsAnUltisnipsSnippet() abort " {{{1
     " The s:all_ulti_snips will be used in the ultisnips source.
     let s:all_ulti_snips = UltiSnips#SnippetsInCurrentScope()
     return s:all_ulti_snips isnot# {} ? 1 : 0
+endfunction
+" 1}}}
+
+function! s:ICase(w) abort " {{{1
+    return a:w =~# '\u' ? 1 : 0
 endfunction
 " 1}}}
 
