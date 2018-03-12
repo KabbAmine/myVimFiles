@@ -1,6 +1,6 @@
 " ========== Custom tabline ====================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-02
+" Last modification: 2018-03-12
 " ==============================================================
 
 
@@ -75,7 +75,7 @@ endfunction
 function! s:GetFormattedBuffer(buf) abort " {{{1
     let buf_name = pathshorten(fnamemodify(bufname(a:buf), ':.'))
     if empty(buf_name)
-        let buf_name = 'no name'
+        let buf_name = '[No Name]'
     endif
     let modified = getbufvar(a:buf, '&modified') ? '[+]' : ''
     let higroup = a:buf is# bufnr('%')
