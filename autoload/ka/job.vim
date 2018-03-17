@@ -94,9 +94,12 @@ function! s:List() abort " {{{1
     endif
 
     call ka#ui#E('Log', ['Job(s):', 2])
-    for l:n in keys(g:jobs)
-        echo printf('%s [%s] (%s)',
-                    \ l:n, join(g:jobs[l:n].cmd), g:jobs[l:n].object)
+    for l:n in sort(keys(g:jobs))
+        echo printf('%-10s %-10s %s',
+                    \   l:n,
+                    \   '[' . join(split(g:jobs[l:n].object)[1:]) . ']',
+                    \   join(g:jobs[l:n].cmd)
+                    \ )
     endfor
 endfunction
 " 1}}}
