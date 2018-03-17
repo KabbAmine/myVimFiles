@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-01-22
+" Last modification: 2018-03-17
 " ==============================================================
 
 
@@ -44,6 +44,18 @@ function! s:Create(cmd, ...) abort " {{{1
     if !l:silent
         call setqflist([], 'r')
         call setqflist([], 'a', {'title': join(l:cmd)})
+    endif
+
+    " If a job 'foo' already exist, we name it 'foo_1' and if 'foo_1' also
+    " already exists, we increment the last digit and continue.
+    if has_key(g:jobs, l:name)
+        let l:i = 1
+        while has_key(g:jobs, l:name)
+            let l:name = l:name =~# '__\d\+$'
+                        \ ? substitute(l:name, '\d\+$', l:i, '')
+                        \ : l:name . '__' . l:i
+            let l:i += 1
+        endwhile
     endif
 
     let g:jobs[l:name] = {'cmd' : l:cmd, 'object': l:job}
