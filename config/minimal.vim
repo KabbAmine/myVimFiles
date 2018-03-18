@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-11
+" Last modification: 2018-03-18
 " ==============================================================
 
 
@@ -91,7 +91,8 @@ set showcmd
 
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
-set completeopt=menuone,noselect,preview
+" set completeopt=menuone,noselect,preview
+set completeopt=menuone,noselect
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -274,8 +275,6 @@ nnoremap <silent> * *``
 nnoremap / /\V
 nnoremap # /\V
 nnoremap ? ?\V
-nnoremap n nzz
-nnoremap N Nzz
 " A quick way to use gn in normal mode
 nnoremap c* *``cgn
 nnoremap c# #``cgn
