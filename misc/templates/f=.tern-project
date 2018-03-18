@@ -1,18 +1,23 @@
 {
     "libs": [
-        "browser" % _ % ,
+        "browser",%_%
         "ecma5",
-        "ecma6"
+        "ecma6",
+        "jquery",
+        "react"
     ],
-    "plugins": {
-        "node": {},
-        "es_modules": {}
-    },
-    "ecmaVersion": 6,
     "loadEagerly": [
         "./path/to/*.js"
     ],
     "dontLoad": [
         "./path/to/not/*.js"
-    ]
+    ],
+    "plugins": {
+        "complete_strings": {},
+        "doc_comment": {},
+        "es_modules": {},
+        "node": {},
+        "node_resolve": {}
+    },
+    "ecmaVersion": 6
 }
