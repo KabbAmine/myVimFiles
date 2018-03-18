@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-11
+" Last modification: 2018-03-18
 " ==============================================================
 
 
@@ -66,6 +66,7 @@ Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
 " JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+Plug 'neoclide/vim-jsx-improve'
 Plug 'pangloss/vim-javascript'
 " 2}}}
 
@@ -94,12 +95,6 @@ Plug 'tpope/vim-fugitive'
 
 " Snippets engine {{{2
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" 2}}}
-
-" Fuzzy finder {{{2
-Plug 'Shougo/denite.nvim'
-            \| Plug 'Shougo/neomru.vim'
-            \| Plug 'Shougo/neoyank.vim'
 " 2}}}
 
 " (( textobj-user )) {{{2
@@ -228,6 +223,8 @@ let python_highlight_all = 1
 let g:ale_enabled = 0
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
 nmap <silent> <F8> :ALEToggle<CR>
+nnoremap <silent> ]e :ALENext<CR>
+nnoremap <silent> [e :ALEPrevious<CR>
 let g:ale_lint_on_enter = 0
 " Do not check in insert mode
 let g:ale_lint_on_text_changed = 'normal'
@@ -265,14 +262,14 @@ let g:user_emmet_install_global = 0
 
 augroup EmmetMaps " {{{2
     autocmd!
-    autocmd FileType html,scss,css,pug EmmetInstall
-    autocmd FileType html,scss,css,pug
+    autocmd FileType html,scss,css,pug,javascript EmmetInstall
+    autocmd FileType html,scss,css,pug,javascript
                 \ imap <buffer> jha <plug>(emmet-anchorize-url)
-    autocmd FileType html,scss,css,pug
+    autocmd FileType html,scss,css,pug,javascript
                 \ imap <buffer> jhh <plug>(emmet-expand-abbr)
-    autocmd FileType html,scss,css,pug
+    autocmd FileType html,scss,css,pug,javascript
                 \ imap <buffer> jhn <plug>(emmet-move-next)
-    autocmd FileType html,scss,css,pug
+    autocmd FileType html,scss,css,pug,javascript
                 \ imap <buffer> jhp <plug>(emmet-move-prev)
 augroup END " 2}}}
 
@@ -528,12 +525,12 @@ nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
 nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
-nmap gz <Plug>ZVMotion
+nmap gz <Plug>ZVOperator
 let g:zv_keep_focus = 0
 let g:zv_file_types = {
             \   'help'                : 'vim',
             \   'javascript'          : 'javascript,nodejs',
-            \   'python'              : 'python_3',
+            \   'python'              : 'python3',
             \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
             \ }
 let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
@@ -653,6 +650,8 @@ nnoremap <silent> ,c :call vfinder#i('commands')<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
 nnoremap <silent> ,,f :call vfinder#i('outline')<CR>
+nnoremap <silent> z= :call vfinder#i('spell')<CR>
+inoremap <silent> <A-z> <Esc>:call vfinder#i('spell')<CR>
 nnoremap <silent> ,y :call vfinder#i('yank')<CR>
 inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
 " nnoremap <silent> ,C :call vfinder#i('colors')<CR>
