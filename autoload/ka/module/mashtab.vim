@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-12
+" Last modification: 2018-03-16
 " ==============================================================
 
 
@@ -71,6 +71,9 @@ function! s:SetConfig() abort " {{{1
                 \   'python'    : '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*',
                 \   'scss'      : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
                 \   'vim'       : '\v(<SID>)?\k*[^/]$'
+                \ }, 'keep')
+    call extend(g:mashtab_patterns.omni, {
+                \   'javascript.jsx': g:mashtab_patterns.omni.javascript,
                 \ }, 'keep')
 endfunction
 " 1}}}
