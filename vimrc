@@ -1,6 +1,6 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-02-20
+" Last modification: 2018-03-18
 " ==============================================================
 
 
@@ -19,12 +19,11 @@ let g:vim_dir = g:has_win
 let s:vim_cfg_files = ['minimal', 'plugins', 'tabline', 'statusline']
 " 1}}}
 
-" Commands for quick access to config files {{{1
-" >>> Vim {{{2
+" Quick access to my vim config files {{{1
 command! Ev :e! $MYVIMRC
 for s:f in s:vim_cfg_files
     execute 'command! Ev' . s:f[0] .
-                \' :e! ' . g:vim_dir . '/config/' . s:f . '.vim'
+                \' :edit! ' . g:vim_dir . '/config/' . s:f . '.vim'
 endfor
 " 1}}}
 
@@ -34,7 +33,7 @@ augroup Resource
     execute 'autocmd BufWritePost ' . expand($MYVIMRC) .
                 \ ' source ' . expand($MYVIMRC)
     execute 'autocmd BufWritePost ' . expand(g:vim_dir) .
-                \ '/config/* source $MYVIMRC'
+                \ '/config/*.vim source $MYVIMRC'
 augroup END
 " 1}}}
 

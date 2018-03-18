@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-02
+" Last modification: 2018-03-13
 " ==============================================================
 
 
@@ -362,7 +362,7 @@ endfun
 
 fun! s:ApplySL(...) abort " {{{1
     if index(s:sl.ignore, &ft) is# -1
-        execute !exists('a:1')
+        silent execute !exists('a:1')
                     \ ? 'setlocal statusline=%!GetSL()'
                     \ : 'setlocal statusline=%!GetSL(0)'
     endif
