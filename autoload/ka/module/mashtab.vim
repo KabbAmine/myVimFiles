@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-16
+" Last modification: 2018-03-19
 " ==============================================================
 
 
@@ -297,6 +297,11 @@ endfunction
 function! s:SourcePath(to_complete) abort " {{{1
     let l:path = matchstr(a:to_complete, '\f\+$')
     let l:contain_tilde = l:path =~# '\~' ? 1 : 0
+    let l:relative_to_file = !empty(expand('%:p:h')) && (l:path =~# '^\./' || l:path =~# '^\.\./')
+    if l:relative_to_file
+        let l:old_cwd = getcwd()
+        silent execute 'cd %:p:h'
+    endif
     let l:parent = l:path =~# '/$'
                 \ ? l:path : fnamemodify(l:path, ':p:h') . '/'
     let l:parent = l:path =~# '//$' ? l:path[:-2] : l:path
@@ -307,6 +312,9 @@ function! s:SourcePath(to_complete) abort " {{{1
                     \   "menu" : "[" . getftype(v:val) . "]",
                     \   "icase": s:ICase(v:val)
                     \ }'))
+    if l:relative_to_file
+        silent execute 'cd ' . l:old_cwd
+    endif
     return ''
 endfunction
 " 1}}}
