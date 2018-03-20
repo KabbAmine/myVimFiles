@@ -7,12 +7,15 @@
 fun! ka#job#start(cmd, ...) abort " {{{1
     " - a:1: options
 
+    redraw!
+
     if !g:has_job
         call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
         return 0
     endif
 
     let g:jobs = get(g:, 'jobs', {})
+    let args = [a:cmd] + a:000
     let initialwin = winnr()
     let opts = s:get_opts(a:cmd, get(a:, '1', {}))
     let name = s:set_job_name(opts.name)
@@ -41,6 +44,7 @@ fun! ka#job#start(cmd, ...) abort " {{{1
     endif
 
     let g:jobs[name] = {
+                \   'args'   : args,
                 \   'cmd'    : opts.cmd,
                 \   'object' : job,
                 \   'listwin': opts.listwin,
@@ -49,69 +53,60 @@ endfun
 " 1}}}
 
 fun! ka#job#stop_all(bang) abort " {{{1
-    if !exists('g:jobs')
-        call ka#ui#E('Log', ['Job: No jobs running'])
-        return
+    if s:jobs_running()
+        let n_jobs = len(g:jobs)
+        let stopped_jobs = 0
+        for k in keys(g:jobs)
+            let j = g:jobs[k].object
+            let how = a:bang is# '!' ? 'kill' : 'term'
+            call job_stop(j, how)
+            sleep 150m
+            if job_status(j) isnot# 'run'
+                let stopped_jobs += 1
+            endif
+        endfor
+        call ka#ui#E('Log', [
+                    \   printf('Job: %d/%d job(s) stopped', stopped_jobs, n_jobs),
+                    \   2
+                    \ ])
     endif
-
-    let n_jobs = len(g:jobs)
-    let stopped_jobs = 0
-
-    for n in keys(g:jobs)
-        let j = g:jobs[n].object
-        let how = a:bang is# '!' ? 'kill' : 'term'
-        call job_stop(j, how)
-        sleep 150m
-
-        if job_status(j) isnot# 'run'
-            let stopped_jobs += 1
-        endif
-    endfor
-
-    call ka#ui#E('Log', [
-                \   printf('Job: %d/%d job(s) stopped', stopped_jobs, n_jobs),
-                \   2
-                \ ])
 endfun
 " 1}}}
 
 fun! ka#job#list() abort " {{{1
-    if !exists('g:jobs')
-        return
+    if s:jobs_running()
+        call ka#ui#E('Log', ['Job(s):', 2])
+        for k in sort(keys(g:jobs))
+            echo printf('%3s %-10s %-10s %s',
+                        \   '[' . toupper(g:jobs[k].listwin) . ']',
+                        \   k,
+                        \   '[' . join(split(g:jobs[k].object)[1:]) . ']',
+                        \   g:jobs[k].cmd
+                        \ )
+        endfor
     endif
-
-    call ka#ui#E('Log', ['Job(s):', 2])
-    for k in sort(keys(g:jobs))
-        echo printf('%3s %-10s %-10s %s',
-                    \   '[' . toupper(g:jobs[k].listwin) . ']',
-                    \   k,
-                    \   '[' . join(split(g:jobs[k].object)[1:]) . ']',
-                    \   g:jobs[k].cmd
-                    \ )
-    endfor
 endfun
 " 1}}}
 
-fun! ka#job#stop(job, bang) abort " {{{1
-    if !exists('g:jobs')
-        call ka#ui#E('Log', ['Job: No jobs running'])
-        return
+fun! ka#job#stop(job, bang, ...) abort " {{{1
+    if s:jobs_running() && s:exists_job(a:job)
+        let j = g:jobs[a:job].object
+        let how = a:bang is# '!' ? 'kill' : 'term'
+        call job_stop(j, how)
+        sleep 150m
+        if job_status(j) isnot# 'run'
+            call ka#ui#E('Log', ['Job: "' . a:job . '" stopped'])
+        endif
     endif
+endfun
+" 1}}}
 
-    if !has_key(g:jobs, a:job)
-        call ka#ui#E('Log', ['Job: No "' . a:job . '" found'])
-        return
-    endif
-
-    let j = g:jobs[a:job].object
-    let how = a:bang is# '!' ? 'kill' : 'term'
-    call job_stop(j, how)
-    sleep 150m
-
-    if job_status(j) isnot# 'run'
-        call ka#ui#E('Log', ['Job: ' . j . ' stopped'])
-    else
-        call ka#ui#E('Log', ['Job: ' . j . ' still running', 2])
+fun! ka#job#restart(job) abort " {{{1
+    if s:jobs_running() && s:exists_job(a:job)
+        let j = g:jobs[a:job]
+        call job_stop(j.object, 'kill')
+        call ka#ui#E('Log', ['Job: "' . a:job . '" is restarting...'])
+        call timer_start(150, {t -> call('ka#job#start', j.args)})
     endif
 endfun
 " 1}}}
@@ -159,6 +154,26 @@ fun! s:on_exit(name, silent, listwin, initialwin, goback, job, exit_status) abor
 endfun
 " 1}}}
 
+
+fun! s:jobs_running() abort " {{{1
+    if exists('g:jobs')
+        return 1
+    else
+        call ka#ui#E('Log', ['Job: No jobs running'])
+        return 0
+    endif
+endfun
+" 1}}}
+
+fun! s:exists_job(job) abort " {{{1
+    if has_key(g:jobs, a:job)
+        return 1
+    else
+        call ka#ui#E('Log', ['Job: No "' . a:job . '" found'])
+        return 0
+    endif
+endfun
+" 1}}}
 
 fun! s:get_opts(cmd, opts) abort " {{{1
     let name = split(a:cmd)[0]
