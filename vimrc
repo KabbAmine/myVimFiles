@@ -1,6 +1,6 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-18
+" Last modification: 2018-03-20
 " ==============================================================
 
 
@@ -16,7 +16,8 @@ let g:has_term = has('terminal')
 let g:vim_dir = g:has_win
             \ ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g')
             \ : expand('$HOME/.vim')
-let s:vim_cfg_files = ['minimal', 'plugins', 'tabline', 'statusline']
+" let s:vim_cfg_files = ['minimal', 'plugins', 'tabline', 'statusline']
+let s:vim_cfg_files = ['minimal', 'plugins', 'statusline']
 " 1}}}
 
 " Quick access to my vim config files {{{1
