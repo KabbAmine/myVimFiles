@@ -287,7 +287,7 @@ function! s:SourceUltisnips(to_complete) abort " {{{1
 
     call complete(col('.') - len(l:snip_prefix), map(keys(l:all_snips), '{
                     \   "word" : v:val,
-                    \   "menu" : "[ulti]",
+                    \   "menu" : "[ulti] " . l:all_snips[v:val],
                     \   "info" : l:all_snips[v:val],
                     \ }'))
     return ''
