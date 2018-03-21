@@ -171,28 +171,28 @@ fun! s:on_out(addexpr_cmd, channel, msg) abort " {{{1
 endfun
 " 1}}}
 
-fun! s:on_exit(name, silent, listwin, initialwin, goback, job, exit_status) abort " {{{1
+fun! s:on_exit(name, initialwin, opts, job, exit_status) abort " {{{1
     " Note that when using the quickfix/locallist, the output is parsed with
     " the global errorformat.
 
     let name = s:get_job_name(a:job)
     let j = g:jobs[a:name]
 
-    if !a:silent
+    if !a:opts.silent
         let log_args = a:exit_status
                     \ ? ['exit status ' . a:exit_status, 1]
                     \ : ['finished', 2]
         call ka#ui#E('Log', ['Job [' . name . ']: ' . log_args[0], log_args[1]])
     endif
 
-    if !empty(a:listwin)
-        if a:listwin is# 'q' && !empty(getqflist())
-            copen
-        elseif a:listwin is# 'l' && !empty(getloclist(a:initialwin))
-            lopen
+    if !empty(a:opts.listwin)
+        if a:opts.listwin is# 'q' 
+            silent execute !empty(getqflist()) ? 'copen' : 'cclose'
+        elseif a:opts.listwin is# 'l'
+            silent execute !empty(getloclist(a:initialwin)) ? 'lopen' : 'lclose'
         endif
 
-        if a:goback && winnr() isnot# a:initialwin
+        if a:opts.goback && winnr() isnot# a:initialwin
             call s:go_to_win(a:initialwin)
         endif
     endif
@@ -226,11 +226,12 @@ fun! s:get_opts(cmd, opts) abort " {{{1
     let name = split(a:cmd)[0]
     let cmd = join(map(split(a:cmd), 'expand(v:val)'))
     let opts = extend({
-                \   'silent'  : 0,
-                \   'listwin' : 'q',
-                \   'goback'  : 1,
-                \   'realtime': 0,
-                \   'std'     : 'out,err',
+                \   'silent'    : 0,
+                \   'listwin'   : 'q',
+                \   'goback'    : 1,
+                \   'realtime'  : 0,
+                \   'std'       : 'out,err',
+                \   'closeempty': 1,
                 \ }, copy(a:opts), 'force')
 
     return extend({
@@ -258,7 +259,7 @@ fun! s:get_job_opts(name, initialwin, opts, ...) abort " {{{1
     endif
     let job_opts = extend(job_opts, {
                 \   'exit_cb': function('s:on_exit', [
-                \       a:name, a:opts.silent, a:opts.listwin, a:initialwin, a:opts.goback
+                \       a:name, a:initialwin, a:opts
                 \   ])
                 \ })
 
