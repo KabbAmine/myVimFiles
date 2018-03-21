@@ -1,54 +1,65 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-20
+" Last modification: 2018-03-21
 " ==============================================================
 
 
-fun! ka#job#start(cmd, ...) abort " {{{1
-    " - a:1: options
+fun! ka#job#complete(arg, cmd, pos) abort " {{{1
+    let opts = {
+                \   'silent'  : [0, 1],
+                \   'listwin' : ['q', 'l'],
+                \   'goback'  : [0, 1],
+                \   'realtime': [0, 1],
+                \   'std'     : ['out,err', 'out', 'err'],
+                \ }
 
-    redraw!
-
-    if !g:has_job
-        call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
-        return 0
-    endif
-
-    let g:jobs = get(g:, 'jobs', {})
-    let args = [a:cmd] + a:000
-    let initialwin = winnr()
-    let opts = s:get_opts(a:cmd, get(a:, '1', {}))
-    let name = s:set_job_name(opts.name)
-    let job_opts = s:get_job_opts(name, initialwin, opts)
-
-    let job = job_start(opts.cmd, job_opts)
-
-    if opts.listwin is# 'l'
-        call setloclist(initialwin, [], 'r')
-        call setloclist(initialwin, [], 'a', {'title': opts.cmd})
-    elseif opts.listwin is# 'q'
-        call setqflist([], 'r')
-        call setqflist([], 'a', {'title': opts.cmd})
-    endif
-
-    if opts.realtime
-        if opts.listwin is# 'l'
-            lopen
-        elseif opts.listwin is# 'q'
-            copen
+    if a:cmd =~# '^JobStop' || a:cmd =~# '^JobRestart'
+        return exists('g:jobs')
+                    \ ? filter(keys(g:jobs), 'v:val =~ a:arg')
+                    \ : []
+    else
+        if a:arg =~# '^+\w*$'
+            " Complete options
+            let f_opts = map(copy(keys(opts)), '"+" . v:val . ":"')
+            return filter(f_opts, 'v:val =~ a:arg')
+        elseif a:arg =~# '^+\(' . join(keys(opts), '\|') . '\):\S*$'
+            " Or option values
+            let opt = matchstr(a:arg, '^+\zs\w\+\ze:')
+            let values = has_key(opts, opt)
+                        \ ? map(opts[opt], '"+" . opt . ":" . v:val')
+                        \ : []
+            return filter(values, 'v:val =~ a:arg')
+        else
+            " Or shell commands
+            return filter(getcompletion('', 'shellcmd'), 'v:val =~ a:arg')
         endif
     endif
+endfun
+" 1}}}
 
-    if opts.goback && winnr() isnot# initialwin
-        call s:go_to_win(initialwin)
+fun! ka#job#start(args) abort " {{{1
+    let opts = {}
+    let cmd = ''
+    for e in split(a:args)
+        if e =~# '^+\w\+:\S\+$'
+            let opt = matchstr(e, '+\zs\w\+\ze:.*$')
+            let value = matchstr(e, '+\w\+:\zs\S\+$')
+            let opts[opt] = !empty(value) ? value : ''
+        else
+            let cmd .= ' ' . e
+        endif
+    endfor
+    call call('s:job_start', [cmd] + [opts])
+endfun
+" 1}}}
+
+fun! ka#job#restart(job) abort " {{{1
+    if s:jobs_running() && s:exists_job(a:job)
+        let j = g:jobs[a:job]
+        call job_stop(j.object, 'kill')
+        call ka#ui#E('Log', ['Job: "' . a:job . '" is restarting...'])
+        call timer_start(150, {t -> call('ka#job#start', j.args)})
     endif
-
-    let g:jobs[name] = {
-                \   'args'   : args,
-                \   'cmd'    : opts.cmd,
-                \   'object' : job,
-                \   'listwin': opts.listwin,
-                \ }
 endfun
 " 1}}}
 
@@ -101,13 +112,49 @@ fun! ka#job#stop(job, bang, ...) abort " {{{1
 endfun
 " 1}}}
 
-fun! ka#job#restart(job) abort " {{{1
-    if s:jobs_running() && s:exists_job(a:job)
-        let j = g:jobs[a:job]
-        call job_stop(j.object, 'kill')
-        call ka#ui#E('Log', ['Job: "' . a:job . '" is restarting...'])
-        call timer_start(150, {t -> call('ka#job#start', j.args)})
+fun! s:job_start(cmd, opts) abort " {{{1
+    redraw!
+
+    if !g:has_job
+        call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
+        return 0
     endif
+
+    let g:jobs = get(g:, 'jobs', {})
+    let args = [a:cmd] + a:000
+    let initialwin = winnr()
+    let opts = s:get_opts(a:cmd, a:opts)
+    let name = s:set_job_name(opts.name)
+    let job_opts = s:get_job_opts(name, initialwin, opts)
+
+    let job = job_start(opts.cmd, job_opts)
+
+    if opts.listwin is# 'l'
+        call setloclist(initialwin, [], 'r')
+        call setloclist(initialwin, [], 'a', {'title': opts.cmd})
+    elseif opts.listwin is# 'q'
+        call setqflist([], 'r')
+        call setqflist([], 'a', {'title': opts.cmd})
+    endif
+
+    if opts.realtime
+        if opts.listwin is# 'l'
+            lopen
+        elseif opts.listwin is# 'q'
+            copen
+        endif
+    endif
+
+    if opts.goback && winnr() isnot# initialwin
+        call s:go_to_win(initialwin)
+    endif
+
+    let g:jobs[name] = {
+                \   'args'   : args,
+                \   'cmd'    : opts.cmd,
+                \   'object' : job,
+                \   'listwin': opts.listwin,
+                \ }
 endfun
 " 1}}}
 

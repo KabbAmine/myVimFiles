@@ -863,16 +863,14 @@ endfunction " 2}}}
 
 " >>> Jobs {{{1
 if g:has_job
-    command! -nargs=1 -complete=shellcmd Job call ka#job#start(<f-args>)
-    command! -nargs=1 -bang -complete=customlist,s:CompleteJobNames JobRestart call ka#job#restart(<f-args>)
-    command! -nargs=1 -bang -complete=customlist,s:CompleteJobNames JobStop call ka#job#stop(<f-args>, '<bang>')
+    command! -nargs=1 -complete=customlist,ka#job#complete Job
+                \ call ka#job#start(<f-args>)
+    command! -nargs=1 -complete=customlist,ka#job#complete JobRestart
+                \ call ka#job#restart(<f-args>)
+    command! -nargs=1 -complete=customlist,ka#job#complete JobStop
+                \ call ka#job#stop(<f-args>, <bang>)
     command! JobStopAll call ka#job#stop_all('<bang>')
     command! JobList call ka#job#list()
-
-    function! s:CompleteJobNames(a, c, p) abort " {{{2
-        return exists('g:jobs')
-                    \ ? filter(keys(g:jobs), 'v:val =~ a:a') : ''
-    endfunction " 2}}}
 endif
 " 1}}}
 
