@@ -159,7 +159,7 @@ endfun
 " 1}}}
 
 
-fun! s:on_error(addexpr_cmd, cmd, channel, msg) abort " {{{1
+fun! s:on_error(addexpr_cmd, channel, msg) abort " {{{1
     silent execute printf('%saddexpr "%s"', a:addexpr_cmd, escape(a:msg, '"'))
     silent execute printf('%sbottom "%s"', a:addexpr_cmd, escape(a:msg, '"'))
 endfun
