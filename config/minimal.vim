@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-18
+" Last modification: 2018-03-21
 " ==============================================================
 
 
@@ -867,9 +867,9 @@ if g:has_job
                 \ call ka#job#start(<f-args>)
     command! -nargs=1 -complete=customlist,ka#job#complete JobRestart
                 \ call ka#job#restart(<f-args>)
-    command! -nargs=1 -complete=customlist,ka#job#complete JobStop
-                \ call ka#job#stop(<f-args>, <bang>)
-    command! JobStopAll call ka#job#stop_all('<bang>')
+    command! -nargs=1 -bang -complete=customlist,ka#job#complete JobStop
+                \ call ka#job#stop(<f-args>, '<bang>')
+    command! -bang JobStopAll call ka#job#stop_all('<bang>')
     command! JobList call ka#job#list()
 endif
 " 1}}}
