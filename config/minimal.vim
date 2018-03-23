@@ -195,6 +195,11 @@ endif
 set virtualedit=block
 " 1}}}
 
+" >>> Multiple tab pages {{{1
+set showtabline=2
+set tabline=%!ka#tabline#get()
+" 1}}}
+
 " =========== DEFAULT PLUGINS ==================================
 
 " {{{1
