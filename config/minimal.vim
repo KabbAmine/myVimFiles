@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-21
+" Last modification: 2018-03-23
 " ==============================================================
 
 
@@ -864,7 +864,7 @@ endfunction " 2}}}
 " >>> Jobs {{{1
 if g:has_job
     command! -nargs=1 -complete=customlist,ka#job#complete Job
-                \ call ka#job#start(<f-args>)
+                \ call ka#job#start_from_cmdline(<f-args>)
     command! -nargs=1 -complete=customlist,ka#job#complete JobRestart
                 \ call ka#job#restart(<f-args>)
     command! -nargs=1 -bang -complete=customlist,ka#job#complete JobStop

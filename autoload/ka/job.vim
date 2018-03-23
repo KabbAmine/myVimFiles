@@ -1,16 +1,18 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-21
+" Last modification: 2018-03-23
 " ==============================================================
 
 
 fun! ka#job#complete(arg, cmd, pos) abort " {{{1
     let opts = {
-                \   'silent'  : [0, 1],
-                \   'listwin' : ['q', 'l'],
-                \   'goback'  : [0, 1],
-                \   'realtime': [0, 1],
-                \   'std'     : ['out,err', 'out', 'err'],
+                \   'expand'           : [0, 1],
+                \   'goback'           : [0, 1],
+                \   'listwin'          : ['q', 'l'],
+                \   'openwin'          : [0, 1],
+                \   'realtime'         : [0, 1],
+                \   'silent'           : [0, 1],
+                \   'std'              : ['out,err', 'out', 'err'],
                 \ }
 
     if a:cmd =~# '^JobStop' || a:cmd =~# '^JobRestart'
@@ -37,7 +39,7 @@ fun! ka#job#complete(arg, cmd, pos) abort " {{{1
 endfun
 " 1}}}
 
-fun! ka#job#start(args) abort " {{{1
+fun! ka#job#start_from_cmdline(args) abort " {{{1
     let opts = {}
     let cmd = ''
     for e in split(a:args)
@@ -49,7 +51,55 @@ fun! ka#job#start(args) abort " {{{1
             let cmd .= ' ' . e
         endif
     endfor
-    call call('s:job_start', [cmd] + [opts])
+    call call('ka#job#start', [cmd] + [opts])
+endfun
+" 1}}}
+
+fun! ka#job#start(cmd, opts, ...) abort " {{{1
+    redraw!
+
+    if !g:has_job
+        call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
+        return 0
+    endif
+
+    let g:jobs = get(g:, 'jobs', {})
+    let args = [a:cmd, a:opts]
+    let initialwin = winnr()
+    let After_exit_cb = exists('a:1') ? a:1 : ''
+    let opts = s:get_opts(a:cmd, a:opts)
+    let name = s:set_job_name(opts.name)
+    let job_opts = s:get_job_opts(name, initialwin, opts, After_exit_cb)
+    let cmd = opts.expand
+                \ ? join(map(split(opts.cmd), 'expand(v:val)'))
+                \ : opts.cmd
+
+    let job = job_start(cmd, job_opts)
+
+    if opts.listwin is# 'l'
+        call setloclist(initialwin, [], 'r', {'title': cmd, 'items': []})
+    elseif opts.listwin is# 'q'
+        call setqflist([], 'r', {'nr': 0, 'title': cmd, 'items': []})
+    endif
+
+    if opts.realtime
+        if opts.listwin is# 'l'
+            lopen
+        elseif opts.listwin is# 'q'
+            copen
+        endif
+    endif
+
+    if opts.goback && winnr() isnot# initialwin
+        call s:go_to_win(initialwin)
+    endif
+
+    let g:jobs[name] = {
+                \   'args'   : args,
+                \   'cmd'    : cmd,
+                \   'object' : job,
+                \   'listwin': opts.listwin,
+                \ }
 endfun
 " 1}}}
 
@@ -99,7 +149,7 @@ fun! ka#job#list() abort " {{{1
 endfun
 " 1}}}
 
-fun! ka#job#stop(job, bang, ...) abort " {{{1
+fun! ka#job#stop(job, bang) abort " {{{1
     if s:jobs_running() && s:exists_job(a:job)
         let j = g:jobs[a:job].object
         let how = a:bang is# '!' ? 'kill' : 'term'
@@ -112,66 +162,18 @@ fun! ka#job#stop(job, bang, ...) abort " {{{1
 endfun
 " 1}}}
 
-fun! s:job_start(cmd, opts) abort " {{{1
-    redraw!
 
-    if !g:has_job
-        call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
-        return 0
-    endif
-
-    let g:jobs = get(g:, 'jobs', {})
-    let args = [a:cmd] + a:000
-    let initialwin = winnr()
-    let opts = s:get_opts(a:cmd, a:opts)
-    let name = s:set_job_name(opts.name)
-    let job_opts = s:get_job_opts(name, initialwin, opts)
-
-    let job = job_start(opts.cmd, job_opts)
-
-    if opts.listwin is# 'l'
-        call setloclist(initialwin, [], 'r')
-        call setloclist(initialwin, [], 'a', {'title': opts.cmd})
-    elseif opts.listwin is# 'q'
-        call setqflist([], 'r')
-        call setqflist([], 'a', {'title': opts.cmd})
-    endif
-
-    if opts.realtime
-        if opts.listwin is# 'l'
-            lopen
-        elseif opts.listwin is# 'q'
-            copen
-        endif
-    endif
-
-    if opts.goback && winnr() isnot# initialwin
-        call s:go_to_win(initialwin)
-    endif
-
-    let g:jobs[name] = {
-                \   'args'   : args,
-                \   'cmd'    : opts.cmd,
-                \   'object' : job,
-                \   'listwin': opts.listwin,
-                \ }
+fun! s:on_error(listwin, initialwin, channel, msg) abort " {{{1
+    call s:append_to_list(a:listwin, a:initialwin, a:msg)
 endfun
 " 1}}}
 
-
-fun! s:on_error(addexpr_cmd, channel, msg) abort " {{{1
-    silent execute printf('%saddexpr "%s"', a:addexpr_cmd, escape(a:msg, '"'))
-    silent execute printf('%sbottom "%s"', a:addexpr_cmd, escape(a:msg, '"'))
+fun! s:on_out(listwin, initialwin, channel, msg) abort " {{{1
+    call s:append_to_list(a:listwin, a:initialwin, a:msg)
 endfun
 " 1}}}
 
-fun! s:on_out(addexpr_cmd, channel, msg) abort " {{{1
-    silent execute printf('%saddexpr "%s"', a:addexpr_cmd, escape(a:msg, '"'))
-    silent execute printf('%sbottom "%s"', a:addexpr_cmd, escape(a:msg, '"'))
-endfun
-" 1}}}
-
-fun! s:on_exit(name, initialwin, opts, job, exit_status) abort " {{{1
+fun! s:on_exit(name, initialwin, opts, After_exit_cb, job, exit_status) abort " {{{1
     " Note that when using the quickfix/locallist, the output is parsed with
     " the global errorformat.
 
@@ -185,11 +187,13 @@ fun! s:on_exit(name, initialwin, opts, job, exit_status) abort " {{{1
         call ka#ui#E('Log', ['Job [' . name . ']: ' . log_args[0], log_args[1]])
     endif
 
-    if !empty(a:opts.listwin)
-        if a:opts.listwin is# 'q' 
-            silent execute !empty(getqflist()) ? 'copen' : 'cclose'
-        elseif a:opts.listwin is# 'l'
-            silent execute !empty(getloclist(a:initialwin)) ? 'lopen' : 'lclose'
+    if a:opts.listwin =~# 'q\|l'
+        let c = a:opts.listwin is# 'q' ? 'c' : 'l'
+        let noempty = a:opts.listwin is# 'q'
+                    \ ? !empty(getqflist())
+                    \ : !empty(getloclist(a:initialwin))
+        if a:opts.openwin && noempty
+            silent execute c . 'open'
         endif
 
         if a:opts.goback && winnr() isnot# a:initialwin
@@ -198,6 +202,10 @@ fun! s:on_exit(name, initialwin, opts, job, exit_status) abort " {{{1
     endif
 
     unlet! g:jobs[a:name]
+
+    if a:After_exit_cb isnot# ''
+        call call(a:After_exit_cb, [])
+    endif
 endfun
 " 1}}}
 
@@ -224,42 +232,42 @@ endfun
 
 fun! s:get_opts(cmd, opts) abort " {{{1
     let name = split(a:cmd)[0]
-    let cmd = join(map(split(a:cmd), 'expand(v:val)'))
     let opts = extend({
-                \   'silent'    : 0,
-                \   'listwin'   : 'q',
-                \   'goback'    : 1,
-                \   'realtime'  : 0,
-                \   'std'       : 'out,err',
-                \   'closeempty': 1,
+                \   'expand'           : 1,
+                \   'goback'           : 1,
+                \   'listwin'          : 'q',
+                \   'openwin'          : 1,
+                \   'realtime'         : 0,
+                \   'silent'           : 0,
+                \   'std'              : 'out,err',
                 \ }, copy(a:opts), 'force')
 
     return extend({
                 \   'name': name,
-                \   'cmd' : cmd
+                \   'cmd' : a:cmd
                 \ }, opts)
 endfun
 " 1}}}
 
-fun! s:get_job_opts(name, initialwin, opts, ...) abort " {{{1
+fun! s:get_job_opts(name, initialwin, opts, After_exit_cb) abort " {{{1
     let job_opts = {}
-    let addexpr_c = a:opts.listwin is# 'q' ? 'c' : 'l'
+    " let addexpr_c = a:opts.listwin is# 'q' ? 'c' : 'l'
 
     if !empty(a:opts.listwin)
         if a:opts.std =~# 'out'
             let job_opts = extend(job_opts, {
-                        \   'out_cb' : function('s:on_out', [addexpr_c])
+                        \   'out_cb' : function('s:on_out', [a:opts.listwin, a:initialwin])
                         \ })
         endif
         if a:opts.std =~# 'err'
             let job_opts = extend(job_opts, {
-                        \   'err_cb' : function('s:on_error', [addexpr_c])
+                        \   'err_cb' : function('s:on_error', [a:opts.listwin, a:initialwin])
                         \ })
         endif
     endif
     let job_opts = extend(job_opts, {
                 \   'exit_cb': function('s:on_exit', [
-                \       a:name, a:initialwin, a:opts
+                \       a:name, a:initialwin, a:opts, a:After_exit_cb
                 \   ])
                 \ })
 
@@ -298,6 +306,15 @@ fun! s:get_job_name(job) abort " {{{1
     endfor
 endfun
 " 1 }}}
+
+fun! s:append_to_list(listwin, initialwin, msg) abort " {{{1
+    if a:listwin is# 'q'
+        call setqflist([], 'a', {'lines': [a:msg]})
+    else
+        call setloclist(a:initialwin, [], 'a', {'lines': [a:msg]})
+    endif
+endfun
+" 1}}}
 
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
