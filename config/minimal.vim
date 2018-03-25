@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-23
+" Last modification: 2018-03-25
 " ==============================================================
 
 
@@ -294,11 +294,20 @@ nnoremap <silent> <F5> :tabonly<CR>
 
 " >>> Buffers {{{1
 nnoremap ,b :ls<CR>:b 
-nnoremap <silent> <S-h> :silent bp!<CR>
-nnoremap <silent> <S-l> :silent bn!<CR>
+nnoremap <silent> <S-l> :call <SID>MoveToBuffer(1)<CR>
+nnoremap <silent> <S-h> :call <SID>MoveToBuffer(-1)<CR>
 nnoremap <silent> <BS> <C-^>
 " For this mapping, check NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :silent bw<CR>
+
+fun! s:MoveToBuffer(dir) abort " {{{2
+    let cmd = a:dir ># 0 ? 'bnext!' : 'bprevious!'
+    silent execute cmd
+    while &l:filetype is# 'qf'
+        silent execute cmd
+    endwhile
+endfun
+" 2}}}
 " 1}}}
 
 " >>> Commandline {{{1
