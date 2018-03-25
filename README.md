@@ -65,8 +65,7 @@ To make use of all the features you need a relatively new version of vim which s
 
 Some npm packages that will make you developer's life easier:
 
-- `browser-sync` for live previewing dynamic sites.
-- `live-server` for live previewing static sites.
+- `browser-sync` for live previewing static & dynamic sites.
 - `shiba` for live previewing markdown.
 
 -----------------------------
