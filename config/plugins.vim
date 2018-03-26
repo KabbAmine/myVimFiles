@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-18
+" Last modification: 2018-03-26
 " ==============================================================
 
 
@@ -642,6 +642,9 @@ nnoremap <silent> gp! :RAP!<CR>
 
 " >>> (( vfinder )) {{{1
 let g:vfinder_fuzzy = 0
+let g:vfinder_maps = {}
+let g:vfinder_maps._ = {'n': {'window_quit': 'q'}}
+call vfinder#maps#define()
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
 nnoremap <silent> ,d :call vfinder#i('directories')<CR>
@@ -657,11 +660,18 @@ inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
 " nnoremap <silent> ,C :call vfinder#i('colors')<CR>
 " nnoremap <silent> ,,r :call vfinder#i('oldfiles')<CR>
 " nnoremap <silent> ,Y :call vfinder#i('registers')<CR>
-nnoremap <silent> ,B :call vfinder#i({
+
+nnoremap <silent> ,B :call vfinder#i(<SID>BookmarksSource())<CR>
+fun! s:BookmarksSource() abort " {{{2
+    return {
             \   'name'      : 'bookmarks',
             \   'to_execute': ['~/.vim', '~/Temp/lab'],
-            \   'maps'      : vfinder#sources#directories#maps()
-            \ })<CR>
+            \   'maps'      : {
+            \       'i': {'<CR>': {'action': 'cd %s', 'options': {'silent': 1} }},
+            \       'n': {'<CR>': {'action': 'cd %s', 'options': {'silent': 1} }}
+            \   }
+            \ }
+endfun " 2}}}
 " 1}}}
 
 
