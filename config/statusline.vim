@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-13
+" Last modification: 2018-03-27
 " ==============================================================
 
 
@@ -311,7 +311,7 @@ fun! GetSL(...) abort " {{{1
     if exists('a:1')
         let sl .= '%8* %{SLFilename()}'
         let sl .= '%( %{SLModified()}%)'
-        let sl .= '%( %{SLFiletype()}%)'
+        let sl .= '%=%( %{SLFiletype()}%)'
         return sl
     endif
 
