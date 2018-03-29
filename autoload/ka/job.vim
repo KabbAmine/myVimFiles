@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-23
+" Last modification: 2018-03-29
 " ==============================================================
 
 
@@ -310,8 +310,10 @@ endfun
 fun! s:append_to_list(listwin, initialwin, msg) abort " {{{1
     if a:listwin is# 'q'
         call setqflist([], 'a', {'lines': [a:msg]})
+        cbottom
     else
         call setloclist(a:initialwin, [], 'a', {'lines': [a:msg]})
+        lbottom
     endif
 endfun
 " 1}}}
