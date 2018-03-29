@@ -238,8 +238,8 @@ fun! s:get_opts(cmd, opts) abort " {{{1
                 \   'listwin'          : 'q',
                 \   'openwin'          : 1,
                 \   'realtime'         : 0,
-                \   'silent'           : 0,
-                \   'std'              : 'out,err',
+                \   'silent'           : 1,
+                \   'std'              : 'err',
                 \ }, copy(a:opts), 'force')
 
     return extend({

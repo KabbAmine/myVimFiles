@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-19
+" Last modification: 2018-03-29
 " ==============================================================
 
 
@@ -57,7 +57,7 @@ endfunction
 function! s:GenerateTags() abort " {{{1
     let cwd = getcwd() . '/'
     let ctags_cmd = 'ctags -f ./.tags ' . s:CmdOptionsForFiles(cwd)
-    call ka#job#start(ctags_cmd, {'std': 'err', 'silent': 1})
+    call ka#job#start(ctags_cmd, {})
 endfunction
 " 1}}}
 
