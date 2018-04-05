@@ -148,10 +148,13 @@ endfunction
 function! s:TriggerCompletion(keys) abort " {{{1
     " e.g. a:keys = [fun, list_of_params]
     " e.g. a:keys = "\<C-x>s"
-    if type(a:keys) is# v:t_list
-        call call(a:keys[0], a:keys[1])
-    else
-        call feedkeys(a:keys)
+
+    if mode() is# 'i'
+        if type(a:keys) is# v:t_list
+            call call(a:keys[0], a:keys[1])
+        else
+            call feedkeys(a:keys)
+        endif
     endif
 endfunction
 " 1}}}
@@ -284,7 +287,11 @@ endfunction
 " ==========================================================
 
 function! s:SourceUltisnips(to_complete) abort " {{{1
-    let l:all_snips = s:all_ulti_snips
+    " Knowing here for sure that our pattern in expandable, we reget all the
+    " snippets in case the s:all_utli_snipts was lost.
+    let l:all_snips = exists('s:all_ulti_snips')
+                \ ? s:all_ulti_snips
+                \ : UltiSnips#SnippetsInCurrentScope()
     unlet! s:all_ulti_snips
     let l:snip_prefix = matchstr(a:to_complete, '\S\+$')
 
@@ -437,7 +444,9 @@ endfunction
 " ==========================================================
 
 function! s:IsAnUltisnipsSnippet() abort " {{{1
-    " The s:all_ulti_snips will be used in the ultisnips source.
+    " To avoid re-executing the UltiSnips#SnippetsInCurrentScope function, we
+    " store the snippets in a variable that will be used in the ultisnips
+    " source.
     let s:all_ulti_snips = UltiSnips#SnippetsInCurrentScope()
     return s:all_ulti_snips isnot# {} ? 1 : 0
 endfunction
