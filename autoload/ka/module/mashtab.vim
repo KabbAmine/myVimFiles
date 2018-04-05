@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-19
+" Last modification: 2018-04-05
 " ==============================================================
 
 
@@ -188,7 +188,10 @@ endfunction
 " 1}}}
 
 function! s:CompletePath(to_complete) abort " {{{1
-    if a:to_complete =~# '\f\+/\?$'
+    " Trigger the completion for the following patterns:
+    " /file, ./file, ../fi/le
+
+    if a:to_complete =~# '\(\.\{,2\}\)\?/\(\f\+\)\?$'
         return g:mashtab_custom_sources.path
                 \ ? ['s:SourcePath', [a:to_complete]]
                 \ : "\<C-x>\<C-f>"
