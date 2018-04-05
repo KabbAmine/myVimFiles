@@ -70,7 +70,7 @@ function! s:SetConfig() abort " {{{1
                 \   'php'       : '\w\+\|\[^. \t]->\w*\|\w\+::\w*',
                 \   'python'    : '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*',
                 \   'scss'      : '\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
-                \   'vim'       : '\v(<SID>)?\k*[^/]$'
+                \   'vim'       : '\v%(<SID>)?\k*[^/]$'
                 \ }, 'keep')
     call extend(g:mashtab_patterns.omni, {
                 \   'javascript.jsx': g:mashtab_patterns.omni.javascript,
@@ -186,7 +186,7 @@ endfunction
 " ==========================================================
 
 function! s:CompleteTab(to_complete) abort " {{{1
-    return a:to_complete =~# '\v^\s*((\\)?\|?)?\s*$' ? "\<Tab>" : ''
+    return a:to_complete =~# '\v^\s*%(%(\\)?\|?)?\s*$' ? "\<Tab>" : ''
 endfunction
 " 1}}}
 
@@ -194,7 +194,7 @@ function! s:CompletePath(to_complete) abort " {{{1
     " Trigger the completion for the following patterns:
     " /file, ./file, ../fi/le
 
-    if a:to_complete =~# '\(\.\{,2\}\)\?/\(\f\+\)\?$'
+    if a:to_complete =~# '\%(\.\{,2\}\)\?/\%(\f\+\)\?$'
         return g:mashtab_custom_sources.path
                 \ ? ['s:SourcePath', [a:to_complete]]
                 \ : "\<C-x>\<C-f>"
