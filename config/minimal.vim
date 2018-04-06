@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-25
+" Last modification: 2018-04-06
 " ==============================================================
 
 
@@ -323,10 +323,10 @@ cnoremap <C-a> <Home>
 " 1}}}
 
 " >>> Super escape {{{1
-inoremap jk <Esc>
-inoremap JK <Esc>
-cnoremap jk <C-c>
-cnoremap JK <Esc>
+inoremap <nowait> jk <Esc>
+inoremap <nowait> JK <Esc>
+cnoremap <nowait> jk <C-c>
+cnoremap <nowait> JK <Esc>
 " 1}}}
 
 " >>> Enable Paste when using <C-r> {{{1
@@ -394,7 +394,11 @@ nnoremap <silent> ;f :call ka#sys#E('OpenHere', ['f'])<CR>
 nnoremap <silent> ;;f :call ka#sys#E('OpenHere', ['f', expand('%:h:p')])<CR>
 " 1}}}
 
-" >>> Use c for manipulating + register {{{1
+" >>> Edition {{{1
+inoremap <C-a> <C-o>^
+inoremap <C-e> <C-o>$
+
+" Use c for manipulating + register {{{1
 nnoremap cd "+d
 nnoremap cp "+p
 nnoremap cP "+P
@@ -563,14 +567,28 @@ nnoremap ,f :F
 " 1}}}
 
 " >>> Completion  {{{1
+command! -nargs=? -complete=customlist,<SID>CompleteCompletionTypes MashTabAuto
+            \ call ka#module#mashtab#AutoComplete(<f-args>)
 call ka#module#mashtab#i()
 imap <Tab> <Plug>(mashtabTab)
 imap <BS> <Plug>(mashtabBS)
+let g:mashtab_custom_sources = {}
+let g:mashtab_custom_sources = {
+            \  'buffer': 1,
+            \  'dict'  : 1,
+            \  'line'  : 1,
+            \  'spell' : 1
+            \ }
 let g:mashtab_patterns = {}
 let g:mashtab_patterns.user = {
             \   'gitcommit': '\s*:\w*$',
             \   'markdown' : ':\w*$'
             \ }
+
+fun! s:CompleteCompletionTypes(a, c, p) abort " {{{2
+    let types = ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
+    return filter(copy(types), 'v:val =~ a:a')
+endfun " 2}}}
 " 1}}}
 
 " =========== COMMANDS ===================================
