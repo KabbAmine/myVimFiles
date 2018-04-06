@@ -178,7 +178,7 @@ fun! SLGitGutter() abort " {{{1
     " Note that it uses Fugitive to be sure being in a git project.
     if exists('g:gitgutter_enabled') && g:gitgutter_enabled
         let h = GitGutterGetHunkSummary()
-        return !empty(SLFugitive()) && !empty(h) && h isnot# [0,0,0] && winwidth(0) ># 55
+        return !empty(SLFugitive()) && !empty(h) && h !=# [0,0,0] && winwidth(0) ># 55
                     \ ? printf('+%d ~%d -%d', h[0], h[1], h[2])
                     \ : ''
     else
