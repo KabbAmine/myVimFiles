@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-05
+" Last modification: 2018-04-06
 " ==============================================================
 
 
@@ -33,11 +33,46 @@ function! ka#module#mashtab#i() abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Complete(dir) " {{{1
+function! ka#module#mashtab#AutoComplete(...) " {{{1
+    let types = exists('a:1') ? split(a:1) : []
+    if !exists('b:mashtab_auto')
+        let b:mashtab_auto = {
+                    \   'state': 1,
+                    \   'types': types,
+                    \ }
+        augroup MashtabAutoCompletion
+            autocmd!
+            autocmd InsertCharPre <buffer> let s:def_completions = []
+                        \| call call('<SID>StartAutoCompletion', [b:mashtab_auto.types])
+        augroup END
+        call s:Echo('Autocomplete enabled', 'MoreMsg')
+    else
+        augroup MashtabAutoCompletion
+            autocmd!
+        augroup END
+        augroup! MashtabAutoCompletion
+        unlet! b:mashtab_auto
+        call s:Echo('Autocomplete disabled', 'Error')
+    endif
+endfunction
+" 1}}}
+
+function! s:StartAutoCompletion(types) " {{{1
+    if exists('b:mashtab_auto') && !pumvisible()
+        call call('<SID>Complete', [1, b:mashtab_auto.types])
+    else
+        return ''
+    endif
+endfunction
+" }}}
+
+function! s:Complete(dir, ...) " {{{1
     try
         call s:SetConfig()
         if a:dir ># 0
-            return s:Tab()
+            return exists('a:1')
+                        \ ? s:Tab(a:1)
+                        \ : s:Tab()
         else
             return s:Backspace()
         endif
@@ -50,12 +85,12 @@ endfunction
 
 function! s:SetConfig() abort " {{{1
     let g:mashtab_custom_sources = get(g:, 'mashtab_custom_sources', {})
-    let g:mashtab_custom_sources.path = get(g:mashtab_custom_sources, 'path', 1)
-    let g:mashtab_custom_sources.spell = get(g:mashtab_custom_sources, 'spell', 1)
-    let g:mashtab_custom_sources.kspell = get(g:mashtab_custom_sources, 'kspell', 1)
-    let g:mashtab_custom_sources.dict = get(g:mashtab_custom_sources, 'dict', 1)
-    let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 1)
-    let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 1)
+    let g:mashtab_custom_sources.path = get(g:mashtab_custom_sources, 'path', 0)
+    let g:mashtab_custom_sources.spell = get(g:mashtab_custom_sources, 'spell', 0)
+    let g:mashtab_custom_sources.kspell = get(g:mashtab_custom_sources, 'kspell', 0)
+    let g:mashtab_custom_sources.dict = get(g:mashtab_custom_sources, 'dict', 0)
+    let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 0)
+    let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 0)
 
     let g:mashtab_ft_chains = get(g:, 'mashtab_ft_chains', {})
 
@@ -78,9 +113,11 @@ function! s:SetConfig() abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Tab() abort " {{{1
-    if !exists('s:def_completions')
-        let s:def_completions = has_key(g:mashtab_ft_chains, &ft)
+function! s:Tab(...) abort " {{{1
+    if !exists('s:def_completions') || empty(s:def_completions)
+        let s:def_completions = exists('a:1')
+                    \ ? a:1
+                    \ : has_key(g:mashtab_ft_chains, &ft)
                     \ ? g:mashtab_ft_chains[&ft]
                     \ : has_key(g:mashtab_ft_chains, '_')
                     \ ? g:mashtab_ft_chains._
