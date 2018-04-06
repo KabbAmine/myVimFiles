@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-26
+" Last modification: 2018-04-01
 " ==============================================================
 
 
@@ -286,7 +286,7 @@ let g:undotree_WindowLayout = 'botright'
 
 " >>> (( delimitmate )) {{{1
 imap <S-space> <Plug>delimitMateS-Tab
-imap <expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+imap <expr> <CR> pumvisible() ? "\<C-Y>\<CR>" : "<Plug>delimitMateCR"
 imap <expr> <BS> pumvisible() ? "<Plug>(mashtabBS)" : "<Plug>delimitMateBS"
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
@@ -649,7 +649,7 @@ nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
 nnoremap <silent> ,d :call vfinder#i('directories')<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
-nnoremap <silent> ,c :call vfinder#i('commands')<CR>
+nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
 nnoremap <silent> ,,f :call vfinder#i('outline')<CR>
@@ -657,6 +657,7 @@ nnoremap <silent> z= :call vfinder#i('spell')<CR>
 inoremap <silent> <A-z> <Esc>:call vfinder#i('spell')<CR>
 nnoremap <silent> ,y :call vfinder#i('yank')<CR>
 inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
+nnoremap <silent> ,m :call vfinder#i('marks')<CR>
 " nnoremap <silent> ,C :call vfinder#i('colors')<CR>
 " nnoremap <silent> ,,r :call vfinder#i('oldfiles')<CR>
 " nnoremap <silent> ,Y :call vfinder#i('registers')<CR>
