@@ -142,6 +142,12 @@ unlet! s:grep_prg s:grep_format
 " >>> Syntax, highlighting and spelling {{{1
 set hlsearch
 set synmaxcol=1000
+" I would like to do the opposite and check if the current terminal supports
+" true colors, but there is no way.
+if g:has_term && $COLORTERM isnot# 'xfce4-terminal'
+    set termguicolors
+endif
+" set termguicolors
 " 1}}}
 
 " >>> Tabs & indenting {{{1
