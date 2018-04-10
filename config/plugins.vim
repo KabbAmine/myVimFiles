@@ -166,7 +166,7 @@ call plug#end()
 
 " Colors {{{1
 let g:yowish = {
-            \   'term_italic' : 0,
+            \   'term_italic' : 1,
             \   'colors': {
             \       'background'       : ['#2f343f', 'none'],
             \       'backgroundDark'   : ['#191d27', '16'],
