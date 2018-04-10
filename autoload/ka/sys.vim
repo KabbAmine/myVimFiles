@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-31
+" Last modification: 2018-04-10
 " ==============================================================
 
 
@@ -42,7 +42,7 @@ function! s:OpenUrl() abort " {{{1
     " of the plugin.
 
     let l:cl = getline('.')
-    let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '%')
+    let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '#%')
     if l:cl =~# 'Plug'
         let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 :
                     \ match(l:cl, "'", 0, 2) - 1]
