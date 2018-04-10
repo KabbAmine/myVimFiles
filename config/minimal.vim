@@ -582,7 +582,13 @@ let g:mashtab_custom_sources = {
 let g:mashtab_patterns = {}
 let g:mashtab_patterns.user = {
             \   'gitcommit': '\s*:\w*$',
-            \   'markdown' : ':\w*$'
+            \   'markdown' : ':\w*$',
+            \   'css'      : '^\s*\S\+$',
+            \   'scss'     : '^\s*\S\+$'
+            \ }
+let g:mashtab_ft_chains = {
+            \   'css' : ['path', 'ulti', 'omni', 'user', 'buffer', 'line'],
+            \   'scss': ['path', 'ulti', 'omni', 'user', 'buffer', 'line']
             \ }
 
 fun! s:CompleteCompletionTypes(a, c, p) abort " {{{2
@@ -979,11 +985,11 @@ augroup CustomAutoCmds
     autocmd FileType vim,python,json
                 \ setlocal softtabstop=4 shiftwidth=4 expandtab
 
-    " Keep cursor position when switching buffers
-    autocmd BufLeave * let b:winview = winsaveview()
-    autocmd BufEnter * if(exists('b:winview'))
-                \|  call winrestview(b:winview)
-                \| endif
+    " " Keep cursor position when switching buffers
+    " autocmd BufLeave * let b:winview = winsaveview()
+    " autocmd BufEnter * if(exists('b:winview'))
+    "             \|  call winrestview(b:winview)
+    "             \| endif
 
     " Quicklist & location window related
     autocmd FileType qf setl nowrap
