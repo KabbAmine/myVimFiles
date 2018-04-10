@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-29
+" Last modification: 2018-04-10
 " ==============================================================
 
 
@@ -158,6 +158,17 @@ fun! ka#job#stop(job, bang) abort " {{{1
         if job_status(j) isnot# 'run'
             call ka#ui#E('Log', ['Job: "' . a:job . '" stopped'])
         endif
+    endif
+endfun
+" 1}}}
+
+fun! ka#job#clean() abort " {{{1
+    if s:jobs_running()
+        for k in keys(g:jobs)
+            if job_status(g:jobs[k].object) isnot# 'run'
+                call remove(g:jobs, k)
+            endif
+        endfor
     endif
 endfun
 " 1}}}

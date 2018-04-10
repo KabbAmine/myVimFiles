@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-06
+" Last modification: 2018-04-10
 " ==============================================================
 
 
@@ -909,6 +909,7 @@ if g:has_job
                 \ call ka#job#stop(<f-args>, '<bang>')
     command! -bang JobStopAll call ka#job#stop_all('<bang>')
     command! JobList call ka#job#list()
+    command! JobClean call ka#job#clean()
 endif
 " 1}}}
 
