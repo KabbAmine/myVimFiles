@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-01
+" Last modification: 2018-04-09
 " ==============================================================
 
 
@@ -257,25 +257,21 @@ let g:ale_vim_vint_show_style_issues = 0
 " 1}}}
 
 " >>> (( emmet )) {{{1
-" Enable emmet for specific files.
-let g:user_emmet_install_global = 0
+" let g:emmet_html5 = 1
+" let g:user_emmet_install_global = 0
+" let g:user_emmet_complete_tag = 1
 
-augroup EmmetMaps " {{{2
-    autocmd!
-    autocmd FileType html,scss,css,pug,javascript EmmetInstall
-    autocmd FileType html,scss,css,pug,javascript
-                \ imap <buffer> jha <plug>(emmet-anchorize-url)
-    autocmd FileType html,scss,css,pug,javascript
-                \ imap <buffer> jhh <plug>(emmet-expand-abbr)
-    autocmd FileType html,scss,css,pug,javascript
-                \ imap <buffer> jhn <plug>(emmet-move-next)
-    autocmd FileType html,scss,css,pug,javascript
-                \ imap <buffer> jhp <plug>(emmet-move-prev)
-augroup END " 2}}}
+" augroup EmmetMaps " {{{2
+"     autocmd!
+"     autocmd FileType html,scss,css,pug,javascript EmmetInstall
+"     autocmd FileType scss,css setlocal completefunc=emmet#completeTag
+"     autocmd FileType html,scss,css,pug,javascript
+"                 \ imap <silent> jhh <plug>(emmet-expand-abbr)
+" augroup END " 2}}}
 
-" In INSERT & VISUAL modes only.
-let g:user_emmet_mode='iv'
-let g:emmet_html5 = 1
+" Add emmet completion as a userfunc to mashtab
+" let g:mashtab_patterns.user.css = '^\s*\S\+$'
+" let g:mashtab_patterns.user.scss = '^\s*\S\+$'
 " 1}}}
 
 " >>> (( undotree )) {{{1
@@ -372,7 +368,6 @@ augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-lion )) {{{1
-let b:lion_squeeze_spaces = 1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
 let g:lion_map_left = ''
