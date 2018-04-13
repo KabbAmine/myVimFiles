@@ -77,10 +77,10 @@ hi! link HelpStar Normal
 " >>> GUI {{{1
 let &guioptions = 'agirtc'
 set winaltkeys=no
-set linespace=5
+set linespace=2
 let &guifont = g:has_win ?
             \ 'InconsolataForPowerline NF Medium:h10:cANSI' :
-            \ 'InconsolataForPowerline NF Medium 13'
+            \ 'FuraMono NF Medium 11'
 " 1}}}
 
 " >>> Messages & info {{{1
