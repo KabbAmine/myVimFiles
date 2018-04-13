@@ -24,8 +24,10 @@ To make use of all the features you need a relatively new version of vim which s
 
 ### Font(s)
 
-- [InconsolataForPowerline NF Medium](https://github.com/ryanoasis/nerd-fonts)
-  for both GNU/Linux & windows (Included in the repo).
+The fonts are from [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) repo
+and are included in the configuration here.
+- 'FuraMono NF Medium' for GNU/Linux.
+- 'InconsolataForPowerline NF Medium' for Windows.
 
 ### Formatters & fixers
 
@@ -57,7 +59,7 @@ To make use of all the features you need a relatively new version of vim which s
 ### Miscellaneous
 
 - `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **vFinder**.
-- `ctags-exuberant`<sup>B</sup> for tag's generation.
+- [`universal-ctags`](https://ctags.io/) for tag's generation.
 - `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
 - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things.
 
@@ -85,21 +87,14 @@ git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 mkdir -pv ~/.vim/misc/templates ~/.vim/misc/view ~/.vim/misc/swap_dir ~/.vim/misc/undodir
 
 # Link the font if you don't have it already
-ln -s "$HOME/.vim/misc/fonts/Inconsolata for Powerline Nerd Font Complete
-Windows Compatible.otf" ~/.fonts/
+ln -s "/home/tanya/.vim/misc/fonts/Fura Mono Medium Nerd Font Complete Mono Windows Compatible.otf" ~/.fonts/
 
 # Not mandatory
 ln -s ~/.vim/vimrc ~/.vimrc
-```
 
-Then in Vim:
-
-```vim
-" Update vim-plug
-PlugUpgrade
-
-" Install all the plugins
-PlugInstall
+# Then upgrade vim-plug & install the plugins (Note that before installing
+plugins, some errors will be shown)
+vim +PlugUpgrade +PlugUpdate +qall
 ```
 
 Have fun :smile:
