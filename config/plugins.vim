@@ -1,17 +1,17 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-09
+" Last modification: 2018-04-13
 " ==============================================================
 
 
 " My plugins {{{1
-let s:my_plugins_dir = g:has_win
-            \ ? 'z:\\k-bag\\Projects\\pluginsVim\\'
-            \ : $HOME . '/Projects/pluginsVim/'
-let s:my_plugins = {
-            \   'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
-            \ }
-let s:lab_mode = 0
+" let s:my_plugins_dir = g:has_win
+"             \ ? 'z:\\k-bag\\Projects\\pluginsVim\\'
+"             \ : $HOME . '/Projects/pluginsVim/'
+" let s:my_plugins = {
+"             \   'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
+"             \ }
+" let s:lab_mode = 0
 " 1}}}
 
 " Signs for checkers  {{{1
@@ -26,13 +26,13 @@ let g:checker = {
 
 " Helpers {{{1
 
-function! s:MyPlugs() abort " {{{2
-    let [l:pn, l:pl] = [keys(s:my_plugins), values(s:my_plugins)]
-    for l:i in range(0, len(l:pn) - 1)
-        let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
-        exec printf("Plug '%s'%s", expand(s:my_plugins_dir) . l:pn[l:i], l:opt)
-    endfor
-endfunction
+" function! s:MyPlugs() abort " {{{2
+"     let [l:pn, l:pl] = [keys(s:my_plugins), values(s:my_plugins)]
+"     for l:i in range(0, len(l:pn) - 1)
+"         let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
+"         exec printf("Plug '%s'%s", expand(s:my_plugins_dir) . l:pn[l:i], l:opt)
+"     endfor
+" endfunction
 " 2}}}
 " 1}}}
 
@@ -84,7 +84,8 @@ Plug 'machakann/vim-Verdin'
 " Web development {{{2
 Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
 Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
-Plug 'mattn/emmet-vim'
+" Plug 'mattn/emmet-vim'
+Plug 'KabbAmine/emmet-vim'   , {'branch': 'fix-complete'}
 " 2}}}
 
 " Git {{{2
@@ -131,7 +132,7 @@ Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'   , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
-if g:has_unix | Plug 'tpope/vim-rvm', {'on': 'Rvm'} | endif
+Plug 'tpope/vim-rvm', !g:has_unix ? {'on': 'Rvm'} : {'on': []}
 " 2}}}
 
 " Interface {{{2
@@ -140,11 +141,11 @@ Plug 'machakann/vim-highlightedyank',
 " 2}}}
 
 " My Plugins {{{2
-if !s:lab_mode
+" if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
-    Plug $HOME . '/Temp/lab/RAP/'
-    Plug $HOME . '/Temp/lab/vfinder/'
+    Plug $HOME . '/Temp/lab/vim/RAP/'
+    Plug $HOME . '/Temp/lab/vim/vfinder/'
     Plug 'KabbAmine/lazyList.vim'
     Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
@@ -152,9 +153,9 @@ if !s:lab_mode
     Plug 'KabbAmine/vullscreen.vim'
     Plug 'KabbAmine/yowish.vim'
     Plug 'KabbAmine/zeavim.vim'
-else
-    call s:MyPlugs()
-endif
+" else
+"     call s:MyPlugs()
+" endif
 " 2}}}
 " 1}}}
 
@@ -257,21 +258,16 @@ let g:ale_vim_vint_show_style_issues = 0
 " 1}}}
 
 " >>> (( emmet )) {{{1
-" let g:emmet_html5 = 1
-" let g:user_emmet_install_global = 0
-" let g:user_emmet_complete_tag = 1
+let g:emmet_html5 = 1
+let g:user_emmet_install_global = 0
 
-" augroup EmmetMaps " {{{2
-"     autocmd!
-"     autocmd FileType html,scss,css,pug,javascript EmmetInstall
-"     autocmd FileType scss,css setlocal completefunc=emmet#completeTag
-"     autocmd FileType html,scss,css,pug,javascript
-"                 \ imap <silent> jhh <plug>(emmet-expand-abbr)
-" augroup END " 2}}}
-
-" Add emmet completion as a userfunc to mashtab
-" let g:mashtab_patterns.user.css = '^\s*\S\+$'
-" let g:mashtab_patterns.user.scss = '^\s*\S\+$'
+augroup EmmetMaps " {{{2
+    autocmd!
+    autocmd FileType html,scss,css,pug,javascript EmmetInstall
+    autocmd FileType html,scss,css,pug,javascript
+                \ imap <silent> jhh <plug>(emmet-expand-abbr)
+    autocmd FileType scss,css setlocal completefunc=emmet#completeTag
+augroup END " 2}}}
 " 1}}}
 
 " >>> (( undotree )) {{{1
@@ -430,10 +426,10 @@ augroup END " 2}}}
 
 " >>> (( vim-rvm )) {{{1
 if g:has_unix && executable('rvm')
-    augroup Rvm " {{{2
+    augroup Rvm
         autocmd!
         autocmd GUIEnter * Rvm
-    augroup END " 2}}}
+    augroup END
 endif
 " 1}}}
 
@@ -589,12 +585,12 @@ call extend(g:vbox.variables, {
 augroup VBoxAuto " {{{2
     autocmd!
     " For vim plugins
-    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/README.md ' .
-                \ ':VBTemplate README.md-vim'
-    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/**/*.vim ' .
-                \ ':VBTemplate vim-plugin'
-    exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/doc/*.txt ' .
-                \ ':VBTemplate vim-doc'
+    " exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/README.md ' .
+    "             \ ':VBTemplate README.md-vim'
+    " exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/**/*.vim ' .
+    "             \ ':VBTemplate vim-plugin'
+    " exe 'autocmd BufNewFile ' . s:my_plugins_dir . '*/doc/*.txt ' .
+    "             \ ':VBTemplate vim-doc'
     " Misc
     autocmd BufNewFile LICENSE VBTemplate license-MIT
     autocmd BufNewFile Makefile,CHANGELOG.md,.tern-project VBTemplate
