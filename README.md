@@ -87,13 +87,13 @@ git clone https://github.com/KabbAmine/myVimFiles ~/.vim
 mkdir -pv ~/.vim/misc/templates ~/.vim/misc/view ~/.vim/misc/swap_dir ~/.vim/misc/undodir
 
 # Link the font if you don't have it already
-ln -s "/home/tanya/.vim/misc/fonts/Fura Mono Medium Nerd Font Complete Mono Windows Compatible.otf" ~/.fonts/
+ln -s "~/.vim/misc/fonts/Fura Mono Medium Nerd Font Complete Mono Windows Compatible.otf" ~/.fonts/
 
 # Not mandatory
 ln -s ~/.vim/vimrc ~/.vimrc
 
 # Then upgrade vim-plug & install the plugins (Note that before installing
-plugins, some errors will be shown)
+# plugins, some errors will be shown)
 vim +PlugUpgrade +PlugUpdate +qall
 ```
 
