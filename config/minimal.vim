@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-10
+" Last modification: 2018-04-14
 " ==============================================================
 
 
@@ -50,22 +50,23 @@ endif
 " Make <Alt> works in terminal. {{{1
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-
 " -on-gnome-terminal-with-vim/10216459#10216459
-if !empty($TERM)
-    let s:c = 'a'
-    while s:c <=# 'z'
-        exec "set <A-" . s:c . ">=\e" . s:c
-        exec "imap \e" . s:c . " <A-" . s:c . ">"
-        let s:c = nr2char(1 + char2nr(s:c))
-    endwhile
-    unlet s:c
-endif
+" N.B: Termite support meta keys by default.
+" if !empty($TERM)
+"     let s:c = 'a'
+"     while s:c <=# 'z'
+"         exec "set <A-" . s:c . ">=\e" . s:c
+"         exec "imap \e" . s:c . " <A-" . s:c . ">"
+"         let s:c = nr2char(1 + char2nr(s:c))
+"     endwhile
+"     unlet s:c
+" endif
 " 1}}}
 
-" Ensure using 256 colors in terminal when possible {{{1
-if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:has_gui
-    set term=xterm-256color
-endif
-" 1}}}
+" " Ensure using 256 colors in terminal when possible {{{1
+" if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:has_gui
+"     set term=xterm-256color
+" endif
+" " 1}}}
 
 " Make stars and bars in vimhelp visible {{{1
 hi! link HelpBar Normal
