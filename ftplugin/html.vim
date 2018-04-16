@@ -1,9 +1,10 @@
-" Last modification: 2017-09-11
+" Last modification: 2018-04-15
 
 
 " Open file in the browser {{{1
-nnoremap <silent> <buffer> <expr> <C-F9> expand(g:has_win) ?
-            \ ":!start cmd /c '%:p'" : ":!x-www-browser '%:p' &<CR><CR>"
+nnoremap <silent> <buffer> <F9> :silent execute (g:has_win
+            \ ? ":!start cmd /c '%:p'"
+            \ : ":!x-www-browser '%:p' &")<CR>
 " 1}}}
 
 " Replace special characters with their HTML entities {{{1
