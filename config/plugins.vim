@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-13
+" Last modification: 2018-04-14
 " ==============================================================
 
 
@@ -18,7 +18,7 @@
 let g:checker = {
             \   'error_sign'   : '⨉',
             \   'warning_sign' : '⬥',
-            \   'success_sign' : ' ',
+            \   'success_sign' : '',
             \   'error_group'  : 'Error',
             \   'warning_group': 'Function',
             \ }
