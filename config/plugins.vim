@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-14
+" Last modification: 2018-04-19
 " ==============================================================
 
 
@@ -52,15 +52,16 @@ Plug 'rhysd/vim-gfm-syntax'
 Plug 'tpope/vim-haml'
 " 2}}}
 
-" Css {{{2
+" CSS {{{2
+Plug 'hail2u/vim-css3-syntax'
 Plug 'othree/csscomplete.vim', {'for': 'css'}
 " 2}}}
 
 " PHP {{{2
-Plug 'StanAngeloff/php.vim'
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'shawncplus/phpcomplete.vim'     , {'for': 'php'}
+Plug 'lvht/phpcd.vim'                 , {'for': 'php', 'do': 'composer install'}
 Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
+Plug 'StanAngeloff/php.vim'
 " 2}}}
 
 " JavaScript {{{2
@@ -510,6 +511,14 @@ nmap gk <Plug>(signjk-k)
 " >>> (( vim-Verdin )) {{{1
 let g:Verdin#fuzzymatch = 0
 " 1}}}
+
+" >>> (( vim-css3-syntax )) {{{1
+augroup VimCSS3Syntax
+    autocmd!
+    autocmd FileType css setlocal iskeyword+=-
+augroup END
+" 1}}}
+
 
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
