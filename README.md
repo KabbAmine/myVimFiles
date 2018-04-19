@@ -59,9 +59,10 @@ and are included in the configuration here.
 ### Miscellaneous
 
 - `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **vFinder**.
+- [`composer`](https://getcomposer.org/) for **phpcd**.
 - [`universal-ctags`](https://ctags.io/) for tag's generation.
-- `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
 - [`wmctrl`<sup>B</sup>](http://tomas.styblo.name/wmctrl/) for a lot of things.
+- `yad`<sup>B</sup> or `zenity`<sup>B</sup> for **vCoolor**.
 
 ### Extra
 
