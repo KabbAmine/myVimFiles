@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-19
+" Last modification: 2018-04-24
 " ==============================================================
 
 
@@ -579,6 +579,7 @@ command! -nargs=? -complete=customlist,<SID>CompleteCompletionTypes MashTabAuto
 call ka#module#mashtab#i()
 imap <Tab> <Plug>(mashtabTab)
 imap <BS> <Plug>(mashtabBS)
+inoremap <silent> <C-space> <C-x><C-o>
 let g:mashtab_custom_sources = {}
 let g:mashtab_custom_sources = {
             \  'buffer': 1,
