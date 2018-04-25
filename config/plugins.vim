@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-19
+" Last modification: 2018-04-25
 " ==============================================================
 
 
@@ -68,7 +68,6 @@ Plug 'StanAngeloff/php.vim'
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'neoclide/vim-jsx-improve'
-Plug 'pangloss/vim-javascript'
 " 2}}}
 
 " Python {{{2
