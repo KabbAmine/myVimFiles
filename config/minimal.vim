@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-24
+" Last modification: 2018-04-27
 " ==============================================================
 
 
@@ -684,7 +684,7 @@ function! s:Fold() abort " {{{2
     let l:indentations = {
                 \   'coffee'     : ['indent'],
                 \   'css'        : ['marker', ' {,}'],
-                \   'javascript' : ['marker', ' {,}'],
+                \   'javascript' : ['syntax'],
                 \   'php'        : ['marker', ' {,}'],
                 \   'python'     : ['indent'],
                 \   'scss'       : ['marker', ' {,}'],
