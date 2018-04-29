@@ -514,10 +514,9 @@ let g:Verdin#fuzzymatch = 0
 " >>> (( vim-css3-syntax )) {{{1
 augroup VimCSS3Syntax
     autocmd!
-    autocmd FileType css setlocal iskeyword+=-
+    autocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS nocopyindent iskeyword+=-
 augroup END
 " 1}}}
-
 
 " >>> (( zeavim )) {{{1
 nmap gzz <Plug>Zeavim
