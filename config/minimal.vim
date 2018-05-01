@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-27
+" Last modification: 2018-05-01
 " ==============================================================
 
 
@@ -70,6 +70,14 @@ endif
 " Make stars and bars in vimhelp visible {{{1
 hi! link HelpBar Normal
 hi! link HelpStar Normal
+" 1}}}
+
+" Change cursor shape in terminal {{{1
+if !g:has_gui
+    let &t_SI = "\<Esc>[6 q"
+    let &t_SR = "\<Esc>[4 q"
+    let &t_EI = "\<Esc>[2 q"
+endif
 " 1}}}
 
 " =========== OPTIONS  =========================================
