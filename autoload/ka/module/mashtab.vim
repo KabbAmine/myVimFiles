@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-06
+" Last modification: 2018-05-05
 " ==============================================================
 
 
@@ -242,7 +242,7 @@ endfunction
 " 1}}}
 
 function! s:CompleteUlti(to_complete) abort " {{{1
-    if g:did_plugin_ultisnips && s:IsAnUltisnipsSnippet() && a:to_complete =~# '\w\{1,\}$'
+    if g:did_plugin_ultisnips && s:IsAnUltisnipsSnippet() && a:to_complete =~# '\S\{1,\}$'
         return ['s:SourceUltisnips', [a:to_complete]]
     else
         return ''
