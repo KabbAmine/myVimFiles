@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-01
+" Last modification: 2018-05-05
 " ==============================================================
 
 
@@ -83,7 +83,7 @@ endif
 " =========== OPTIONS  =========================================
 
 " >>> GUI {{{1
-let &guioptions = 'agirtc'
+let &guioptions = 'agirtcMk'
 set winaltkeys=no
 set linespace=2
 let &guifont = g:has_win ?
