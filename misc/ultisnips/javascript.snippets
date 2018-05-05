@@ -1,15 +1,6 @@
-snippet (f "Script " b
-(function ($1) {
-	'use strict';
-
-	$2
-
-}());
-endsnippet
-
-snippet fun "Function" w
-function ${1:functionName}($2) {
-	$3
+snippet f "Function" w
+function ${1} (${2}) {
+    ${3}
 }
 endsnippet
 
@@ -18,7 +9,7 @@ endsnippet
 ##########
 
 snippet gpt "Gulp task" b
-gulp.task(${1:name}, ${2:tasks}, function() {
-	${3:// Instructions}
-});
+gulp.task(${1}, ${2}, function () {
+	${3}
+})
 endsnippet

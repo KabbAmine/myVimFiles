@@ -4,35 +4,21 @@ redir => ${1}
 redir END
 endsnippet
 
-snippet aug "agroup" b
+snippet au "agroup" b
 augroup ${1}
 	autocmd!
-	${2}
+	autocmd ${2}
 augroup END
 endsnippet
 
-snippet fun "Function!" b
+snippet f "Function!" b
 fun! ${1}(${2}) ${3:abort}${4: " \{\{\{1}
 	${5}
 endfun
 ${6:" 1\}\}\}}
 endsnippet
 
-snippet ifcmd "if exists(command) ..." b
-if exists(":${1:command}") != 2
-	command! ${2:...} $1 ${3:...}
-endif
-endsnippet
-
-snippet ifmap "if !hasmapto ..." b
-if !hasmapto('<Plug>${1:...}')
-	nmap <unique> ${4:mapping} <Plug>$1
-endif
-nnoremap <unique> <script> <Plug>$1 <SID>${2:...}
-nnoremap <silent> <SID>$2 :call <SID>${3:functionName}<CR>
-endsnippet
-
-snippet ?: "Ternary" i
+snippet ? "Ternary" i
 ${1:condition} ? ${2:true} : ${3:false}
 endsnippet
 
@@ -50,4 +36,19 @@ endsnippet
 
 snippet hic "Custom highlight" b
 call s:Hi('${1:group}' ,'${2:bg}' ,'${3:fg}' ,'${4:option}')
+endsnippet
+
+snippet header
+" ==============================================================
+" Kabbaj Amine - amine.kabb@gmail.com
+" Creation: `date +%Y-%m-%d`
+" Last modification: `date +%Y-%m-%d`
+" ==============================================================
+${1}
+endsnippet
+
+snippet /** "Commentary block"
+" ==========================================================
+" 	        	${1}
+" ==========================================================
 endsnippet

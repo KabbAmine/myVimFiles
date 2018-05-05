@@ -1,31 +1,15 @@
 snippet dark "darken(color, %perc)" i
-darken(${1:color}, ${2:perc})
+darken(${1}, ${2})
 endsnippet
 
 snippet light "lighten(color, %)" i
-lighten(${1:color}, ${2:perc})
+lighten(${1}, ${2})
 endsnippet
 
-snippet bxs "box-shadow(...)" i
-box-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px} ${6:false/inset})
+snippet bxs "box-shadow(color, h-offset, v-offset, blur, spread, inset)" i
+box-shadow(${1}, ${2}px, ${3}px, ${4}px, ${5}, ${6})
 endsnippet
 
-snippet txts "text-shadow(...)" i
-text-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px}px)
-endsnippet
-
-snippet @dark "darken(color, %perc)" b
-@include darken(${1:color}, ${2:perc});
-endsnippet
-
-snippet @light "lighten(color, %)" b
-@include lighten(${1:color}, ${2:perc});
-endsnippet
-
-snippet @bxs "box-shadow(...)" b
-@include box-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px} ${6:false/inset});
-endsnippet
-
-snippet @txts "text-shadow(...)" b
-@include text-shadow(${1:color} ${2:h-offset}px ${3:v-offset}px ${4:blur}px ${5:(spread)false/px}px);
+snippet txts "text-shadow(color, h-offset, v-offset, blur, spread)" i
+text-shadow(${1}, ${2}px, ${3}px, ${4}px, ${5})
 endsnippet
