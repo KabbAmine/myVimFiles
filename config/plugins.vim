@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-05
+" Last modification: 2018-05-10
 " ==============================================================
 
 
@@ -85,7 +85,7 @@ Plug 'machakann/vim-Verdin'
 Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
 Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
 " Plug 'mattn/emmet-vim'
-Plug 'KabbAmine/emmet-vim'   , {'branch': 'fix-complete'}
+Plug 'KabbAmine/emmet-vim'
 " 2}}}
 
 " Git {{{2
@@ -166,6 +166,7 @@ call plug#end()
 " =========== MISC  ============================================
 
 " Colors {{{1
+            " \       'background'       : ['#2f343f', 'none'],
 let g:yowish = {
             \   'term_italic' : 1,
             \   'colors': {
@@ -180,6 +181,10 @@ let g:yowish = {
             \   }
             \ }
 colorscheme yowish
+" Make bg transparent with truecolors on terminal
+if has('termguicolors') && !g:has_gui
+    highlight Normal guibg=NONE
+endif
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
 " }}}
