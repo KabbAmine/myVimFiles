@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-08
+" Last modification: 2018-05-10
 " ==============================================================
 
 
@@ -99,8 +99,8 @@ set showcmd
 
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
-" set completeopt=menuone,noselect,preview
-set completeopt=menuone,noselect
+set completeopt=menuone,noselect,preview
+" set completeopt=menuone,noselect
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -153,10 +153,9 @@ set hlsearch
 set synmaxcol=1000
 " I would like to do the opposite and check if the current terminal supports
 " true colors, but there is no way.
-if g:has_term && $COLORTERM isnot# 'xfce4-terminal'
+if has('termguicolors') && !g:has_gui && $COLORTERM isnot# 'xfce4-terminal'
     set termguicolors
 endif
-" set termguicolors
 " 1}}}
 
 " >>> Tabs & indenting {{{1
@@ -182,7 +181,7 @@ endif
 set splitbelow
 set splitright
 set hidden
-" let &previewheight = winwidth(0) / 2
+let &previewheight = winwidth(0) / 2
 " 1}}}
 
 " >>> Swap file {{{1
@@ -440,7 +439,7 @@ let s:to = {
             \   '_' : [
             \           ['ie', 'ggVG'],
             \           ['il', '^vg_'],
-            \           ['i.', 'F.WvEf.ge'], ['a.', 'F.vEf.'],
+            \           ['i.', 'T.vt.'], ['a.', 'F.vf.'],
             \           ['i_', 'T_vt_'], ['a_', 'F_vf_'],
             \           ['i*', 'T*vt*'], ['a*', 'F*vf*'],
             \           ['i,', 'T,vt,'], ['a,', 'F,vf,'],
