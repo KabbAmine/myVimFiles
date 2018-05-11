@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-11
+" Last modification: 2018-05-12
 " ==============================================================
 
 
@@ -17,7 +17,13 @@ let s:sl  = {
             \   'separator': '',
             \   'ignore': ['vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
             \   'apply': {},
-            \   'checker': g:checker,
+            \   'checker': get(g:, 'checker', {
+            \       'error_sign'   : '⨉',
+            \       'warning_sign' : '⬥',
+            \       'success_sign' : '',
+            \       'error_group'  : 'Error',
+            \       'warning_group': 'Function',
+            \   }),
             \   'colors': {
             \       'background'      : ['#2f343f', 'none'],
             \       'backgroundDark'  : ['#191d27', '16'],
@@ -29,10 +35,10 @@ let s:sl  = {
             \       'textDark'        : ['#8c8c8c', '244'],
             \   },
             \   'modes': {
-            \       'n'     : 'N',
-            \       'i'     : 'I',
+            \       'n'     : '',
+            \       'i'     : '',
             \       'R'     : 'R',
-            \       'v'     : 'V',
+            \       'v'     : '',
             \       'V'     : 'V-L',
             \       'c'     : 'C',
             \       't'     : '>_',
@@ -47,16 +53,24 @@ let s:sl  = {
 
 " ========== GENERAL ===========================================
 
-fun! SLFilename() abort " {{{1
+fun! SLPath() abort " {{{1
     if !empty(expand('%:t'))
         let fn = winwidth(0) <# 55
-                    \ ? expand('%:t')
+                    \ ? '../'
                     \ : winwidth(0) ># 85
-                    \ ? expand('%:.')
-                    \ : pathshorten(expand('%:.'))
+                    \ ? expand('%:~:.:h') . '/'
+                    \ : pathshorten(expand('%:~:.:h')) . '/'
     else
-        let fn = '[No Name]'
+        let fn = ''
     endif
+    return fn
+endfun
+" 1}}}
+
+fun! SLFilename() abort " {{{1
+    let fn = !empty(expand('%:t'))
+                \ ? expand('%:p:t')
+                \ : '[No Name]'
     return fn . (&readonly ? ' ' : '')
 endfun
 " 1}}}
@@ -317,8 +331,10 @@ fun! GetSL(...) abort " {{{1
 
     " Active statusline
     " """""""""""""""""
-    let sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
-    let sl .= '%2* %{SLFilename()}'
+    " let sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
+    let sl .= '%1*%( %{SLPaste()} %)'
+    let sl .= '%3* %{SLPath()}'
+    let sl .= '%2*%{SLFilename()}'
     let sl .= '%5*%( %{SLModified()}% %)'
 
     let sl .= '%3*'
