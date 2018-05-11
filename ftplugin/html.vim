@@ -1,4 +1,4 @@
-" Last modification: 2018-05-02
+" Last modification: 2018-05-11
 
 
 " Open file in the browser {{{1
@@ -8,7 +8,7 @@ fun! s:OpenInBrowser() abort " {{{2
     silent execute g:has_win
                 \ ? ":!start cmd /c '%:p'"
                 \ : ":!x-www-browser '%:p' &"
-    if !g:has_gui
+    if !g:is_gui
         redraw!
     endif
 endfun " 2}}}

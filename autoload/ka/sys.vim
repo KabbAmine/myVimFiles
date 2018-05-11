@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-10
+" Last modification: 2018-05-11
 " ==============================================================
 
 
@@ -32,7 +32,7 @@ function! s:OpenHere(type, ...) abort " {{{1
                 \ }
     exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? shellescape(a:1) : getcwd()))
 
-    if !g:has_gui | redraw! | endif
+    if !g:is_gui | redraw! | endif
 endfunction
 " 1}}}
 
@@ -57,7 +57,7 @@ function! s:OpenUrl() abort " {{{1
                     \   ' start "' . shellescape(l:url)) .
                     \ l:wmctrl .
                     \ (g:has_unix ? ' 2> /dev/null &' : '')
-        if !g:has_gui | redraw! | endif
+        if !g:is_gui | redraw! | endif
     endif
 
 endfunction

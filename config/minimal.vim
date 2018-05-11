@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-10
+" Last modification: 2018-05-11
 " ==============================================================
 
 
@@ -62,7 +62,7 @@ endif
 " 1}}}
 
 " " Ensure using 256 colors in terminal when possible {{{1
-" if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:has_gui
+" if exists('$TERM') && $TERM =~# '^xterm' && !exists('$TMUX') && !g:is_gui
 "     set term=xterm-256color
 " endif
 " " 1}}}
@@ -73,7 +73,7 @@ hi! link HelpStar Normal
 " 1}}}
 
 " Change cursor shape in terminal {{{1
-if !g:has_gui
+if !g:is_gui
     let &t_SI = "\<Esc>[6 q"
     let &t_SR = "\<Esc>[4 q"
     let &t_EI = "\<Esc>[2 q"
@@ -153,7 +153,7 @@ set hlsearch
 set synmaxcol=1000
 " I would like to do the opposite and check if the current terminal supports
 " true colors, but there is no way.
-if has('termguicolors') && !g:has_gui && $COLORTERM isnot# 'xfce4-terminal'
+if g:is_termguicolors
     set termguicolors
 endif
 " 1}}}
@@ -193,14 +193,14 @@ set updatetime=1000    " time in msec after which the swap file will be updated
 
 " >>> Mapping {{{1
 " Remove the delay when escaping from insert-mode in terminal
-if !g:has_gui
+if !g:is_gui
     set ttimeoutlen=0
 endif
 " 1}}}
 
 " >>> Executing external commands {{{1
 " Allows using shell aliases & functions
-" if g:has_gui
+" if g:is_gui
 "   let &shell = '/bin/bash -i'
 " endif
 " }}}
@@ -359,7 +359,7 @@ nnoremap <silent> <Down> <C-w>J
 nnoremap <silent> <Right> <C-w>L
 nnoremap <silent> <Left> <C-w>H
 
-if g:has_gui
+if g:is_gui
     nnoremap <silent> <c-h> <C-w><Left>
     nnoremap <silent> <c-j> <C-w><Down>
     nnoremap <silent> <c-k> <C-w><Up>
@@ -586,7 +586,7 @@ command! -nargs=? -complete=customlist,<SID>CompleteCompletionTypes MashTabAuto
 call ka#module#mashtab#i()
 imap <Tab> <Plug>(mashtabTab)
 imap <BS> <Plug>(mashtabBS)
-silent execute 'inoremap <silent>' . (g:has_gui
+silent execute 'inoremap <silent>' . (g:is_gui
             \ ? '<C-space> <C-x><C-o>'
             \ : '<C-@> <C-x><C-o>')
 let g:mashtab_custom_sources = {}

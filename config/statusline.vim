@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-06
+" Last modification: 2018-05-11
 " ==============================================================
 
 
@@ -188,7 +188,7 @@ endfun
 " 1}}}
 
 fun! SLRuby() abort " {{{1
-    if g:has_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
+    if g:is_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
         let r = matchstr(rvm#statusline(), '\d.*[^\]]')
     elseif executable('ruby')
         let r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]

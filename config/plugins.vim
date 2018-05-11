@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-10
+" Last modification: 2018-05-11
 " ==============================================================
 
 
@@ -182,7 +182,7 @@ let g:yowish = {
             \ }
 colorscheme yowish
 " Make bg transparent with truecolors on terminal
-if has('termguicolors') && !g:has_gui
+if g:is_termguicolors
     highlight Normal guibg=NONE
 endif
 " Manually execute the ColorScheme event (Useful for some plugins)
