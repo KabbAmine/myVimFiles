@@ -166,7 +166,6 @@ call plug#end()
 " =========== MISC  ============================================
 
 " Colors {{{1
-            " \       'background'       : ['#2f343f', 'none'],
 let g:yowish = {
             \   'term_italic' : 1,
             \   'colors': {

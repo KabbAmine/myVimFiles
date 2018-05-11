@@ -80,6 +80,12 @@ if !g:is_gui
 endif
 " 1}}}
 
+" Enable 256 colors in the terminal in case it does not support truecolors {{{1
+if !g:is_gui
+    set t_Co=256
+endif
+" 1}}}
+
 " =========== OPTIONS  =========================================
 
 " >>> GUI {{{1
