@@ -1,16 +1,6 @@
 {
     "libs": [
-        "browser",%_%
-        "ecma5",
-        "ecma6",
-        "jquery",
-        "react"
-    ],
-    "loadEagerly": [
-        "./path/to/*.js"
-    ],
-    "dontLoad": [
-        "./path/to/not/*.js"
+        "browser"%_%
     ],
     "plugins": {
         "complete_strings": {},
