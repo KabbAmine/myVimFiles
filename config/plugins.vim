@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-11
+" Last modification: 2018-05-13
 " ==============================================================
 
 
@@ -331,6 +331,11 @@ omap ih <Plug>GitGutterTextObjectInnerPending
 omap ah <Plug>GitGutterTextObjectOuterPending
 xmap ih <Plug>GitGutterTextObjectInnerVisual
 xmap ah <Plug>GitGutterTextObjectOuterVisual
+
+augroup GitGutterPostSaveUpdate
+    autocmd!
+    autocmd BufWritePost * GitGutter
+augroup END
 " 1}}}
 
 " >>> (( vim-plug )) {{{1
@@ -482,7 +487,7 @@ augroup END " 2}}}
 
 " >>> (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 0
-hi! link ParenMatch WarningMsg
+hi! link ParenMatch Underlined
 " 1}}}
 
 " >>> (( vim-emoji )) {{{1
