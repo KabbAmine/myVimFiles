@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-11
+" Last modification: 2018-05-16
 " ==============================================================
 
 
@@ -529,36 +529,39 @@ xnoremap <C-x> <C-x>gv
 " 1}}}
 
 " >>> Go to line using relative numbers {{{1
-" Overwritten in config/plugins.vim for now
-" nnoremap gj :call <SID>GoTo('j')<CR>
-" nnoremap gk :call <SID>GoTo('k')<CR>
+nnoremap gj :call <SID>GoTo('j')<CR>
+nnoremap gk :call <SID>GoTo('k')<CR>
 
-" function! s:GoTo(direction) abort " {{{2
-"     let [l:n, l:rn] = [&l:number, &l:relativenumber]
-"     redir => l:hi
-"     silent highlight LineNr
-"     silent highlight CursorLineNr
-"     redir END
-"     let l:hi = map(split(l:hi, "\n"), 'substitute(v:val, "xxx", "", "")')
+function! s:GoTo(direction) abort " {{{2
+    let [l:n, l:rn] = [&l:number, &l:relativenumber]
+    redir => l:hi
+    silent highlight LineNr
+    silent highlight CursorLineNr
+    redir END
+    let l:hi = [
+                \   split(execute('highlight LineNr'), "\n")[0],
+                \   split(execute('highlight CursorLineNr'), "\n")[0]
+                \ ]
+    call map(l:hi, {i, v -> substitute(v, 'xxx', '', '')})
 
-"     setlocal nonumber relativenumber
-"     hi! link LineNr ModeMsg
-"     hi! link CursorLineNr Search
-"     redraw
+    setlocal nonumber relativenumber
+    hi! link LineNr ModeMsg
+    hi! link CursorLineNr Search
+    redraw
 
-"     echohl ModeMsg
-"     let l:goto = input('Goto> ')
-"     echohl None
-"     if !empty(l:goto)
-"         execute 'normal! ' . l:goto . a:direction
-"     endif
+    echohl ModeMsg
+    let l:goto = input('Goto> ')
+    echohl None
+    if !empty(l:goto)
+        execute 'normal! ' . l:goto . a:direction
+    endif
 
-"     call setbufvar('%', '&number', l:n)
-"     call setbufvar('%', '&relativenumber', l:rn)
-"     for l:h in l:hi
-"         execute 'highlight! ' . l:h
-"     endfor
-" endfunction " 2}}}
+    call setbufvar('%', '&number', l:n)
+    call setbufvar('%', '&relativenumber', l:rn)
+    for l:h in l:hi
+        execute 'highlight! ' . l:h
+    endfor
+endfunction " 2}}}
 " 1}}}
 
 " >>> Terminal mode {{{1

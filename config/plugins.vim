@@ -95,7 +95,7 @@ Plug 'tpope/vim-fugitive'
 " 2}}}
 
 " Snippets engine {{{2
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 " 2}}}
 
 " (( textobj-user )) {{{2
@@ -114,8 +114,6 @@ Plug 'kana/vim-textobj-user'
 
 " Edition & moving {{{2
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'haya14busa/vim-signjk-motion',
-            \ {'on': ['<Plug>(signjk-j)', '<Plug>(signjk-k)', '<Plug>(textobj-signjk-lines)']}
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'thinca/vim-visualstar'
@@ -183,6 +181,7 @@ colorscheme yowish
 " Make bg transparent with truecolors on terminal
 if g:is_termguicolors
     highlight Normal guibg=NONE
+    highlight! link LineNr Comment
 endif
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
@@ -521,11 +520,6 @@ call textobj#user#map('python', {
 " >>> (( vim-visualstar )) {{{1
 map * <Plug>(visualstar-*)``
 map # <Plug>(visualstar-#)
-" 1}}}
-
-" >>> (( vim-signjk-motion )) {{{1
-nmap gj <Plug>(signjk-j)
-nmap gk <Plug>(signjk-k)
 " 1}}}
 
 " >>> (( vim-Verdin )) {{{1
