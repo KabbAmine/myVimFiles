@@ -1,38 +1,57 @@
 ##############
-#  Basics
+#  Constrol flow
 ##############
-
-snippet for "for loop" b
-for ${1} in ${2}
-    ${3}
-endfor
-endsnippet
-
-snippet forl "for loop with 2 items" b
-for [${1}, ${2}] in ${3}
-    ${4}
-endfor
-endsnippet
-
-snippet while "while loop" b
-while ${1}
-    ${2}
-endwhile
-endsnippet
 
 snippet if "if condition" b
 if ${1}
-    ${2}
+	${2}
 endif
 endsnippet
 
 snippet ife "if else block" b
 if ${1}
-    ${2}
+	${2}
 else
-    ${3}
+	${3}
 endif
 endsnippet
+
+snippet ? "ternary" w
+${1} ? ${2} : ${3}
+endsnippet
+
+##############
+#  Iterations
+##############
+
+snippet for "for loop" b
+for ${1} in ${2}
+	${3}
+endfor
+endsnippet
+
+snippet forl "for loop with 2 items" b
+for [${1}, ${2}] in ${3}
+	${4}
+endfor
+endsnippet
+
+snippet while "while loop" b
+while ${1}
+	${2}
+endwhile
+endsnippet
+
+snippet try "try and catch block" b
+try
+	${1}
+catch
+	${2}
+endsnippet
+
+##############
+#  Commands
+##############
 
 snippet au "autocmd" w
 autocmd ${1:{event}} ${2:{pattern}} ${3}
@@ -44,6 +63,10 @@ augroup ${1}
 	${2}
 augroup END
 endsnippet
+
+##############
+#  Functions
+##############
 
 snippet f "function!" b
 fun! ${1}(${2}) ${3:abort}
@@ -60,17 +83,6 @@ endsnippet
 
 snippet fa "lambda" w
 {${1} -> ${2}}
-endsnippet
-
-snippet ? "ternary" w
-${1} ? ${2} : ${3}
-endsnippet
-
-snippet try "try and catch block" b
-try
-    ${1}
-catch
-    ${2}
 endsnippet
 
 ##############

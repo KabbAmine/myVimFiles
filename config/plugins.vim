@@ -299,19 +299,7 @@ let g:UltiSnipsEditSplit = 'vertical'
 " Personal snippets folder.
 let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
 let g:UltiSnipsSnippetDirectories =
-            \ ['UltiSnips', g:vim_dir . '/misc/ultisnips']
-
-" Snippets related configuration
-let g:ultisnips_javascript = {
-            \ 'keyword-spacing': 'always',
-            \ 'semi': 'never',
-            \ 'space-before-function-paren': 'always',
-            \ }
-
-augroup USFtMaps
-    autocmd!
-    autocmd FileType javascript UltiSnipsAddFiletypes javascript.javascript-jsdoc
-augroup END
+            \ [g:vim_dir . '/misc/ultisnips']
 " 1}}}
 
 " >>> (( gitgutter )) {{{1

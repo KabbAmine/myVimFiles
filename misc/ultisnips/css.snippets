@@ -1,8 +1,30 @@
-snippet /* "commentary"
+snippet @k "@keyframes" b
+@keyframes name {
+	${1:from} {
+		${2}
+	}
+
+	${3:to} {
+		${4}
+	}
+}
+endsnippet
+
+snippet @m "@media" b
+@media ${1:screen} and (${2}) {
+	${3}
+}
+endsnippet
+
+##############
+#  Helpers
+##############
+
+snippet /* "commentary" b
 /* ${1} */
 endsnippet
 
-snippet /** "commentary block"
+snippet /** "commentary block" b
 /* *************** */
 /*	${1}
 /* *************** */
