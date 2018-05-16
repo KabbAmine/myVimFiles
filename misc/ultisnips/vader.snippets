@@ -1,83 +1,91 @@
 #  Basic block
 ##############
 
-snippet giv "Given bloc" b
-Given ${1:filetype} ${2:(${3:comment})}:
-	${4:input text}
+snippet giv "given block" b
+Given ${1:{filetype}} ${2:(${3})}:
+    ${4}
 endsnippet
 
-snippet do "Do block" b
-Do ${1:(${2:comment})}:
-	${3:keystrokes}
+snippet do "do block" b
+Do ${1:(${2})}:
+	${3}
 endsnippet
 
-snippet exe "Execute block" b
-Execute ${1:ruby/python/perl/lua} ${2:(${3:comment})}:
-	${4:vimscript}
+snippet exe "execute block" b
+Execute ${1:[ruby/python/perl/lua]} ${2:(${3})}:
+	${4}
 endsnippet
 
-snippet then "Then block" b
-Then ${1:(${2:comment})}:
-	${3:vimscript}
+snippet then "then block" b
+Then ${1:(${2})}:
+	${3}
 endsnippet
 
-snippet exp "Expect bloc" b
-Expect ${1:filetype} ${2:(${3:comment})}:
-	${4:Expected output}
+snippet exp "expect block" b
+Expect ${1:{filetype}} ${2:(${3})}:
+	${4}
 endsnippet
 
-snippet bef "Before bloc" b
-Before ${1:(${2:comment})}:
-	${3:vim script}
+snippet bef "before block" b
+Before ${1:(${2})}:
+	${3}
 endsnippet
 
-snippet aft "After bloc" b
-After ${1:(${2:comment})}:
-	${3:vim script}
+snippet aft "after block" b
+After ${1:(${2})}:
+	${3}
 endsnippet
 
-snippet inc "Include macro" b
-Include: ${1:file}.vader
+snippet inc "include macro" b
+Include: ${1}.vader
 endsnippet
 
 # Inline commands
 #################
 
-snippet as "Assert" b
-Assert ${1:bool}${2:, ${3:message}}
+snippet as "assert" b
+Assert ${1:{bool}}${2:, ${3:{message}}}
 endsnippet
 
-snippet ase "AssertEqual" b
-AssertEqual ${1:expected}, ${2:got}${3:, ${4:message}}
+snippet ase "assertEqual" b
+AssertEqual ${1:{expected}}, ${2:{got}}${3:, ${4:{message}}}
 endsnippet
 
-snippet asne "AssertNotEqual" b
-AssertNotEqual ${1:expected}, ${2:got}${3:, ${4:message}}
+snippet asne "assertNotEqual" b
+AssertNotEqual ${1:{expected}}, ${2:{got}}${3:, ${4:{message}}}
 endsnippet
 
-snippet ast "AssertThrows" b
-AssertThrows ${1:expression}
+snippet ast "assertThrows" b
+AssertThrows ${1}
 endsnippet
 
-snippet log "Log" b
-Log ${1:message}
+snippet log "log" b
+Log ${1}
 endsnippet
 
-snippet save "Save" b
-Save ${1:name}${2:, ${3:...}}
+snippet save "save" b
+Save ${1}${2:, ${3}}
 endsnippet
 
-snippet rest "Restore" b
-Restore ${1:${2:name}${3:, ${4:...}}}
+snippet rest "restore" b
+Restore ${1:${2}${3:, ${4}}}
 endsnippet
 
 # Syntax helpers
 ################
 
-snippet syna "SyntaxAt function" b
-SyntaxAt(${1:${2:col/}${3:${4:lnum}, ${5:col}}})
+snippet syna "syntaxAt function" b
+SyntaxAt(${1})
 endsnippet
 
-snippet syno "SyntaxOf function" b
-SyntaxOf(${1:pattern}${2:, ${3:nth=1}})
+snippet synac "syntaxAt function with col argument" b
+SyntaxAt(${1:{col}})
+endsnippet
+
+snippet synalc "syntaxAt function with line and col argument" b
+SyntaxAt(${1:{lnum}}, ${2:{col}})
+endsnippet
+
+snippet syno "syntaxOf function" b
+SyntaxOf(${1:{pattern}}${2:, ${3:{nth}}})
 endsnippet

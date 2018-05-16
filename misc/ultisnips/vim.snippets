@@ -1,44 +1,83 @@
-snippet redirv "redir to variable" b
-redir => ${1}
-	${2}
-redir END
+##############
+#  Basics
+##############
+
+snippet for "for loop" b
+for ${1} in ${2}
+    ${3}
+endfor
 endsnippet
 
-snippet au "agroup" b
+snippet forl "for loop with 2 items" b
+for [${1}, ${2}] in ${3}
+    ${4}
+endfor
+endsnippet
+
+snippet while "while loop" b
+while ${1}
+    ${2}
+endwhile
+endsnippet
+
+snippet if "if condition" b
+if ${1}
+    ${2}
+endif
+endsnippet
+
+snippet ife "if else block" b
+if ${1}
+    ${2}
+else
+    ${3}
+endif
+endsnippet
+
+snippet au "autocmd" w
+autocmd ${1:{event}} ${2:{pattern}} ${3}
+endsnippet
+
+snippet aug "augroup block" b
 augroup ${1}
 	autocmd!
-	autocmd ${2}
+	${2}
 augroup END
 endsnippet
 
-snippet f "Function!" b
-fun! ${1}(${2}) ${3:abort}${4: " \{\{\{1}
-	${5}
+snippet f "function!" b
+fun! ${1}(${2}) ${3:abort}
+	${4}
 endfun
-${6:" 1\}\}\}}
 endsnippet
 
-snippet ? "Ternary" i
-${1:condition} ? ${2:true} : ${3:false}
+snippet ff "function! with fold" b
+fun! ${1}(${2}) ${3:abort} " \{\{\{1
+	${4}
+endfun
+" 1\}\}\}
 endsnippet
 
-snippet plug "Plugin for Vim-plug"
-Plug '$1'
+snippet fa "lambda" w
+{${1} -> ${2}}
 endsnippet
 
-snippet hi "Highlight group" b
-hi ${1:group} guibg=${2:NONE} guifg=${3:NONE} gui=${4:NONE}
+snippet ? "ternary" w
+${1} ? ${2} : ${3}
 endsnippet
 
-snippet hil "Highlight link" b
-hi! link ${1:group} ${2:toGroup}
+snippet try "try and catch block" b
+try
+    ${1}
+catch
+    ${2}
 endsnippet
 
-snippet hic "Custom highlight" b
-call s:Hi('${1:group}' ,'${2:bg}' ,'${3:fg}' ,'${4:option}')
-endsnippet
+##############
+#  Helpers
+##############
 
-snippet header
+snippet header "header block" b
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
 " Creation: `date +%Y-%m-%d`
@@ -47,8 +86,30 @@ snippet header
 ${1}
 endsnippet
 
-snippet /** "Commentary block"
+snippet /** "commentary block" b
 " ==========================================================
 " 	        	${1}
 " ==========================================================
+endsnippet
+
+snippet plug "plugin for vim-plug" w
+Plug '${1}'${2:, {${3}}}
+endsnippet
+
+snippet hi "highlight group" b
+hi ${1:group} guibg=${2:NONE} guifg=${3:NONE} gui=${4:NONE}
+endsnippet
+
+snippet hil "highlight link" b
+hi! link ${1:group} ${2:toGroup}
+endsnippet
+
+snippet redirv "redir to variable" b
+redir => ${1}
+	${2}
+redir END
+endsnippet
+
+snippet get "get() function" w
+get(${1}, ${2}, ${3})
 endsnippet
