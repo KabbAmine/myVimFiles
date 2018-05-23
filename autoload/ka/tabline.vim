@@ -1,16 +1,14 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-27
+" Last modification: 2018-05-24
 " ==============================================================
 
 
 fun! ka#tabline#get() abort " {{{1
-    let hi_none = '%#None#'
     let hi_selected = '%#User4#'
     let hi_cwd = '%#TabLine#'
 
-    let tabline = hi_selected . '%( %{ka#tabline#buffer_info()} %)' . hi_none
-    let tabline .= hi_none . '%='
+    let tabline = '%=' . hi_selected . '%( %{ka#tabline#buffer_info()} %)'
     let tabline .= hi_cwd . '%( %{ka#tabline#cwd()} %)'
     let tabline .= hi_selected . '%( %{ka#tabline#nr()} %)'
     return tabline
@@ -46,7 +44,7 @@ endfun
 
 fun! ka#tabline#nr() abort " {{{1
     return tabpagenr('$') isnot# 1
-                \ ? tabpagenr()
+                \ ? 'T' . tabpagenr()
                 \ : ''
 endfun
 " 1}}}
