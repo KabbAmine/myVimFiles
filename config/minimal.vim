@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-16
+" Last modification: 2018-05-23
 " ==============================================================
 
 
@@ -187,7 +187,7 @@ endif
 set splitbelow
 set splitright
 set hidden
-let &previewheight = winwidth(0) / 2
+" let &previewheight = winwidth(0) / 2
 " 1}}}
 
 " >>> Swap file {{{1
@@ -340,6 +340,12 @@ cnoremap <C-k> <Right>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
 cnoremap <C-a> <Home>
+
+" Always use <C-]> to expand abbreviations, and add a space only for those
+" that are not in g:abbrevs
+let g:abbrevs = ['mv', 'cp']
+cnoremap <expr> <space> getcmdtype() is# ":" && getcmdline() =~# '\(' . join(g:abbrevs, '\\|') . '\)$'
+            \ ? '<C-]>' : '<C-]><space>'
 " 1}}}
 
 " >>> Super escape {{{1
@@ -417,8 +423,9 @@ nnoremap <silent> ;;f :call ka#sys#E('OpenHere', ['f', expand('%:h:p')])<CR>
 " >>> Edition {{{1
 inoremap <C-a> <C-o>^
 inoremap <C-e> <C-o>$
+" 1}}}
 
-" Use c for manipulating + register {{{1
+" >>> Use c for manipulating + register {{{1
 nnoremap cd "+d
 nnoremap cp "+p
 nnoremap cP "+P
@@ -535,8 +542,8 @@ nnoremap gk :call <SID>GoTo('k')<CR>
 function! s:GoTo(direction) abort " {{{2
     let [l:n, l:rn] = [&l:number, &l:relativenumber]
     redir => l:hi
-    silent highlight LineNr
-    silent highlight CursorLineNr
+        silent highlight LineNr
+        silent highlight CursorLineNr
     redir END
     let l:hi = [
                 \   split(execute('highlight LineNr'), "\n")[0],
@@ -581,7 +588,7 @@ function! s:CleverGf() abort " {{{2
                 \ ? 'edit ' . l:cf
                 \ : filereadable(l:cf)
                 \ ? 'normal! gf'
-                \ : 'edit ' . expand('%:p:h') . '/' . expand('<cfile>')
+                \ : 'edit ' . expand('<cfile>')
 endfunction " 2}}}
 " 1}}}
 
@@ -1053,15 +1060,27 @@ augroup END
 " =========== ABBREVIATIONS ====================================
 
 " No more rage {{{1
-cabbrev W! w!
-cabbrev Q! q!
-cabbrev QA! qa!
-cabbrev QA qa
-cabbrev Wq wq
-cabbrev wQ wq
-cabbrev WQ wq
-cabbrev W w
-cabbrev Q q
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev QA! qa!
+cnoreabbrev QA qa
+cnoreabbrev Wq wq
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+" 1}}}
+
+" System utilities {{{1
+" TODO: Add windows commands
+cnoreabbrev <expr> rm g:has_unix ? '!clear && rm -vr' : 'todo'
+cnoreabbrev <expr> mkdir g:has_unix ? '!clear && mkdir -vp' : 'todo'
+cnoreabbrev <expr> mv g:has_unix
+            \ ? '!clear && mv -vf ' . expand('%:~:.') . ' ' . expand('%:~:.:h') . '/'
+            \ : 'todo'
+cnoreabbrev <expr> cp g:has_unix
+            \ ? '!clear && cp -vrf ' . expand('%:~:.') . ' ' . expand('%:~:.:h') . '/'
+            \ : 'todo'
 " 1}}}
 
 
