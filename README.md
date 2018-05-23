@@ -5,7 +5,7 @@ My configuration for the best program of the world.
 I'm not a vim master, but my configuration works great for me so feel free to
 use it, improve it, love it or hate it... The choice is yours :sunglasses:
 
-![My vim](.img/my_vim.jpg)
+![My vim](.img/my_terminal_vim.png)
 
 It works on both GNU/Linux and Windows (The `>old` versions were not tested on
 windows).
