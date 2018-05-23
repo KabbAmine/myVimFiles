@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-13
+" Last modification: 2018-05-21
 " ==============================================================
 
 
@@ -449,7 +449,7 @@ let g:highlightedyank_highlight_duration = 200
 call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 call operator#sandwich#set('all', 'all', 'hi_duration', 150)
 call operator#sandwich#set('all', 'all', 'autoindent', 0)
-vmap v ab
+" vmap v ab
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
