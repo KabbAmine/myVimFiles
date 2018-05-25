@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2017-10-03
+" Last modification: 2018-05-26
 " ==============================================================
 
 
@@ -27,11 +27,6 @@ function! s:Log(message, ...) abort " {{{1
     execute 'echohl ' . l:hi[l:t]
     echomsg a:message
     echohl None
-endfunction
-" 1}}}
-
-function! s:FlashLine(time, repeat, callback) abort " {{{1
-    call timer_start(a:time, function(a:callback), {'repeat': a:repeat})
 endfunction
 " 1}}}
 
