@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-23
+" Last modification: 2018-05-26
 " ==============================================================
 
 
@@ -816,16 +816,17 @@ nnoremap <silent> [l :lprevious<CR>
 
 function! s:PreviewQItem() abort " {{{2
     let s:is_loclist = getwininfo(bufwinid('%'))[0].loclist
-    silent execute "norm! \<CR>"
+    let l:file = matchstr(getline(line('.')), '^\f\+\ze|')
+    let l:to_line = matchstr(getline(line('.')), '^\f\+|\zs\d\+\ze\s\+')
+    silent execute printf(
+                \ 'vertical pedit! +setlocal\ cursorline\ nobuflisted|%s %s',
+                \ l:to_line, l:file
+                \ )
+    wincmd P
+    wincmd L
     if foldlevel(line('.')) !=# 0
         normal! zO
     endif
-    call ka#ui#E('FlashLine', [100, 4, function('<SID>FlashQLine')])
-endfunction " 2}}}
-function! s:FlashQLine(timer) abort " {{{2
-    execute s:is_loclist ? 'll' : 'cc'
-    setlocal cursorline!
-    " silent execute 'setl ' . (&l:cursorline ? 'nocursorline' : 'cursorline')
     wincmd p
 endfunction " 2}}}
 " 1}}}
@@ -1027,9 +1028,10 @@ augroup CustomAutoCmds
 
     " Quicklist & location window related
     autocmd FileType qf setl nowrap
-    autocmd FileType qf nnoremap <buffer> <CR> <CR>
+    autocmd FileType qf nnoremap <silent> <buffer> <CR> :pclose!<CR><CR>
     autocmd FileType qf nnoremap <silent> <buffer> p
                 \ :call <SID>PreviewQItem()<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> P :pclose<CR>
 
     " Set omni-completion if the appropriate syntax file is present otherwise
     " use the syntax completion
