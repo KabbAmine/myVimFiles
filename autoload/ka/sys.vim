@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-11
+" Last modification: 2018-05-27
 " ==============================================================
 
 
@@ -115,6 +115,17 @@ function! s:Rename(to) abort " {{{1
             call ka#ui#E('Log', ['"' . l:file . '" was not renamed', 1])
         endif
     endif
+endfunction
+" 1}}}
+
+function! s:ExecuteCmd(cmd, ...) abort " {{{1
+    let res = systemlist(a:cmd . join(a:000))
+    silent execute v:shell_error
+                \ ? 'echohl Error'
+                \ : 'echohl Question'
+    redraw!
+    echo join(res, "\n")
+    echohl None
 endfunction
 " 1}}}
 

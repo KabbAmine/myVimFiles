@@ -340,12 +340,6 @@ cnoremap <C-k> <Right>
 cnoremap <C-h> <C-Left>
 cnoremap <C-l> <C-Right>
 cnoremap <C-a> <Home>
-
-" Always use <C-]> to expand abbreviations, and add a space only for those
-" that are not in g:abbrevs
-let g:abbrevs = ['mv', 'cp']
-cnoremap <expr> <space> getcmdtype() is# ":" && getcmdline() =~# '\(' . join(g:abbrevs, '\\|') . '\)$'
-            \ ? '<C-]>' : '<C-]><space>'
 " 1}}}
 
 " >>> Super escape {{{1
@@ -633,8 +627,11 @@ endfun " 2}}}
 " =========== COMMANDS ===================================
 
 " >>> Commands for folders & files {{{1
-command! -nargs=+ -complete=file Mkdir  :call ka#sys#E('MakeDir', [<f-args>])
-command! -nargs=+ -complete=file Rm     :call ka#sys#E('Delete', [<f-args>])
+" TODO: Add windows commands
+command! -nargs=+ -complete=file Rm :call ka#sys#E('ExecuteCmd', ['rm -vr ', <f-args>])
+command! -nargs=+ -complete=file Mkdir :call ka#sys#E('ExecuteCmd', ['mkdir -vp ', <f-args>])
+command! -nargs=+ -complete=file Cp :call ka#sys#E('ExecuteCmd', ['cp -vrf ', <f-args>])
+command! -nargs=+ -complete=file Mv :call ka#sys#E('ExecuteCmd', ['mv -vf ', <f-args>])
 command! -nargs=1 -complete=file Rename :call ka#sys#E('Rename', [<f-args>])
 " 1}}}
 
@@ -1074,15 +1071,10 @@ cnoreabbrev Q q
 " 1}}}
 
 " System utilities {{{1
-" TODO: Add windows commands
-cnoreabbrev <expr> rm g:has_unix ? '!clear && rm -vr' : 'todo'
-cnoreabbrev <expr> mkdir g:has_unix ? '!clear && mkdir -vp' : 'todo'
-cnoreabbrev <expr> mv g:has_unix
-            \ ? '!clear && mv -vf ' . expand('%:~:.') . ' ' . expand('%:~:.:h') . '/'
-            \ : 'todo'
-cnoreabbrev <expr> cp g:has_unix
-            \ ? '!clear && cp -vrf ' . expand('%:~:.') . ' ' . expand('%:~:.:h') . '/'
-            \ : 'todo'
+cnoreabbrev rm Rm
+cnoreabbrev mkdir Mkdir
+cnoreabbrev cp Cp
+cnoreabbrev mv Mv
 " 1}}}
 
 
