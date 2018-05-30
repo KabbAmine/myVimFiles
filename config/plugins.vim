@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-21
+" Last modification: 2018-05-30
 " ==============================================================
 
 
@@ -105,11 +105,11 @@ Plug 'kana/vim-textobj-user'
             \| Plug 'kana/vim-textobj-function'
             \| Plug 'haya14busa/vim-textobj-function-syntax'
             \| Plug 'bps/vim-textobj-python',
-            \       {'for': 'python'}
+            \   {'for': 'python'}
             \| Plug 'kentaro/vim-textobj-function-php',
-            \       {'for': 'php'}
+            \   {'for': 'php'}
             \| Plug 'thinca/vim-textobj-function-javascript',
-            \       {'for': 'javascript'}
+            \   {'for': 'javascript'}
 " 2}}}
 
 " Edition & moving {{{2
@@ -496,12 +496,19 @@ omap ac <Plug>(textobj-comment-a)
 
 " (( vim-textobj-python )) {{{2
 let g:textobj_python_no_default_key_mappings = 1
-call textobj#user#map('python', {
-            \   'class': {
-            \       'select-a': '<buffer>aC',
-            \       'select-i': '<buffer>iC',
-            \   }
-            \ })
+augroup TOPython
+    autocmd!
+    " Functions
+    autocmd Filetype python xmap af <Plug>(textobj-python-function-a)
+    autocmd Filetype python omap af <Plug>(textobj-python-function-a)
+    autocmd Filetype python xmap if <Plug>(textobj-python-function-i)
+    autocmd Filetype python omap if <Plug>(textobj-python-function-i)
+    " Classes
+    autocmd Filetype python xmap aC <Plug>(textobj-python-class-a)
+    autocmd Filetype python omap aC <Plug>(textobj-python-class-a)
+    autocmd Filetype python xmap iC <Plug>(textobj-python-class-i)
+    autocmd Filetype python omap iC <Plug>(textobj-python-class-i)
+augroup END
 " 2}}}
 " 1}}}
 
