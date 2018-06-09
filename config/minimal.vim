@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-26
+" Last modification: 2018-06-09
 " ==============================================================
 
 
@@ -628,11 +628,11 @@ endfun " 2}}}
 
 " >>> Commands for folders & files {{{1
 " TODO: Add windows commands
-command! -nargs=+ -complete=file Rm :call ka#sys#E('ExecuteCmd', ['rm -vr ', <f-args>])
-command! -nargs=+ -complete=file Mkdir :call ka#sys#E('ExecuteCmd', ['mkdir -vp ', <f-args>])
-command! -nargs=+ -complete=file Cp :call ka#sys#E('ExecuteCmd', ['cp -vrf ', <f-args>])
-command! -nargs=+ -complete=file Mv :call ka#sys#E('ExecuteCmd', ['mv -vf ', <f-args>])
-command! -nargs=1 -complete=file Rename :call ka#sys#E('Rename', [<f-args>])
+command! -nargs=+ -complete=file Rm :call ka#sys#E('ExecuteCmd', ['rm -vr ', '<args>'])
+command! -nargs=+ -complete=file Mkdir :call ka#sys#E('ExecuteCmd', ['mkdir -vp ', '<args>'])
+command! -nargs=+ -complete=file Cp :call ka#sys#E('ExecuteCmd', ['cp -vrf ', '<args>'])
+command! -nargs=+ -complete=file Mv :call ka#sys#E('ExecuteCmd', ['mv -vf ', '<args>'])
+command! -nargs=1 -complete=file Rename :call ka#sys#E('Rename', ['<args>'])
 " 1}}}
 
 " >>> Specify indentation (ts,sts,sw) & reindent {{{1
