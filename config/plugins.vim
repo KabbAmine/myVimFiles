@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-30
+" Last modification: 2018-08-15
 " ==============================================================
 
 
@@ -67,7 +67,8 @@ Plug 'StanAngeloff/php.vim'
 " JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
-Plug 'neoclide/vim-jsx-improve'
+Plug 'othree/yajs.vim'
+            \ | Plug 'othree/javascript-libraries-syntax.vim'
 " 2}}}
 
 " Python {{{2
@@ -142,10 +143,11 @@ Plug 'machakann/vim-highlightedyank',
 " if !s:lab_mode
     " Plug 'KabbAmine/unite-cmus'
     " Plug 'KabbAmine/gulp-vim'
+    " Plug 'KabbAmine/vZoom.vim'
     Plug $HOME . '/Temp/lab/vim/RAP/'
     Plug $HOME . '/Temp/lab/vim/vfinder/'
+    Plug $HOME . '/Temp/lab/vim/pine.vim/'
     Plug 'KabbAmine/lazyList.vim'
-    Plug 'KabbAmine/vZoom.vim'
     Plug 'KabbAmine/vBox.vim'
     Plug 'KabbAmine/vCoolor.vim'
     Plug 'KabbAmine/vullscreen.vim'
@@ -194,7 +196,7 @@ let g:closetag_filenames = '*.html,*.xml,*.php'
 " 1}}}
 
 " >>> (( NERDTree )) {{{1
-nnoremap <silent> ,N :NERDTreeToggle<CR>
+" nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
 nnoremap <silent> <S-q>
@@ -283,8 +285,10 @@ let g:undotree_WindowLayout = 'botright'
 imap <S-space> <Plug>delimitMateS-Tab
 imap <expr> <CR> pumvisible() ? "\<C-Y>\<CR>" : "<Plug>delimitMateCR"
 imap <expr> <BS> pumvisible() ? "<Plug>(mashtabBS)" : "<Plug>delimitMateBS"
+if &backspace is# 2
+    let delimitMate_expand_cr = 1
+endif
 let delimitMate_expand_space = 1
-let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = '(:),[:],{:}'
 " 1}}}
 
@@ -297,9 +301,9 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsEditSplit = 'vertical'
 
 " Personal snippets folder.
-let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/ultisnips'
+let g:UltiSnipsSnippetsDir = g:vim_dir . '/misc/snippets'
 let g:UltiSnipsSnippetDirectories =
-            \ [g:vim_dir . '/misc/ultisnips']
+            \ [g:vim_dir . '/misc/snippets']
 " 1}}}
 
 " >>> (( gitgutter )) {{{1
@@ -615,12 +619,6 @@ augroup VBoxAuto " {{{2
 augroup END " 2}}}
 " 1}}}
 
-" >>> (( vzoom )) {{{1
-nmap gsz <Plug>(vzoom)
-nnoremap gsZ :VZoomAutoToggle<CR>
-let g:vzoom = {'equalise_windows': 1}
-" 1}}}
-
 " >>> (( imagePreview )) {{{1
 " nmap gi <Plug>(image-preview)
 " let g:image_preview = {
@@ -660,7 +658,7 @@ nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
-nnoremap <silent> ,,f :call vfinder#i('outline')<CR>
+nnoremap <silent> ,,f :call vfinder#i('outline', {'fuzzy': 1})<CR>
 nnoremap <silent> z= :call vfinder#i('spell')<CR>
 inoremap <silent> <A-z> <Esc>:call vfinder#i('spell')<CR>
 nnoremap <silent> ,y :call vfinder#i('yank')<CR>
@@ -681,6 +679,10 @@ fun! s:BookmarksSource() abort " {{{2
             \   }
             \ }
 endfun " 2}}}
+" 1}}}
+
+" >>> (( pine.vim )) {{{1
+nnoremap <silent> ,N :Pine<CR>
 " 1}}}
 
 
