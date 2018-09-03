@@ -81,6 +81,16 @@ endfun
 " 1\}\}\}
 endsnippet
 
+snippet fd "function! with fold and doc" b
+"" $1() \{\{\{1
+" $4
+fun! ${1}(${2}) ${3:abort}
+	${5}
+endfun
+" 1\}\}\}
+
+endsnippet
+
 snippet fa "lambda" w
 {${1} -> ${2}}
 endsnippet
@@ -124,4 +134,8 @@ endsnippet
 
 snippet get "get() function" w
 get(${1}, ${2}, ${3})
+endsnippet
+
+snippet @ "doctype @" w
+@${1:param} {${2:type}} ${3:def:${4}} ${5:description}
 endsnippet
