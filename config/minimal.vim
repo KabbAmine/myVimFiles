@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-06-09
+" Last modification: 2018-09-04
 " ==============================================================
 
 
@@ -53,8 +53,8 @@ endif
 if !empty($TERM)
     let s:c = 'a'
     while s:c <=# 'z'
-        exec "set <A-" . s:c . ">=\e" . s:c
-        exec "imap \e" . s:c . " <A-" . s:c . ">"
+        execute "set <A-" . s:c . ">=\e" . s:c
+        execute "imap \e" . s:c . " <A-" . s:c . ">"
         let s:c = nr2char(1 + char2nr(s:c))
     endwhile
     unlet s:c
@@ -106,7 +106,6 @@ set showcmd
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
 set completeopt=menuone,noselect,preview
-" set completeopt=menuone,noselect
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
 if g:has_win
@@ -309,7 +308,6 @@ nnoremap d# #``dgn
 
 " >>> Tabs {{{1
 nnoremap <silent> <C-t> :tabedit<CR>
-nnoremap <silent> <F5> :tabonly<CR>
 " 1}}}
 
 " >>> Buffers {{{1
@@ -358,12 +356,6 @@ nnoremap <silent> gs <C-w>
 nnoremap <silent> gsnv :vnew<CR>
 nnoremap <silent> gsh :hide<CR>
 nnoremap <silent> gsns :split +enew<CR>
-nnoremap <silent> <C-Up> <C-w>+
-nnoremap <silent> <C-Down> <C-w>-
-nnoremap <silent> <Up> <C-w>K
-nnoremap <silent> <Down> <C-w>J
-nnoremap <silent> <Right> <C-w>L
-nnoremap <silent> <Left> <C-w>H
 
 if g:is_gui
     nnoremap <silent> <c-h> <C-w><Left>
@@ -395,13 +387,6 @@ nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>Sort<CR>g@
 function! s:Sort(...) abort " {{{2
     execute printf('%d,%d:!sort', line("'["), line("']"))
 endfunction " 2}}}
-" 1}}}
-
-" >>> Quickly edit macro or register content in scmdline-window {{{1
-" (https://github.com/mhinz/vim-galore)
-" e.g. "q\r
-nnoremap <leader>r :<c-u><c-r>='let @'. v:register 
-            \ .' = '. string(getreg(v:register))<cr><c-f><left>
 " 1}}}
 
 " >>> Open (with) external programs {{{1
@@ -472,10 +457,11 @@ unlet! s:to
 " 1}}}
 
 " >>> Toggle options {{{1
-nnoremap <silent> <leader><leader>w :setl wrap!<CR>
-nnoremap <silent> <leader><leader>l :setl list!<CR>
-nnoremap <silent> <leader><leader>c
+nnoremap <leader><leader>w :setl wrap!<CR>:setl wrap?<CR>
+nnoremap <leader><leader>l :setl list!<CR>:setl list?<CR>
+nnoremap <leader><leader>c
             \ :execute 'setl colorcolumn=' . (&cc ? '' : 80)<CR>
+            \ :setl colorcolumn?<CR>
 " 1}}}
 
 " >>> Grep {{{1
@@ -488,25 +474,29 @@ nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>GrepMotion<CR>g@
 nnoremap <silent> ,G <Esc>:setlocal operatorfunc=<SID>GrepRegMotion<CR>g@
 
 function! s:Grep(...) abort " {{{2
-    let l:use_regex = 0
+    let l:use_regex = exists('a:2') ? 1 : 0
 
     if exists('a:1') && type(a:1) ==# type(1)
         let l:q = a:1 ==# 1
                     \ ? ka#utils#E('GetVisualSelection', [], 1)
                     \ : ka#utils#E('GetMotionResult', [], 1)
     else
-        echohl ModeMsg | let l:q = input('grep> ') | echohl None
+        let inp_msg = l:use_regex
+                    \ ? 'grep[reg]>'
+                    \ : 'grep>'
+        echohl ModeMsg | let l:q = input(inp_msg . ' ') | echohl None
     endif
 
-    if exists('a:2')
-        let l:use_regex = 1
+    if l:use_regex
         let l:old_grepprg = &grepprg
         let &grepprg = substitute(&grepprg, '-SF', '-S', '')
     endif
 
     if !empty(l:q)
         let l:q = split(l:q)
-        let l:q[0] = l:q[0] =~# '^".*"$' ? l:q[0] : '"' . l:q[0] . '"'
+        let l:q[0] = l:q[0] =~# '^".*"$'
+                    \ ? l:q[0]
+                    \ : '"' . l:q[0] . '"'
         call map(l:q, 'escape(v:val, "%#")')
         silent execute 'grep! ' . join(l:q) | botright cwindow 10 | wincmd p
         redraw!
@@ -600,12 +590,6 @@ silent execute 'inoremap <silent>' . (g:is_gui
             \ ? '<C-space> <C-x><C-o>'
             \ : '<C-@> <C-x><C-o>')
 let g:mashtab_custom_sources = {}
-let g:mashtab_custom_sources = {
-            \  'buffer': 1,
-            \  'dict'  : 1,
-            \  'line'  : 1,
-            \  'spell' : 1
-            \ }
 let g:mashtab_patterns = {}
 let g:mashtab_patterns.user = {
             \   'gitcommit': '\s*:\w*$',
@@ -622,6 +606,21 @@ fun! s:CompleteCompletionTypes(a, c, p) abort " {{{2
     let types = ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
     return filter(copy(types), 'v:val =~ a:a')
 endfun " 2}}}
+" 1}}}
+
+" >>> Zoom  {{{1
+fun! s:ZoomToggle() abort
+    let zoomed_win = getwinvar(winnr(), 'zoomed_win')
+    let one_win_only = tabpagewinnr(tabpagenr(), '$') is# 1 ? 1 : 0
+    if one_win_only && zoomed_win is# 1
+        silent tabclose
+        unlet! w:zoomed_win
+    elseif !one_win_only
+        silent tab split
+        let w:zoomed_win = 1
+    endif
+endfun
+nnoremap <silent> gsz :call <SID>ZoomToggle()<CR>
 " 1}}}
 
 " =========== COMMANDS ===================================
@@ -792,7 +791,7 @@ function! s:AutoMkdir() abort " {{{2
         echohl Question
         let l:ans = input(l:dir . ' does not exist, create it [y/N]? ')
         echohl None
-        if empty(l:ans) || l:ans =~# '\v^n|N$'
+        if empty(l:ans) || l:ans =~# '\v^(n|N)$'
             return
         endif
         call mkdir(l:dir, 'p')
@@ -877,12 +876,6 @@ if executable('rg')
     command! -bar -bang -nargs=* -complete=customlist,<SID>CompleteFiles F
                 \ execute 'E ' . <q-args>
 endif
-
-cabbrev e E
-cabbrev sp Sp
-cabbrev vs VS
-cabbrev tabe TabE
-cabbrev bd Bd
 
 function! s:CmdOnMultipleFiles(cmd, list_pattern, bang) abort " {{{2
     let l:cmd = a:cmd . a:bang
@@ -1017,12 +1010,6 @@ augroup CustomAutoCmds
     autocmd FileType vim,python,json
                 \ setlocal softtabstop=4 shiftwidth=4 expandtab
 
-    " " Keep cursor position when switching buffers
-    " autocmd BufLeave * let b:winview = winsaveview()
-    " autocmd BufEnter * if(exists('b:winview'))
-    "             \|  call winrestview(b:winview)
-    "             \| endif
-
     " Quicklist & location window related
     autocmd FileType qf setl nowrap
     autocmd FileType qf nnoremap <silent> <buffer> <CR> :pclose!<CR><CR>
@@ -1068,6 +1055,14 @@ cnoreabbrev wQ wq
 cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
+" 1}}}
+
+" Custom commands {{{1
+cnoreabbrev e E
+cnoreabbrev sp Sp
+cnoreabbrev vs VS
+cnoreabbrev tabe TabE
+cnoreabbrev bd Bd
 " 1}}}
 
 " System utilities {{{1
