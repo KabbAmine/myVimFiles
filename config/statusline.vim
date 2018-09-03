@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-12
+" Last modification: 2018-09-04
 " ==============================================================
 
 
@@ -176,6 +176,11 @@ fun! SLToggled() abort " {{{1
 endfun
 " 1}}}
 
+fun! SLZoomed() abort " {{{1
+    return getwinvar(winnr(), 'zoomed_win') ? '◎' : ''
+endfun
+" 1}}}
+
 " ========== PLUGINS ===========================================
 
 fun! SLFugitive() abort " {{{1
@@ -276,8 +281,8 @@ fun! s:SetSLColors() abort " {{{1
     " Modified state
     call s:Hi('User5', s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold')
     " Success & error states
-    call s:Hi('User6', s:sl.colors['green'], s:sl.colors['backgroundLight'], 'bold')
-    call s:Hi('User7', s:sl.colors['red'], s:sl.colors['text'], 'bold')
+    call s:Hi('User6', s:sl.colors['backgroundLight'], s:sl.colors['green'], 'bold')
+    call s:Hi('User7', s:sl.colors['backgroundLight'], s:sl.colors['red'], 'bold')
     " Inactive statusline
     call s:Hi('User8', s:sl.colors['backgroundDark'], s:sl.colors['backgroundLight'], 'none')
 endfun
@@ -332,10 +337,15 @@ fun! GetSL(...) abort " {{{1
     " Active statusline
     " """""""""""""""""
     " let sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
+    let sl .= '%1*%( %{SLZoomed()} %)'
     let sl .= '%1*%( %{SLPaste()} %)'
     let sl .= '%3* %{SLPath()}'
     let sl .= '%2*%{SLFilename()}'
-    let sl .= '%5*%( %{SLModified()}% %)'
+    let sl .= '%5*%(%{SLModified()}%) '
+
+    " ALE (1st group for no errors)
+    let sl .= '%6*%(%{SLAle(0)} %)'
+    let sl .= '%7*%([%{SLAle(1)}] %)'
 
     let sl .= '%3*'
     let sl .= '%='
@@ -346,10 +356,6 @@ fun! GetSL(...) abort " {{{1
 
     let sl .= '%( %{SLSpell()}' . s:sl.separator . '%)'
     let sl .= '%( %{SLFiletype()} %)'
-
-    " ALE (1st group for no errors)
-    let sl .= '%6*%( %{SLAle(0)} %)'
-    let sl .= '%7*%( %{SLAle(1)} %)'
 
     let sl .= '%4*'
 
