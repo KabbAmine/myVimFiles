@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-04
+" Last modification: 2018-09-09
 " ==============================================================
 
 
@@ -240,12 +240,40 @@ let g:loaded_2html_plugin = 1
 " =========== MAPPINGS =========================================
 
 " >>> Movement {{{1
-nnoremap J }
-nnoremap K {
-xnoremap J }
-xnoremap K {
+nnoremap <silent> K :call <SID>GoToEdge('k')<CR>
+nnoremap <silent> J :call <SID>GoToEdge('j')<CR>
+vnoremap K {j
+vnoremap J }k
 nnoremap j gj
 nnoremap k gk
+
+fun! s:GoToEdge(key) abort " {{{2
+    let line = line('.')
+    if a:key is# 'j'
+        if line is# line('$')
+            return
+        elseif foldclosed(line) ># 0
+            normal! zj
+        elseif empty(getline(line + 1))
+            normal! }}{j
+        else
+            normal! }k
+        endif
+    elseif a:key is# 'k'
+        if line('.') is# 1
+            return
+        elseif foldclosed(line) ># 0
+            normal! zk
+        elseif empty(getline(line - 1))
+            normal! {{}k
+        else
+            normal! {j
+        endif
+    else
+        return
+    endif
+endfun
+" 2}}}
 
 " Tags
 nnoremap <C-]> <C-]>zz
@@ -498,7 +526,13 @@ function! s:Grep(...) abort " {{{2
                     \ ? l:q[0]
                     \ : '"' . l:q[0] . '"'
         call map(l:q, 'escape(v:val, "%#")')
-        silent execute 'grep! ' . join(l:q) | botright cwindow 10 | wincmd p
+        " Make it async with the job module if possible
+        if g:has_job
+            let cmd = printf('%s %s .', &grepprg, join(l:q))
+            call ka#job#start(cmd, {'realtime': 1, 'std': 'out'})
+        else
+            silent execute 'grep! ' . join(l:q) | botright cwindow 10 | wincmd p
+        endif
         redraw!
     endif
 
