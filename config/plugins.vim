@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-08-15
+" Last modification: 2018-09-05
 " ==============================================================
 
 
@@ -270,7 +270,7 @@ augroup EmmetMaps " {{{2
     autocmd!
     autocmd FileType html,scss,css,pug,javascript EmmetInstall
     autocmd FileType html,scss,css,pug,javascript
-                \ imap <silent> jhh <plug>(emmet-expand-abbr)
+                \ imap <silent> <buffer> jhh <plug>(emmet-expand-abbr)
     autocmd FileType scss,css setlocal completefunc=emmet#completeTag
 augroup END " 2}}}
 " 1}}}
@@ -503,15 +503,15 @@ let g:textobj_python_no_default_key_mappings = 1
 augroup TOPython
     autocmd!
     " Functions
-    autocmd Filetype python xmap af <Plug>(textobj-python-function-a)
-    autocmd Filetype python omap af <Plug>(textobj-python-function-a)
-    autocmd Filetype python xmap if <Plug>(textobj-python-function-i)
-    autocmd Filetype python omap if <Plug>(textobj-python-function-i)
+    autocmd Filetype python xmap <buffer> af <Plug>(textobj-python-function-a)
+    autocmd Filetype python omap <buffer> af <Plug>(textobj-python-function-a)
+    autocmd Filetype python xmap <buffer> if <Plug>(textobj-python-function-i)
+    autocmd Filetype python omap <buffer> if <Plug>(textobj-python-function-i)
     " Classes
-    autocmd Filetype python xmap aC <Plug>(textobj-python-class-a)
-    autocmd Filetype python omap aC <Plug>(textobj-python-class-a)
-    autocmd Filetype python xmap iC <Plug>(textobj-python-class-i)
-    autocmd Filetype python omap iC <Plug>(textobj-python-class-i)
+    autocmd Filetype python xmap <buffer> aC <Plug>(textobj-python-class-a)
+    autocmd Filetype python omap <buffer> aC <Plug>(textobj-python-class-a)
+    autocmd Filetype python xmap <buffer> iC <Plug>(textobj-python-class-i)
+    autocmd Filetype python omap <buffer> iC <Plug>(textobj-python-class-i)
 augroup END
 " 2}}}
 " 1}}}
