@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-05
+" Last modification: 2018-09-14
 " ==============================================================
 
 
@@ -232,8 +232,7 @@ nmap <silent> <F8> :ALEToggle<CR>
 nnoremap <silent> ]e :ALENext<CR>
 nnoremap <silent> [e :ALEPrevious<CR>
 let g:ale_lint_on_enter = 0
-" Do not check in insert mode
-let g:ale_lint_on_text_changed = 'normal'
+" let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
 let g:ale_sign_error = g:checker.error_sign
