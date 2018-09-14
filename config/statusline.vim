@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-04
+" Last modification: 2018-09-10
 " ==============================================================
 
 
@@ -15,7 +15,7 @@
 " {{{1
 let s:sl  = {
             \   'separator': '',
-            \   'ignore': ['vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
+            \   'ignore': ['pine', 'vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
             \   'apply': {},
             \   'checker': get(g:, 'checker', {
             \       'error_sign'   : '⨉',
@@ -178,6 +178,16 @@ endfun
 
 fun! SLZoomed() abort " {{{1
     return getwinvar(winnr(), 'zoomed_win') ? '◎' : ''
+endfun
+" 1}}}
+
+fun! SLTerminal() abort " {{{1
+    if !g:has_term
+        return ''
+    endif
+    let term_buf_nr = get(g:, 'term_buf_nr', 0)
+    return term_buf_nr && index(term_list(), term_buf_nr) isnot# -1
+                \ ? '' : ''
 endfun
 " 1}}}
 
@@ -358,6 +368,9 @@ fun! GetSL(...) abort " {{{1
     let sl .= '%( %{SLFiletype()} %)'
 
     let sl .= '%4*'
+
+    " Terminal jobs
+    let sl .= '%( %{SLTerminal()} %)'
 
     " Jobs
     let sl .= '%( %{SLJobs()} %)'
