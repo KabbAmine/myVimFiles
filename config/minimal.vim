@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-09
+" Last modification: 2018-09-10
 " ==============================================================
 
 
@@ -83,6 +83,29 @@ endif
 " Enable 256 colors in the terminal in case it does not support truecolors {{{1
 if !g:is_gui
     set t_Co=256
+endif
+" 1}}}
+
+" Color palette for the terminal {{{1
+if g:has_term
+    let g:terminal_ansi_colors = [
+                \   '#3b4252',
+                \   '#bf616a',
+                \   '#a3be8c',
+                \   '#ebcb8b',
+                \   '#81a1c1',
+                \   '#b48ead',
+                \   '#88c0d0',
+                \   '#e5e9f0',
+                \   '#4c566a',
+                \   '#bf616a',
+                \   '#a3be8c',
+                \   '#ebcb8b',
+                \   '#81a1c1',
+                \   '#b48ead',
+                \   '#8fbcbb',
+                \   '#eceff4'
+                \ ]
 endif
 " 1}}}
 
@@ -592,7 +615,47 @@ endfunction " 2}}}
 " >>> Terminal mode {{{1
 if g:has_term
     tnoremap jk <C-w>N
-    tnoremap <silent> <S-q> <C-w>Na<C-u><C-d><C-d><C-d><C-w>N:bw!<CR>
+    tnoremap gs <C-w>
+    tmap <C-h> gsh
+    tmap <C-l> gsl
+    tmap <C-k> gsk
+    tmap <C-j> gsj
+    tnoremap <silent> <S-q> <C-w>:call <SID>TermKill()<CR>
+    " Note that the following mappings replace the OpenHere ones
+    nnoremap <silent> ;t :call <SID>TermToggle()<CR>
+    nnoremap <silent> ;;t :call <SID>TermToggle(1)<CR>
+    tnoremap <silent> ;t <C-w>:call <SID>TermToggle()<CR>
+
+    fun! s:TermToggle(...) abort " {{{2
+        let term_buf_nr = get(g:, 'term_buf_nr', 0)
+        if !term_buf_nr
+            let cwd = exists('a:1') ? expand('%:p:h') : getcwd()
+            let g:term_buf_nr = term_start(&shell, {
+                        \   'term_name': 'term',
+                        \   'cwd': cwd
+                        \ })
+            augroup Term
+                autocmd!
+                autocmd BufDelete,BufWipeout <buffer>
+                            \ unlet! g:term_buf_nr
+            augroup END
+        elseif bufexists(term_buf_nr)
+            let term_win_nr = bufwinnr(term_buf_nr)
+            silent execute term_win_nr isnot# -1
+                        \ ? term_win_nr . 'hide'
+                        \ : term_buf_nr . 'sbuffer'
+        endif
+    endfun
+    " 2}}}
+
+    fun! s:TermKill() abort " {{{2
+        let term_buf_nr = get(g:, 'term_buf_nr', 0)
+        if term_buf_nr && index(term_list(), term_buf_nr) isnot# -1 && bufloaded(term_buf_nr)
+            silent execute term_buf_nr . 'bwipeout!'
+            unlet! g:term_buf_nr
+        endif
+    endfun
+    " 2}}}
 endif
 " 1}}}
 
@@ -1069,10 +1132,9 @@ augroup CustomAutoCmds
     autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
 
     if g:has_term
-        autocmd BufWinEnter * if &buftype ==# 'terminal'
-                    \|  setlocal nonumber bufhidden=hide noswapfile
+        autocmd TerminalOpen * if &buftype is# 'terminal'
+                    \|	setlocal nonumber bufhidden=hide noswapfile nobuflisted
                     \| endif
-
     endif
 augroup END
 " 1}}}
