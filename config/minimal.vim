@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-10
+" Last modification: 2018-09-19
 " ==============================================================
 
 
@@ -115,7 +115,7 @@ endif
 let &guioptions = 'agirtcMk'
 set winaltkeys=no
 set linespace=2
-let &guifont = g:has_win ?
+let &guifont = g:is_win ?
             \ 'InconsolataForPowerline NF Medium:h10:cANSI' :
             \ 'FuraMono NF Medium 11'
 " 1}}}
@@ -131,7 +131,7 @@ set infercase       " Adjust case of a keyword completion match.
 set completeopt=menuone,noselect,preview
 set textwidth=0     " Don't insert automatically newlines
 " Make backspace works normally in Win
-if g:has_win
+if g:is_win
     set backspace=2
 endif
 set matchpairs+=<:>
@@ -146,7 +146,7 @@ set scrolloff=3         " Number of screen lines to show around the cursor.
 set display=lastline    " Show the last line even if it doesn't fit.
 set lazyredraw
 set breakindent
-let &listchars = g:has_win ?
+let &listchars = g:is_win ?
             \ 'tab:¦ ,trail:~,extends:>,precedes:<' :
             \ 'tab:¦ ,trail:~,extends:#,nbsp:.'
 set list
@@ -213,7 +213,7 @@ set hidden
 " 1}}}
 
 " >>> Swap file {{{1
-let &directory = g:has_win ?
+let &directory = g:is_win ?
             \ g:vim_dir . '\\misc\\swap_dir,c:\\tmp,c:\\temp\\' :
             \ g:vim_dir . '/misc/swap_dir,~/tmp,/var/tmp,/tmp\'
 set updatetime=1000    " time in msec after which the swap file will be updated
@@ -263,40 +263,12 @@ let g:loaded_2html_plugin = 1
 " =========== MAPPINGS =========================================
 
 " >>> Movement {{{1
-nnoremap <silent> K :call <SID>GoToEdge('k')<CR>
-nnoremap <silent> J :call <SID>GoToEdge('j')<CR>
-vnoremap K {j
-vnoremap J }k
+nnoremap K {
+nnoremap J }
+vnoremap K {
+vnoremap J }
 nnoremap j gj
 nnoremap k gk
-
-fun! s:GoToEdge(key) abort " {{{2
-    let line = line('.')
-    if a:key is# 'j'
-        if line is# line('$')
-            return
-        elseif foldclosed(line) ># 0
-            normal! zj
-        elseif empty(getline(line + 1))
-            normal! }}{j
-        else
-            normal! }k
-        endif
-    elseif a:key is# 'k'
-        if line('.') is# 1
-            return
-        elseif foldclosed(line) ># 0
-            normal! zk
-        elseif empty(getline(line - 1))
-            normal! {{}k
-        else
-            normal! {j
-        endif
-    else
-        return
-    endif
-endfun
-" 2}}}
 
 " Tags
 nnoremap <C-]> <C-]>zz
@@ -347,6 +319,7 @@ xnoremap <silent> <space> :fold<CR>
 " >>> Searching {{{1
 nnoremap <silent> ghh :nohlsearch<CR>
 nnoremap <silent> * *``
+vnoremap <silent> * *``
 nnoremap / /\V
 nnoremap # /\V
 nnoremap ? ?\V
@@ -366,7 +339,7 @@ nnoremap ,b :ls<CR>:b
 nnoremap <silent> <S-l> :call <SID>MoveToBuffer(1)<CR>
 nnoremap <silent> <S-h> :call <SID>MoveToBuffer(-1)<CR>
 nnoremap <silent> <BS> <C-^>
-" For this mapping, check NERDTree settings in config/plugins.vim
+" For this mapping, check zoomtoggle function & NERDTree settings in config/plugins.vim
 nnoremap <silent> <S-q> :silent bw<CR>
 
 fun! s:MoveToBuffer(dir) abort " {{{2
@@ -392,10 +365,10 @@ cnoremap <C-a> <Home>
 " 1}}}
 
 " >>> Super escape {{{1
-inoremap <nowait> jk <Esc>
-inoremap <nowait> JK <Esc>
-cnoremap <nowait> jk <C-c>
-cnoremap <nowait> JK <Esc>
+inoremap jk <Esc>
+inoremap JK <Esc>
+cnoremap jk <C-c>
+cnoremap JK <Esc>
 " 1}}}
 
 " >>> Enable Paste when using <C-r> {{{1
@@ -508,11 +481,11 @@ unlet! s:to
 " 1}}}
 
 " >>> Toggle options {{{1
-nnoremap <leader><leader>w :setl wrap!<CR>:setl wrap?<CR>
-nnoremap <leader><leader>l :setl list!<CR>:setl list?<CR>
+nnoremap <leader><leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <leader><leader>l :setlocal list!<CR>:setlocal list?<CR>
 nnoremap <leader><leader>c
-            \ :execute 'setl colorcolumn=' . (&cc ? '' : 80)<CR>
-            \ :setl colorcolumn?<CR>
+            \ :execute 'setlocal colorcolumn=' . (&colorcolumn ? '' : 80)<CR>
+            \ :setlocal colorcolumn?<CR>
 " 1}}}
 
 " >>> Grep {{{1
@@ -615,11 +588,10 @@ endfunction " 2}}}
 " >>> Terminal mode {{{1
 if g:has_term
     tnoremap jk <C-w>N
-    tnoremap gs <C-w>
-    tmap <C-h> gsh
-    tmap <C-l> gsl
-    tmap <C-k> gsk
-    tmap <C-j> gsj
+    tmap <C-h> <C-w><C-h>
+    tmap <C-l> <C-w><C-l>
+    tmap <C-k> <C-w><C-k>
+    tmap <C-j> <C-w><C-j>
     tnoremap <silent> <S-q> <C-w>:call <SID>TermKill()<CR>
     " Note that the following mappings replace the OpenHere ones
     nnoremap <silent> ;t :call <SID>TermToggle()<CR>
@@ -647,7 +619,6 @@ if g:has_term
         endif
     endfun
     " 2}}}
-
     fun! s:TermKill() abort " {{{2
         let term_buf_nr = get(g:, 'term_buf_nr', 0)
         if term_buf_nr && index(term_list(), term_buf_nr) isnot# -1 && bufloaded(term_buf_nr)
@@ -718,6 +689,10 @@ fun! s:ZoomToggle() abort
     endif
 endfun
 nnoremap <silent> gsz :call <SID>ZoomToggle()<CR>
+nnoremap <silent> <expr> <S-q> get(w:, 'zoomed_win', 0)
+            \ ? ":normal gsz\<CR>"
+            \ : ":silent bwipeout\<CR>"
+" 2}}}
 " 1}}}
 
 " =========== COMMANDS ===================================
@@ -771,7 +746,7 @@ command! Dir :cd %:p:h
 
 " >>> Write to file with sudo (Linux only) {{{1
 " http://www.jovicailic.org/2015/05/saving-read-only-files-in-vim-sudo-trick/
-if g:has_unix
+if g:is_unix
     command! SudoW :w !sudo tee % >/dev/null
 endif
 " 1}}}
@@ -1108,7 +1083,7 @@ augroup CustomAutoCmds
                 \ setlocal softtabstop=4 shiftwidth=4 expandtab
 
     " Quicklist & location window related
-    autocmd FileType qf setl nowrap
+    autocmd FileType qf setlocal nowrap
     autocmd FileType qf nnoremap <silent> <buffer> <CR> :pclose!<CR><CR>
     autocmd FileType qf nnoremap <silent> <buffer> p
                 \ :call <SID>PreviewQItem()<CR>
@@ -1129,7 +1104,7 @@ augroup CustomAutoCmds
 
     " Fix some annoyances
     autocmd FileType vim setlocal textwidth=0
-    autocmd FileType * setl formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
     if g:has_term
         autocmd TerminalOpen * if &buftype is# 'terminal'
