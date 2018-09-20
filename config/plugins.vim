@@ -1,11 +1,11 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-14
+" Last modification: 2018-09-19
 " ==============================================================
 
 
 " My plugins {{{1
-" let s:my_plugins_dir = g:has_win
+" let s:my_plugins_dir = g:is_win
 "             \ ? 'z:\\k-bag\\Projects\\pluginsVim\\'
 "             \ : $HOME . '/Projects/pluginsVim/'
 " let s:my_plugins = {
@@ -131,7 +131,7 @@ Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'   , {'on': 'UndotreeToggle'}
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
-Plug 'tpope/vim-rvm', !g:has_unix ? {'on': 'Rvm'} : {'on': []}
+Plug 'tpope/vim-rvm', !g:is_unix ? {'on': 'Rvm'} : {'on': []}
 " 2}}}
 
 " Interface {{{2
@@ -199,9 +199,9 @@ let g:closetag_filenames = '*.html,*.xml,*.php'
 " nnoremap <silent> ,N :NERDTreeToggle<CR>
 " Close NERTree otherwise delete buffer
 " (The delete buffer is already mapped in config/minimal.vim)
-nnoremap <silent> <S-q>
-            \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
-let g:NERDTreeBookmarksFile = g:has_win ?
+" nnoremap <silent> <S-q>
+"             \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
+let g:NERDTreeBookmarksFile = g:is_win ?
             \ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
             \ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
 let g:NERDTreeIgnore = ['\~$', '\.class$']
@@ -313,7 +313,7 @@ let g:gitgutter_sign_removed = '❙'
 let g:gitgutter_sign_modified_removed = '❙'
 nnoremap <silent> <F6> :GitGutterToggle<CR>
 command! GP :GitGutterPreviewHunk
-if g:has_win | let g:gitgutter_enabled = 0 | endif
+if g:is_win | let g:gitgutter_enabled = 0 | endif
 nmap [c <Plug>GitGutterPrevHunk
 nmap ]c <Plug>GitGutterNextHunk
 " mnemonic: h for hunk.
@@ -436,7 +436,7 @@ augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-rvm )) {{{1
-if g:has_unix && executable('rvm')
+if g:is_unix && executable('rvm')
     augroup Rvm
         autocmd!
         autocmd GUIEnter * Rvm
@@ -544,7 +544,7 @@ let g:zv_file_types = {
             \   'python'              : 'python3',
             \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
             \ }
-let g:zv_zeal_args = g:has_unix ? '--style=gtk+' : ''
+let g:zv_zeal_args = g:is_unix ? '--style=gtk+' : ''
 " 1}}}
 
 " >>> (( vcoolor )) {{{1
