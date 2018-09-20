@@ -1,8 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-20
-" ==============================================================
-
+" Last modification: 2018-09-21
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -194,6 +192,14 @@ fun! SLTerminal() abort " {{{1
 endfun
 " 1}}}
 
+fun! SLQf() abort " {{{1
+    return printf('[q:%d l:%d]',
+                \ len(getqflist()),
+                \ len(getloclist(bufnr('%')))
+                \ )
+endfun
+" 1}}}
+
 " ========== PLUGINS ===========================================
 
 fun! SLFugitive() abort " {{{1
@@ -374,14 +380,14 @@ fun! GetSL(...) abort " {{{1
 
     let sl .= '%4*'
 
+    " Toggled elements
+    let sl .= '%( %{SLToggled()} ' . s:sl.separator . '%)'
+
     " Terminal jobs
     let sl .= '%( %{SLTerminal()} %)'
 
     " Jobs
     let sl .= '%( %{SLJobs()} %)'
-
-    " Toggled elements
-    let sl .= '%( %{SLToggled()} %)'
 
     return sl
 endfun
@@ -416,7 +422,7 @@ let s:args = [
             \   ['toggle', 'clear'],
             \   [
             \       'column-and-percent', 'format-and-encoding', 'indentation',
-            \       'hi-group', 'ruby', 'python'
+            \       'hi-group', 'ruby', 'python', 'qf'
             \   ]
             \ ]
 command! -nargs=? -complete=custom,s:SLCompleteArgs SL :call s:SLCommand(<f-args>)
