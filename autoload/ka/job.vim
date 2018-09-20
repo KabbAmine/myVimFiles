@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-04-10
+" Last modification: 2018-09-18
 " ==============================================================
 
 
@@ -31,6 +31,13 @@ fun! ka#job#complete(arg, cmd, pos) abort " {{{1
                         \ ? map(opts[opt], '"+" . opt . ":" . v:val')
                         \ : []
             return filter(values, 'v:val =~ a:arg')
+        elseif a:arg =~# '\f\+$'
+            " Or file(s)/path(s)
+            let files = getcompletion(a:arg, 'file')
+            if a:arg =~# '\~'
+                let files = map(copy(files), 'fnamemodify(v:val, ":~")')
+            endif
+            return filter(files, {i, v -> v =~ escape(v, '~')})
         else
             " Or shell commands
             return filter(getcompletion('', 'shellcmd'), 'v:val =~ a:arg')
@@ -242,6 +249,15 @@ endfun
 " 1}}}
 
 fun! s:get_opts(cmd, opts) abort " {{{1
+    " Description of options:
+    " - expand  : expand special vim expressions
+    " - goback  : go back to initial window
+    " - listwin : (q)uickfix or (l)ocation list window
+    " - openwin : open q/l window after job completion
+    " - realtime: open q/l window and output in realtime
+    " - silent  : echo or not messages
+    " - std     : out/err/out,err
+
     let name = split(a:cmd)[0]
     let opts = extend({
                 \   'expand'           : 1,
