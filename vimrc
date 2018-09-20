@@ -1,20 +1,20 @@
 " ========== Main vimrc (Unix & Windows) =======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-11
+" Last modification: 2018-09-19
 " ==============================================================
 
 
 " Useful checks {{{1
-let g:has_unix = has('unix')
-let g:has_win = has('win32')
-let g:has_job = has('job')
-let g:has_term = has('terminal')
+let g:is_unix = has('unix')
+let g:is_win = has('win32')
 let g:is_gui = has('gui_running')
 let g:is_termguicolors = has('termguicolors') && !g:is_gui && $COLORTERM isnot# 'xfce4-terminal'
+let g:has_job = has('job')
+let g:has_term = has('terminal')
 " 1}}}
 
 " Vim & dotfiles directories {{{1
-let g:vim_dir = g:has_win
+let g:vim_dir = g:is_win
             \ ? substitute(expand('$HOME/vimfiles'), '\', '/', 'g')
             \ : expand('$HOME/.vim')
 let s:vim_cfg_files = ['minimal', 'plugins', 'statusline']

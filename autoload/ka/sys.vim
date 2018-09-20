@@ -22,11 +22,11 @@ function! s:OpenHere(type, ...) abort " {{{1
     " a:1: Location (pwd by default)
 
     let l:cmd = {
-                \ 't': (g:has_unix ?
+                \ 't': (g:is_unix ?
                 \   'exo-open --launch TerminalEmulator ' .
                 \       '--working-directory %s 2> /dev/null &' :
                 \   'start cmd /k cd %s'),
-                \ 'f': (g:has_unix ?
+                \ 'f': (g:is_unix ?
                 \   'xdg-open %s 2> /dev/null &' :
                 \   'start explorer %s')
                 \ }
@@ -52,11 +52,11 @@ function! s:OpenUrl() abort " {{{1
         let l:url = substitute(l:url, "'", '', 'g')
         let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
                     \ ' && wmctrl -ia ' . v:windowid : ''
-        exe 'silent :!' . (g:has_unix ?
+        exe 'silent :!' . (g:is_unix ?
                     \   'x-www-browser ' . shellescape(l:url) :
                     \   ' start "' . shellescape(l:url)) .
                     \ l:wmctrl .
-                    \ (g:has_unix ? ' 2> /dev/null &' : '')
+                    \ (g:is_unix ? ' 2> /dev/null &' : '')
         if !g:is_gui | redraw! | endif
     endif
 
@@ -80,7 +80,7 @@ function! s:Delete(...) abort " {{{1
                 call ka#ui#E('Log', ['"' . l:f . '" was not deleted', 1])
             endif
         elseif isdirectory(l:f)
-            let l:cmd = g:has_unix ?
+            let l:cmd = g:is_unix ?
                         \ 'rm -vr %s' :
                         \ 'RD /S %s'
             echo split(system(printf(l:cmd, escape(l:f, ' '))), "\n")[0]

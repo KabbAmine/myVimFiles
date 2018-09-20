@@ -1,11 +1,11 @@
-" Last modification: 2018-05-11
+" Last modification: 2018-09-19
 
 
 " Open file in the browser {{{1
 nnoremap <silent> <buffer> <F9> :call <SID>OpenInBrowser()<CR>
 
 fun! s:OpenInBrowser() abort " {{{2
-    silent execute g:has_win
+    silent execute g:is_win
                 \ ? ":!start cmd /c '%:p'"
                 \ : ":!x-www-browser '%:p' &"
     if !g:is_gui
