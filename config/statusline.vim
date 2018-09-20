@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-10
+" Last modification: 2018-09-20
 " ==============================================================
 
 
@@ -120,9 +120,13 @@ endfun
 " 1}}}
 
 fun! SLPython() abort " {{{1
-    let p = executable('python') ? system('python --version')[7:-2] : ''
-    let p3 = executable('python3') ? system('python3 --version')[7:-2] : ''
-    return printf('[py %s - %s]', p, p3)
+    let s:sl_py = get(s:, 'sl_python',
+                \ executable('python') ? system('python --version')[7:-2] : ''
+                \ )
+    let s:sl_py3 = get(s:, 'sl_python3',
+                \ executable('python3') ? system('python3 --version')[7:-2] : ''
+                \ )
+    return printf('[py %s - %s]', s:sl_py, s:sl_py3)
 endfun
 " 1}}}
 
@@ -142,12 +146,11 @@ endfun
 
 fun! SLColumnAndPercent() abort " {{{1
     " The percent part was inspired by vim-line-no-indicator plugin.
-
-    let chars = ['⎺', '⎻', '─', '⎼', '⎽']
+    let chars = ['꜒', '꜓', '꜔', '꜕', '꜖',]
     let [c_l, l_l] = [line('.'), line('$')]
     let index = float2nr(ceil((c_l * len(chars) * 1.0) / l_l)) - 1
     let perc = chars[index]
-    return winwidth(0) ># 55 ? perc . ' ' . col('.') : ''
+    return winwidth(0) ># 55 ? printf('%s%2d', perc, col('.')) : ''
 endfun
 " 1}}}
 
@@ -218,13 +221,15 @@ endfun
 
 fun! SLRuby() abort " {{{1
     if g:is_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
-        let r = matchstr(rvm#statusline(), '\d.*[^\]]')
+        let s:sl_ruby = matchstr(rvm#statusline(), '\d.*[^\]]')
     elseif executable('ruby')
-        let r = matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
+        let s:sl_ruby = get(s:, 'sl_ruby',
+                    \ matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
+                    \ )
     else
-        let r = ''
+        let s:sl_ruby = ''
     endif
-    return printf('[ruby %s]', r)
+    return printf('[ruby %s]', s:sl_ruby)
 endfun
 " 1}}}
 
@@ -364,7 +369,7 @@ fun! GetSL(...) abort " {{{1
     let sl .= '%( %{SLGitGutter()} %)'
     let sl .= '%(%{SLFugitive()} ' . s:sl.separator . '%)'
 
-    let sl .= '%( %{SLSpell()}' . s:sl.separator . '%)'
+    let sl .= '%( %{SLSpell()} ' . s:sl.separator . '%)'
     let sl .= '%( %{SLFiletype()} %)'
 
     let sl .= '%4*'
