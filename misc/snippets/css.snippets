@@ -1,3 +1,11 @@
+snippet -- "variable declaration" b
+--${1}: ${2};
+endsnippet
+
+snippet var "variable insertion" w
+var(--${1}${2:, ${3}});
+endsnippet
+
 snippet @k "@keyframes" b
 @keyframes name {
 	${1:from} {

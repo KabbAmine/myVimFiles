@@ -75,10 +75,10 @@ endfun
 endsnippet
 
 snippet ff "function! with fold" b
-fun! ${1}(${2}) ${3:abort} " \{\{\{1
-	${4}
+fun! ${1}(${2}) ${3:abort} " \{\{\{${4:1}
+	${5}
 endfun
-" 1\}\}\}
+" $4\}\}\}
 endsnippet
 
 snippet fd "function! with fold and doc" b

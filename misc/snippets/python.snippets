@@ -16,6 +16,13 @@ while ${1}:
 	${2}
 endsnippet
 
+snippet try "try/except" b
+try:
+	${1}
+except ${2}${3: as ${4}}:
+	${5}
+endsnippet
+
 ##############
 #  Iterations
 ##############
@@ -47,6 +54,10 @@ endsnippet
 snippet defm "method" b
 def ${1}(self, ${2}):
 	${3}
+endsnippet
+
+snippet lamb "lambda" w
+lambda ${1}: ${2}
 endsnippet
 
 ##############
