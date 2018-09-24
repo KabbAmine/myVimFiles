@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-19
+" Last modification: 2018-09-24
 " ==============================================================
 
 
@@ -340,7 +340,7 @@ nnoremap <silent> <S-l> :call <SID>MoveToBuffer(1)<CR>
 nnoremap <silent> <S-h> :call <SID>MoveToBuffer(-1)<CR>
 nnoremap <silent> <BS> <C-^>
 " For this mapping, check zoomtoggle function & NERDTree settings in config/plugins.vim
-nnoremap <silent> <S-q> :silent bw<CR>
+nnoremap <silent> <S-q> :bwipeout<CR>
 
 fun! s:MoveToBuffer(dir) abort " {{{2
     let cmd = a:dir ># 0 ? 'bnext!' : 'bprevious!'
@@ -691,7 +691,7 @@ endfun
 nnoremap <silent> gsz :call <SID>ZoomToggle()<CR>
 nnoremap <silent> <expr> <S-q> get(w:, 'zoomed_win', 0)
             \ ? ":normal gsz\<CR>"
-            \ : ":silent bwipeout\<CR>"
+            \ : ":bwipeout\<CR>"
 " 2}}}
 " 1}}}
 
@@ -1050,7 +1050,7 @@ endfunction " 2}}}
 " 1}}}
 
 " >>> Autoformat  {{{1
-command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
+command! -range=% AutoFormat :call ka#module#autoformat#run(<line1>, <line2>,
             \ {
             \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
             \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
@@ -1058,7 +1058,7 @@ command! -range=% AutoFormat :call ka#buffer#E('AutoFormat', [<line1>, <line2>,
             \   'json'      : 'fixjson -indent ' . shiftwidth(),
             \   'python'    : 'autopep8 -',
             \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
-            \ }])
+            \ })
 " 1}}}
 
 " >>> Tags {{{1
