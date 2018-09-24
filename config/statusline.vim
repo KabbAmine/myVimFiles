@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-21
+" Last modification: 2018-09-24
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -381,7 +381,7 @@ fun! GetSL(...) abort " {{{1
     let sl .= '%4*'
 
     " Toggled elements
-    let sl .= '%( %{SLToggled()} ' . s:sl.separator . '%)'
+    let sl .= '%( %{SLToggled()}' . s:sl.separator . '%)'
 
     " Terminal jobs
     let sl .= '%( %{SLTerminal()} %)'
