@@ -20,11 +20,13 @@ fun! ka#module#autoformat#run(start, end, formatters) abort " {{{1
     let buf_nr = bufnr('%')
     let msg = 'Formatting using "' . executable . '" '
     call s:echo(msg)
+
     call setbufvar(buf_nr, 'ctx', {
                 \   'cmd': cmd,
                 \   'msg': msg,
                 \   'start': a:start,
                 \   'end': a:end,
+                \   'marks': s:get_marks(),
                 \   'std_out': [],
                 \   'err_out': []
                 \ })
@@ -78,9 +80,38 @@ fun! s:on_exit(buf_nr, job, ex_st) abort " {{{1
         call append(ctx.start - 1, ctx.std_out)
         call setpos('.', pos)
     endif
+    call s:set_marks(ctx.marks)
+
+    call setbufvar(a:buf_nr, 'ctx', {})
 endfun
 " 1}}}
 
+
+fun! s:get_marks() abort " {{{1
+    let marks = {}
+    for m in range(0, 9)
+        let pos = getpos("'" . m)
+        if pos !=# [0, 0, 0, 0]
+            let marks[m] = pos
+        endif
+    endfor
+    " a-z
+    for m in map(copy(range(97, 122)), 'nr2char(v:val)')
+        let pos = getpos("'" . m)
+        if pos !=# [0, 0, 0, 0]
+            let marks[m] = pos
+        endif
+    endfor
+    return marks
+endfun
+" 1}}}
+
+fun! s:set_marks(marks) abort " {{{1
+   for m in keys(a:marks)
+       call setpos("'" . m, a:marks[m])
+   endfor
+endfun
+" 1}}}
 
 fun! s:echo(msg) abort " {{{1
     echohl ModeMsg
