@@ -1052,13 +1052,36 @@ endfunction " 2}}}
 " >>> Autoformat  {{{1
 command! -range=% AutoFormat :call ka#module#autoformat#run(<line1>, <line2>,
             \ {
-            \   'css'       : 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
-            \   'html'      : 'html-beautify -I -p -f - -s ' . shiftwidth(),
+            \   'css': printf(
+            \       'prettier --parser css --stdin %s --tab-width %d',
+            \           s:prettier_stdin_file_path(),
+            \           shiftwidth()
+            \       ),
+            \   'scss': printf(
+            \       'prettier --parser scss --stdin %s --tab-width %d',
+            \           s:prettier_stdin_file_path(),
+            \           shiftwidth()
+            \       ),
+            \   'markdown': printf(
+            \       'prettier --parser markdown --stdin %s',
+            \           s:prettier_stdin_file_path()
+            \       ),
+            \   'yaml': printf(
+            \       'prettier --parser yaml --stdin %s',
+            \           s:prettier_stdin_file_path()
+            \       ),
+            \   'html': 'html-beautify -I -p -f - -s ' . shiftwidth(),
             \   'javascript': 'standard --fix --stdin',
-            \   'json'      : 'fixjson -indent ' . shiftwidth(),
-            \   'python'    : 'autopep8 -',
-            \   'scss'      : 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
+            \   'json': 'fixjson -indent ' . shiftwidth(),
+            \   'python': 'autopep8 -',
+            \   'sh': 'shfmt'
             \ })
+
+fun! s:prettier_stdin_file_path() abort " {{{2
+    return !empty(expand('%:p'))
+                \ ? '--stdin-filepath "' . expand("%:p") . '"'
+                \ : ''
+endfun " 2}}}
 " 1}}}
 
 " >>> Tags {{{1
