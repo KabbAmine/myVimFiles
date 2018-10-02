@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-24
+" Last modification: 2018-09-26
 " ==============================================================
 
 
@@ -139,7 +139,6 @@ set nojoinspaces
 " 1}}}
 
 " >>> Display text {{{1
-set number
 set linebreak
 let &showbreak='⤷ '
 set scrolloff=3         " Number of screen lines to show around the cursor.
@@ -481,6 +480,7 @@ unlet! s:to
 " 1}}}
 
 " >>> Toggle options {{{1
+nnoremap <leader><leader>n :setlocal number!<CR>:setlocal number?<CR>
 nnoremap <leader><leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 nnoremap <leader><leader>l :setlocal list!<CR>:setlocal list?<CR>
 nnoremap <leader><leader>c
