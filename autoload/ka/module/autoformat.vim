@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-24
+" Last modification: 2018-10-08
 " ==============================================================
 
 
@@ -114,10 +114,7 @@ endfun
 " 1}}}
 
 fun! s:echo(msg) abort " {{{1
-    echohl ModeMsg
-    echon '[AutoFormat] '
-    echohl None
-    echon a:msg
+    call ka#ui#echo('[AutoFormat] ', a:msg, 'modemsg')
 endfun
 " 1}}}
 

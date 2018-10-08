@@ -1,14 +1,14 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-08
+" Last modification: 2018-10-09
 " ==============================================================
 
 
-function! ka#sys#OpenHere(type, ...) abort " {{{1
+fun! ka#sys#open_here(type, ...) abort " {{{1
     " type: (t)erminal, (f)ilemanager
     " a:1: Location (pwd by default)
 
-    let l:cmd = {
+    let cmd = {
                 \ 't': (g:is_unix ?
                 \   'exo-open --launch TerminalEmulator ' .
                 \       '--working-directory %s 2> /dev/null &' :
@@ -17,88 +17,88 @@ function! ka#sys#OpenHere(type, ...) abort " {{{1
                 \   'xdg-open %s 2> /dev/null &' :
                 \   'start explorer %s')
                 \ }
-    exe printf('silent !' . l:cmd[a:type], (exists('a:1') ? shellescape(a:1) : getcwd()))
+    exe printf('silent !' . cmd[a:type], (exists('a:1') ? shellescape(a:1) : getcwd()))
 
     if !g:is_gui | redraw! | endif
-endfunction
+endfun
 " 1}}}
 
-function! ka#sys#OpenUrl() abort " {{{1
+fun! ka#sys#open_url() abort " {{{1
     " Open the current URL
     " - If line begins with "Plug" open the github page
     " of the plugin.
 
-    let l:cl = getline('.')
-    let l:url = escape(matchstr(l:cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '#%')
-    if l:cl =~# 'Plug'
-        let l:pn = l:cl[match(l:cl, "'", 0, 1) + 1 :
-                    \ match(l:cl, "'", 0, 2) - 1]
-        let l:url = printf('https://github.com/%s', l:pn)
+    let cl = getline('.')
+    let url = escape(matchstr(cl, '[a-z]*:\/\/\/\?[^ >,;()]*'), '#%')
+    if cl =~# 'Plug'
+        let pn = cl[match(cl, "'", 0, 1) + 1 :
+                    \ match(cl, "'", 0, 2) - 1]
+        let url = printf('https://github.com/%s', pn)
     endif
-    if !empty(l:url)
-        let l:url = substitute(l:url, "'", '', 'g')
-        let l:wmctrl = executable('wmctrl') && v:windowid !=# 0 ?
+    if !empty(url)
+        let url = substitute(url, "'", '', 'g')
+        let wmctrl = executable('wmctrl') && v:windowid isnot# 0 ?
                     \ ' && wmctrl -ia ' . v:windowid : ''
         exe 'silent :!' . (g:is_unix ?
-                    \   'x-www-browser ' . shellescape(l:url) :
-                    \   ' start "' . shellescape(l:url)) .
-                    \ l:wmctrl .
+                    \   'x-www-browser ' . shellescape(url) :
+                    \   ' start "' . shellescape(url)) .
+                    \ wmctrl .
                     \ (g:is_unix ? ' 2> /dev/null &' : '')
         if !g:is_gui | redraw! | endif
     endif
 
-endfunction
+endfun
 " 1}}}
 
-function! ka#sys#Delete(...) abort " {{{1
-    let l:a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
-    for l:f in l:a
-        if filereadable(l:f)
-            if delete(l:f) ==# 0
-                call ka#ui#E('Log', ['"' . l:f . '" was deleted', 2])
-                let l:b = fnamemodify(l:f, ':.')
-                if bufloaded(l:b)
-                    if bufname('%') ==# l:b
+fun! ka#sys#delete(...) abort " {{{1
+    let a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
+    for f in a
+        if filereadable(f)
+            if delete(f) ==# 0
+                call s:echo('"' . f . '" was deleted', 'question')
+                let b = fnamemodify(f, ':.')
+                if bufloaded(b)
+                    if bufname('%') is# b
                         silent enew!
                     endif
-                    silent execute 'bwipeout! ' . l:b
+                    silent execute 'bwipeout! ' . b
                 endif
             else
-                call ka#ui#E('Log', ['"' . l:f . '" was not deleted', 1])
+                call s:echo('"' . f . '" was not deleted', 'error')
             endif
-        elseif isdirectory(l:f)
-            let l:cmd = g:is_unix ?
+        elseif isdirectory(f)
+            let cmd = g:is_unix ?
                         \ 'rm -vr %s' :
                         \ 'RD /S %s'
-            echo split(system(printf(l:cmd, escape(l:f, ' '))), "\n")[0]
+            echo split(system(printf(cmd, escape(f, ' '))), "\n")[0]
         endif
     endfor
-endfunction
+endfun
 " 1}}}
 
-function! ka#sys#Rename(to) abort " {{{1
-    let l:file = expand('%:p')
-    if !filereadable(l:file)
-        call ka#ui#E('Log', ['Not a valid file', 1])
+fun! ka#sys#rename(to) abort " {{{1
+    let file = expand('%:p')
+    if !filereadable(file)
+        call s:echo('Not a valid file', 'error')
     else
-        let l:buf = expand('%')
+        let buf = expand('%')
         silent execute 'saveas ' . a:to
-        silent execute 'bdelete! ' . l:buf
-        if delete(l:file) ==# 0
-            call ka#ui#E('Log', ['Renamed to "' . a:to . '"', 2])
+        silent execute 'bdelete! ' . buf
+        if delete(file) is# 0
+            call s:echo('renamed to "' . a:to . '"', 'question')
         else
-            call ka#ui#E('Log', ['"' . l:file . '" was not renamed', 1])
+            call s:echo('"' . file . '" was not renamed', 'error')
         endif
     endif
-endfunction
+endfun
 " 1}}}
 
-function! ka#sys#ExecuteCmd(cmd, ...) abort " {{{1
+fun! ka#sys#execute_cmd(cmd, ...) abort " {{{1
     let cmd = a:cmd . join(a:000)
     if !executable(split(a:cmd)[0])
-        call ka#ui#E('Log', [printf(
+        call s:echo(printf(
                     \ '"%s" is not a valid shell command', cmd
-                    \ )])
+                    \ ), 'error')
         return ''
     endif
     let res = systemlist(cmd)
@@ -108,7 +108,13 @@ function! ka#sys#ExecuteCmd(cmd, ...) abort " {{{1
     redraw!
     echo join(res, "\n")
     echohl None
-endfunction
+endfun
+" 1}}}
+
+fun! s:echo(msg, ...) abort " {{{1
+    let higroup = get(a:, '1', 'normal')
+    call ka#ui#echo('-> ', a:msg, higroup)
+endfun
 " 1}}}
 
 

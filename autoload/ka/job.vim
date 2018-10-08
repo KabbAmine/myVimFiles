@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-18
+" Last modification: 2018-10-08
 " ==============================================================
 
 
@@ -63,10 +63,10 @@ endfun
 " 1}}}
 
 fun! ka#job#start(cmd, opts, ...) abort " {{{1
-    redraw!
+    " redraw!
 
     if !g:has_job
-        call ka#ui#E('Log', ['Your vim version does not support "jobs"', 1])
+        call s:echo('Your vim version does not support "jobs"', 'error')
         return 0
     endif
 
@@ -114,7 +114,7 @@ fun! ka#job#restart(job) abort " {{{1
     if s:jobs_running() && s:exists_job(a:job)
         let j = g:jobs[a:job]
         call job_stop(j.object, 'kill')
-        call ka#ui#E('Log', ['Job: "' . a:job . '" is restarting...'])
+        call s:echo('"' . a:job . '" is restarting...')
         call timer_start(150, {t -> call('ka#job#start', j.args)})
     endif
 endfun
@@ -133,17 +133,14 @@ fun! ka#job#stop_all(bang) abort " {{{1
                 let stopped_jobs += 1
             endif
         endfor
-        call ka#ui#E('Log', [
-                    \   printf('Job: %d/%d job(s) stopped', stopped_jobs, n_jobs),
-                    \   2
-                    \ ])
+        call s:echo(printf('%d/%d job(s) stopped', stopped_jobs, n_jobs))
     endif
 endfun
 " 1}}}
 
 fun! ka#job#list() abort " {{{1
     if s:jobs_running()
-        call ka#ui#E('Log', ['Job(s):', 2])
+        call s:echo('')
         for k in sort(keys(g:jobs))
             echo printf('%3s %-10s %-10s %s',
                         \   '[' . toupper(g:jobs[k].listwin) . ']',
@@ -163,7 +160,7 @@ fun! ka#job#stop(job, bang) abort " {{{1
         call job_stop(j, how)
         sleep 150m
         if job_status(j) isnot# 'run'
-            call ka#ui#E('Log', ['Job: "' . a:job . '" stopped'])
+            call s:echo('"' . a:job . '" stopped', 'question')
         endif
     endif
 endfun
@@ -200,9 +197,9 @@ fun! s:on_exit(name, initialwin, opts, After_exit_cb, job, exit_status) abort " 
 
     if !a:opts.silent
         let log_args = a:exit_status
-                    \ ? ['exit status ' . a:exit_status, 1]
-                    \ : ['finished', 2]
-        call ka#ui#E('Log', ['Job [' . name . ']: ' . log_args[0], log_args[1]])
+                    \ ? ['finished with exit status ' . a:exit_status, 'error']
+                    \ : ['finished', 'question']
+        call s:echo('"' . name . '" ' . log_args[0], log_args[1])
     endif
 
     if a:opts.listwin =~# 'q\|l'
@@ -232,7 +229,7 @@ fun! s:jobs_running() abort " {{{1
     if exists('g:jobs')
         return 1
     else
-        call ka#ui#E('Log', ['Job: No jobs running'])
+        call s:echo('No jobs running')
         return 0
     endif
 endfun
@@ -242,7 +239,7 @@ fun! s:exists_job(job) abort " {{{1
     if has_key(g:jobs, a:job)
         return 1
     else
-        call ka#ui#E('Log', ['Job: No "' . a:job . '" found'])
+        call s:echo('No job named "' . a:job . '" found', 'error')
         return 0
     endif
 endfun
@@ -342,6 +339,12 @@ fun! s:append_to_list(listwin, initialwin, msg) abort " {{{1
         call setloclist(a:initialwin, [], 'a', {'lines': [a:msg]})
         lbottom
     endif
+endfun
+" 1}}}
+
+fun! s:echo(msg, ...) abort " {{{1
+    let higroup = get(a:, '1', 'modemsg')
+    call ka#ui#echo('[Jobs] ', a:msg, higroup)
 endfun
 " 1}}}
 

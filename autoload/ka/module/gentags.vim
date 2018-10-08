@@ -1,10 +1,10 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-03-29
+" Last modification: 2018-10-09
 " ==============================================================
 
 
-function! ka#module#gentags#Auto() abort " {{{1
+fun! ka#module#gentags#auto() abort " {{{1
     let cwd = getcwd()
     if !filereadable('./.tags')
         echohl Question
@@ -17,24 +17,24 @@ function! ka#module#gentags#Auto() abort " {{{1
     endif
     if !exists('s:autogen_tags')
         let s:autogen_tags = 1
-        call <SID>GenerateTags()
+        call s:generate_tags()
         augroup AutogenTags
             autocmd!
-            execute 'autocmd BufWritePost ' . cwd . '/* :call <SID>GenerateTags()'
+            execute 'autocmd BufWritePost ' . cwd . '/* :call <SID>generate_tags()'
         augroup END
-        call ka#ui#E('Log', ['GenTags enabled'])
+        call ka#ui#echo('GenTags', 'enabled', 'question')
     else
         augroup AutogenTags
             autocmd!
         augroup END
         augroup! AutogenTags
         unlet! s:autogen_tags
-        call ka#ui#E('Log', ['GenTags disabled'])
+        call ka#ui#echo('GenTags', 'disabled', 'error')
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CmdOptionsForFiles(path) abort " {{{1
+fun! s:cmd_opts_for_files(path) abort " {{{1
     " Files can be:
     " - Listed in .tagfiles
     " - Result of `git ls-files` if we are in a git project
@@ -51,14 +51,14 @@ function! s:CmdOptionsForFiles(path) abort " {{{1
         let cmd = '-R ' . a:path
     endif
     return cmd
-endfunction
+endfun
 " 1}}}
 
-function! s:GenerateTags() abort " {{{1
+fun! s:generate_tags() abort " {{{1
     let cwd = getcwd() . '/'
-    let ctags_cmd = 'ctags -f ./.tags ' . s:CmdOptionsForFiles(cwd)
+    let ctags_cmd = 'ctags -f ./.tags ' . s:cmd_opts_for_files(cwd)
     call ka#job#start(ctags_cmd, {})
-endfunction
+endfun
 " 1}}}
 
 
