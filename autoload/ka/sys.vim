@@ -1,23 +1,10 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-27
+" Last modification: 2018-10-08
 " ==============================================================
 
 
-function! ka#sys#E(fun, ...) abort " {{{1
-    let l:params = exists('a:1') ? a:1 : []
-    let l:return = exists('a:2') ? 1 : 0
-
-    if l:return
-        return call('s:' . a:fun, l:params)
-    else
-        call call('s:' . a:fun, l:params)
-    endif
-endfunction
-" 1}}}
-
-
-function! s:OpenHere(type, ...) abort " {{{1
+function! ka#sys#OpenHere(type, ...) abort " {{{1
     " type: (t)erminal, (f)ilemanager
     " a:1: Location (pwd by default)
 
@@ -36,7 +23,7 @@ function! s:OpenHere(type, ...) abort " {{{1
 endfunction
 " 1}}}
 
-function! s:OpenUrl() abort " {{{1
+function! ka#sys#OpenUrl() abort " {{{1
     " Open the current URL
     " - If line begins with "Plug" open the github page
     " of the plugin.
@@ -63,7 +50,7 @@ function! s:OpenUrl() abort " {{{1
 endfunction
 " 1}}}
 
-function! s:Delete(...) abort " {{{1
+function! ka#sys#Delete(...) abort " {{{1
     let l:a = map(copy(a:000), 'fnamemodify(v:val, ":p")')
     for l:f in l:a
         if filereadable(l:f)
@@ -89,19 +76,7 @@ function! s:Delete(...) abort " {{{1
 endfunction
 " 1}}}
 
-function! s:MakeDir(...) abort " {{{1
-    for l:d in a:000
-        if !isdirectory(l:d)
-            call mkdir(l:d, 'p')
-            call ka#ui#E('Log', ['"' . l:d . '" was created', 2])
-        else
-            call ka#ui#E('Log', ['"' . l:d . '" exists already'])
-        endif
-    endfor
-endfunction
-" 1}}}
-
-function! s:Rename(to) abort " {{{1
+function! ka#sys#Rename(to) abort " {{{1
     let l:file = expand('%:p')
     if !filereadable(l:file)
         call ka#ui#E('Log', ['Not a valid file', 1])
@@ -118,8 +93,15 @@ function! s:Rename(to) abort " {{{1
 endfunction
 " 1}}}
 
-function! s:ExecuteCmd(cmd, ...) abort " {{{1
-    let res = systemlist(a:cmd . join(a:000))
+function! ka#sys#ExecuteCmd(cmd, ...) abort " {{{1
+    let cmd = a:cmd . join(a:000)
+    if !executable(split(a:cmd)[0])
+        call ka#ui#E('Log', [printf(
+                    \ '"%s" is not a valid shell command', cmd
+                    \ )])
+        return ''
+    endif
+    let res = systemlist(cmd)
     silent execute v:shell_error
                 \ ? 'echohl Error'
                 \ : 'echohl Question'
