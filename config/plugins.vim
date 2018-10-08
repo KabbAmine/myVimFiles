@@ -1,20 +1,13 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-19
+" Last modification: 2018-10-08
 " ==============================================================
 
 
-" My plugins {{{1
-" let s:my_plugins_dir = g:is_win
-"             \ ? 'z:\\k-bag\\Projects\\pluginsVim\\'
-"             \ : $HOME . '/Projects/pluginsVim/'
-" let s:my_plugins = {
-"             \   'imagePreview'  : "{'on': '<Plug>(image-preview)'}",
-"             \ }
-" let s:lab_mode = 0
-" 1}}}
+" Global vars  {{{1
 
-" Signs for checkers  {{{1
+" Store checker unicode characters and hi-groups, to keep uniformity between
+" plugins & statusline.
 let g:checker = {
             \   'error_sign'   : '⨉',
             \   'warning_sign' : '⬥',
@@ -22,18 +15,6 @@ let g:checker = {
             \   'error_group'  : 'Error',
             \   'warning_group': 'Function',
             \ }
-" 1}}}
-
-" Helpers {{{1
-
-" function! s:MyPlugs() abort " {{{2
-"     let [l:pn, l:pl] = [keys(s:my_plugins), values(s:my_plugins)]
-"     for l:i in range(0, len(l:pn) - 1)
-"         let l:opt = (!empty(l:pl[l:i]) ? ', ' . l:pl[l:i] : '')
-"         exec printf("Plug '%s'%s", expand(s:my_plugins_dir) . l:pn[l:i], l:opt)
-"     endfor
-" endfunction
-" 2}}}
 " 1}}}
 
 " =========== VIM-PLUG =========================================
@@ -59,21 +40,27 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 
 " PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'lvht/phpcd.vim'                 , {'for': 'php', 'do': 'composer install'}
+Plug 'lvht/phpcd.vim'                 , {
+            \   'for': 'php',
+            \   'do': { -> ka#sys#ExecuteCmd('composer install')}
+            \ }
 Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
 Plug 'StanAngeloff/php.vim'
 " 2}}}
 
 " JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
-Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+Plug 'marijnh/tern_for_vim', {'do': { -> ka#sys#ExecuteCmd('npm install')}}
 Plug 'othree/yajs.vim'
             \ | Plug 'othree/javascript-libraries-syntax.vim'
 " 2}}}
 
 " Python {{{2
 Plug 'davidhalter/jedi-vim',
-            \ {'do': 'git submodule update --init', 'for': 'python'}
+            \ {
+            \   'do': { -> ka#sys#ExecuteCmd('git submodule update --init')},
+            \   'for': 'python'
+            \ }
 Plug 'heavenshell/vim-pydocstring', {'for': 'python'}
 Plug 'vim-python/python-syntax'
 " 2}}}
@@ -140,22 +127,18 @@ Plug 'machakann/vim-highlightedyank',
 " 2}}}
 
 " My Plugins {{{2
-" if !s:lab_mode
-    " Plug 'KabbAmine/unite-cmus'
-    " Plug 'KabbAmine/gulp-vim'
-    " Plug 'KabbAmine/vZoom.vim'
-    Plug $HOME . '/Temp/lab/vim/RAP/'
-    Plug $HOME . '/Temp/lab/vim/vfinder/'
-    Plug $HOME . '/Temp/lab/vim/pine.vim/'
-    Plug 'KabbAmine/lazyList.vim'
-    Plug 'KabbAmine/vBox.vim'
-    Plug 'KabbAmine/vCoolor.vim'
-    Plug 'KabbAmine/vullscreen.vim'
-    Plug 'KabbAmine/yowish.vim'
-    Plug 'KabbAmine/zeavim.vim'
-" else
-"     call s:MyPlugs()
-" endif
+" Plug 'KabbAmine/unite-cmus'
+" Plug 'KabbAmine/gulp-vim'
+" Plug 'KabbAmine/vZoom.vim'
+Plug $HOME . '/Temp/lab/vim/RAP/'
+Plug $HOME . '/Temp/lab/vim/vfinder/'
+Plug $HOME . '/Temp/lab/vim/pine.vim/'
+Plug 'KabbAmine/lazyList.vim'
+Plug 'KabbAmine/vBox.vim'
+Plug 'KabbAmine/vCoolor.vim'
+Plug 'KabbAmine/vullscreen.vim'
+Plug 'KabbAmine/yowish.vim'
+Plug 'KabbAmine/zeavim.vim'
 " 2}}}
 " 1}}}
 
