@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-08
+" Last modification: 2018-10-09
 " ==============================================================
 
 
@@ -42,7 +42,7 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
 Plug 'lvht/phpcd.vim'                 , {
             \   'for': 'php',
-            \   'do': { -> ka#sys#ExecuteCmd('composer install')}
+            \   'do': { -> ka#sys#execute_cmd('composer install')}
             \ }
 Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
 Plug 'StanAngeloff/php.vim'
@@ -50,7 +50,7 @@ Plug 'StanAngeloff/php.vim'
 
 " JavaScript {{{2
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
-Plug 'marijnh/tern_for_vim', {'do': { -> ka#sys#ExecuteCmd('npm install')}}
+Plug 'marijnh/tern_for_vim', {'do': { -> ka#sys#execute_cmd('npm install')}}
 Plug 'othree/yajs.vim'
             \ | Plug 'othree/javascript-libraries-syntax.vim'
 " 2}}}
@@ -58,7 +58,7 @@ Plug 'othree/yajs.vim'
 " Python {{{2
 Plug 'davidhalter/jedi-vim',
             \ {
-            \   'do': { -> ka#sys#ExecuteCmd('git submodule update --init')},
+            \   'do': { -> ka#sys#execute_cmd('git submodule update --init')},
             \   'for': 'python'
             \ }
 Plug 'heavenshell/vim-pydocstring', {'for': 'python'}
@@ -77,8 +77,8 @@ Plug 'KabbAmine/emmet-vim'
 " 2}}}
 
 " Git {{{2
-Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim', {'on': ['Agit', 'AgitFile']}
+Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 " 2}}}
 
@@ -104,7 +104,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
-Plug 'thinca/vim-visualstar'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
@@ -288,27 +287,17 @@ let g:UltiSnipsSnippetDirectories =
             \ [g:vim_dir . '/misc/snippets']
 " 1}}}
 
-" >>> (( gitgutter )) {{{1
-let g:gitgutter_map_keys = 0
-let g:gitgutter_sign_added = '❙'
-let g:gitgutter_sign_modified = '❙'
-let g:gitgutter_sign_removed = '❙'
-let g:gitgutter_sign_modified_removed = '❙'
-nnoremap <silent> <F6> :GitGutterToggle<CR>
-command! GP :GitGutterPreviewHunk
-if g:is_win | let g:gitgutter_enabled = 0 | endif
-nmap [c <Plug>GitGutterPrevHunk
-nmap ]c <Plug>GitGutterNextHunk
-" mnemonic: h for hunk.
-omap ih <Plug>GitGutterTextObjectInnerPending
-omap ah <Plug>GitGutterTextObjectOuterPending
-xmap ih <Plug>GitGutterTextObjectInnerVisual
-xmap ah <Plug>GitGutterTextObjectOuterVisual
-
-augroup GitGutterPostSaveUpdate
-    autocmd!
-    autocmd BufWritePost * GitGutter
-augroup END
+" >>> (( vim-signify )) {{{1
+let g:signify_vcs_list = ['git']
+let g:signify_sign_add = '❙'
+let g:signify_sign_delete = g:signify_sign_add
+let g:signify_sign_delete_first_line = g:signify_sign_add
+let g:signify_sign_change = g:signify_sign_add
+let g:signify_sign_changedelete = g:signify_sign_add
+let g:signify_sign_show_count = 0
+highlight! link SignifySignAdd Question
+highlight! link SignifySignDelete Title
+highlight! link SignifySignChange WildMenu
 " 1}}}
 
 " >>> (( vim-plug )) {{{1
@@ -498,11 +487,6 @@ augroup END
 " 2}}}
 " 1}}}
 
-" >>> (( vim-visualstar )) {{{1
-map * <Plug>(visualstar-*)``
-map # <Plug>(visualstar-#)
-" 1}}}
-
 " >>> (( vim-Verdin )) {{{1
 let g:Verdin#fuzzymatch = 0
 " 1}}}
@@ -650,8 +634,8 @@ nnoremap <silent> ,m :call vfinder#i('marks')<CR>
 " nnoremap <silent> ,,r :call vfinder#i('oldfiles')<CR>
 " nnoremap <silent> ,Y :call vfinder#i('registers')<CR>
 
-nnoremap <silent> ,B :call vfinder#i(<SID>BookmarksSource())<CR>
-fun! s:BookmarksSource() abort " {{{2
+nnoremap <silent> ,B :call vfinder#i(<SID>bookmarsk_source())<CR>
+fun! s:bookmarsk_source() abort " {{{2
     return {
             \   'name'      : 'bookmarks',
             \   'to_execute': ['~/.vim', '~/Temp/lab'],
