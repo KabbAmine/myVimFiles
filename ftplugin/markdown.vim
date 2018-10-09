@@ -1,23 +1,21 @@
-" Last modification: 2017-09-10
+" Last modification: 2018-10-09
 
-
-setlocal nonumber
 
 " Toggle current task list state " {{{1
-nnoremap <silent> <buffer> <space> :call <SID>ToggleTaskList()<CR>
+nnoremap <silent> <buffer> <space> :call <SID>toggle_task_list()<CR>
 
-function! <SID>ToggleTaskList() abort " {{{2
-	let l:line = line('.')
-	let l:cl = getline('.')
-	let l:reg_start = '\v^\s*\S \['
-	if l:cl =~# l:reg_start
-		if l:cl =~# l:reg_start . ' \]'
-			call setline(l:line, substitute(l:cl, '\v\[ \]', '[x]', ''))
+fun! <SID>toggle_task_list() abort " {{{2
+	let line = line('.')
+	let cl = getline('.')
+	let reg_start = '\v^\s*\S \['
+	if cl =~# reg_start
+		if cl =~# reg_start . ' \]'
+			call setline(line, substitute(cl, '\v\[ \]', '[x]', ''))
 		else
-			call setline(l:line, substitute(l:cl, '\v\[x\]', '[ ]', ''))
+			call setline(line, substitute(cl, '\v\[x\]', '[ ]', ''))
 		endif
 	endif
-endfunction " 2}}}
+endfun " 2}}}
 " 1}}}
 
 
