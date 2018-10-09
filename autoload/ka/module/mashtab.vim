@@ -1,39 +1,20 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-05-05
+" Last modification: 2018-10-09
 " ==============================================================
 
-
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" DESCRIPTION
-" A non asynchronous & simple vim completion engine using timers() and
-" external grep programs if they exist.
-
-" USAGE
-" Chain & list all possible completion by mashing <Tab>
-
-" REQUIREMENTS
-" has('timers') && has('lambda')
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Utilities {{{1
-let s:grepper = executable('rg') ? 'rg --no-messages -Nio' :
-            \ executable('ag') ? 'ag --silent --nonumber -io' :
-            \ executable('grep') ? 'grep -io -E' :
-            \ ''
-" 1}}}
 
 " ==========================================================
 " 	        	Main
 " ==========================================================
 
-function! ka#module#mashtab#i() abort " {{{1
-    inoremap <silent> <Plug>(mashtabTab) <C-r>=<SID>Complete(1)<CR>
-    inoremap <silent> <Plug>(mashtabBS) <C-h><C-r>=<SID>Complete(-1)<CR>
-endfunction
+fun! ka#module#mashtab#i() abort " {{{1
+    inoremap <silent> <Plug>(mashtabTab) <C-r>=<SID>complete(1)<CR>
+    inoremap <silent> <Plug>(mashtabBS) <C-h><C-r>=<SID>complete(-1)<CR>
+endfun
 " 1}}}
 
-function! ka#module#mashtab#AutoComplete(...) " {{{1
+fun! ka#module#mashtab#autocomplete(...) abort " {{{1
     let types = exists('a:1') ? split(a:1) : []
     if !exists('b:mashtab_auto')
         let b:mashtab_auto = {
@@ -43,59 +24,56 @@ function! ka#module#mashtab#AutoComplete(...) " {{{1
         augroup MashtabAutoCompletion
             autocmd!
             autocmd InsertCharPre <buffer> let s:def_completions = []
-                        \| call call('<SID>StartAutoCompletion', [b:mashtab_auto.types])
+                        \| call call('<SID>start_auto_completion', [b:mashtab_auto.types, 350])
         augroup END
-        call s:Echo('Autocomplete enabled', 'MoreMsg')
+        call s:echo('Autocomplete enabled', 'MoreMsg')
     else
         augroup MashtabAutoCompletion
             autocmd!
         augroup END
         augroup! MashtabAutoCompletion
         unlet! b:mashtab_auto
-        call s:Echo('Autocomplete disabled', 'Error')
+        call s:echo('Autocomplete disabled', 'Error')
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:StartAutoCompletion(types) " {{{1
+fun! s:start_auto_completion(types, delay) abort " {{{1
     if exists('b:mashtab_auto') && !pumvisible()
-        call call('<SID>Complete', [1, b:mashtab_auto.types])
+        call call('<SID>complete', [1, a:types, a:delay])
     else
         return ''
     endif
-endfunction
+endfun
 " }}}
 
-function! s:Complete(dir, ...) " {{{1
+fun! s:complete(dir, ...) abort " {{{1
+    " a:1: types
+    " a:2: delay of triggering completion
+
+    let args_l = []
+    if exists('a:1')
+        call add(args_l, a:1)
+    endif
+    if exists('a:2')
+        call add(args_l, a:2)
+    endif
+
     try
-        call s:SetConfig()
-        if a:dir ># 0
-            return exists('a:1')
-                        \ ? s:Tab(a:1)
-                        \ : s:Tab()
-        else
-            return s:Backspace()
-        endif
+        call s:set_cfg()
+        return a:dir ># 0
+                    \ ? call('<SID>tab', args_l)
+                    \ : s:backspace()
     catch
-        call s:Echo(v:exception, 'Error', 1)
+        call s:echo(v:exception, 'Error', 1)
         return ''
     endtry
-endfunction
+endfun
 " 1}}}
 
-function! s:SetConfig() abort " {{{1
-    let g:mashtab_custom_sources = get(g:, 'mashtab_custom_sources', {})
-    let g:mashtab_custom_sources.path = get(g:mashtab_custom_sources, 'path', 0)
-    let g:mashtab_custom_sources.spell = get(g:mashtab_custom_sources, 'spell', 0)
-    let g:mashtab_custom_sources.kspell = get(g:mashtab_custom_sources, 'kspell', 0)
-    let g:mashtab_custom_sources.dict = get(g:mashtab_custom_sources, 'dict', 0)
-    let g:mashtab_custom_sources.buffer = get(g:mashtab_custom_sources, 'buffer', 0)
-    let g:mashtab_custom_sources.line = get(g:mashtab_custom_sources, 'line', 0)
-
+fun! s:set_cfg() abort " {{{1
     let g:mashtab_ft_chains = get(g:, 'mashtab_ft_chains', {})
-
     let g:mashtab_patterns = get(g:, 'mashtab_patterns', {})
-
     let g:mashtab_patterns.user = get(g:mashtab_patterns, 'user', {})
     let g:mashtab_patterns.omni = get(g:mashtab_patterns, 'omni', {})
     call extend(g:mashtab_patterns.omni, {
@@ -110,10 +88,10 @@ function! s:SetConfig() abort " {{{1
     call extend(g:mashtab_patterns.omni, {
                 \   'javascript.jsx': g:mashtab_patterns.omni.javascript,
                 \ }, 'keep')
-endfunction
+endfun
 " 1}}}
 
-function! s:Tab(...) abort " {{{1
+fun! s:tab(...) abort " {{{1
     if !exists('s:def_completions') || empty(s:def_completions)
         let s:def_completions = exists('a:1')
                     \ ? a:1
@@ -123,66 +101,67 @@ function! s:Tab(...) abort " {{{1
                     \ ? g:mashtab_ft_chains._
                     \ : ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
     endif
+    let delay = get(a:, '2', 150)
 
-    let l:to_complete = s:StrToComplete()
-    let l:keys = ""
-    let l:completion_chain = []
+    let to_complete = s:str_to_complete()
+    let keys = ""
+    let completion_chain = []
     let s:last_completion = get(s:, 'last_completion', 'tab')
 
     if !pumvisible() && !exists('s:no_candidates')
         let s:last_completion = 'tab'
     endif
 
-    let l:completion_chain = s:def_completions[index(s:def_completions, s:last_completion) + 1 :]
+    let completion_chain = s:def_completions[index(s:def_completions, s:last_completion) + 1 :]
     " Close the pmenu when no more items in our chain
-    if empty(l:completion_chain)
+    if empty(completion_chain)
         unlet! s:last_completion s:no_candidates s:def_completions
-        return s:ClosePMenuKeys()
+        return s:close_pmenu_keys()
     endif
 
     " Set the next completion item to use
-    for l:c in (['tab'] + l:completion_chain)
-        if !empty(l:keys)
+    for c in (['tab'] + completion_chain)
+        if !empty(keys)
             break
-        elseif s:last_completion is# l:c && s:last_completion isnot# 'tab'
+        elseif s:last_completion is# c && s:last_completion isnot# 'tab'
             continue
         else
-            let l:keys = s:GetCompleteFun(l:c, l:to_complete)
-            let s:last_completion = l:c
+            let keys = s:get_completion_function(c, to_complete)
+            let s:last_completion = c
         endif
     endfor
 
     if s:last_completion is# 'tab'
-        return l:keys
+        return keys
     else
-        call timer_start(200, {t -> s:AfterCompletion()})
-        call timer_start(150, {t -> s:TriggerCompletion(l:keys)})
+        call timer_start(delay, {t -> s:trigger_completion(keys)})
+        call timer_start(delay + 50, {t -> s:after_completion()})
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:Backspace() abort " {{{1
+fun! s:backspace() abort " {{{1
     if exists('s:last_completion')
-        let l:keys = s:GetCompleteFun(s:last_completion, s:StrToComplete())
-        call s:TriggerCompletion(l:keys)
+        let keys = s:get_completion_function(s:last_completion, s:str_to_complete())
+        call s:trigger_completion(keys)
     endif
     return ''
-endfunction
+endfun
 " 1}}}
 
-function! s:GetCompleteFun(comp, to_complete) abort " {{{1
-    let l:f = 's:Complete' . toupper(a:comp[0]) . a:comp[1:]
-    return call(l:f, [a:to_complete])
-endfunction
+fun! s:get_completion_function(comp, to_complete) abort " {{{1
+    let f = 's:complete_' . a:comp
+    return call(f, [a:to_complete])
+endfun
 " 1}}}
 
-function! s:StrToComplete() abort " {{{1
+fun! s:str_to_complete() abort " {{{1
     return strpart(getline('.'), 0, col('.') - 1)
-endfunction
+endfun
 " 1}}}
 
-function! s:TriggerCompletion(keys) abort " {{{1
+fun! s:trigger_completion(keys) abort " {{{1
     " e.g. a:keys = [fun, list_of_params]
     " e.g. a:keys = "\<C-x>s"
 
@@ -193,10 +172,10 @@ function! s:TriggerCompletion(keys) abort " {{{1
             call feedkeys(a:keys)
         endif
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:AfterCompletion() abort " {{{1
+fun! s:after_completion() abort " {{{1
     " If the pmenu do not appear, that means that the current item in our
     " completion chain did not return candidates, so we execute the next item
     " in our chain.
@@ -204,328 +183,157 @@ function! s:AfterCompletion() abort " {{{1
     " 'no_candidates' flag if it exists.
     if !pumvisible() && exists('s:last_completion')
         " For debugging
-        " call s:Echo('No [' . s:last_completion . ']', 'Comment')
+        " call s:echo('No [' . s:last_completion . ']', 'Comment')
         let s:no_candidates = 1
-        return s:Tab()
+        return s:tab()
     else
         unlet! s:no_candidates
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:ClosePMenuKeys() abort " {{{1
+fun! s:close_pmenu_keys() abort " {{{1
     return pumvisible() ? "\<C-e>" : ''
-endfunction
+endfun
 " 1}}}
 
 " ==========================================================
 " 	        Completion's functions
 " ==========================================================
 
-function! s:CompleteTab(to_complete) abort " {{{1
+fun! s:complete_tab(to_complete) abort " {{{1
     return a:to_complete =~# '\v^\s*%(%(\\)?\|?)?\s*$' ? "\<Tab>" : ''
-endfunction
+endfun
 " 1}}}
 
-function! s:CompletePath(to_complete) abort " {{{1
+fun! s:complete_path(to_complete) abort " {{{1
     " Trigger the completion for the following patterns:
     " /file, ./file, ../fi/le
 
     if a:to_complete =~# '\%(\.\{,2\}\)\?/\%(\f\+\)\?$'
-        return g:mashtab_custom_sources.path
-                \ ? ['s:SourcePath', [a:to_complete]]
-                \ : "\<C-x>\<C-f>"
+        return "\<C-x>\<C-f>"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteUlti(to_complete) abort " {{{1
-    if g:did_plugin_ultisnips && s:IsAnUltisnipsSnippet() && a:to_complete =~# '\S\{1,\}$'
-        return ['s:SourceUltisnips', [a:to_complete]]
+fun! s:complete_ulti(to_complete) abort " {{{1
+    if g:did_plugin_ultisnips && s:is_an_ultisnips_snippet() && a:to_complete =~# '\S\{1,\}$'
+        return ['s:source_ultisnips', [a:to_complete]]
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteKspell(to_complete) abort " {{{1
+fun! s:complete_kspell(to_complete) abort " {{{1
     " \S used here for supporting non ASCII characters.
     if &spell && a:to_complete =~# '\S\{2,\}$'
-        return g:mashtab_custom_sources.kspell && !empty(s:grepper)
-                    \ ? ['s:SourceKSpell', [a:to_complete]]
-                    \ : "\<C-x>\<C-k>"
+        return "\<C-x>\<C-k>"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteSpell(to_complete) abort " {{{1
+fun! s:complete_spell(to_complete) abort " {{{1
     " See previous function for why do we use \S.
     if &spell && a:to_complete =~# '\S\+$' && spellbadword(a:to_complete) isnot# ['', '']
-        return g:mashtab_custom_sources.spell
-                \ ? ['s:SourceSpell', [a:to_complete]]
-                \ : "\<C-x>s"
+        return "\<C-x>s"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteOmni(to_complete) abort " {{{1
-    return !empty(&l:omnifunc) && has_key(g:mashtab_patterns.omni, &ft) && a:to_complete =~# g:mashtab_patterns.omni[&ft]
+fun! s:complete_omni(to_complete) abort " {{{1
+    return !empty(&omnifunc) && has_key(g:mashtab_patterns.omni, &ft) && a:to_complete =~# g:mashtab_patterns.omni[&ft]
                 \ ? "\<C-x>\<C-o>" : ''
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteUser(to_complete) abort " {{{1
+fun! s:complete_user(to_complete) abort " {{{1
     return has_key(g:mashtab_patterns.user, &ft) && a:to_complete =~# g:mashtab_patterns.user[&ft]
                 \ ? "\<C-x>\<C-u>" : ''
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteDict(to_complete) abort " {{{1
+fun! s:complete_dict(to_complete) abort " {{{1
     if !empty(&dictionary)
-        return g:mashtab_custom_sources.dict
-                    \ ? ['s:SourceDict', [a:to_complete]]
-                    \ : "\<C-x>\<C-k>"
+        return "\<C-x>\<C-k>"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteBuffer(to_complete) abort " {{{1
+fun! s:complete_buffer(to_complete) abort " {{{1
     if a:to_complete =~# '\w\+'
-        return g:mashtab_custom_sources.buffer
-                \ ? ['s:SourceBuffer', [a:to_complete]]
-                \ : "\<C-x>\<C-n>"
+        return "\<C-x>\<C-n>"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
-function! s:CompleteLine(to_complete) abort " {{{1
+fun! s:complete_line(to_complete) abort " {{{1
     if a:to_complete =~# '^\s*\S\+.*$'
-        return g:mashtab_custom_sources.line
-                \ ? ['s:SourceLine', [a:to_complete]]
-                \ : "\<C-x>\<C-l>"
+        return "\<C-x>\<C-l>"
     else
         return ''
     endif
-endfunction
+endfun
 " 1}}}
 
 " ==========================================================
 " 	                Sources
 " ==========================================================
 
-function! s:SourceUltisnips(to_complete) abort " {{{1
+fun! s:source_ultisnips(to_complete) abort " {{{1
     " Knowing here for sure that our pattern in expandable, we reget all the
     " snippets in case the s:all_utli_snipts was lost.
-    let l:all_snips = exists('s:all_ulti_snips')
+    let all_snips = exists('s:all_ulti_snips')
                 \ ? s:all_ulti_snips
                 \ : UltiSnips#SnippetsInCurrentScope()
     unlet! s:all_ulti_snips
-    let l:snip_prefix = matchstr(a:to_complete, '\S\+$')
+    let snip_prefix = matchstr(a:to_complete, '\S\+$')
 
-    call complete(col('.') - len(l:snip_prefix), map(keys(l:all_snips), '{
+    call complete(col('.') - len(snip_prefix), map(keys(all_snips), '{
                     \   "word" : v:val,
-                    \   "menu" : "[ulti] " . l:all_snips[v:val],
-                    \   "info" : l:all_snips[v:val],
+                    \   "menu" : "[ulti] " . all_snips[v:val],
+                    \   "info" : all_snips[v:val],
                     \ }'))
     return ''
-endfunction
-" 1}}}
-
-function! s:SourcePath(to_complete) abort " {{{1
-    let l:path = matchstr(a:to_complete, '\f\+$')
-    let l:contain_tilde = l:path =~# '\~' ? 1 : 0
-    let l:relative_to_file = !empty(expand('%:p:h')) && (l:path =~# '^\./' || l:path =~# '^\.\./')
-    if l:relative_to_file
-        let l:old_cwd = getcwd()
-        silent execute 'cd %:p:h'
-    endif
-    let l:parent = l:path =~# '/$'
-                \ ? l:path : fnamemodify(l:path, ':p:h') . '/'
-    let l:parent = l:path =~# '//$' ? l:path[:-2] : l:path
-    let l:all_files = glob(l:parent . '*', '', 1)
-
-    call complete(col('.') - len(l:path), map(l:all_files, '{
-                    \   "word" : !l:contain_tilde ? v:val : substitute(v:val, $HOME, "~", ""),
-                    \   "menu" : "[" . getftype(v:val) . "]",
-                    \   "icase": s:ICase(v:val)
-                    \ }'))
-    if l:relative_to_file
-        silent execute 'cd ' . l:old_cwd
-    endif
-    return ''
-endfunction
-" 1}}}
-
-function! s:SourceKSpell(to_complete) abort " {{{1
-    if !exists('s:complete_spell') || (exists('s:complete_spell') && (s:complete_spell.lang isnot# &l:spelllang || !filereadable(s:complete_spell.tmp_file)))
-        let l:winview = winsaveview()
-
-        " Save spelldump content to a temporary file the 1st time can be slow
-        " sometimes.
-        let s:complete_spell = {
-                    \   'lang'    : &l:spelllang,
-                    \   'tmp_file': tempname()
-                    \ }
-        let l:pos = getpos('.')
-        silent spelldump
-        let l:buf = bufnr('%')
-        call writefile(getline(2, line('$')), s:complete_spell.tmp_file)
-        silent wincmd p
-        silent execute l:buf . 'bwipeout!'
-        call setpos('.', l:pos)
-        call winrestview(l:winview)
-    endif
-
-    " We use \S instead of \w to temporary handle non-ascii characters.
-    let l:word = matchstr(a:to_complete, '\S\+$')
-    let l:words = s:Grep('^' . l:word . '.*$', s:complete_spell.tmp_file)
-
-    " Be sure to remove region indices if they exist (word/==>12<==)
-    call complete(col('.') - len(l:word), map(l:words, '{
-                \   "word" : s:MatchCase(l:word, split(v:val, "/")[0]),
-                \   "menu" : "[kspell]"
-                \ }'))
-    return ''
-endfunction
-" 1}}}
-
-function! s:SourceSpell(to_complete) abort " {{{1
-    let l:word = matchstr(a:to_complete, '\S\+$')
-    let l:all_suggestions = spellsuggest(l:word)
-
-    call complete(col('.') - len(l:word), map(l:all_suggestions, '{
-                    \   "word" : v:val,
-                    \   "menu" : "[spell]",
-                    \   "icase": s:ICase(v:val),
-                    \ }'))
-    return ''
-endfunction
-" 1}}}
-
-function! s:SourceBuffer(to_complete) abort " {{{1
-    let l:cl = line('.')
-    let l:word = matchstr(a:to_complete, '\k\+$')
-    let l:words = []
-    for l:w in split(join(s:GetLines(), "\n"), '\W\+')
-        if l:w isnot# l:word && l:w =~# '^\c\V' . escape(l:word, '%') && len(l:w) ># 1
-            call add(l:words, {
-                        \   'word' : l:w,
-                        \   'menu' : '[buffer]',
-                        \   'icase': s:ICase(l:w),
-                        \ })
-        endif
-    endfor
-
-    call complete(col('.') - len(l:word), l:words)
-    return ''
-endfunction
-" 1}}}
-
-function! s:SourceDict(to_complete) abort " {{{1
-    let l:word = matchstr(a:to_complete, '\k\+$')
-    let l:words = []
-    for l:f in split(&dictionary, ',')
-        if !filereadable(l:f)
-            continue
-        endif
-        let l:file_name = fnamemodify(l:f, ':t:r')
-
-        let l:words += map(readfile(l:f),
-                    \ {i, v -> {
-                    \   'word' : (v =~# '\c^\V' . l:word ? v : ''),
-                    \   'menu' : '[' . l:file_name . ']',
-                    \   'icase': s:ICase(v)
-                    \ }})
-    endfor
-
-    call complete(col('.') - len(l:word), l:words)
-    return ''
-endfunction
-" 1}}}
-
-function! s:SourceLine(to_complete) abort " {{{1
-    let l:all_lines = s:GetLines()
-    let l:line_without_start_spaces = substitute(a:to_complete, '^\s*', '', '')
-    let l:indent = matchstr(a:to_complete, '^\s*')
-    let l:lines = []
-    for l:l in l:all_lines
-        " Trim starting whitespace characters.
-        let l:l = substitute(l:l, '^\s*', '', '')
-        " The line could contain '\' so we escape it coz it can be interpreted
-        " as a regex atom.
-        if l:l isnot# l:line_without_start_spaces && l:l =~# '^\s*\c\V' . escape(l:line_without_start_spaces, '\')
-            call add(l:lines, {
-                        \   'word': l:indent . l:l,
-                        \   'menu': '[line]'
-                        \ })
-        endif
-    endfor
-
-    call complete(col('.') - len(a:to_complete), l:lines)
-    return ''
-endfunction
+endfun
 " 1}}}
 
 " ==========================================================
 " 	                Helpers
 " ==========================================================
 
-function! s:IsAnUltisnipsSnippet() abort " {{{1
+fun! s:is_an_ultisnips_snippet() abort " {{{1
     " To avoid re-executing the UltiSnips#SnippetsInCurrentScope function, we
     " store the snippets in a variable that will be used in the ultisnips
     " source.
     let s:all_ulti_snips = UltiSnips#SnippetsInCurrentScope()
     return s:all_ulti_snips isnot# {} ? 1 : 0
-endfunction
+endfun
 " 1}}}
 
-function! s:ICase(w) abort " {{{1
-    return a:w =~# '\u' ? 1 : 0
-endfunction
-" 1}}}
-
-function! s:MatchCase(str_in, str_out) abort " {{{1
-    let l:res = ''
-    for l:i in range(0, len(a:str_in) - 1)
-        if !empty(a:str_out[l:i])
-            let l:res .= a:str_in[l:i] =~# '\u'
-                        \ ? toupper(a:str_out[l:i])
-                        \ : a:str_out[l:i]
-        endif
-    endfor
-    return l:res . a:str_out[len(l:res):]
-endfunction
-" 1}}}
-
-function! s:Echo(msg, hi_group, ...) abort " {{{1
-    let l:echo_cmd = 'echo' . (exists('a:1') ? 'msg' : '')
-    let l:msg = '[mashtab] ' . a:msg
+fun! s:echo(msg, hi_group, ...) abort " {{{1
+    let echo_cmd = 'echo' . (exists('a:1') ? 'msg' : '')
 
     silent execute 'echohl ' . a:hi_group
-    if exists('a:1') | echomsg l:msg | else | echo l:msg | endif
-    echohl None
-endfunction
-" 1}}}
-
-function! s:Grep(pattern, file) abort " {{{1
-    return systemlist(printf('%s "%s" %s', s:grepper, a:pattern, a:file))
-endfunction
-" 1}}}
-
-function! s:GetLines() abort " {{{1
-    let l:cl = line('.')
-    return getline(l:cl + 1, '$') + getline(1, l:cl)
-endfunction
+    if exists('a:1')
+        echomsg '[mashtab] ' . a:msg
+        echohl None
+    else
+        echon '[mashtab] '
+        echohl None
+        echon a:msg
+    endif
+endfun
 " 1}}}
 
 
