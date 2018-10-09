@@ -1,10 +1,10 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-09-24
+" Last modification: 2018-10-09
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
-" * GitGutter
+" * Signify
 " * Rvm
 " * ALE
 
@@ -51,7 +51,7 @@ let s:sl  = {
 
 " ========== GENERAL ===========================================
 
-fun! SLPath() abort " {{{1
+fun! SL_path() abort " {{{1
     if !empty(expand('%:t'))
         let fn = winwidth(0) <# 55
                     \ ? '../'
@@ -65,7 +65,7 @@ fun! SLPath() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLFilename() abort " {{{1
+fun! SL_filename() abort " {{{1
     let fn = !empty(expand('%:t'))
                 \ ? expand('%:p:t')
                 \ : '[No Name]'
@@ -73,12 +73,12 @@ fun! SLFilename() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLModified() abort " {{{1
+fun! SL_modified() abort " {{{1
     return &modified ? '+' : ''
 endfun
 " 1}}}
 
-fun! SLFormatAndEncoding() abort " {{{1
+fun! SL_format_and_encoding() abort " {{{1
     let encoding = winwidth(0) <# 55
                 \ ? ''
                 \ : strlen(&fenc)
@@ -93,22 +93,22 @@ fun! SLFormatAndEncoding() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLFiletype() abort " {{{1
+fun! SL_filetype() abort " {{{1
     return strlen(&filetype) ? &filetype : ''
 endfun
 " 1}}}
 
-fun! SLHiGroup() abort " {{{1
+fun! SL_hi_group() abort " {{{1
     return '> ' . synIDattr(synID(line('.'), col('.'), 1), 'name') . ' <'
 endfun
 " 1}}}
 
-fun! SLMode() abort " {{{1
+fun! SL_mode() abort " {{{1
     return get(s:sl.modes, mode())
 endfun
 " 1}}}
 
-fun! SLPaste() abort " {{{1
+fun! SL_paste() abort " {{{1
     if &paste
         return winwidth(0) <# 55 ? '[P]' : '[PASTE]'
     else
@@ -117,7 +117,7 @@ fun! SLPaste() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLPython() abort " {{{1
+fun! SL_python() abort " {{{1
     let s:sl_py = get(s:, 'sl_python',
                 \ executable('python') ? system('python --version')[7:-2] : ''
                 \ )
@@ -128,12 +128,12 @@ fun! SLPython() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLSpell() abort " {{{1
+fun! SL_spell() abort " {{{1
     return &spell ? &spelllang : ''
 endfun
 " 1}}}
 
-fun! SLIndentation() abort " {{{1
+fun! SL_indentation() abort " {{{1
     return winwidth(0) <# 55
                 \ ? ''
                 \ : &expandtab
@@ -142,7 +142,7 @@ fun! SLIndentation() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLColumnAndPercent() abort " {{{1
+fun! SL_column_and_percent() abort " {{{1
     " The percent part was inspired by vim-line-no-indicator plugin.
     let chars = ['꜒', '꜓', '꜔', '꜕', '꜖',]
     let [c_l, l_l] = [line('.'), line('$')]
@@ -152,7 +152,7 @@ fun! SLColumnAndPercent() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLJobs() abort " {{{1
+fun! SL_jobs() abort " {{{1
     let n_jobs = exists('g:jobs') ? len(g:jobs) : 0
     return winwidth(0) <# 55
                 \ ? ''
@@ -162,7 +162,7 @@ fun! SLJobs() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLToggled() abort " {{{1
+fun! SL_toggled() abort " {{{1
     if !exists('g:SL_toggle')
         return ''
     endif
@@ -177,12 +177,12 @@ fun! SLToggled() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLZoomed() abort " {{{1
+fun! SL_zoomed() abort " {{{1
     return getwinvar(winnr(), 'zoomed_win') ? '◎' : ''
 endfun
 " 1}}}
 
-fun! SLTerminal() abort " {{{1
+fun! SL_terminal() abort " {{{1
     if !g:has_term
         return ''
     endif
@@ -192,7 +192,7 @@ fun! SLTerminal() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLQf() abort " {{{1
+fun! SL_qf() abort " {{{1
     return printf('[q:%d l:%d]',
                 \ len(getqflist()),
                 \ len(getloclist(bufnr('%')))
@@ -202,7 +202,7 @@ endfun
 
 " ========== PLUGINS ===========================================
 
-fun! SLFugitive() abort " {{{1
+fun! SL_fugitive() abort " {{{1
     let i = ''
     if exists('*fugitive#head') && !empty(fugitive#head()) && winwidth(0) ># 55
         return fugitive#head() isnot# 'master' ? i . ' ' . fugitive#head() : i
@@ -212,11 +212,10 @@ fun! SLFugitive() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLGitGutter() abort " {{{1
-    " Note that it uses Fugitive to be sure being in a git project.
-    if exists('g:gitgutter_enabled') && g:gitgutter_enabled
-        let h = GitGutterGetHunkSummary()
-        return !empty(SLFugitive()) && !empty(h) && h !=# [0,0,0] && winwidth(0) ># 55
+fun! SL_signify() abort " {{{1
+    if exists('*sy#repo#get_stats')
+        let h = sy#repo#get_stats()
+        return h !=# [-1, -1, -1] && winwidth(0) ># 55
                     \ ? printf('+%d ~%d -%d', h[0], h[1], h[2])
                     \ : ''
     else
@@ -225,7 +224,7 @@ fun! SLGitGutter() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLRuby() abort " {{{1
+fun! SL_ruby() abort " {{{1
     if g:is_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
         let s:sl_ruby = matchstr(rvm#statusline(), '\d.*[^\]]')
     elseif executable('ruby')
@@ -239,7 +238,7 @@ fun! SLRuby() abort " {{{1
 endfun
 " 1}}}
 
-fun! SLAle(mode) abort " {{{1
+fun! SL_ale(mode) abort " {{{1
     " a:mode: 1/0 = errors/ok
 
     if exists('g:loaded_ale') && !g:loaded_ale
@@ -277,9 +276,9 @@ endfun
 
 " ========== HELPERS ===========================================
 
-fun! s:Hi(group, bg, fg, opt) abort " {{{1
-    let bg = type(a:bg) is# type('') ? ['none', 'none' ] : a:bg
-    let fg = type(a:fg) is# type('') ? ['none', 'none'] : a:fg
+fun! s:hi(group, bg, fg, opt) abort " {{{1
+    let bg = type(a:bg) is# v:t_string ? ['none', 'none' ] : a:bg
+    let fg = type(a:fg) is# v:t_string ? ['none', 'none'] : a:fg
     let opt = empty(a:opt) ? ['none', 'none'] : [a:opt, a:opt]
     let mode = ['gui', 'cterm']
     let cmd = 'hi ' . a:group . ' term=' . opt[1]
@@ -294,22 +293,22 @@ fun! s:Hi(group, bg, fg, opt) abort " {{{1
 endfun
 " 1}}}
 
-fun! s:SetSLColors() abort " {{{1
-    call s:Hi('User1', s:sl.colors['main'], s:sl.colors['background'], 'bold')
-    call s:Hi('User2', s:sl.colors['backgroundLight'], s:sl.colors['text'], 'none')
-    call s:Hi('User3', s:sl.colors['backgroundLight'], s:sl.colors['textDark'], 'none')
-    call s:Hi('User4', s:sl.colors['main'], s:sl.colors['background'], 'none')
+fun! s:set_sl_colors() abort " {{{1
+    call s:hi('User1', s:sl.colors['main'], s:sl.colors['background'], 'bold')
+    call s:hi('User2', s:sl.colors['backgroundLight'], s:sl.colors['text'], 'none')
+    call s:hi('User3', s:sl.colors['backgroundLight'], s:sl.colors['textDark'], 'none')
+    call s:hi('User4', s:sl.colors['main'], s:sl.colors['background'], 'none')
     " Modified state
-    call s:Hi('User5', s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold')
+    call s:hi('User5', s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold')
     " Success & error states
-    call s:Hi('User6', s:sl.colors['backgroundLight'], s:sl.colors['green'], 'bold')
-    call s:Hi('User7', s:sl.colors['backgroundLight'], s:sl.colors['red'], 'bold')
+    call s:hi('User6', s:sl.colors['backgroundLight'], s:sl.colors['green'], 'bold')
+    call s:hi('User7', s:sl.colors['backgroundLight'], s:sl.colors['red'], 'bold')
     " Inactive statusline
-    call s:Hi('User8', s:sl.colors['backgroundDark'], s:sl.colors['backgroundLight'], 'none')
+    call s:hi('User8', s:sl.colors['backgroundDark'], s:sl.colors['backgroundLight'], 'none')
 endfun
 " 1}}}
 
-fun! s:ToggleSLItem(var, funcref) abort " {{{1
+fun! s:toggle_sl_item(var, funcref) abort " {{{1
     if !exists('g:SL_toggle')
         let g:SL_toggle = {}
     endif
@@ -321,7 +320,7 @@ fun! s:ToggleSLItem(var, funcref) abort " {{{1
 endfun
 " 1}}}
 
-fun! GetSL(...) abort " {{{1
+fun! Get_SL(...) abort " {{{1
     let sl = ''
 
     " Custom functions
@@ -349,68 +348,68 @@ fun! GetSL(...) abort " {{{1
     " Inactive statusline
     " """""""""""""""""""
     if exists('a:1')
-        let sl .= '%8* %{SLFilename()}'
-        let sl .= '%( %{SLModified()}%)'
-        let sl .= '%=%( %{SLFiletype()} %)'
+        let sl .= '%8* %{SL_filename()}'
+        let sl .= '%( %{SL_modified()}%)'
+        let sl .= '%=%( %{SL_filetype()} %)'
         return sl
     endif
 
     " Active statusline
     " """""""""""""""""
-    " let sl .= '%1* %-{SLMode()} %(%{SLPaste()} %)'
-    let sl .= '%1*%( %{SLZoomed()} %)'
-    let sl .= '%1*%( %{SLPaste()} %)'
-    let sl .= '%3* %{SLPath()}'
-    let sl .= '%2*%{SLFilename()}'
-    let sl .= '%5*%(%{SLModified()}%) '
+    " let sl .= '%1* %-{SL_mode()} %(%{SL_paste()} %)'
+    let sl .= '%1*%( %{SL_zoomed()} %)'
+    let sl .= '%1*%( %{SL_paste()} %)'
+    let sl .= '%3* %{SL_path()}'
+    let sl .= '%2*%{SL_filename()}'
+    let sl .= '%5*%(%{SL_modified()}%) '
 
     " ALE (1st group for no errors)
-    let sl .= '%6*%(%{SLAle(0)} %)'
-    let sl .= '%7*%([%{SLAle(1)}] %)'
+    let sl .= '%6*%(%{SL_ale(0)} %)'
+    let sl .= '%7*%([%{SL_ale(1)}] %)'
 
     let sl .= '%3*'
     let sl .= '%='
 
     " Git stuffs
-    let sl .= '%( %{SLGitGutter()} %)'
-    let sl .= '%(%{SLFugitive()} ' . s:sl.separator . '%)'
+    let sl .= '%( %{SL_signify()} %)'
+    let sl .= '%(%{SL_fugitive()} ' . s:sl.separator . '%)'
 
-    let sl .= '%( %{SLSpell()} ' . s:sl.separator . '%)'
-    let sl .= '%( %{SLFiletype()} %)'
+    let sl .= '%( %{SL_spell()} ' . s:sl.separator . '%)'
+    let sl .= '%( %{SL_filetype()} %)'
 
     let sl .= '%4*'
 
     " Toggled elements
-    let sl .= '%( %{SLToggled()}' . s:sl.separator . '%)'
+    let sl .= '%( %{SL_toggled()}' . s:sl.separator . '%)'
 
     " Terminal jobs
-    let sl .= '%( %{SLTerminal()} %)'
+    let sl .= '%( %{SL_terminal()} %)'
 
     " Jobs
-    let sl .= '%( %{SLJobs()} %)'
+    let sl .= '%( %{SL_jobs()} %)'
 
     return sl
 endfun
 " 1}}}
 
-fun! s:SLInit() abort " {{{1
+fun! s:sl_init() abort " {{{1
     set noshowmode
     set laststatus=2
-    call s:SetSLColors()
-    call s:ApplySL()
+    call s:set_sl_colors()
+    call s:apply_sl()
     augroup SL
         autocmd!
-        autocmd WinEnter,BufEnter * call <SID>ApplySL()
-        autocmd WinLeave * call <SID>ApplySL(1)
+        autocmd WinEnter,BufEnter * call <SID>apply_sl()
+        autocmd WinLeave * call <SID>apply_sl(1)
     augroup END
 endfun
 " 1}}}
 
-fun! s:ApplySL(...) abort " {{{1
+fun! s:apply_sl(...) abort " {{{1
     if index(s:sl.ignore, &ft) is# -1
         silent execute !exists('a:1')
-                    \ ? 'setlocal statusline=%!GetSL()'
-                    \ : 'setlocal statusline=%!GetSL(0)'
+                    \ ? 'setlocal statusline=%!Get_SL()'
+                    \ : 'setlocal statusline=%!Get_SL(0)'
     endif
 endfun
 " 1}}}
@@ -421,13 +420,13 @@ endfun
 let s:args = [
             \   ['toggle', 'clear'],
             \   [
-            \       'column-and-percent', 'format-and-encoding', 'indentation',
-            \       'hi-group', 'ruby', 'python', 'qf'
+            \       'column_and_percent', 'format_and_encoding', 'indentation',
+            \       'hi_group', 'ruby', 'python', 'qf'
             \   ]
             \ ]
-command! -nargs=? -complete=custom,s:SLCompleteArgs SL :call s:SLCommand(<f-args>)
+command! -nargs=? -complete=custom,s:sl_complete_args SL :call s:sl_command(<f-args>)
 
-fun! s:SLCommand(...) abort " {{{2
+fun! s:sl_command(...) abort " {{{2
     let arg = exists('a:1') ? a:1 : 'clear'
 
     if arg is# 'toggle'
@@ -448,20 +447,19 @@ fun! s:SLCommand(...) abort " {{{2
     endif
 
     for a in args
-        let arg = substitute(a, '\v(-(\a))', '\=toupper(submatch(2))', 'g')
-        let fun_ref = 'SL' . toupper(arg[0]) . arg[1:]
-        call s:ToggleSLItem(arg, fun_ref)
+        let fun_ref = 'SL_' . arg
+        call s:toggle_sl_item(arg, fun_ref)
     endfor
 endfun " 2}}}
 
-fun! s:SLCompleteArgs(a, l, p) abort " {{{2
+fun! s:sl_complete_args(a, l, p) abort " {{{2
     return join(s:args[0] + s:args[1], "\n")
 endfun " 2}}}
 " 1}}}
 
 " ========== INITIALIZE ========================================
 
-call <SID>SLInit()
+call <SID>sl_init()
 
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
