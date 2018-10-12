@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-10-12
 " ==============================================================
 
 
@@ -166,6 +166,10 @@ colorscheme yowish
 if g:is_termguicolors
     highlight Normal guibg=NONE
     highlight! link LineNr Comment
+endif
+if g:has_term
+    highlight! link StatusLineTerm StatusLineNC
+    highlight! link StatusLineTermNC Terminal
 endif
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
