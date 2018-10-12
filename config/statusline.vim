@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-10-12
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -380,7 +380,7 @@ fun! Get_SL(...) abort " {{{1
     let sl .= '%4*'
 
     " Toggled elements
-    let sl .= '%( %{SL_toggled()}' . s:sl.separator . '%)'
+    let sl .= '%( %{SL_toggled()} %)'
 
     " Terminal jobs
     let sl .= '%( %{SL_terminal()} %)'
@@ -401,12 +401,17 @@ fun! s:sl_init() abort " {{{1
         autocmd!
         autocmd WinEnter,BufEnter * call <SID>apply_sl()
         autocmd WinLeave * call <SID>apply_sl(1)
+        if g:has_term
+            autocmd TerminalOpen * call <SID>apply_sl()
+        endif
     augroup END
 endfun
 " 1}}}
 
 fun! s:apply_sl(...) abort " {{{1
-    if index(s:sl.ignore, &ft) is# -1
+    if &buftype is# 'terminal'
+        setlocal statusline&
+    elseif index(s:sl.ignore, &ft) is# -1
         silent execute !exists('a:1')
                     \ ? 'setlocal statusline=%!Get_SL()'
                     \ : 'setlocal statusline=%!Get_SL(0)'
