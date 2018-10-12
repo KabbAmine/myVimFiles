@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-10-12
 " ==============================================================
 
 
@@ -600,10 +600,10 @@ endfun " 2}}}
 " >>> Terminal mode {{{1
 if g:has_term
     tnoremap jk <C-w>N
-    tmap <C-h> <C-w><C-h>
-    tmap <C-l> <C-w><C-l>
-    tmap <C-k> <C-w><C-k>
-    tmap <C-j> <C-w><C-j>
+    tmap <C-h> <C-w>h
+    tmap <C-l> <C-w>l
+    tmap <C-k> <C-w>k
+    tmap <C-j> <C-w>j
     tnoremap <silent> <S-q> <C-w>:call <SID>term_kill()<CR>
     " Note that the following mappings replace the open_here ones
     nnoremap <silent> ;t :call <SID>term_toggle()<CR>
