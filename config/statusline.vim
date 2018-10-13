@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-12
+" Last modification: 2018-10-13
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -215,7 +215,7 @@ endfun
 fun! SL_signify() abort " {{{1
     if exists('*sy#repo#get_stats')
         let h = sy#repo#get_stats()
-        return h !=# [-1, -1, -1] && winwidth(0) ># 55
+        return h !=# [-1, -1, -1] && winwidth(0) ># 55 && h !=# [0, 0, 0]
                     \ ? printf('+%d ~%d -%d', h[0], h[1], h[2])
                     \ : ''
     else
