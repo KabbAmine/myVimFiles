@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-08
+" Last modification: 2018-10-13
 " ==============================================================
 
 
@@ -26,6 +26,8 @@ fun! ka#module#autoformat#run(start, end, formatters) abort " {{{1
                 \   'msg': msg,
                 \   'start': a:start,
                 \   'end': a:end,
+                \   'initial_lines': getline(a:start, a:end),
+                \   'empty_last_line': getline('$') is# '',
                 \   'marks': s:get_marks(),
                 \   'std_out': [],
                 \   'err_out': []
@@ -61,8 +63,8 @@ fun! s:on_exit(buf_nr, job, ex_st) abort " {{{1
     let ctx = getbufvar(a:buf_nr, 'ctx')
     let win_nr = bufwinnr(a:buf_nr)
     redraw
-    call s:echo(ctx.msg)
     if !empty(ctx.err_out)
+        call s:echo(ctx.msg)
         call s:echo_after('[ERR]', 'error')
         call setloclist(win_nr, [], 'r', {
                     \   'title': ctx.cmd,
@@ -70,15 +72,26 @@ fun! s:on_exit(buf_nr, job, ex_st) abort " {{{1
                     \ })
         lopen | wincmd p
     else
-        call s:echo_after('[OK]', 'question')
         let pos = getpos('.')
-        silent execute printf('%d,%ddelete_', ctx.start, ctx.end)
+        if ctx.std_out !=# ctx.initial_lines
+            silent execute printf('%d,%ddelete_', ctx.start, ctx.end)
+            call append(ctx.start - 1, ctx.std_out)
+            call s:echo(ctx.msg)
+            call s:echo_after('[OK]', 'question')
+        else
+            call s:echo(ctx.msg)
+            call s:echo_after('[OK - no changes]', 'question')
+        endif
+        " An empty line can be added after the 'delete' so we ensure to remove
+        " it
+        if !ctx.empty_last_line && getline('$') is# ''
+            silent $delete_
+        endif
+        call setpos('.', pos)
         if getloclist(win_nr, {'title': ''}).title is# ctx.cmd
             call setloclist(win_nr, [], 'r')
             lclose
         endif
-        call append(ctx.start - 1, ctx.std_out)
-        call setpos('.', pos)
     endif
     call s:set_marks(ctx.marks)
 
