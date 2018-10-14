@@ -7,37 +7,22 @@
 fun! ka#module#gotohint#go(key) abort " {{{1
     let buf_nr = bufnr('%')
     let cl = &l:cursorline
-    let dest_sign = ''
 
     let lines = a:key is# 'k'
-                \ ? range(line('.') - 1, line('w0'), -1)
-                \ : range(line('.') + 1, line('w$'))
-    " Keep only folded lines
-    let lines = filter(lines, {i, v -> foldclosed(v) is# -1})
-    " Do not proceed if there are no lines above/below the current one
+                \ ? s:get_lines(-1)
+                \ : s:get_lines(1)
     if lines ==# []
         return v:null
     endif
 
     let hint_signs = s:get_hint_signs(lines)
-    setlocal cursorline
     call s:define_signs(hint_signs)
     call s:place_signs(hint_signs)
+    setlocal cursorline
 
-    call ka#ui#echo('Gotohint>', '', 'modemsg')
-    let hint = nr2char(getchar())
-    if hint =~# '^\h$'
-        let dest_sign = hint
-    elseif hint =~# '^\(;\|,\)$'
-        call ka#ui#echo('Gotohint> ', hint, 'modemsg')
-        let next_hint = nr2char(getchar())
-        if next_hint =~# '^\h$'
-            let dest_sign = hint . next_hint
-        endif
-    endif
-
-    if !empty(dest_sign)
-        call s:goto_sign(dest_sign)
+    let destination_sign = s:get_destination_sign()
+    if !empty(destination_sign)
+        call s:goto_sign(destination_sign)
     endif
 
     let &l:cursorline = cl
@@ -48,6 +33,16 @@ endfun " 1}}}
 
 
 let s:hints = 'jklmfdsqhgazertyuiopwxcvbn'
+
+fun! s:get_lines(direction) abort " {{{1
+    let lines = a:direction is# -1
+                \ ? range(line('.') - 1, line('w0'), -1)
+                \ : range(line('.') + 1, line('w$'))
+    " Keep only folded lines
+    let lines = filter(lines, {i, v -> foldclosed(v) is# -1})
+    return lines
+endfun
+" 1}}}
 
 fun! s:get_hint_signs(lines) abort " {{{1
     let def_hints = split(s:hints, '\ze\h')
@@ -112,6 +107,23 @@ fun! s:place_signs(hint_signs) abort " {{{1
                     \   buf_nr
                     \ )
     endfor
+endfun
+" 1}}}
+
+fun! s:get_destination_sign() abort " {{{1
+    let dest_sign = ''
+    call ka#ui#echo('Gotohint>', '', 'modemsg')
+    let hint = nr2char(getchar())
+    if hint =~# '^\h$'
+        let dest_sign = hint
+    elseif hint =~# '^\(;\|,\)$'
+        call ka#ui#echo('Gotohint> ', hint, 'modemsg')
+        let next_hint = nr2char(getchar())
+        if next_hint =~# '^\h$'
+            let dest_sign = hint . next_hint
+        endif
+    endif
+    return dest_sign
 endfun
 " 1}}}
 
