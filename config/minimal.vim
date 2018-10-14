@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-12
+" Last modification: 2018-10-14
 " ==============================================================
 
 
@@ -561,40 +561,9 @@ xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
 " 1}}}
 
-" >>> Go to line using relative numbers {{{1
-nnoremap gj :call <SID>go_to('j')<CR>
-nnoremap gk :call <SID>go_to('k')<CR>
-
-fun! s:go_to(direction) abort " {{{2
-    let [n, rn] = [&number, &relativenumber]
-    redir => hi
-        silent highlight LineNr
-        silent highlight CursorLineNr
-    redir END
-    let hi = [
-                \   split(execute('highlight LineNr'), "\n")[0],
-                \   split(execute('highlight CursorLineNr'), "\n")[0]
-                \ ]
-    call map(hi, {i, v -> substitute(v, 'xxx', '', '')})
-
-    setlocal nonumber relativenumber
-    hi! link LineNr ModeMsg
-    hi! link CursorLineNr Search
-    redraw
-
-    echohl ModeMsg
-    let goto = input('Goto> ')
-    echohl None
-    if !empty(goto)
-        execute 'normal! ' . goto . a:direction
-    endif
-
-    call setbufvar('%', '&number', n)
-    call setbufvar('%', '&relativenumber', rn)
-    for h in hi
-        execute 'highlight! ' . h
-    endfor
-endfun " 2}}}
+" >>> Go to line using hints {{{1
+nnoremap gj :call ka#module#gotohint#go('j')<CR>
+nnoremap gk :call ka#module#gotohint#go('k')<CR>
 " 1}}}
 
 " >>> Terminal mode {{{1
