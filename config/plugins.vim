@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-12
+" Last modification: 2018-10-14
 " ==============================================================
 
 
@@ -358,11 +358,13 @@ let g:lion_map_left = ''
 
 " >>> (( fugitive )) {{{1
 " Split, vsplit & tab
-augroup FugitiveMaps " {{{2
+augroup FugitiveCustom " {{{2
     autocmd!
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-s> :norm o<CR>
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-v> :norm S<CR>
     autocmd FileType gitcommit nnoremap <silent> <buffer> <C-t> :norm O<CR>
+    " Refresh signify after commiting
+    autocmd BufDelete COMMIT_EDITMSG SignifyRefresh
 augroup END " 2}}}
 
 " Aliases
