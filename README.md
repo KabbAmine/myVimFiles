@@ -32,14 +32,14 @@ and are included in the configuration here.
 
 ### Formatters & fixers
 
-| Filetype(s)                       | formatter                              |
-| :-------------------------------- | :------------------------------------- |
-| `css`, `markdown`, `scss`, `yaml` | `prettier`<sup>N</sup>                 |
-| `html`                            | `js-beautify`<sup>N</sup>              |
-| `javascript`                      | `standard`<sup>N</sup>                 |
-| `json`                            | `fixjson`<sup>N</sup>                  |
-| `python`                          | `autopep8`<sup>P</sup>                 |
-| `sh/bash`                         | [`shfmt`](https://github.com/mvdan/sh) |
+| Filetype(s)                       | formatter                                   |
+| :-------------------------------- | :------------------------------------------ |
+| `css`, `markdown`, `scss`, `yaml` | `prettier`<sup>N</sup>                      |
+| `html`                            | `js-beautify`<sup>N</sup>                   |
+| `javascript`                      | `standard`<sup>N</sup>                      |
+| `json`                            | `fixjson`<sup>N</sup>                       |
+| `python`                          | `isort`<sup>P</sup>, `autopep8`<sup>P</sup> |
+| `sh/bash`                         | [`shfmt`](https://github.com/mvdan/sh)      |
 
 ### Linters
 
@@ -107,4 +107,3 @@ Have fun :smile:
 This configuration is not a ready-to-use vim distribution, it contains a lot of
 settings that may no suit everyone, so take a look, test and take what you want
 :beer:.
-
