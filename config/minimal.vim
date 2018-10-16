@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-14
+" Last modification: 2018-10-17
 " ==============================================================
 
 
@@ -1032,39 +1032,19 @@ fun! s:complete_notes(a, c, p) " {{{2
 endfun " 2}}}
 " 1}}}
 
-" >>> Autoformat  {{{1
-command! -range=% AutoFormat :call ka#module#autoformat#run(<line1>, <line2>,
+" >>> Fixnformat module  {{{1
+command! -range=% FixNFormat :call ka#module#fixnformat#run(<line1>, <line2>,
             \ {
-            \   'css': printf(
-            \       'prettier --parser css --stdin %s --tab-width %d',
-            \           s:prettier_stdin_file_path(),
-            \           shiftwidth()
-            \       ),
-            \   'scss': printf(
-            \       'prettier --parser scss --stdin %s --tab-width %d',
-            \           s:prettier_stdin_file_path(),
-            \           shiftwidth()
-            \       ),
-            \   'markdown': printf(
-            \       'prettier --parser markdown --stdin %s',
-            \           s:prettier_stdin_file_path()
-            \       ),
-            \   'yaml': printf(
-            \       'prettier --parser yaml --stdin %s',
-            \           s:prettier_stdin_file_path()
-            \       ),
+            \   'css': 'prettier --parser css --stdin --tab-width ' . shiftwidth(),
+            \   'scss': 'prettier --parser scss --stdin --tab-width ' . shiftwidth(),
+            \   'markdown': 'prettier --parser markdown --stdin',
+            \   'yaml': 'prettier --parser yaml --stdin',
             \   'html': 'html-beautify -I -p -f - -s ' . shiftwidth(),
             \   'javascript': 'standard --fix --stdin',
             \   'json': 'fixjson -indent ' . shiftwidth(),
-            \   'python': 'autopep8 -',
+            \   'python': ['isort -', 'autopep8 -'],
             \   'sh': 'shfmt'
             \ })
-
-fun! s:prettier_stdin_file_path() abort " {{{2
-    return !empty(expand('%:p'))
-                \ ? '--stdin-filepath "' . expand("%:p") . '"'
-                \ : ''
-endfun " 2}}}
 " 1}}}
 
 " >>> Tags {{{1
