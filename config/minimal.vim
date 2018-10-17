@@ -533,11 +533,14 @@ fun! s:grep(...) abort " {{{2
             let path = '.'
         endif
 
-        if !g:has_job
-            let cmd = printf('%s %s %s', &grepprg, query, path))
+        if g:has_job
+            let cmd = printf('%s %s %s', &grepprg, query, path)
             call ka#job#start(cmd, {'realtime': 1, 'std': 'out'})
         else
-            silent execute 'grep! ' . query . ' ' . path
+            " Revert escaping
+            let query = substitute(query, '\#', '#', 'g')
+            let query = substitute(query, '\\%', '%', 'g')
+            silent execute 'grep! "' . query . '" ' . path
             botright cwindow 10 | wincmd p
         endif
     endif
@@ -1047,12 +1050,10 @@ command! -range=% FixNFormat :call ka#module#fixnformat#run(<line1>, <line2>,
             \ })
 " 1}}}
 
-" >>> Tags {{{1
+" >>> Gentags module {{{1
 if executable('ctags')
-    if &tags !~# '\.tags'
-        let &tags .= ',.tags'
-    endif
-    command! GenTags :call ka#module#gentags#auto()
+    call ka#module#gentags#auto_enable()
+    command! GenTags call ka#module#gentags#enable_for_wd()
 endif
 " 1}}}
 
