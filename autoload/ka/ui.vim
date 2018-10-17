@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-08
+" Last modification: 2018-10-17
 " ==============================================================
 
 
@@ -12,10 +12,10 @@ fun! ka#ui#echo(title, msg, ...) abort " {{{1
     redraw
     execute 'echohl ' . higroup
     if keep_in_history
-        echomsg a:title . a:msg
+        echomsg title . a:msg
         echohl None
     else
-        echon a:title
+        echon title
         echohl None
         echon a:msg
     endif
