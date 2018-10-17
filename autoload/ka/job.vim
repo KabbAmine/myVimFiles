@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-08
+" Last modification: 2018-10-17
 " ==============================================================
 
 
@@ -107,6 +107,8 @@ fun! ka#job#start(cmd, opts, ...) abort " {{{1
                 \   'object' : job,
                 \   'listwin': opts.listwin,
                 \ }
+
+    return name
 endfun
 " 1}}}
 
