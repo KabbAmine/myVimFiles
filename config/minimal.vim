@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-17
+" Last modification: 2018-10-19
 " ==============================================================
 
 
@@ -115,9 +115,12 @@ endif
 let &guioptions = 'agirtcMk'
 set winaltkeys=no
 set linespace=2
-let &guifont = g:is_win ?
-            \ 'InconsolataForPowerline NF Medium:h10:cANSI' :
-            \ 'FuraMono NF Medium 11'
+" Trick to avoid gvim window changing each time this option is set
+if empty(&guifont)
+    let &guifont = g:is_win ?
+                \ 'InconsolataForPowerline NF Medium:h10:cANSI' :
+                \ 'FuraMono NF Medium 11'
+endif
 " 1}}}
 
 " >>> Messages & info {{{1
