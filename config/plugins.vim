@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-14
+" Last modification: 2018-10-23
 " ==============================================================
 
 
@@ -77,7 +77,7 @@ Plug 'KabbAmine/emmet-vim'
 " 2}}}
 
 " Git {{{2
-Plug 'cohama/agit.vim', {'on': ['Agit', 'AgitFile']}
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 " 2}}}
@@ -384,32 +384,6 @@ augroup Commentary " {{{2
     autocmd!
     autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
     autocmd FileType xdefaults setlocal commentstring=!\ %s
-augroup END " 2}}}
-" 1}}}
-
-" >>> (( agit )) {{{1
-let g:agit_no_default_mappings = 1
-
-augroup Agit " {{{2
-    autocmd!
-    autocmd Filetype agit,agit_stat,agit_diff
-                \ nmap <buffer> ch <Plug>(agit-git-checkout)
-    autocmd Filetype agit,agit_stat,agit_diff
-                \ nmap <buffer> P <Plug>(agit-print-commitmsg)
-    autocmd Filetype agit,agit_stat,agit_diff
-                \ nmap <buffer> q <Plug>(agit-exit)
-    autocmd Filetype agit,agit_stat,agit_diff
-                \ nmap <buffer> R <Plug>(agit-reload)
-    autocmd Filetype agit,agit_stat
-                \ nmap <buffer> D <Plug>(agit-diff)
-    autocmd Filetype agit,agit_stat
-                \ nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
-    autocmd Filetype agit,agit_stat
-                \ nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
-    autocmd Filetype agit,agit_stat
-                \ nmap <buffer> <C-n> <Plug>(agit-scrolldown-diff)
-    autocmd Filetype agit,agit_stat
-                \ nmap <buffer> <C-p> <Plug>(agit-scrollup-diff)
 augroup END " 2}}}
 " 1}}}
 
