@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-19
+" Last modification: 2018-10-25
 " ==============================================================
 
 
@@ -513,7 +513,7 @@ nnoremap <silent> ,G <Esc>:setlocal operatorfunc=<SID>grep_reg_motion<CR>g@
 fun! s:grep(...) abort " {{{2
     let use_regex = exists('a:2') ? 1 : 0
 
-    if exists('a:1') && type(a:1) is# v:t_string
+    if exists('a:1') && type(a:1) is# v:t_number
         let q = a:1 is# 1
                     \ ? ka#utils#get_visual_selection()
                     \ : ka#utils#get_motion_result()
