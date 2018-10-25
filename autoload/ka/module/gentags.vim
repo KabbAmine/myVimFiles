@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-23
+" Last modification: 2018-10-25
 " ==============================================================
 
 
@@ -84,6 +84,25 @@ fun! s:set_tags_opt(tagfile) abort " {{{1
 endfun
 " 1}}}
 
+fun! s:cmd_opts_for_files(path) abort " {{{1
+    " Files can be:
+    " - Result of `git ls-files` if we are in a git project
+    " - Everything (`-R .`)
+
+    if isdirectory(a:path . '/.git')
+        let tmp_file = tempname()
+        let files = split(system(printf('cd "%s" && git ls-files .', a:path)), "\n")
+        call map(files, {i, v -> a:path . '/' . v})
+        call writefile(files, tmp_file)
+        let cmd = '-L "'. tmp_file . '"'
+    else
+        let cmd = '-R "' . a:path . '"'
+    endif
+
+    return cmd
+endfun
+" 1}}}
+
 fun! s:generate_tags_in(tagfile) abort " {{{1
     let path = s:path_from_tagfile_path(a:tagfile)
     " In case we've changed our wd, but still editing a buffer within from
@@ -91,9 +110,9 @@ fun! s:generate_tags_in(tagfile) abort " {{{1
     if getcwd() isnot# path
         return v:null
     endif
-    let ctags_cmd = printf('ctags --quiet=yes -f "%s" -R "%s"',
+    let ctags_cmd = printf('ctags --quiet=yes -f "%s" %s',
                 \   fnamemodify(a:tagfile, ':p'),
-                \   path
+                \   s:cmd_opts_for_files(path)
                 \ )
     if !empty(s:job_name)
         silent call ka#job#stop(s:job_name, '!')
