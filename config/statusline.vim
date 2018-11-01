@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-13
+" Last modification: 2018-10-29
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -118,10 +118,10 @@ endfun
 " 1}}}
 
 fun! SL_python() abort " {{{1
-    let s:sl_py = get(s:, 'sl_python',
+    let s:sl_py = get(s:, 'sl_py',
                 \ executable('python') ? system('python --version')[7:-2] : ''
                 \ )
-    let s:sl_py3 = get(s:, 'sl_python3',
+    let s:sl_py3 = get(s:, 'sl_py3',
                 \ executable('python3') ? system('python3 --version')[7:-2] : ''
                 \ )
     return printf('[py %s - %s]', s:sl_py, s:sl_py3)
