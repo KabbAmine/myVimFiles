@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-25
+" Last modification: 2018-10-28
 " ==============================================================
 
 
@@ -392,6 +392,10 @@ nnoremap <silent> gs <C-w>
 nnoremap <silent> gsnv :vnew<CR>
 nnoremap <silent> gsh :hide<CR>
 nnoremap <silent> gsns :split +enew<CR>
+nnoremap <silent> <up> :resize +5<CR>
+nnoremap <silent> <down> :resize -5<CR>
+nnoremap <silent> <left> :vertical resize -5<CR>
+nnoremap <silent> <right> :vertical resize +5<CR>
 
 if g:is_gui
     nnoremap <silent> <c-h> <C-w><Left>
