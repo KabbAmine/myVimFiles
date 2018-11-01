@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-25
+" Last modification: 2018-10-27
 " ==============================================================
 
 
@@ -118,8 +118,9 @@ fun! s:generate_tags_in(tagfile) abort " {{{1
         silent call ka#job#stop(s:job_name, '!')
         call s:clean_and_update_sl()
     endif
-    let s:job_name = ka#job#start(ctags_cmd, {},
-                \   function('s:clean_and_update_sl')
+    let s:job_name = ka#job#start(ctags_cmd, {
+                \   'listwin': '',
+                \ }, function('s:clean_and_update_sl')
                 \ )
 endfun
 " 1}}}
