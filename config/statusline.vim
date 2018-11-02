@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-29
+" Last modification: 2018-11-02
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -13,7 +13,7 @@
 " {{{1
 let s:sl  = {
             \   'separator': '',
-            \   'ignore': ['pine', 'vfinder', 'qf', 'nerdtree', 'undotree', 'diff'],
+            \   'ignore': ['pine', 'vfinder', 'qf', 'undotree', 'diff'],
             \   'apply': {},
             \   'checker': get(g:, 'checker', {
             \       'error_sign'   : '⨉',
