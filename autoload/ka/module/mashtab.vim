@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -13,39 +13,6 @@ fun! ka#module#mashtab#i() abort " {{{1
     inoremap <silent> <Plug>(mashtabBS) <C-h><C-r>=<SID>complete(-1)<CR>
 endfun
 " 1}}}
-
-fun! ka#module#mashtab#autocomplete(...) abort " {{{1
-    let types = exists('a:1') ? split(a:1) : []
-    if !exists('b:mashtab_auto')
-        let b:mashtab_auto = {
-                    \   'state': 1,
-                    \   'types': types,
-                    \ }
-        augroup MashtabAutoCompletion
-            autocmd!
-            autocmd InsertCharPre <buffer> let s:def_completions = []
-                        \| call call('<SID>start_auto_completion', [b:mashtab_auto.types, 350])
-        augroup END
-        call s:echo('Autocomplete enabled', 'MoreMsg')
-    else
-        augroup MashtabAutoCompletion
-            autocmd!
-        augroup END
-        augroup! MashtabAutoCompletion
-        unlet! b:mashtab_auto
-        call s:echo('Autocomplete disabled', 'Error')
-    endif
-endfun
-" 1}}}
-
-fun! s:start_auto_completion(types, delay) abort " {{{1
-    if exists('b:mashtab_auto') && !pumvisible()
-        call call('<SID>complete', [1, a:types, a:delay])
-    else
-        return ''
-    endif
-endfun
-" }}}
 
 fun! s:complete(dir, ...) abort " {{{1
     " a:1: types
