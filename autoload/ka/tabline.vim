@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-26
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -17,7 +17,9 @@ endfun
 
 fun! ka#tabline#buffer_info() abort " {{{1
     let current = bufnr('%')
-    let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && getbufvar(v:val, "&filetype") isnot# "qf"')
+    let buffers = filter(range(1, bufnr('$')), {i, v ->
+                \  buflisted(v) && getbufvar(v, '&filetype') isnot# 'qf'
+                \ })
     let index_current = index(buffers, current) + 1
     let modified = getbufvar(current, '&modified') ? '+' : ''
     let count_buffers = len(buffers)

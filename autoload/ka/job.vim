@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-17
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -282,13 +282,15 @@ fun! s:get_job_opts(name, initialwin, opts, After_exit_cb) abort " {{{1
     if !empty(a:opts.listwin)
         if a:opts.std =~# 'out'
             let job_opts = extend(job_opts, {
-                        \   'out_cb' : function('s:on_out', [a:opts.listwin, a:initialwin])
-                        \ })
+                        \   'out_cb' : function('s:on_out',
+                        \       [a:opts.listwin, a:initialwin]
+                        \ )})
         endif
         if a:opts.std =~# 'err'
             let job_opts = extend(job_opts, {
-                        \   'err_cb' : function('s:on_error', [a:opts.listwin, a:initialwin])
-                        \ })
+                        \   'err_cb' : function('s:on_error',
+                        \   [a:opts.listwin, a:initialwin]
+                        \ )})
         endif
     endif
     let job_opts = extend(job_opts, {

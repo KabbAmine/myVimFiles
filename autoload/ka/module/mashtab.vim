@@ -66,7 +66,8 @@ fun! s:tab(...) abort " {{{1
                     \ ? g:mashtab_ft_chains[&ft]
                     \ : has_key(g:mashtab_ft_chains, '_')
                     \ ? g:mashtab_ft_chains._
-                    \ : ['path', 'ulti', 'spell', 'kspell', 'omni', 'user', 'dict', 'buffer', 'line']
+                    \ : ['path', 'ulti', 'spell', 'kspell', 'omni',
+                    \       'user', 'dict', 'buffer', 'line']
     endif
     let delay = get(a:, '2', 150)
 
@@ -79,7 +80,9 @@ fun! s:tab(...) abort " {{{1
         let s:last_completion = 'tab'
     endif
 
-    let completion_chain = s:def_completions[index(s:def_completions, s:last_completion) + 1 :]
+    let completion_chain = s:def_completions[
+                \ index(s:def_completions, s:last_completion) + 1
+                \ :]
     " Close the pmenu when no more items in our chain
     if empty(completion_chain)
         unlet! s:last_completion s:no_candidates s:def_completions
@@ -110,7 +113,9 @@ endfun
 
 fun! s:backspace() abort " {{{1
     if exists('s:last_completion')
-        let keys = s:get_completion_function(s:last_completion, s:str_to_complete())
+        let keys = s:get_completion_function(
+                    \   s:last_completion, s:str_to_complete()
+                    \ )
         call s:trigger_completion(keys)
     endif
     return ''
@@ -186,7 +191,9 @@ endfun
 " 1}}}
 
 fun! s:complete_ulti(to_complete) abort " {{{1
-    if g:did_plugin_ultisnips && s:is_an_ultisnips_snippet() && a:to_complete =~# '\S\{1,\}$'
+    if g:did_plugin_ultisnips
+                \ && s:is_an_ultisnips_snippet() 
+                \ && a:to_complete =~# '\S\{1,\}$'
         return ['s:source_ultisnips', [a:to_complete]]
     else
         return ''
@@ -206,7 +213,9 @@ endfun
 
 fun! s:complete_spell(to_complete) abort " {{{1
     " See previous function for why do we use \S.
-    if &spell && a:to_complete =~# '\S\+$' && spellbadword(a:to_complete) isnot# ['', '']
+    if &spell
+                \ && a:to_complete =~# '\S\+$
+                \ && spellbadword(a:to_complete) isnot# ['', '']
         return "\<C-x>s"
     else
         return ''
@@ -215,13 +224,16 @@ endfun
 " 1}}}
 
 fun! s:complete_omni(to_complete) abort " {{{1
-    return !empty(&omnifunc) && has_key(g:mashtab_patterns.omni, &ft) && a:to_complete =~# g:mashtab_patterns.omni[&ft]
+    return !empty(&omnifunc)
+                \ && has_key(g:mashtab_patterns.omni, &ft)
+                \ && a:to_complete =~# g:mashtab_patterns.omni[&ft]
                 \ ? "\<C-x>\<C-o>" : ''
 endfun
 " 1}}}
 
 fun! s:complete_user(to_complete) abort " {{{1
-    return has_key(g:mashtab_patterns.user, &ft) && a:to_complete =~# g:mashtab_patterns.user[&ft]
+    return has_key(g:mashtab_patterns.user, &ft)
+                \ && a:to_complete =~# g:mashtab_patterns.user[&ft]
                 \ ? "\<C-x>\<C-u>" : ''
 endfun
 " 1}}}

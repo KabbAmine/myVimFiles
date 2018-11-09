@@ -5,7 +5,6 @@
 " The used plugins are (They are not mandatory):
 " * Fugitive
 " * Signify
-" * Rvm
 " * ALE
 
 " ========== CONFIGURATION =====================================
@@ -68,6 +67,7 @@ endfun
 fun! SL_previewwindow() abort " {{{1
     return &previewwindow ? '[Prev]' : ''
 endfun
+" 1}}}
 
 fun! SL_filename() abort " {{{1
     let fn = !empty(expand('%:t'))
@@ -273,17 +273,37 @@ endfun
 " 1}}}
 
 fun! s:set_sl_colors() abort " {{{1
-    call s:hi('User1', s:sl.colors['main'], s:sl.colors['background'], 'bold')
-    call s:hi('User2', s:sl.colors['backgroundLight'], s:sl.colors['text'], 'none')
-    call s:hi('User3', s:sl.colors['backgroundLight'], s:sl.colors['textDark'], 'none')
-    call s:hi('User4', s:sl.colors['main'], s:sl.colors['background'], 'none')
+    call s:hi('User1',
+                \   s:sl.colors['main'], s:sl.colors['background'], 'bold'
+                \ )
+    call s:hi('User2',
+                \   s:sl.colors['backgroundLight'], s:sl.colors['text'], 'none'
+                \ )
+    call s:hi('User3',
+                \   s:sl.colors['backgroundLight'], s:sl.colors['textDark'],
+                \   'none'
+                \ )
+    call s:hi('User4',
+                \   s:sl.colors['main'], s:sl.colors['background'], 'none'
+                \ )
     " Modified state
-    call s:hi('User5', s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold')
+    call s:hi('User5',
+                \   s:sl.colors['backgroundLight'], s:sl.colors['main'], 'bold'
+                \ )
     " Success & error states
-    call s:hi('User6', s:sl.colors['backgroundLight'], s:sl.colors['green'], 'bold')
-    call s:hi('User7', s:sl.colors['backgroundLight'], s:sl.colors['red'], 'bold')
+    call s:hi('User6',
+                \   s:sl.colors['backgroundLight'], s:sl.colors['green'],
+                \   'bold'
+                \ )
+    call s:hi('User7',
+                \   s:sl.colors['backgroundLight'], s:sl.colors['red'], 'bold'
+                \ )
     " Inactive statusline
-    call s:hi('User8', s:sl.colors['backgroundDark'], s:sl.colors['backgroundLight'], 'none')
+    call s:hi('User8',
+                \   s:sl.colors['backgroundDark'],
+                \   s:sl.colors['backgroundLight'],
+                \   'none'
+                \ )
 endfun
 " 1}}}
 
@@ -410,7 +430,8 @@ let s:args = [
             \       'hi_group', 'qf'
             \   ]
             \ ]
-command! -nargs=? -complete=custom,s:sl_complete_args SL :call s:sl_command(<f-args>)
+command! -nargs=? -complete=custom,s:sl_complete_args SL
+            \ call s:sl_command(<f-args>)
 
 fun! s:sl_command(...) abort " {{{2
     let arg = exists('a:1') ? a:1 : 'clear'

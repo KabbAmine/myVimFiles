@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-27
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -50,7 +50,9 @@ endfun
 
 fun! ka#module#gentags#delete_old_tagfiles() abort " {{{1
     for tf in glob(s:tags_dir . '*--tags', '', 1)
-        let dir = substitute(matchstr(fnamemodify(tf, ':t'), '.*\ze--tags$'), '__', '/', 'g')
+        let dir = substitute(matchstr(fnamemodify(tf, ':t'),
+                    \   '.*\ze--tags$'), '__', '/', 'g'
+                    \ )
         if !isdirectory(dir)
             call delete(tf)
         endif
@@ -91,7 +93,9 @@ fun! s:cmd_opts_for_files(path) abort " {{{1
 
     if isdirectory(a:path . '/.git')
         let tmp_file = tempname()
-        let files = split(system(printf('cd "%s" && git ls-files .', a:path)), "\n")
+        let files = split(system(printf('cd "%s" && git ls-files .',
+                    \   a:path
+                    \ )), "\n")
         call map(files, {i, v -> a:path . '/' . v})
         call writefile(files, tmp_file)
         let cmd = '-L "'. tmp_file . '"'

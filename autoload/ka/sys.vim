@@ -17,7 +17,9 @@ fun! ka#sys#open_here(type, ...) abort " {{{1
                 \   'xdg-open %s 2> /dev/null &' :
                 \   'start explorer %s')
                 \ }
-    exe printf('silent !' . cmd[a:type], (exists('a:1') ? shellescape(a:1) : getcwd()))
+    exe printf('silent !' . cmd[a:type],
+                \   (exists('a:1') ? shellescape(a:1) : getcwd())
+                \ )
 
     if !g:is_gui | redraw! | endif
 endfun
