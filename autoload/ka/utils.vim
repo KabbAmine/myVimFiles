@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -63,10 +63,9 @@ fun! ka#utils#autocmd(name, cmd, events) abort " {{{1
 endfun
 " 1}}}
 
-fun! ka#utils#create_or_go_to_buf(buf_name, ft, split, ...) abort " {{{1
-    " Open or move to a:bufname (set to nofile if a:1)
+fun! ka#utils#create_or_go_to_buf(buf_name, ft, split) abort " {{{1
+    " Open or move to a:bufname
 
-    let nofile = get(a:, 1, 0)
     let buf_win = bufwinnr(bufnr(a:buf_name))
 
     if buf_win isnot# -1
@@ -77,11 +76,6 @@ fun! ka#utils#create_or_go_to_buf(buf_name, ft, split, ...) abort " {{{1
 
     if !empty(a:ft)
         let &filetype = a:ft
-    endif
-
-    if nofile
-        setlocal noswapfile
-        setlocal buftype=nofile
     endif
 endfun
 " 1}}}
