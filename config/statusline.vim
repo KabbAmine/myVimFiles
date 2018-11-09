@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-05
+" Last modification: 2018-11-09
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -121,17 +121,6 @@ fun! SL_paste() abort " {{{1
 endfun
 " 1}}}
 
-fun! SL_python() abort " {{{1
-    let s:sl_py = get(s:, 'sl_py',
-                \ executable('python') ? system('python --version')[7:-2] : ''
-                \ )
-    let s:sl_py3 = get(s:, 'sl_py3',
-                \ executable('python3') ? system('python3 --version')[7:-2] : ''
-                \ )
-    return printf('[py %s - %s]', s:sl_py, s:sl_py3)
-endfun
-" 1}}}
-
 fun! SL_spell() abort " {{{1
     return &spell ? &spelllang : ''
 endfun
@@ -225,20 +214,6 @@ fun! SL_signify() abort " {{{1
     else
         return ''
     endif
-endfun
-" 1}}}
-
-fun! SL_ruby() abort " {{{1
-    if g:is_gui && exists('*rvm#statusline()') && !empty(rvm#statusline())
-        let s:sl_ruby = matchstr(rvm#statusline(), '\d.*[^\]]')
-    elseif executable('ruby')
-        let s:sl_ruby = get(s:, 'sl_ruby',
-                    \ matchstr(system('ruby -v')[5:], '[a-z0-9.]*\s')[:-2]
-                    \ )
-    else
-        let s:sl_ruby = ''
-    endif
-    return printf('[ruby %s]', s:sl_ruby)
 endfun
 " 1}}}
 
@@ -432,7 +407,7 @@ let s:args = [
             \   ['toggle', 'clear'],
             \   [
             \       'column_and_percent', 'format_and_encoding', 'indentation',
-            \       'hi_group', 'ruby', 'python', 'qf'
+            \       'hi_group', 'qf'
             \   ]
             \ ]
 command! -nargs=? -complete=custom,s:sl_complete_args SL :call s:sl_command(<f-args>)
