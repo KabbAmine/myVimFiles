@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-09
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -113,7 +113,7 @@ endfun
 
 fun! s:echo(msg, ...) abort " {{{1
     let higroup = get(a:, '1', 'normal')
-    call ka#ui#echo('-> ', a:msg, higroup)
+    call ka#ui#echo('->', a:msg, higroup)
 endfun
 " 1}}}
 
