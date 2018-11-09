@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-16
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -14,16 +14,20 @@ fun! ka#module#fixnformat#run(start, end, formatters) abort " {{{1
     let cmds_l = type(cmd) is# v:t_list ? cmd : [cmd]
     let [valid_cmds_l, executables, no_executables] =
                 \   s:get_cmd_str_and_executables(cmds_l)
+
+    let err_msg = !empty(no_executables)
+                \ ? 'executable(s) "' . join(no_executables, ', ')
+                \   . '" not found '
+                \ : ''
+
     " Stop if no executables at all
     if len(no_executables) is# len(cmds_l)
+        call s:echo_err(err_msg)
         return v:null
     endif
 
     let pos = getpos('.')
     let buf_nr = bufnr('%')
-    let err_msg = !empty(no_executables)
-                \ ? 'executable(s) "' . join(no_executables, ', ') . '" not found '
-                \ : ''
     let msg = join(executables, ' | ') . ' '
     " TODO: windows
     let cmd_str = printf('%s -c "%s"',
@@ -168,12 +172,12 @@ endfun
 " 1}}}
 
 fun! s:echo(msg) abort " {{{1
-    call ka#ui#echo('[fixnformat] ', a:msg, 'modemsg')
+    call ka#ui#echo('[fixnformat]', a:msg, 'modemsg')
 endfun
 " 1}}}
 
 fun! s:echo_err(msg) abort " {{{1
-    call ka#ui#echo('[fixnformat] ', a:msg, 'error', 1)
+    call ka#ui#echo('[fixnformat]', a:msg, 'error', 1)
 endfun
 " 1}}}
 
