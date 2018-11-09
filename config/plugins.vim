@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-10-23
+" Last modification: 2018-11-09
 " ==============================================================
 
 
@@ -44,12 +44,10 @@ Plug 'lvht/phpcd.vim'                 , {
             \   'for': 'php',
             \   'do': { -> ka#sys#execute_cmd('composer install')}
             \ }
-Plug 'Rican7/php-doc-modded'          , {'for': 'php'}
 Plug 'StanAngeloff/php.vim'
 " 2}}}
 
 " JavaScript {{{2
-Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'marijnh/tern_for_vim', {'do': { -> ka#sys#execute_cmd('npm install')}}
 Plug 'othree/yajs.vim'
             \ | Plug 'othree/javascript-libraries-syntax.vim'
@@ -61,7 +59,6 @@ Plug 'davidhalter/jedi-vim',
             \   'do': { -> ka#sys#execute_cmd('git submodule update --init')},
             \   'for': 'python'
             \ }
-Plug 'heavenshell/vim-pydocstring', {'for': 'python'}
 Plug 'vim-python/python-syntax'
 " 2}}}
 
@@ -86,7 +83,15 @@ Plug 'tpope/vim-fugitive'
 Plug 'SirVer/ultisnips'
 " 2}}}
 
-" (( textobj-user )) {{{2
+" Edition & moving {{{2
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'machakann/vim-sandwich'
+Plug 'Raimondi/delimitMate'
+Plug 'tommcdo/vim-exchange'
+Plug 'tommcdo/vim-lion'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
             \| Plug 'glts/vim-textobj-comment'
             \| Plug 'somini/vim-textobj-fold', {'branch': 'foldmarker'},
@@ -100,24 +105,12 @@ Plug 'kana/vim-textobj-user'
             \   {'for': 'javascript'}
 " 2}}}
 
-" Edition & moving {{{2
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'machakann/vim-sandwich'
-Plug 'Raimondi/delimitMate'
-Plug 'tommcdo/vim-exchange'
-Plug 'tommcdo/vim-lion'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-" 2}}}
-
 " Misc {{{2
 Plug 'junegunn/vader.vim', {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji', {'for': ['markdown', 'gitcommit']}
 Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'   , {'on': 'UndotreeToggle'}
-Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
-Plug 'tpope/vim-rvm', !g:is_unix ? {'on': 'Rvm'} : {'on': []}
 " 2}}}
 
 " Interface {{{2
@@ -129,7 +122,7 @@ Plug 'machakann/vim-highlightedyank',
 " Plug 'KabbAmine/unite-cmus'
 " Plug 'KabbAmine/gulp-vim'
 " Plug 'KabbAmine/vZoom.vim'
-Plug $HOME . '/Temp/lab/vim/RAP/'
+" Plug $HOME . '/Temp/lab/vim/RAP/'
 Plug $HOME . '/Temp/lab/vim/vfinder/'
 Plug $HOME . '/Temp/lab/vim/pine.vim/'
 Plug 'KabbAmine/lazyList.vim'
@@ -179,31 +172,6 @@ silent doautocmd ColorScheme
 
 " >>> (( closetag )) {{{1
 let g:closetag_filenames = '*.html,*.xml,*.php'
-" 1}}}
-
-" >>> (( NERDTree )) {{{1
-" nnoremap <silent> ,N :NERDTreeToggle<CR>
-" Close NERTree otherwise delete buffer
-" (The delete buffer is already mapped in config/minimal.vim)
-" nnoremap <silent> <S-q>
-"             \ :execute (&ft !=# 'nerdtree' ? 'bw' : 'NERDTreeClose')<CR>
-let g:NERDTreeBookmarksFile = g:is_win ?
-            \ 'C:\Users\k-bag\vimfiles\misc\NERDTreeBookmarks' :
-            \ '/home/k-bag/.vim/misc/NERDTreeBookmarks'
-let g:NERDTreeIgnore = ['\~$', '\.class$']
-" Single-clic for folder nodes and double for files.
-let g:NERDTreeMouseMode = 2
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeCaseSensitiveSort = 1
-let g:NERDTreeDirArrows = 1
-let g:NERDTreeHijackNetrw = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeCascadeSingleChildDir = 0
-let g:NERDTreeCascadeOpenSingleChildDir = 0
-" Mappings
-let g:NERDTreeMapOpenSplit = 's'
-let g:NERDTreeMapOpenVSplit = 'v'
 " 1}}}
 
 " >>> (( python-syntax )) {{{1
@@ -329,27 +297,6 @@ let g:jedi#rename_command = ''
 let g:colorizer_colornames = 0
 " 1}}}
 
-" >>> (( vim-pydocstring )) {{{1
-let g:pydocstring_enable_mapping = 0
-
-augroup PydocStringMaps " {{{2
-    autocmd!
-    autocmd Filetype python
-                \ nnoremap <buffer> <silent> <C-d> <Plug>(pydocstring)
-augroup END " 2}}}
-" 1}}}
-
-" >>> (( php-doc-modded )) {{{1
-let g:pdv_cfg_ClassTags = []
-let g:pdv_cfg_autoEndFunction = 0
-let g:pdv_cfg_autoEndClass = 0
-
-augroup PhpDocMaps " {{{2
-    autocmd!
-    autocmd Filetype php nnoremap <buffer> <silent> <C-d> :call PhpDoc()<CR>
-augroup END " 2}}}
-" 1}}}
-
 " >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
@@ -387,15 +334,6 @@ augroup Commentary " {{{2
 augroup END " 2}}}
 " 1}}}
 
-" >>> (( vim-rvm )) {{{1
-if g:is_unix && executable('rvm')
-    augroup Rvm
-        autocmd!
-        autocmd GUIEnter * Rvm
-    augroup END
-endif
-" 1}}}
-
 " >>> (( vim-highlightedyank )) {{{1
 let g:highlightedyank_highlight_duration = 200
 " 1}}}
@@ -408,13 +346,6 @@ call operator#sandwich#set('all', 'all', 'autoindent', 0)
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
-" 1}}}
-
-" >>> (( vim-jsdoc )) {{{1
-augroup JsDoc " {{{2
-    autocmd!
-    autocmd Filetype javascript nnoremap <buffer> <silent> <C-d> :JsDoc<CR>
-augroup END " 2}}}
 " 1}}}
 
 " >>> (( tern_for_vim )) {{{1
@@ -501,9 +432,9 @@ let g:vcoolor_map = '<A-c>'
 let g:vcool_ins_rgb_map = '<A-r>'
 " 1}}}
 
-" >>> (( gulp-vim )) {{{1
-let g:gv_rvm_hack = 1
-" 1}}}
+" " >>> (( gulp-vim )) {{{1
+" let g:gv_rvm_hack = 1
+" " 1}}}
 
 " >>> (( lazyList )) {{{1
 let g:lazylist_omap = 'ii'
@@ -565,48 +496,43 @@ augroup VBoxAuto " {{{2
 augroup END " 2}}}
 " 1}}}
 
-" >>> (( imagePreview )) {{{1
-" nmap gi <Plug>(image-preview)
-" let g:image_preview = {
-"             \   '_': {
-"             \       'prg'  : 'feh',
-"             \       'args' :
-"             \           '--scale-down --no-menus --quiet --magick-timeout 1',
-"             \   },
-"             \   'gif': {
-"             \       'prg'  : 'exo-open',
-"             \       'args' : '',
-"             \   },
+" " >>> (( RAP )) {{{1
+" let g:rap_cfg = {'runners': {}}
+" let g:rap_cfg.runners = {
+"             \   'lua'   : {'cmd' : 'lua5.3'},
+"             \   'python': {'cmd' : 'python3'},
+"             \   'sh'    : {'cmd' : 'bash'},
 "             \ }
-" 1}}}
-
-" >>> (( RAP )) {{{1
-let g:rap_cfg = {'runners': {}}
-let g:rap_cfg.runners = {
-            \   'lua'   : {'cmd' : 'lua5.3'},
-            \   'python': {'cmd' : 'python3'},
-            \   'sh'    : {'cmd' : 'bash'},
-            \ }
-nnoremap <silent> gpp :RAP<CR>
-xnoremap <silent> gpp :RAP<CR>
-nnoremap <silent> gp! :RAP!<CR>
-" 1}}}
+" nnoremap <silent> gpp :RAP<CR>
+" xnoremap <silent> gpp :RAP<CR>
+" nnoremap <silent> gp! :RAP!<CR>
+" " 1}}}
 
 " >>> (( vfinder )) {{{1
 let g:vfinder_fuzzy = 0
 let g:vfinder_maps = {}
-let g:vfinder_maps._ = {'n': {'window_quit': 'q'}}
+let g:vfinder_maps._ = {
+            \   'n': {'window_quit': 'q'},
+            \   'i': {
+            \       'toggle_maps_in_sl': '<Tab>',
+            \       'cache_clean': '<C-x>'
+            \   }
+            \ }
 call vfinder#maps#define()
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
-nnoremap <silent> ,d :call vfinder#i('directories')<CR>
+nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': ''})<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
-nnoremap <silent> ,,f :call vfinder#i('outline', {'fuzzy': 1})<CR>
-nnoremap <silent> z= :call vfinder#i('spell')<CR>
-inoremap <silent> <A-z> <Esc>:call vfinder#i('spell')<CR>
+nnoremap <silent> ,,f :call vfinder#i('tags_in_file', {'fuzzy': 1})<CR>
+nnoremap <silent> z= :call vfinder#i('spell', {
+            \   'win_pos': 'topleft vertical'
+            \ })<CR>
+inoremap <silent> <A-z> <Esc>:call vfinder#i('spell', {
+            \   'win_pos': 'topleft vertical'
+            \ })<CR>
 nnoremap <silent> ,y :call vfinder#i('yank')<CR>
 inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
 nnoremap <silent> ,m :call vfinder#i('marks')<CR>
@@ -620,8 +546,8 @@ fun! s:bookmarsk_source() abort " {{{2
             \   'name'      : 'bookmarks',
             \   'to_execute': ['~/.vim', '~/Temp/lab'],
             \   'maps'      : {
-            \       'i': {'<CR>': {'action': 'cd %s', 'options': {'silent': 1} }},
-            \       'n': {'<CR>': {'action': 'cd %s', 'options': {'silent': 1} }}
+            \       'i': {'<CR>': {'action': 'cd %s \| pwd', 'options': {'silent': 0} }},
+            \       'n': {'<CR>': {'action': 'cd %s \| pwd', 'options': {'silent': 0} }}
             \   }
             \ }
 endfun " 2}}}
