@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-11
 " ==============================================================
 
 
@@ -214,7 +214,7 @@ endfun
 fun! s:complete_spell(to_complete) abort " {{{1
     " See previous function for why do we use \S.
     if &spell
-                \ && a:to_complete =~# '\S\+$
+                \ && a:to_complete =~# '\S\+$'
                 \ && spellbadword(a:to_complete) isnot# ['', '']
         return "\<C-x>s"
     else
