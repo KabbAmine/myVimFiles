@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-11
 " ==============================================================
 
 
@@ -498,12 +498,12 @@ nnoremap <leader><leader>c
 
 " >>> Grep {{{1
 " To use with rg or ag
-nnoremap grr :call <SID>grep()<CR>
-nnoremap grR :call <SID>grep('', '!')<CR>
-xnoremap <silent> grr :call <SID>grep(1)<CR>
-xnoremap <silent> grR :call <SID>grep(1, '!')<CR>
-nnoremap <silent> gr <Esc>:setlocal operatorfunc=<SID>grep_motion<CR>g@
-nnoremap <silent> gr <Esc>:setlocal operatorfunc=<SID>grep_reg_motion<CR>g@
+nnoremap ,,g :call <SID>grep()<CR>
+nnoremap ,,G :call <SID>grep('', '!')<CR>
+xnoremap <silent> ,,g :call <SID>grep(1)<CR>
+xnoremap <silent> ,,G :call <SID>grep(1, '!')<CR>
+nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>grep_motion<CR>g@
+nnoremap <silent> ,G <Esc>:setlocal operatorfunc=<SID>grep_reg_motion<CR>g@
 
 fun! s:grep(...) abort " {{{2
     let use_regex = exists('a:2') ? 1 : 0
@@ -869,24 +869,11 @@ endfun " 2}}}
 " 1}}}
 
 " >>> Quickfix & location fix windows {{{1
-nnoremap <silent> ]q :cnext<CR>
-nnoremap <silent> [q :cprevious<CR>
-nnoremap <silent> ]l :lnext<CR>
-nnoremap <silent> [l :lprevious<CR>
-
-fun! s:preview_q_item() abort " {{{2
-    let s:is_loclist = getwininfo(bufwinid('%'))[0].loclist
-    let file = matchstr(getline(line('.')), '^\f\+\ze|')
-    let to_line = matchstr(getline(line('.')), '^\f\+|\zs\d\+\ze\s\+')
-    silent execute printf(
-                \ 'vertical pedit! +setlocal\ cursorline\ nobuflisted|%s %s',
-                \ to_line, file
-                \ )
-    wincmd P | wincmd L
-    normal! zv
-    wincmd p
-endfun " 2}}}
-" 1}}}
+nnoremap <silent> ]q :cnext<CR>zv
+nnoremap <silent> [q :cprevious<CR>zv
+nnoremap <silent> ]l :lnext<CR>zv
+nnoremap <silent> [l :lprevious<CR>zv
+" " 1}}}
 
 " >>> Enable foldcolumn only when folds are present {{{1
 fun! s:auto_fold_column() abort " {{{2
@@ -1082,13 +1069,6 @@ augroup CustomAutoCmds
                 \ setlocal softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType vim,python,json
                 \ setlocal softtabstop=4 shiftwidth=4 expandtab
-
-    " Quicklist & location window related
-    autocmd FileType qf setlocal nowrap
-    autocmd FileType qf nnoremap <silent> <buffer> <CR> :pclose!<CR><CR>
-    autocmd FileType qf nnoremap <silent> <buffer> p
-                \ :call <SID>preview_q_item()<CR>
-    autocmd FileType qf nnoremap <silent> <buffer> P :pclose<CR>
 
     " Set omni-completion if the appropriate syntax file is present otherwise
     " use the syntax completion
