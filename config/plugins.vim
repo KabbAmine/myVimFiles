@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-15
 " ==============================================================
 
 
@@ -274,6 +274,7 @@ highlight! link SignifySignChange WildMenu
 
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
+let g:plug_window = 'enew'
 hi! link PlugDeleted Conceal
 " 1}}}
 
@@ -518,15 +519,14 @@ let g:vfinder_maps._ = {
             \       'cache_clean': '<C-x>'
             \   }
             \ }
-call vfinder#maps#define()
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
-nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': ''})<CR>
+nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'botright'})<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
-nnoremap <silent> ,,f :call vfinder#i('tags_in_file', {'fuzzy': 1})<CR>
+nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {'fuzzy': 1})<CR>
 nnoremap <silent> z= :call vfinder#i('spell', {
             \   'win_pos': 'topleft vertical'
             \ })<CR>
