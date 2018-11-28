@@ -59,8 +59,7 @@ fun! s:get_hint_signs(lines) abort " {{{1
     let def_hints = split(s:hints, '\ze\h')
     let len_def_hints = len(def_hints)
     let count_lines = len(a:lines)
-    " Generate a random number (https://stackoverflow.com/a/12739441)
-    let id = str2nr(matchstr(reltimestr(reltime()), '\v\.@<=\d+')[1:])
+    let id = ka#utils#random_id()
     let hints = []
     for i in range(0, count_lines - 1)
         let pre_hint = ''

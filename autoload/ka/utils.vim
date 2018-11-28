@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-19
 " ==============================================================
 
 
@@ -77,6 +77,12 @@ fun! ka#utils#create_or_go_to_buf(buf_name, ft, split) abort " {{{1
     if !empty(a:ft)
         let &filetype = a:ft
     endif
+endfun
+" 1}}}
+
+fun! ka#utils#random_id() abort " {{{1
+    " Generate a random number (https://stackoverflow.com/a/12739441)
+    return str2nr(matchstr(reltimestr(reltime()), '\v\.@<=\d+')[1:])
 endfun
 " 1}}}
 
