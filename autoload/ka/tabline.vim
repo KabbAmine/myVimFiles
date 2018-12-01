@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-29
 " ==============================================================
 
 
@@ -24,11 +24,7 @@ fun! ka#tabline#buffer_info() abort " {{{1
     let modified = getbufvar(current, '&modified') ? '+' : ''
     let count_buffers = len(buffers)
     return index_current isnot# 0 && count_buffers ># 1
-                \ ? printf('[%s%s] %s/%s',
-                \   current,
-                \   modified,
-                \   index_current,
-                \   count_buffers)
+                \ ? printf('%s/%s', index_current, count_buffers)
                 \ : ''
 endfun
 " 1}}}
