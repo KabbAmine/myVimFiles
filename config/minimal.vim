@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-11
+" Last modification: 2018-11-29
 " ==============================================================
 
 
@@ -353,10 +353,6 @@ fun! s:visual_set_search() abort " {{{2
 endfun " 2}}}
 " 1}}}
 
-" >>> Tabs {{{1
-nnoremap <silent> <C-t> :tabedit<CR>
-" 1}}}
-
 " >>> Buffers {{{1
 nnoremap ,b :ls<CR>:b 
 nnoremap <silent> <S-l> :call <SID>move_to_buf(1)<CR>
@@ -498,6 +494,7 @@ nnoremap <leader><leader>c
 
 " >>> Grep {{{1
 " To use with rg or ag
+" The following is overwritten in config/plugins
 nnoremap ,,g :call <SID>grep()<CR>
 nnoremap ,,G :call <SID>grep('', '!')<CR>
 xnoremap <silent> ,,g :call <SID>grep(1)<CR>
@@ -771,15 +768,15 @@ command! Fold :call <SID>fold({
                 \ })
 
 fun! s:fold(indentations) abort " {{{2
-    if !has_key(a:indentations, &ft)
+    if !has_key(a:indentations, &filetype)
         call ka#ui#echo(
                     \   '[fold]',
-                    \   'no folding method for "' . &ft . '"',
+                    \   'no folding method for "' . &filetype . '"',
                     \   'Error'
                     \ )
         return
     endif
-    let ft = a:indentations[&ft]
+    let ft = a:indentations[&filetype]
     let type = ft[0]
     let marker = len(ft) ># 1 ? ft[1] : ''
     let [foldmethod, foldmarker] = [&foldmethod, &foldmarker]
@@ -828,7 +825,7 @@ command! -nargs=? -complete=filetype Scratch :call s:scratch(<f-args>)
 fun! s:scratch(...) abort " {{{2
     let bufname = '__Scratch__'
     let ft = get(a:, 1, 'markdown')
-    call ka#utils#create_or_go_to_buf(bufname, ft, 'topleft split', 1)
+    call ka#utils#create_or_go_to_buf(bufname, ft, 'topleft split')
     if exists('g:scratch')
         silent %delete_
         call setbufline(bufnr(bufname), 1, g:scratch)
@@ -839,6 +836,8 @@ fun! s:scratch(...) abort " {{{2
                         \ let g:scratch = getline(1, line('$'))
         augroup END
     endif
+
+    setlocal noswapfile buftype=nofile
 endfun " 2}}}
 " 1}}}
 
@@ -869,11 +868,27 @@ endfun " 2}}}
 " 1}}}
 
 " >>> Quickfix & location fix windows {{{1
-nnoremap <silent> ]q :cnext<CR>zv
-nnoremap <silent> [q :cprevious<CR>zv
-nnoremap <silent> ]l :lnext<CR>zv
-nnoremap <silent> [l :lprevious<CR>zv
-" " 1}}}
+nnoremap <silent> ]q :call <SID>move_in_qf('q', '1')<CR>
+nnoremap <silent> [q :call <SID>move_in_qf('q', '-1')<CR>
+nnoremap <silent> ]l :call <SID>move_in_qf('l', '1')<CR>
+nnoremap <silent> [l :call <SID>move_in_qf('l', '-1')<CR>
+
+fun! s:move_in_qf(l, dir) abort " {{{2
+    let [c_l, pre_cmd] = a:l is# 'q'
+                \ ? [len(getqflist()), 'c']
+                \ : [len(getloclist(0)), 'l']
+    try
+        execute c_l is# 1
+                    \ ? repeat(pre_cmd, 2) . '!'
+                    \ : a:dir ># 0
+                    \ ? pre_cmd . 'next!'
+                    \ : pre_cmd . 'previous'
+        normal! zv
+    catch /^Vim\%((\a\+)\)\=:\(E42\|E553\)/
+        call ka#ui#echo('[E]', v:exception, 'Error')
+    endtry
+endfun " 2}}}
+" 1}}}
 
 " >>> Enable foldcolumn only when folds are present {{{1
 fun! s:auto_fold_column() abort " {{{2
