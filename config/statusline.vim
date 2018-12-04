@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-09
+" Last modification: 2018-11-29
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -49,6 +49,11 @@ let s:sl  = {
 " 1}}}
 
 " ========== GENERAL ===========================================
+
+fun! SL_bufnr() abort " {{{1
+    return '[' . bufnr('%') . ']'
+endfun
+" 1}}}
 
 fun! SL_path() abort " {{{1
     if !empty(expand('%:t'))
@@ -348,7 +353,9 @@ fun! Get_SL(...) abort " {{{1
     " """""""""""""""""""
     if exists('a:1')
         let sl .= '%1*%( %{SL_previewwindow()} %)'
-        let sl .= '%8* %{SL_filename()}'
+        let sl .= '%8* %{SL_bufnr()} '
+        let sl .= '%{SL_path()}'
+        let sl .= '%{SL_filename()}'
         let sl .= '%( %{SL_modified()}%)'
         let sl .= '%=%( %{SL_filetype()} %)'
         return sl
@@ -360,7 +367,8 @@ fun! Get_SL(...) abort " {{{1
     let sl .= '%1*%( %{SL_previewwindow()} %)'
     let sl .= '%( %{SL_zoomed()} %)'
     let sl .= '%( %{SL_paste()} %)'
-    let sl .= '%3* %{SL_path()}'
+    let sl .= '%3* %{SL_bufnr()} '
+    let sl .= '%{SL_path()}'
     let sl .= '%2*%{SL_filename()}'
     let sl .= '%5*%(%{SL_modified()}%) '
 
