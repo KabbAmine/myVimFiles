@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-15
+" Last modification: 2018-12-03
 " ==============================================================
 
 
@@ -138,7 +138,7 @@ Plug 'KabbAmine/zeavim.vim'
 call plug#end()
 " 1}}}
 
-" =========== MISC  ============================================
+" =========== COLORS ============================================
 
 " Colors {{{1
 let g:yowish = {
@@ -155,10 +155,11 @@ let g:yowish = {
             \   }
             \ }
 colorscheme yowish
-" Make bg transparent with truecolors on terminal
 if g:is_termguicolors
+    " Make bg transparent with truecolors on terminal
     highlight Normal guibg=NONE
     highlight! link LineNr Comment
+    highlight! link FoldColumn Comment
 endif
 if g:has_term
     highlight! link StatusLineTerm StatusLineNC
@@ -183,8 +184,6 @@ let python_highlight_all = 1
 let g:ale_enabled = 0
 nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
 nmap <silent> <F8> :ALEToggle<CR>
-nnoremap <silent> ]e :ALENext<CR>
-nnoremap <silent> [e :ALEPrevious<CR>
 let g:ale_lint_on_enter = 0
 " let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
@@ -418,7 +417,6 @@ nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVOperator
 let g:zv_keep_focus = 0
 let g:zv_file_types = {
-            \   'help'                : 'vim',
             \   'javascript'          : 'javascript,nodejs',
             \   'python'              : 'python3',
             \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
@@ -519,37 +517,53 @@ let g:vfinder_maps._ = {
             \       'cache_clean': '<C-x>'
             \   }
             \ }
+
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
+nnoremap <silent> ,w :call vfinder#i('windows')<CR>
 nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'botright'})<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
 nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {'fuzzy': 1})<CR>
+nnoremap <silent> ,y :call vfinder#i('yank')<CR>
+inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
+nnoremap <silent> ,m :call vfinder#i('marks')<CR>
 nnoremap <silent> z= :call vfinder#i('spell', {
             \   'win_pos': 'topleft vertical'
             \ })<CR>
 inoremap <silent> <A-z> <Esc>:call vfinder#i('spell', {
             \   'win_pos': 'topleft vertical'
             \ })<CR>
-nnoremap <silent> ,y :call vfinder#i('yank')<CR>
-inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
-nnoremap <silent> ,m :call vfinder#i('marks')<CR>
-" nnoremap <silent> ,C :call vfinder#i('colors')<CR>
-" nnoremap <silent> ,,r :call vfinder#i('oldfiles')<CR>
-" nnoremap <silent> ,Y :call vfinder#i('registers')<CR>
 
-nnoremap <silent> ,B :call vfinder#i(<SID>bookmarsk_source())<CR>
-fun! s:bookmarsk_source() abort " {{{2
-    return {
-            \   'name'      : 'bookmarks',
-            \   'to_execute': ['~/.vim', '~/Temp/lab'],
-            \   'maps'      : {
-            \       'i': {'<CR>': {'action': 'cd %s \| pwd', 'options': {'silent': 0} }},
-            \       'n': {'<CR>': {'action': 'cd %s \| pwd', 'options': {'silent': 0} }}
-            \   }
-            \ }
+" qf
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+command! VFQf call <SID>vfinder_qf()
+
+fun! s:vfinder_qf() abort " {{{2
+    if getwininfo(win_getid(winnr()))[0].loclist
+        call vfinder#i('qf', {'args': 'l'})
+    else
+        call vfinder#i('qf')
+    endif
+endfun " 2}}}
+
+" Grep
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" The following mappings overwrite the ones defined in config/minimal
+nnoremap <silent> ,,g :call vfinder#i('grep')<CR>
+xnoremap <silent> ,,g :call <SID>vfinder_grep_visual()<CR>
+nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>vfinder_grep_motion<CR>g@
+
+fun! s:vfinder_grep_visual() abort " {{{2
+    call vfinder#i('grep', {'args': ka#utils#get_visual_selection()})
+endfun " 2}}}
+
+fun! s:vfinder_grep_motion(...) abort " {{{2
+    call vfinder#i('grep', {'args': ka#utils#get_motion_result()})
 endfun " 2}}}
 " 1}}}
 
