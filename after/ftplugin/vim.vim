@@ -1,5 +1,5 @@
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Last modification: 2018-11-28
+" Last modification: 2018-12-05
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -8,7 +8,6 @@ nnoremap <buffer> <F9> :so %<CR>
 " 1}}}
 
 " Custom vim help mappings {{{1
-" Those mappings are overwritten in config/plugins
 nnoremap <silent> <buffer> gzz :call <SID>vim_help()<CR>
 xnoremap <silent> <buffer> gzz :call <SID>vim_help('v')<CR>
 nnoremap <silent> <buffer> gz <Esc>:setlocal operatorfunc=<SID>vim_help<CR>g@
