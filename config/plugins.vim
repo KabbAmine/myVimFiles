@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-03
+" Last modification: 2018-12-12
 " ==============================================================
 
 
@@ -74,7 +74,6 @@ Plug 'KabbAmine/emmet-vim'
 " 2}}}
 
 " Git {{{2
-Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 " 2}}}
@@ -242,6 +241,7 @@ if &backspace is# 2
 endif
 let delimitMate_expand_space = 1
 let delimitMate_matchpairs = '(:),[:],{:}'
+let delimitMate_excluded_ft = 'vfinder'
 " 1}}}
 
 " >>> (( ultisnips )) {{{1
@@ -521,15 +521,23 @@ let g:vfinder_maps._ = {
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
 nnoremap <silent> ,w :call vfinder#i('windows')<CR>
-nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'botright'})<CR>
+nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'tab'})<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
+nnoremap <silent> ,h :call vfinder#i('help')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
 nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {'fuzzy': 1})<CR>
+nnoremap <silent> ,m :call vfinder#i('marks')<CR>
+
+" yank
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 nnoremap <silent> ,y :call vfinder#i('yank')<CR>
 inoremap <silent> <A-y> <Esc>:call vfinder#i('yank')<CR>
-nnoremap <silent> ,m :call vfinder#i('marks')<CR>
+
+" spell
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> z= :call vfinder#i('spell', {
             \   'win_pos': 'topleft vertical'
             \ })<CR>
@@ -550,7 +558,14 @@ fun! s:vfinder_qf() abort " {{{2
     endif
 endfun " 2}}}
 
-" Grep
+" git_commits
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+highlight! link vfinderGitCommitsDiffStatPlus Question
+highlight! link vfinderGitCommitsDiffStatMinus Error
+nnoremap <silent> ,gc :call vfinder#i('git_commits', {'win_pos': 'tab'})<CR>
+
+" grep
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " The following mappings overwrite the ones defined in config/minimal
