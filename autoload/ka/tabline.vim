@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-29
+" Last modification: 2018-12-17
 " ==============================================================
 
 
@@ -32,7 +32,7 @@ endfun
 fun! ka#tabline#cwd() abort " {{{1
     let cwd = fnamemodify(getcwd(), ':~')
     if cwd isnot# '~/'
-        let cwd = len(cwd) >=# 15 ? pathshorten(cwd) : cwd
+        let cwd = len(cwd) <=# 15 ? pathshorten(cwd) : cwd
         return cwd
     else
         return ''
