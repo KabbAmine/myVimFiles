@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-12
+" Last modification: 2018-12-17
 " ==============================================================
 
 
@@ -107,7 +107,6 @@ Plug 'kana/vim-textobj-user'
 " Misc {{{2
 Plug 'junegunn/vader.vim', {'on': 'Vader', 'for': 'vader'}
 Plug 'junegunn/vim-emoji', {'for': ['markdown', 'gitcommit']}
-Plug 'kana/vim-tabpagecd'
 Plug 'mbbill/undotree'   , {'on': 'UndotreeToggle'}
 Plug 'w0rp/ale'
 " 2}}}
@@ -268,7 +267,7 @@ let g:signify_sign_changedelete = g:signify_sign_add
 let g:signify_sign_show_count = 0
 highlight! link SignifySignAdd Question
 highlight! link SignifySignDelete Title
-highlight! link SignifySignChange WildMenu
+highlight! link SignifySignChange ModeMsg
 " 1}}}
 
 " >>> (( vim-plug )) {{{1
@@ -509,6 +508,7 @@ augroup END " 2}}}
 
 " >>> (( vfinder )) {{{1
 let g:vfinder_fuzzy = 0
+let g:vfinder_default_match_mode = 'compact_match'
 let g:vfinder_maps = {}
 let g:vfinder_maps._ = {
             \   'n': {'window_quit': 'q'},
@@ -520,14 +520,14 @@ let g:vfinder_maps._ = {
 
 nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
-nnoremap <silent> ,w :call vfinder#i('windows')<CR>
-nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'tab'})<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
+nnoremap <silent> ,t :call vfinder#i('tags')<CR>
+nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer')<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
+nnoremap <silent> ,w :call vfinder#i('windows')<CR>
+nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'tab'})<CR>
 nnoremap <silent> ,h :call vfinder#i('help')<CR>
-nnoremap <silent> ,t :call vfinder#i('tags')<CR>
-nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {'fuzzy': 1})<CR>
 nnoremap <silent> ,m :call vfinder#i('marks')<CR>
 
 " yank
