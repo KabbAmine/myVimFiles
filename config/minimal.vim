@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-29
+" Last modification: 2018-12-21
 " ==============================================================
 
 
@@ -70,6 +70,7 @@ highlight! link HelpStar Normal
 " 1}}}
 
 " Change cursor shape in insert mode in terminal {{{1
+" N.B: may display graphical artefacts in some terminals
 if !g:is_gui
     let &t_SI = "\<Esc>[6 q"
     let &t_SR = "\<Esc>[4 q"
@@ -269,10 +270,6 @@ vnoremap J }
 nnoremap j gj
 nnoremap k gk
 
-" Tags
-nnoremap <silent> <C-]> :call <SID>go_to_tag_custom()<CR>
-nnoremap <silent> g<C-]> :call <SID>go_to_tag_custom(1)<CR>
-
 " Repeat f/t/F/T movements without ,/; (Because I need them elsewhere)
 nnoremap f<CR> ;
 nnoremap t<CR> ;
@@ -289,20 +286,6 @@ nnoremap <silent> <A-j> :call <SID>move_selection(1)<CR>==
 xnoremap <silent> <A-k> :call <SID>move_selection(-1)<CR>gv=gv
 xnoremap <silent> <A-j> :call <SID>move_selection(1)<CR>gv=gv
 
-fun! s:go_to_tag_custom(...) abort " {{{2
-    let split = get(a:, 1, 0)
-    try
-        if split | vsplit | endif
-        execute "normal! g\<C-]>"
-        normal! ztzv
-    catch /^Vim\%((\a\+)\)\=:\(E426\|E349\)/
-        " E426: no tag found
-        " E349: no identifier on cursor
-        if split | wincmd c | wincmd p | endif
-        call ka#ui#echo('[E]', v:exception, 'Error')
-    endtry
-endfun " 2}}}
-
 fun! s:move_selection(to) range " {{{2
     " a:to : -1/1 <=> up/down
     let fl = a:firstline | let ll = a:lastline
@@ -312,6 +295,31 @@ fun! s:move_selection(to) range " {{{2
     " unfold the target line before moving there
     silent execute to ' | normal! zv | ' . cl
     execute printf(':%d,%dm%d', fl, ll, to)
+endfun " 2}}}
+
+" Tags
+nnoremap <silent> <C-]> :call <SID>go_to_tag_custom()<CR>
+nnoremap <silent> g<C-]> :call <SID>go_to_tag_custom(1)<CR>
+
+fun! s:go_to_tag_custom(...) abort " {{{2
+    " tjump to a tag <cexpr>, and if it does not exist search for a tag
+    " containing the expression with 'tselect /expr'
+    let split = get(a:, 1, 0)
+    try
+        let exp = expand('<cexpr>')
+        let cmd = split ? 'vertical stjump' : 'tjump'
+        execute cmd . ' ' . exp
+        normal! ztzv
+    catch /^Vim\%((\a\+)\)\=:E426/
+        " E426: no tag found
+        try
+            let cmd = split ? 'vertical stselect' : 'tselect'
+            execute cmd . ' /' . exp
+        catch /^Vim\%((\a\+)\)\=:\(E426\|E349\)/
+            " E349: no identifier on cursor
+            call ka#ui#echo('[E]', v:exception, 'Error')
+        endtry
+    endtry
 endfun " 2}}}
 " 1}}}
 
