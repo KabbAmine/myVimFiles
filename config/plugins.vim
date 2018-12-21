@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-17
+" Last modification: 2018-12-21
 " ==============================================================
 
 
@@ -162,6 +162,7 @@ endif
 if g:has_term
     highlight! link StatusLineTerm StatusLineNC
     highlight! link StatusLineTermNC Terminal
+    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
 endif
 " Manually execute the ColorScheme event (Useful for some plugins)
 silent doautocmd ColorScheme
@@ -522,13 +523,16 @@ nnoremap <silent> ,f :call vfinder#i('files')<CR>
 nnoremap <silent> ,b :call vfinder#i('buffers')<CR>
 nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
-nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer')<CR>
+nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {
+            \   'win_pos': 'aboveleft'
+            \   })<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,w :call vfinder#i('windows')<CR>
 nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'tab'})<CR>
 nnoremap <silent> ,h :call vfinder#i('help')<CR>
 nnoremap <silent> ,m :call vfinder#i('marks')<CR>
+nnoremap <silent> ,l :call vfinder#i('lines', {'win_pos': 'aboveleft'})<CR>
 
 " yank
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
