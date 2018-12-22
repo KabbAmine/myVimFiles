@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-21
+" Last modification: 2018-12-22
 " ==============================================================
 
 
@@ -298,6 +298,8 @@ fun! s:move_selection(to) range " {{{2
 endfun " 2}}}
 
 " Tags
+" nnoremap ,tt :tjump * \| normal! ztzv<home><C-right><C-right>
+" nnoremap ,tv :vertical stjump * \| normal! ztzv<home><C-right><C-right><C-right>
 nnoremap <silent> <C-]> :call <SID>go_to_tag_custom()<CR>
 nnoremap <silent> g<C-]> :call <SID>go_to_tag_custom(1)<CR>
 
@@ -362,7 +364,9 @@ endfun " 2}}}
 " 1}}}
 
 " >>> Buffers {{{1
-nnoremap ,b :ls<CR>:b 
+" nnoremap ,bb :ls<CR>:buffer 
+" nnoremap ,bv :ls<CR>:vertical sbuffer 
+" nnoremap ,bd :ls<CR>:bwipeout 
 nnoremap <silent> <S-l> :call <SID>move_to_buf(1)<CR>
 nnoremap <silent> <S-h> :call <SID>move_to_buf(-1)<CR>
 nnoremap <silent> <BS> <C-^>
