@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-21
+" Last modification: 2018-12-27
 " ==============================================================
 
 
@@ -509,6 +509,7 @@ augroup END " 2}}}
 
 " >>> (( vfinder )) {{{1
 let g:vfinder_fuzzy = 0
+let g:vfinder_win_pos = 'botright'
 let g:vfinder_default_match_mode = 'compact_match'
 let g:vfinder_maps = {}
 let g:vfinder_maps._ = {
@@ -525,7 +526,7 @@ nnoremap <silent> ,r :call vfinder#i('mru')<CR>
 nnoremap <silent> ,t :call vfinder#i('tags')<CR>
 nnoremap <silent> ,,f :call vfinder#i('tags_in_buffer', {
             \   'win_pos': 'aboveleft'
-            \   })<CR>
+            \ })<CR>
 nnoremap <silent> ,c :call vfinder#i('commands', {'fuzzy': 1})<CR>
 nnoremap <silent> ,,c :call vfinder#i('command_history')<CR>
 nnoremap <silent> ,w :call vfinder#i('windows')<CR>
@@ -556,9 +557,9 @@ command! VFQf call <SID>vfinder_qf()
 
 fun! s:vfinder_qf() abort " {{{2
     if getwininfo(win_getid(winnr()))[0].loclist
-        call vfinder#i('qf', {'args': 'l'})
+        call vfinder#i('qf', {'args': 'l', 'win_pos': 'topleft'})
     else
-        call vfinder#i('qf')
+        call vfinder#i('qf', {'win_pos': 'topleft'})
     endif
 endfun " 2}}}
 
@@ -573,17 +574,17 @@ nnoremap <silent> ,gc :call vfinder#i('git_commits', {'win_pos': 'tab'})<CR>
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " The following mappings overwrite the ones defined in config/minimal
-nnoremap <silent> ,,g :call vfinder#i('grep')<CR>
-xnoremap <silent> ,,g :call <SID>vfinder_grep_visual()<CR>
-nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>vfinder_grep_motion<CR>g@
+" nnoremap <silent> ,,g :call vfinder#i('grep')<CR>
+" xnoremap <silent> ,,g :call <SID>vfinder_grep_visual()<CR>
+" nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>vfinder_grep_motion<CR>g@
 
-fun! s:vfinder_grep_visual() abort " {{{2
-    call vfinder#i('grep', {'args': ka#utils#get_visual_selection()})
-endfun " 2}}}
+" fun! s:vfinder_grep_visual() abort " {{{2
+"     call vfinder#i('grep', {'args': ka#selection#get_visual_selection()})
+" endfun " 2}}}
 
-fun! s:vfinder_grep_motion(...) abort " {{{2
-    call vfinder#i('grep', {'args': ka#utils#get_motion_result()})
-endfun " 2}}}
+" fun! s:vfinder_grep_motion(...) abort " {{{2
+"     call vfinder#i('grep', {'args': ka#selection#get_motion_result()})
+" endfun " 2}}}
 " 1}}}
 
 " >>> (( pine.vim )) {{{1
