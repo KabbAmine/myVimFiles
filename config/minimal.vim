@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-22
+" Last modification: 2018-12-27
 " ==============================================================
 
 
@@ -281,58 +281,22 @@ vnoremap f<BS> ,
 vnoremap t<BS> ,
 
 " Move current line or visual selection & auto indent
-nnoremap <silent> <A-k> :call <SID>move_selection(-1)<CR>==
-nnoremap <silent> <A-j> :call <SID>move_selection(1)<CR>==
-xnoremap <silent> <A-k> :call <SID>move_selection(-1)<CR>gv=gv
-xnoremap <silent> <A-j> :call <SID>move_selection(1)<CR>gv=gv
-
-fun! s:move_selection(to) range " {{{2
-    " a:to : -1/1 <=> up/down
-    let fl = a:firstline | let ll = a:lastline
-    let cl = line('.')
-    let to = a:to is# -1 ?
-                \ fl - 2 : (ll + 1 >=# line('$') ? line('$') : ll + 1)
-    " unfold the target line before moving there
-    silent execute to ' | normal! zv | ' . cl
-    execute printf(':%d,%dm%d', fl, ll, to)
-endfun " 2}}}
+nnoremap <silent> <A-j> :call ka#selection#move(1)<CR>==
+nnoremap <silent> <A-k> :call ka#selection#move(-1)<CR>==
+xnoremap <silent> <A-k> :call ka#selection#move(-1)<CR>gv=gv
+xnoremap <silent> <A-j> :call ka#selection#move(1)<CR>gv=gv
 
 " Tags
-" nnoremap ,tt :tjump * \| normal! ztzv<home><C-right><C-right>
+nnoremap ,t :tjump * \| normal! ztzv<home><C-right><C-right>
 " nnoremap ,tv :vertical stjump * \| normal! ztzv<home><C-right><C-right><C-right>
-nnoremap <silent> <C-]> :call <SID>go_to_tag_custom()<CR>
-nnoremap <silent> g<C-]> :call <SID>go_to_tag_custom(1)<CR>
-
-fun! s:go_to_tag_custom(...) abort " {{{2
-    " tjump to a tag <cexpr>, and if it does not exist search for a tag
-    " containing the expression with 'tselect /expr'
-    let split = get(a:, 1, 0)
-    try
-        let exp = expand('<cexpr>')
-        let cmd = split ? 'vertical stjump' : 'tjump'
-        execute cmd . ' ' . exp
-        normal! ztzv
-    catch /^Vim\%((\a\+)\)\=:E426/
-        " E426: no tag found
-        try
-            let cmd = split ? 'vertical stselect' : 'tselect'
-            execute cmd . ' /' . exp
-        catch /^Vim\%((\a\+)\)\=:\(E426\|E349\)/
-            " E349: no identifier on cursor
-            call ka#ui#echo('[E]', v:exception, 'Error')
-        endtry
-    endtry
-endfun " 2}}}
+nnoremap <silent> <C-]> :call ka#utils#go_to_tag_custom()<CR>
+nnoremap <silent> g<C-]> :call ka#utils#go_to_tag_custom(1)<CR>
 " 1}}}
 
 " >>> Yanking {{{1
 nnoremap Y y$
-nnoremap <silent> yd :call <SID>duplicate()<CR>
+nnoremap <silent> yd :call ka#selection#duplicate()<CR>
 xnoremap <silent> <C-d> :t'><CR>gv<Esc>
-
-fun! s:duplicate() abort " {{{2
-    let ip = getpos('.') | silent .t. | call setpos('.', ip)
-endfun " 2}}}
 " 1}}}
 
 " >>> Folding {{{1
@@ -346,40 +310,23 @@ nnoremap / /\V
 nnoremap ? ?\V
 nnoremap <silent> * *``
 nnoremap <silent> # #``
-vnoremap <silent> * :<C-u>call <SID>visual_set_search()<CR>//<CR>``
-vnoremap <silent> # :<C-u>call <SID>visual_set_search()<CR>??<CR>``
+vnoremap <silent> * :<C-u>call ka#selection#visual_set_search()<CR>//<CR>``
+vnoremap <silent> # :<C-u>call ka#selection#visual_set_search()<CR>??<CR>``
 " A quick way to use gn in normal mode
 nnoremap c* *``cgn
 nnoremap c# #``cgn
 nnoremap d* *``dgn
 nnoremap d# #``dgn
-
-" http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
-fun! s:visual_set_search() abort " {{{2
-    let temp = @@
-    normal! gvy
-    let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-    let @@ = temp
-endfun " 2}}}
 " 1}}}
 
 " >>> Buffers {{{1
 " nnoremap ,bb :ls<CR>:buffer 
 " nnoremap ,bv :ls<CR>:vertical sbuffer 
 " nnoremap ,bd :ls<CR>:bwipeout 
-nnoremap <silent> <S-l> :call <SID>move_to_buf(1)<CR>
-nnoremap <silent> <S-h> :call <SID>move_to_buf(-1)<CR>
+nnoremap <silent> <S-l> :call ka#bufwins#move_to_buf(1)<CR>
+nnoremap <silent> <S-h> :call ka#bufwins#move_to_buf(-1)<CR>
 nnoremap <silent> <BS> <C-^>
-" For this mapping, check zoom_toggle function
 nnoremap <silent> <S-q> :bwipeout<CR>
-
-fun! s:move_to_buf(dir) abort " {{{2
-    let cmd = a:dir ># 0 ? 'bnext!' : 'bprevious!'
-    silent execute cmd
-    while &l:filetype is# 'qf'
-        silent execute cmd
-    endwhile
-endfun " 2}}}
 " 1}}}
 
 " >>> Commandline {{{1
@@ -407,6 +354,7 @@ inoremap <silent> <C-r> <C-r><C-p>
 
 " >>> Windows  {{{1
 nnoremap <silent> gs <C-w>
+nnoremap <silent> gsz :if winnr('$') isnot# 1 \| tab split \| endif<CR>
 nnoremap <silent> gsnv :vnew<CR>
 nnoremap <silent> gsh :hide<CR>
 nnoremap <silent> gsns :split +enew<CR>
@@ -421,31 +369,16 @@ if g:is_gui
     nnoremap <silent> <c-k> <C-w><Up>
     nnoremap <silent> <c-l> <C-w><Right>
 else
-    nnoremap <silent> <c-h> :call <SID>tmux_move('h')<CR>
-    nnoremap <silent> <c-j> :call <SID>tmux_move('j')<CR>
-    nnoremap <silent> <c-k> :call <SID>tmux_move('k')<CR>
-    nnoremap <silent> <c-l> :call <SID>tmux_move('l')<CR>
+    nnoremap <silent> <c-h> :call ka#bufwins#tmux_move('h')<CR>
+    nnoremap <silent> <c-j> :call ka#bufwins#tmux_move('j')<CR>
+    nnoremap <silent> <c-k> :call ka#bufwins#tmux_move('k')<CR>
+    nnoremap <silent> <c-l> :call ka#bufwins#tmux_move('l')<CR>
 endif
-
-" Move between splits & tmux " {{{2
-" https://gist.github.com/mislav/5189704#gistcomment-1735600
-fun! s:tmux_move(direction) abort
-    let wnr = winnr()
-    silent! execute 'wincmd ' . a:direction
-    " If the winnr is still the same after we moved, it is the last pane
-    if wnr is# winnr()
-        call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
-    endif
-endfun " 2}}}
 " 1}}}
 
 " >>> Sort {{{1
 xnoremap <leader>s :!sort<CR>
-nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=<SID>sort<CR>g@
-
-fun! s:sort(...) abort " {{{2
-    execute printf('%d,%d:!sort', line("'["), line("']"))
-endfun " 2}}}
+nnoremap <silent> <leader>s <Esc>:setlocal operatorfunc=ka#operator#sort<CR>g@
 " 1}}}
 
 " >>> Open (with) external programs {{{1
@@ -504,68 +437,6 @@ nnoremap <leader><leader>c
             \ :setlocal colorcolumn?<CR>
 " 1}}}
 
-" >>> Grep {{{1
-" To use with rg or ag
-" The following is overwritten in config/plugins
-nnoremap ,,g :call <SID>grep()<CR>
-nnoremap ,,G :call <SID>grep('', '!')<CR>
-xnoremap <silent> ,,g :call <SID>grep(1)<CR>
-xnoremap <silent> ,,G :call <SID>grep(1, '!')<CR>
-nnoremap <silent> ,g <Esc>:setlocal operatorfunc=<SID>grep_motion<CR>g@
-nnoremap <silent> ,G <Esc>:setlocal operatorfunc=<SID>grep_reg_motion<CR>g@
-
-fun! s:grep(...) abort " {{{2
-    let use_regex = exists('a:2') ? 1 : 0
-
-    if exists('a:1') && type(a:1) is# v:t_number
-        let q = a:1 is# 1
-                    \ ? ka#utils#get_visual_selection()
-                    \ : ka#utils#get_motion_result()
-    else
-        let inp_msg = use_regex
-                    \ ? 'grep[reg]>'
-                    \ : 'grep>'
-        echohl ModeMsg | let q = input(inp_msg . ' ') | echohl None
-    endif
-
-    if use_regex
-        let old_grepprg = &grepprg
-        let &grepprg = substitute(&grepprg, '-SF', '-S', '')
-    endif
-
-    if !empty(q)
-        let [query, path] = matchlist(q, '\v^(".*"|\S+)%(\s+(\f+)$)?')[1:2]
-        let query = escape(query, '%#')
-        if empty(path)
-            let path = '.'
-        endif
-
-        if g:has_job
-            let cmd = printf('%s %s %s', &grepprg, query, path)
-            call ka#job#start(cmd, {'realtime': 1, 'std': 'out'})
-        else
-            " Revert escaping
-            let query = substitute(query, '\#', '#', 'g')
-            let query = substitute(query, '\\%', '%', 'g')
-            silent execute 'grep! "' . query . '" ' . path
-            botright cwindow 10 | wincmd p
-        endif
-    endif
-
-    if use_regex
-        let &grepprg = old_grepprg
-    endif
-endfun " 2}}}
-
-fun! s:grep_motion(...) abort " {{{2
-    call <SID>grep(2)
-endfun " 2}}}
-
-fun! s:grep_reg_motion(...) abort " {{{2
-    call <SID>grep(2, '!')
-endfun " 2}}}
-" 1}}}
-
 " >>> Reselect visual selection after (in/de)creasing numbers {{{1
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
@@ -583,62 +454,17 @@ if g:has_term
     tnoremap <C-l> <C-w>l
     tnoremap <C-k> <C-w>k
     tnoremap <C-j> <C-w>j
-    tnoremap <silent> <S-q> <C-w>:call <SID>term_kill()<CR>
+    tnoremap <silent> <S-q> <C-w>:call ka#terminal#kill()<CR>
     " Note that the following mappings replace the open_here ones
-    nnoremap <silent> ;t :call <SID>term_toggle()<CR>
-    nnoremap <silent> ;;t :call <SID>term_toggle(1)<CR>
-    tnoremap <silent> ;t <C-w>:call <SID>term_toggle()<CR>
-
-    fun! s:term_toggle(...) abort " {{{2
-        let term_buf_nr = get(g:, 'term_buf_nr', 0)
-        if !term_buf_nr
-            let cwd = exists('a:1') ? expand('%:p:h') : getcwd()
-            let g:term_buf_nr = term_start(&shell, {
-                        \   'term_name': 'term',
-                        \   'cwd': cwd
-                        \ })
-            augroup Term
-                autocmd!
-                autocmd BufDelete,BufWipeout <buffer>
-                            \ unlet! g:term_buf_nr
-            augroup END
-        elseif bufexists(term_buf_nr)
-            let term_win_nr = bufwinnr(term_buf_nr)
-            silent execute term_win_nr isnot# -1
-                        \ ? term_win_nr . 'hide'
-                        \ : term_buf_nr . 'sbuffer'
-        endif
-    endfun " 2}}}
-
-    fun! s:term_kill() abort " {{{2
-        let term_buf_nr = get(g:, 'term_buf_nr', 0)
-        if term_buf_nr && index(term_list(), term_buf_nr) isnot# -1
-                    \ && bufloaded(term_buf_nr)
-            silent execute term_buf_nr . 'bwipeout!'
-            unlet! g:term_buf_nr
-        endif
-    endfun " 2}}}
+    nnoremap <silent> ;t :call ka#terminal#toggle()<CR>
+    nnoremap <silent> ;;t :call ka#terminal#toggle(1)<CR>
+    tnoremap <silent> ;t <C-w>:call ka#terminal#toggle()<CR>
 endif
 " 1}}}
 
 " >>> Clever gf {{{1
-nnoremap <silent> gf :call <SID>clever_gf()<CR>
-nnoremap <silent> gF :call <SID>clever_gf(1)<CR>
-
-fun! s:clever_gf(...) abort " {{{2
-    " Expand 2 times in case we have $HOME or ~
-    let cf = fnamemodify(expand(expand('<cfile>')), '%:p')
-    if isdirectory(cf)
-        return ''
-    endif
-    if exists('a:1')
-        execute 'vsplit ' . cf
-    else
-        execute filereadable(cf)
-                    \ ? 'normal! gf'
-                    \ : 'edit ' . cf
-    endif
-endfun " 2}}}
+nnoremap <silent> gf :call ka#utils#clever_gf()<CR>
+nnoremap <silent> gF :call ka#utils#clever_gf(1)<CR>
 " 1}}}
 
 " >>> Super Find {{{1
@@ -663,32 +489,6 @@ let g:mashtab_ft_chains = {
             \   'css' : ['path', 'ulti', 'omni', 'user', 'buffer', 'line'],
             \   'scss': ['path', 'ulti', 'omni', 'user', 'buffer', 'line']
             \ }
-
-fun! s:complete_completion_types(a, c, p) abort " {{{2
-    let types = ['path', 'ulti', 'spell',
-                \ 'kspell', 'omni', 'user',
-                \ 'dict', 'buffer', 'line']
-    return filter(copy(types), 'v:val =~ a:a')
-endfun " 2}}}
-" 1}}}
-
-" >>> Zoom  {{{1
-nnoremap <silent> gsz :call <SID>zoom_toggle()<CR>
-nnoremap <silent> <expr> <S-q> get(w:, 'zoomed_win', 0)
-            \ ? ":normal gsz\<CR>"
-            \ : ":bwipeout\<CR>"
-
-fun! s:zoom_toggle() abort " {{{2
-    let zoomed_win = getwinvar(winnr(), 'zoomed_win')
-    let one_win_only = tabpagewinnr(tabpagenr(), '$') is# 1 ? 1 : 0
-    if one_win_only && zoomed_win is# 1
-        silent tabclose
-        unlet! w:zoomed_win
-    elseif !one_win_only
-        silent tab split
-        let w:zoomed_win = 1
-    endif
-endfun " 2}}}
 " 1}}}
 
 " =========== COMMANDS ===================================
@@ -708,28 +508,7 @@ command! -nargs=1 -complete=file Rename
 " 1}}}
 
 " >>> Specify indentation (ts,sts,sw) & reindent {{{1
-command! -nargs=? Indent :call <SID>indent(<f-args>)
-
-fun! s:indent(...) abort " {{{2
-    let pos = getpos('.')
-    let opts = ['softtabstop', 'shiftwidth']
-    let old_i = []
-    for o in opts
-        call add(old_i, getbufvar('%', '&' . o))
-    endfor
-    echohl Question
-    let new_i = exists('a:1') ? a:1 :
-                \ input(printf('%d:%d> ',
-                \   old_i[0], old_i[1]))
-    echohl None
-    if !empty(new_i)
-        for o in opts
-            silent execute printf('setlocal %s=%d', o, new_i)
-        endfor
-    endif
-    silent execute '%normal! =='
-    call setpos('.', pos)
-endfun " 2}}}
+command! -nargs=? Indent :call ka#options#indent(<f-args>)
 " 1}}}
 
 " >>> Shortcuts for vim doc {{{1
@@ -753,23 +532,11 @@ endif
 " 1}}}
 
 " >>> Set spelllang & spell in one command {{{1
-command! -nargs=? Spell call <SID>set_spell(<f-args>)
-
-fun! s:set_spell(...) abort " {{{2
-    if !&l:spell
-        let s:spelllang = &l:spelllang
-        let l = get(a:, 1, 'fr')
-        let &l:spelllang = l
-        setlocal spell
-    else
-        setlocal nospell
-        let &l:spelllang = get(s:, 'spelllang', &l:spelllang)
-    endif
-endfun " 2}}}
+command! -nargs=? Spell call ka#options#set_spell(<f-args>)
 " 1}}}
 
 " >>> Enable folding when needed {{{1
-command! Fold :call <SID>fold({
+command! Fold :call ka#options#fold({
                 \   'coffee'    : ['indent'],
                 \   'css'       : ['marker', ' {,}'],
                 \   'javascript': ['syntax'],
@@ -778,228 +545,49 @@ command! Fold :call <SID>fold({
                 \   'scss'      : ['marker', ' {,}'],
                 \   'sh'        : ['marker', ' {,}'],
                 \ })
-
-fun! s:fold(indentations) abort " {{{2
-    if !has_key(a:indentations, &filetype)
-        call ka#ui#echo(
-                    \   '[fold]',
-                    \   'no folding method for "' . &filetype . '"',
-                    \   'Error'
-                    \ )
-        return
-    endif
-    let ft = a:indentations[&filetype]
-    let type = ft[0]
-    let marker = len(ft) ># 1 ? ft[1] : ''
-    let [foldmethod, foldmarker] = [&foldmethod, &foldmarker]
-
-    if empty(getbufvar('%', 'fold_by_marker'))
-        silent execute 'setlocal foldmethod=' . type
-        if !empty(marker)
-            silent execute 'setlocal foldmarker=' . escape(marker, ' ')
-        endif
-        setlocal foldenable
-        normal! zR
-        call setbufvar('%', 'fold_by_marker', 1)
-        " Be sure to have foldcolumn enabled
-        setlocal foldcolumn=1
-        call ka#ui#echo('[fold-' . type . ']', 'enabled', 'ModeMsg')
-    else
-        setlocal nofoldenable
-        silent execute 'setlocal foldmethod=' . foldmethod
-        silent execute 'setlocal foldmarker=' . escape(foldmarker, ' ')
-        call setbufvar('%', 'fold_by_marker', 0)
-        setlocal foldcolumn=0
-        call ka#ui#echo('[fold-' . type . ']', 'disabled', 'ModeMsg')
-    endif
-endfun " 2}}}
 " 1}}}
 
 " >>> Echo vim expression in a buffer __Echo__ {{{1
-command! -nargs=* -complete=expression Echo :call <SID>echo(<f-args>)
-
-fun! s:echo(...) abort " {{{2
-    let out = ''
-    redir => out
-    silent execute 'echo ' . join(a:000, '')
-    redir END
-    if !empty(out[1:])
-        call ka#utils#create_or_go_to_buf('__Echo__', 'vim', 'sp')
-        setlocal noswapfile buftype=nofile
-        call setline(1, out[1:])
-    endif
-endfun " 2}}}
+command! -nargs=* -complete=expression Echo :call ka#bufwins#echo_in_buf(<f-args>)
 " 1}}}
 
 " >>> Persistent scratch buffer {{{1
-command! -nargs=? -complete=filetype Scratch :call s:scratch(<f-args>)
-
-fun! s:scratch(...) abort " {{{2
-    let bufname = '__Scratch__'
-    let ft = get(a:, 1, 'markdown')
-    call ka#utils#create_or_go_to_buf(bufname, ft, 'topleft split')
-    if exists('g:scratch')
-        silent %delete_
-        call setbufline(bufnr(bufname), 1, g:scratch)
-    else
-        augroup Scratch
-            autocmd!
-            autocmd InsertLeave,CursorHold,CursorHoldI,TextChanged __Scratch__
-                        \ let g:scratch = getline(1, line('$'))
-        augroup END
-    endif
-
-    setlocal noswapfile buftype=nofile
-endfun " 2}}}
+command! -nargs=? -complete=filetype Scratch :call ka#bufwins#scratch(<f-args>)
 " 1}}}
 
 " >>> Chmod current file {{{1
 command! ChmodX :!chmod +x %
 " 1}}}
 
-" >>> Auto mkdir when creating/saving file {{{1
-fun! s:auto_mkdir() abort " {{{2
-    let dir = expand('<afile>:p:h')
-    let file = expand('<afile>:t')
-    if !isdirectory(dir)
-        echohl Question
-        let ans = input(dir . ' does not exist, create it [y/N]? ')
-        echohl None
-        if empty(ans) || ans =~? '^n$'
-            echomsg 'no'
-            return
-        endif
-        call mkdir(dir, 'p')
-        silent execute 'saveas ' . dir . '/' . file
-        " Then wipeout the alternative buffer if it have the same name.
-        if bufname('#') is# dir . '/' . file
-            silent execute 'bwipeout! ' . bufnr('#')
-        endif
-    endif
-endfun " 2}}}
-" 1}}}
-
 " >>> Quickfix & location fix windows {{{1
-nnoremap <silent> ]q :call <SID>move_in_qf('q', '1')<CR>
-nnoremap <silent> [q :call <SID>move_in_qf('q', '-1')<CR>
-nnoremap <silent> ]l :call <SID>move_in_qf('l', '1')<CR>
-nnoremap <silent> [l :call <SID>move_in_qf('l', '-1')<CR>
-
-fun! s:move_in_qf(l, dir) abort " {{{2
-    let [c_l, pre_cmd] = a:l is# 'q'
-                \ ? [len(getqflist()), 'c']
-                \ : [len(getloclist(0)), 'l']
-    try
-        execute c_l is# 1
-                    \ ? repeat(pre_cmd, 2) . '!'
-                    \ : a:dir ># 0
-                    \ ? pre_cmd . 'next!'
-                    \ : pre_cmd . 'previous'
-        normal! zv
-    catch /^Vim\%((\a\+)\)\=:\(E42\|E553\)/
-        call ka#ui#echo('[E]', v:exception, 'Error')
-    endtry
-endfun " 2}}}
-" 1}}}
-
-" >>> Enable foldcolumn only when folds are present {{{1
-fun! s:auto_fold_column() abort " {{{2
-    let pos = getpos('.')
-    let c_l = line('.')
-    let there_are_folds = 0
-
-    if foldlevel(c_l)
-        let there_are_folds = 1
-    endif
-
-    if !there_are_folds
-        normal! ggzj
-        if line('.') isnot# 1
-            let there_are_folds = 1
-        endif
-    endif
-
-    if !there_are_folds
-        normal! ]z
-        if line('.') isnot# 1
-            let there_are_folds = 1
-        endif
-    endif
-
-    call setpos('.', pos)
-
-    if there_are_folds
-        setlocal foldcolumn=1
-    endif
-endfun " 2}}}
+nnoremap <silent> ]q :call ka#bufwins#move_in_qf('q', '1')<CR>
+nnoremap <silent> [q :call ka#bufwins#move_in_qf('q', '-1')<CR>
+nnoremap <silent> ]l :call ka#bufwins#move_in_qf('l', '1')<CR>
+nnoremap <silent> [l :call ka#bufwins#move_in_qf('l', '-1')<CR>
 " 1}}}
 
 " >>> Operate on multiple files/buffers at once {{{1
 command! -bar -bang -nargs=* -complete=file E
-            \ call <SID>cmd_on_multiple_files('edit', [<f-args>], '<bang>')
+            \ call ka#bufwins#cmd_on_multiple_files('edit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file Sp
-            \ call <SID>cmd_on_multiple_files('split', [<f-args>], '<bang>')
+            \ call ka#bufwins#cmd_on_multiple_files('split', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file VS
-            \ call <SID>cmd_on_multiple_files('vsplit', [<f-args>], '<bang>')
+            \ call ka#bufwins#cmd_on_multiple_files('vsplit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file TabE
-            \ call <SID>cmd_on_multiple_files('tabedit', [<f-args>], '<bang>')
+            \ call ka#bufwins#cmd_on_multiple_files('tabedit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=buffer Bd
-            \ call <SID>cmd_on_multiple_bufs('bdelete', [<f-args>], '<bang>')
+            \ call ka#bufwins#cmd_on_multiple_bufs('bdelete', [<f-args>], '<bang>')
 
 " An alternative to :find
 if executable('rg')
     command! -bar -bang -nargs=* -complete=customlist,<SID>complete_files F
                 \ execute 'E ' . <q-args>
+
+    fun! s:complete_files(a, c, p) abort " {{{2
+        let cmd = 'rg --files --hidden --glob !.git/'
+        return filter(systemlist(cmd), 'v:val =~ a:a')
+    endfun " 2}}}
 endif
-
-fun! s:cmd_on_multiple_files(cmd, list_pattern, bang) abort " {{{2
-    let cmd = a:cmd . a:bang
-
-    if a:list_pattern ==# []
-        execute cmd
-        return
-    endif
-
-    for p in a:list_pattern
-        if match(p, '\v\?|*|\[|\]') >=# 0
-            " Expand wildcards only if they exist
-            for f in glob(p, 0, 1)
-                if filereadable(f)
-                    execute cmd . ' ' . f
-                endif
-            endfor
-        else
-            " Otherwise execute the command
-            execute cmd . ' ' . p
-        endif
-    endfor
-endfun " 2}}}
-
-fun! s:cmd_on_multiple_bufs(cmd, list_pattern, bang) abort " {{{2
-    let cmd = a:cmd . a:bang
-
-    if a:list_pattern ==# []
-        execute cmd
-        return
-    endif
-
-    for p in a:list_pattern
-        for f in getcompletion(p, 'buffer', 1)
-            if bufloaded(f)
-                try
-                    execute cmd . ' ' . f
-                catch
-                    break
-                endtry
-            endif
-        endfor
-    endfor
-endfun " 2}}}
-
-fun! s:complete_files(a, c, p) abort " {{{2
-    let cmd = 'rg --files --hidden --glob !.git/'
-    return filter(systemlist(cmd), 'v:val =~ a:a')
-endfun " 2}}}
 " 1}}}
 
 " >>> Jobs {{{1
@@ -1016,51 +604,31 @@ if g:has_job
 endif
 " 1}}}
 
-" >>> Notes  {{{1
-let s:notes_dir = g:vim_dir . '/misc/notes'
+" =========== MODULES ===================================
 
-command! -nargs=+ -complete=customlist,<SID>complete_notes Note
-            \ call <SID>note(<f-args>)
-command! -nargs=+ -complete=customlist,<SID>complete_notes NoteDelete
-            \ call <SID>note_delete(<f-args>)
+" >>> Grrep {{{1
+" To use with rg or ag
+command! -nargs=? Grrep :call ka#module#grrep#grep(<f-args>)
+command! -nargs=? GrrepR :call ka#module#grrep#grep(<f-args>, 1)
 
-" Update the date when the file is saved {{{2
-augroup Notes
-    autocmd!
-    let s:str =
-                \ 'autocmd BufWrite %s/*.md ' .
-                \ ':call setline(1,  "> " . strftime("%%d %%b %%Y %%X"))'
-    execute printf(s:str, s:notes_dir)
-    unlet! s:str
-augroup END " 2}}}
-
-fun! s:note(file) abort " {{{2
-    let file_name = s:notes_dir . '/' .
-                \ (a:file =~# '\.md$' ? a:file : a:file . '.md')
-
-    let add_date = file_readable(file_name) ? 0 : 1
-    silent execute 'vnew! ' . file_name
-    if add_date
-        call setline(1,  ["> " . strftime("%d %b %Y %X"), ''])
-        normal! G
-    endif
-endfun " 2}}}
-
-fun! s:note_delete(file) abort " {{{2
-    let file_name = s:notes_dir . '/' .
-                \ (a:file =~# '\.md$' ? a:file : a:file . '.md')
-    call ka#sys#delete(file_name)
-endfun " 2}}}
-
-fun! s:complete_notes(a, c, p) " {{{2
-    return filter(map(glob(s:notes_dir . '/*', 1, 1), {i, v ->
-                \   fnamemodify(v, ':p:t')
-                \ }),
-                \ {i, v -> v =~ a:a })
-endfun " 2}}}
+" The following is overwritten in config/plugins
+nnoremap ,,g :call ka#module#grrep#grep()<CR>
+nnoremap ,,G :call ka#module#grrep#grep('', 1)<CR>
+xnoremap <silent> ,,g :call ka#module#grrep#grep('', 0, 'v')<CR>
+nnoremap <silent> ,g <Esc>:setlocal operatorfunc=ka#module#grrep#grep_motion<CR>g@
 " 1}}}
 
-" >>> Fixnformat module  {{{1
+" >>> Snotes  {{{1
+let g:snotes_dir = g:vim_dir . '/misc/notes'
+call ka#module#snotes#enable_date_autocmd()
+
+command! -nargs=+ -complete=customlist,ka#module#snotes#complete Note
+            \ call ka#module#snotes#note(<f-args>)
+command! -nargs=+ -complete=customlist,ka#module#snotes#complete NoteDelete
+            \ call ka#module#snotes#delete(<f-args>)
+" 1}}}
+
+" >>> Fixnformat  {{{1
 command! -range=% FixNFormat :call ka#module#fixnformat#run(<line1>, <line2>,
             \ {
             \   'css': 'prettier --parser css --stdin --tab-width ' .
@@ -1077,7 +645,7 @@ command! -range=% FixNFormat :call ka#module#fixnformat#run(<line1>, <line2>,
             \ })
 " 1}}}
 
-" >>> Gentags module {{{1
+" >>> Gentags {{{1
 if executable('ctags')
     call ka#module#gentags#auto_enable()
     command! GenTags call ka#module#gentags#enable_for_wd()
@@ -1107,8 +675,8 @@ augroup CustomAutoCmds
     endif
 
     autocmd CompleteDone * pclose
-    autocmd BufWritePre * call <SID>auto_mkdir()
-    autocmd BufWinEnter * call <SID>auto_fold_column()
+    autocmd BufWritePre * call ka#utils#auto_mkdir()
+    autocmd BufWinEnter * call ka#options#auto_fold_column()
 
     " Fix some annoyances
     autocmd FileType vim setlocal textwidth=0

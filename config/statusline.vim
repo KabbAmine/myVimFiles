@@ -1,6 +1,6 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-11-29
+" Last modification: 2018-12-27
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
@@ -172,11 +172,6 @@ fun! SL_toggled() abort " {{{1
                     \ : s:sl.separator . ' ' . str . ' '
     endfor
     return sl[:-2]
-endfun
-" 1}}}
-
-fun! SL_zoomed() abort " {{{1
-    return getwinvar(winnr(), 'zoomed_win') ? '◎' : ''
 endfun
 " 1}}}
 
@@ -365,7 +360,6 @@ fun! Get_SL(...) abort " {{{1
     " """""""""""""""""
     " let sl .= '%1* %-{SL_mode()} %(%{SL_paste()} %)'
     let sl .= '%1*%( %{SL_previewwindow()} %)'
-    let sl .= '%( %{SL_zoomed()} %)'
     let sl .= '%( %{SL_paste()} %)'
     let sl .= '%3* %{SL_bufnr()} '
     let sl .= '%{SL_path()}'
