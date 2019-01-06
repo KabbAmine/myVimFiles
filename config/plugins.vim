@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-27
+" Last modification: 2019-01-04
 " ==============================================================
 
 
@@ -39,8 +39,8 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 " 2}}}
 
 " PHP {{{2
-Plug '2072/PHP-Indenting-for-VIm'     , {'for': 'php'}
-Plug 'lvht/phpcd.vim'                 , {
+Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+Plug 'lvht/phpcd.vim', {
             \   'for': 'php',
             \   'do': { -> ka#sys#execute_cmd('composer install')}
             \ }
@@ -54,8 +54,7 @@ Plug 'othree/yajs.vim'
 " 2}}}
 
 " Python {{{2
-Plug 'davidhalter/jedi-vim',
-            \ {
+Plug 'davidhalter/jedi-vim', {
             \   'do': { -> ka#sys#execute_cmd('git submodule update --init')},
             \   'for': 'python'
             \ }
@@ -67,8 +66,8 @@ Plug 'machakann/vim-Verdin'
 " 2}}}
 
 " Web development {{{2
-Plug 'alvan/vim-closetag'    , {'for': ['html', 'php', 'xml']}
-Plug 'chrisbra/Colorizer'    , {'on': 'ColorToggle'}
+Plug 'alvan/vim-closetag', {'for': ['html', 'php', 'xml']}
+Plug 'chrisbra/Colorizer', {'on': 'ColorToggle'}
 " Plug 'mattn/emmet-vim'
 Plug 'KabbAmine/emmet-vim'
 " 2}}}
@@ -96,10 +95,8 @@ Plug 'kana/vim-textobj-user'
             \| Plug 'somini/vim-textobj-fold', {'branch': 'foldmarker'},
             \| Plug 'kana/vim-textobj-function'
             \| Plug 'haya14busa/vim-textobj-function-syntax'
-            \| Plug 'bps/vim-textobj-python',
-            \   {'for': 'python'}
-            \| Plug 'kentaro/vim-textobj-function-php',
-            \   {'for': 'php'}
+            \| Plug 'bps/vim-textobj-python', {'for': 'python'}
+            \| Plug 'kentaro/vim-textobj-function-php', {'for': 'php'}
             \| Plug 'thinca/vim-textobj-function-javascript',
             \   {'for': 'javascript'}
 " 2}}}
@@ -142,14 +139,14 @@ call plug#end()
 let g:yowish = {
             \   'term_italic' : 1,
             \   'colors': {
-            \       'background'       : ['#2f343f', 'none'],
-            \       'backgroundDark'   : ['#191d27', '16'],
-            \       'backgroundLight'  : ['#464b5b', '59'],
-            \       'blue'             : ['#5295e2', '68'],
-            \       'comment'          : ['#5b6176', '245'],
-            \       'lightBlue'        : ['#e39f52', '179'],
-            \       'lightYellow'      : ['#80aee3', '110'],
-            \       'yellow'           : ['#5295e2', '68'],
+            \       'background'     : ['#2f343f', 'none'],
+            \       'backgroundDark' : ['#191d27', '16'],
+            \       'backgroundLight': ['#464b5b', '59'],
+            \       'blue'           : ['#5295e2', '68'],
+            \       'comment'        : ['#5b6176', '245'],
+            \       'lightBlue'      : ['#e39f52', '179'],
+            \       'lightYellow'    : ['#80aee3', '110'],
+            \       'yellow'         : ['#5295e2', '68'],
             \   }
             \ }
 colorscheme yowish
@@ -181,7 +178,6 @@ let python_highlight_all = 1
 " >>> (( ale )) {{{1
 " Disabled by default
 let g:ale_enabled = 0
-nnoremap <silent> ,E :lopen<CR>:wincmd p<CR>
 nmap <silent> <F8> :ALEToggle<CR>
 let g:ale_lint_on_enter = 0
 " let g:ale_lint_on_text_changed = 'normal'
@@ -190,10 +186,9 @@ let g:ale_set_highlights = 0
 let g:ale_sign_error = g:checker.error_sign
 let g:ale_sign_warning = g:checker.warning_sign
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-exe 'hi! link ALEErrorSign ' . g:checker.error_group
-exe 'hi! link ALEWarningSign ' . g:checker.warning_group
+let [g:ale_echo_msg_error_str, g:ale_echo_msg_warning_str] = ['E', 'W']
+exe 'highlight! link ALEErrorSign ' . g:checker.error_group
+exe 'highlight! link ALEWarningSign ' . g:checker.warning_group
 " Specific to file types and are here for reference
 let g:ale_linters = {
             \   'c'              : ['gcc'],
@@ -274,7 +269,7 @@ highlight! link SignifySignChange ModeMsg
 " >>> (( vim-plug )) {{{1
 let g:plug_threads = 10
 let g:plug_window = 'enew'
-hi! link PlugDeleted Conceal
+highlight! link PlugDeleted Conceal
 " 1}}}
 
 " >>> (( jedi-vim )) {{{1
@@ -360,7 +355,7 @@ augroup END " 2}}}
 
 " >>> (( vim-parenmatch )) {{{1
 let g:parenmatch_highlight = 0
-hi! link ParenMatch Underlined
+highlight! link ParenMatch Underlined
 " 1}}}
 
 " >>> (( vim-emoji )) {{{1
