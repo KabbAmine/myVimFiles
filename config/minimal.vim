@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-27
+" Last modification: 2019-01-06
 " ==============================================================
 
 
@@ -415,7 +415,7 @@ xnoremap Cy "+y
 " Scss/Css ***
 "    - iV: Value
 "    - iP: Property
-let s:to = {
+call ka#utils#make_text_objs({
             \   '_' : [
             \       ['ie', 'ggVG'],
             \       ['il', '^vg_'],
@@ -423,9 +423,7 @@ let s:to = {
             \   'scss,css' : [
             \       ['iV', '^f:wvt;'], ['iP', '^f:Bvt:'],
             \   ]
-            \ }
-call ka#utils#make_text_objs(s:to)
-unlet! s:to
+            \ })
 " 1}}}
 
 " >>> Toggle options {{{1
@@ -571,7 +569,7 @@ command! -bar -bang -nargs=* -complete=file E
             \ call ka#bufwins#cmd_on_multiple_files('edit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file Sp
             \ call ka#bufwins#cmd_on_multiple_files('split', [<f-args>], '<bang>')
-command! -bar -bang -nargs=* -complete=file VS
+command! -bar -bang -nargs=* -complete=file Vs
             \ call ka#bufwins#cmd_on_multiple_files('vsplit', [<f-args>], '<bang>')
 command! -bar -bang -nargs=* -complete=file TabE
             \ call ka#bufwins#cmd_on_multiple_files('tabedit', [<f-args>], '<bang>')
