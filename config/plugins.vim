@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2019-01-04
+" Last modification: 2019-01-19
 " ==============================================================
 
 
@@ -119,6 +119,7 @@ Plug 'machakann/vim-highlightedyank',
 " Plug 'KabbAmine/vZoom.vim'
 " Plug $HOME . '/Temp/lab/vim/RAP/'
 Plug $HOME . '/Temp/lab/vim/vfinder/'
+Plug $HOME . '/Temp/lab/vim/vfinder-cmus/'
 Plug $HOME . '/Temp/lab/vim/pine.vim/'
 Plug 'KabbAmine/lazyList.vim'
 Plug 'KabbAmine/vBox.vim'
@@ -529,6 +530,9 @@ nnoremap <silent> ,d :call vfinder#i('directories', {'win_pos': 'tab'})<CR>
 nnoremap <silent> ,h :call vfinder#i('help')<CR>
 nnoremap <silent> ,m :call vfinder#i('marks')<CR>
 nnoremap <silent> ,l :call vfinder#i('lines', {'win_pos': 'aboveleft'})<CR>
+if executable('cmus')
+    nnoremap <silent> ,x :call vfinder#i('cmus', {'win_pos': 'tab'})<CR>
+endif
 
 " yank
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
