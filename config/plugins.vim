@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2019-01-19
+" Last modification: 2019-12-30
 " ==============================================================
 
 
@@ -40,23 +40,19 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 
 " PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-Plug 'lvht/phpcd.vim', {
-            \   'for': 'php',
-            \   'do': { -> ka#sys#execute_cmd('composer install')}
-            \ }
+Plug 'lvht/phpcd.vim', {'for': 'php', 'do': 'composer install' }
 Plug 'StanAngeloff/php.vim'
 " 2}}}
 
 " JavaScript {{{2
-Plug 'marijnh/tern_for_vim', {'do': { -> ka#sys#execute_cmd('npm install')}}
+Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'othree/yajs.vim'
             \ | Plug 'othree/javascript-libraries-syntax.vim'
 " 2}}}
 
 " Python {{{2
 Plug 'davidhalter/jedi-vim', {
-            \   'do': { -> ka#sys#execute_cmd('git submodule update --init')},
-            \   'for': 'python'
+            \ 'do': 'git submodule update --init --recursive', 'for': 'python'
             \ }
 Plug 'vim-python/python-syntax'
 " 2}}}
@@ -92,7 +88,7 @@ Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
             \| Plug 'glts/vim-textobj-comment'
-            \| Plug 'somini/vim-textobj-fold', {'branch': 'foldmarker'},
+            \| Plug 'somini/vim-textobj-fold',
             \| Plug 'kana/vim-textobj-function'
             \| Plug 'haya14busa/vim-textobj-function-syntax'
             \| Plug 'bps/vim-textobj-python', {'for': 'python'}
@@ -118,9 +114,9 @@ Plug 'machakann/vim-highlightedyank',
 " Plug 'KabbAmine/gulp-vim'
 " Plug 'KabbAmine/vZoom.vim'
 " Plug $HOME . '/Temp/lab/vim/RAP/'
-Plug $HOME . '/Temp/lab/vim/vfinder/'
-Plug $HOME . '/Temp/lab/vim/vfinder-cmus/'
-Plug $HOME . '/Temp/lab/vim/pine.vim/'
+Plug $HOME . '/Projets/vim/vfinder/'
+Plug $HOME . '/Projets/vim/vfinder-cmus/'
+Plug $HOME . '/Projets/vim/pine.vim/'
 Plug 'KabbAmine/lazyList.vim'
 Plug 'KabbAmine/vBox.vim'
 Plug 'KabbAmine/vCoolor.vim'
