@@ -1,11 +1,12 @@
 " ========== Custom statusline + mappings ======================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2019-12-12
+" Last modification: 2020-01-05
 
 " The used plugins are (They are not mandatory):
 " * Fugitive
 " * Signify
 " * ALE
+" * coc
 
 " ========== CONFIGURATION =====================================
 
@@ -220,7 +221,11 @@ endfun
 fun! SL_ale(mode) abort " {{{1
     " a:mode: 1/0 = errors/ok
 
-    if exists('g:loaded_ale') && !g:loaded_ale
+    if !exists('g:loaded_ale')
+        return ''
+    endif
+
+    if !g:loaded_ale
         return ''
     endif
 
@@ -233,23 +238,46 @@ fun! SL_ale(mode) abort " {{{1
     let errors = counts.error + counts.style_error
     let warnings = counts.warning + counts.style_warning
 
-    let errors_str = errors isnot# 0
-                \ ? printf('%s %s', s:sl.checker.error_sign, errors)
-                \ : ''
-    let warnings_str = warnings isnot# 0
-                \ ? printf('%s %s', s:sl.checker.warning_sign, warnings)
-                \ : ''
+    return s:get_parsed_linting_str(errors, warnings, total, a:mode)
+endfun
+" 1}}}
 
-    let def_str = printf('%s %s', errors_str, warnings_str)
-    " Trim spaces
-    let def_str = substitute(def_str, '^\s*\(.\{-}\)\s*$', '\1', '')
-    let success_str = s:sl.checker.success_sign
+fun! SL_coc_diagnostic(mode) abort " {{{1
+    " a:mode: 1/0 = errors/ok
 
-    if a:mode
-        return total is# 0 ? '' : def_str
-    else
-        return total is# 0 ? success_str : ''
+    if !exists('g:coc_enabled')
+        return ''
     endif
+
+    if !g:coc_enabled
+        return ''
+    endif
+
+    let infos = get(b:, 'coc_diagnostic_info', {})
+    if empty(infos) | return '' | endif
+
+    let errors = get(infos, 'error', 0)
+    let warnings = get(infos, 'warning', 0)
+    let total = errors + warnings
+
+    return s:get_parsed_linting_str(errors, warnings, total, a:mode)
+endfun
+" 1}}}
+
+fun! SL_coc_status() abort " {{{1
+    " No linting involved
+
+    let status = get(g:, 'coc_status', '')
+    let first_word = matchstr(status, '^\s*\zs\S*')
+
+    " Replace the long strings by some fancy characters
+    return empty(status)
+                \ ? ''
+                \ : first_word is# 'Python'
+                \ ? ''
+                \ : first_word is# 'TSC'
+                \ ? ''
+                \ : first_word
 endfun
 " 1}}}
 
@@ -370,6 +398,10 @@ fun! Get_SL(...) abort " {{{1
     let sl .= '%6*%(%{SL_ale(0)} %)'
     let sl .= '%7*%([%{SL_ale(1)}] %)'
 
+    " or coc (1st group for no errors)
+    let sl .= '%6*%(%{SL_coc_diagnostic(0)} %)'
+    let sl .= '%7*%([%{SL_coc_diagnostic(1)}] %)'
+
     let sl .= '%3*'
     let sl .= '%='
 
@@ -390,6 +422,9 @@ fun! Get_SL(...) abort " {{{1
 
     " Jobs
     let sl .= '%( %{SL_jobs()} %)'
+
+    " coc status
+    let sl .= '%( %{SL_coc_status()} %)'
 
     return sl
 endfun
@@ -418,6 +453,27 @@ fun! s:apply_sl(...) abort " {{{1
         silent execute !exists('a:1')
                     \ ? 'setlocal statusline=%!Get_SL()'
                     \ : 'setlocal statusline=%!Get_SL(0)'
+    endif
+endfun
+" 1}}}
+
+fun! s:get_parsed_linting_str(errors, warnings, total, mode) abort " {{{1
+    let errors_str = a:errors isnot# 0
+                \ ? printf('%s %s', s:sl.checker.error_sign, a:errors)
+                \ : ''
+    let warnings_str = a:warnings isnot# 0
+                \ ? printf('%s %s', s:sl.checker.warning_sign, a:warnings)
+                \ : ''
+
+    let def_str = printf('%s %s', errors_str, warnings_str)
+    " Trim spaces
+    let def_str = substitute(def_str, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let success_str = s:sl.checker.success_sign
+
+    if a:mode
+        return a:total is# 0 ? '' : def_str
+    else
+        return a:total is# 0 ? success_str : ''
     endif
 endfun
 " 1}}}
