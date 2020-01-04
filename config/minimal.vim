@@ -1,6 +1,6 @@
 " ========== Minimal vimrc without plugins (Unix & Windows) ====
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2019-01-06
+" Last modification: 2020-01-02
 " ==============================================================
 
 
@@ -130,7 +130,7 @@ set showcmd
 
 " >>> Edit text {{{1
 set infercase       " Adjust case of a keyword completion match.
-set completeopt=menuone,noselect,preview
+set completeopt=menuone,noselect,popup,preview
 " Make backspace works normally in Win
 if g:is_win
     set backspace=2
