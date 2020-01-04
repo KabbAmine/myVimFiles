@@ -1,6 +1,6 @@
 " ========== Vim plugins configurations (Unix & Windows) =======
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2019-12-30
+" Last modification: 2020-01-05
 " ==============================================================
 
 
@@ -31,6 +31,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'rhysd/vim-gfm-syntax'
 Plug 'tpope/vim-haml'
+Plug 'vim-python/python-syntax'
 " 2}}}
 
 " CSS {{{2
@@ -40,30 +41,24 @@ Plug 'othree/csscomplete.vim', {'for': 'css'}
 
 " PHP {{{2
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-Plug 'lvht/phpcd.vim', {'for': 'php', 'do': 'composer install' }
 Plug 'StanAngeloff/php.vim'
 " 2}}}
 
 " JavaScript {{{2
-Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 Plug 'othree/yajs.vim'
             \ | Plug 'othree/javascript-libraries-syntax.vim'
-" 2}}}
-
-" Python {{{2
-Plug 'davidhalter/jedi-vim', {
-            \ 'do': 'git submodule update --init --recursive', 'for': 'python'
-            \ }
-Plug 'vim-python/python-syntax'
 " 2}}}
 
 " VimL {{{2
 Plug 'machakann/vim-Verdin'
 " 2}}}
 
+" LSP & completion {{{2
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" 2}}}
+
 " Web development {{{2
 Plug 'alvan/vim-closetag', {'for': ['html', 'php', 'xml']}
-Plug 'chrisbra/Colorizer', {'on': 'ColorToggle'}
 " Plug 'mattn/emmet-vim'
 Plug 'KabbAmine/emmet-vim'
 " 2}}}
@@ -269,26 +264,6 @@ let g:plug_window = 'enew'
 highlight! link PlugDeleted Conceal
 " 1}}}
 
-" >>> (( jedi-vim )) {{{1
-let g:jedi#completions_command = ''
-let g:jedi#completions_enabled = 1
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_on_dot = 0
-" Keybindings
-let g:jedi#goto_command = 'gd'
-let g:jedi#documentation_command = 'gH'
-let g:jedi#usages_command = ''
-let g:jedi#goto_assignments_command= ''
-let g:jedi#show_call_signatures = 2
-" Don't use it, buggy as hell
-let g:jedi#rename_command = ''
-" 1}}}
-
-" >>> (( colorizer )) {{{1
-let g:colorizer_colornames = 0
-" 1}}}
-
 " >>> (( vim-lion )) {{{1
 let g:lion_create_maps = 1
 let g:lion_map_right = '<CR>'
@@ -323,6 +298,8 @@ augroup Commentary " {{{2
     autocmd!
     autocmd FileType vader,cmusrc setlocal commentstring=#\ %s
     autocmd FileType xdefaults setlocal commentstring=!\ %s
+    " for jsonc
+    autocmd FileType json setlocal commentstring=//\ %s
 augroup END " 2}}}
 " 1}}}
 
@@ -338,16 +315,6 @@ call operator#sandwich#set('all', 'all', 'autoindent', 0)
 " Allow using . with the keep cursor option enabled
 nmap . <Plug>(operator-sandwich-dot)
 hi link OperatorSandwichStuff StatusLine
-" 1}}}
-
-" >>> (( tern_for_vim )) {{{1
-let g:tern_show_signature_in_pum = 1
-
-augroup Tern " {{{2
-    autocmd!
-    autocmd Filetype javascript nmap <silent> <buffer> gd :TernDef<CR>
-    autocmd Filetype javascript nmap <silent> <buffer> gH :TernDoc<CR>:wincmd k<CR>
-augroup END " 2}}}
 " 1}}}
 
 " >>> (( vim-parenmatch )) {{{1
@@ -584,6 +551,33 @@ nnoremap <silent> ,gc :call vfinder#i('git_commits', {'win_pos': 'tab'})<CR>
 
 " >>> (( pine.vim )) {{{1
 nnoremap <silent> ,N :Pine<CR>
+" 1}}}
+
+
+" >>> (( coc )) {{{1
+" Some servers have issues with backup files, see https://github.com/neoclide/coc.nvim/issues/649
+" set nowritebackup
+" Use <c-space> to trigger completion.
+inoremap <silent> <expr> <c-space> coc#refresh()
+" the terminal interprets <c-space> as <c-@> (or <nul>)
+if !g:is_gui
+    imap <C-@> <C-Space>
+endif
+" Use <cr> to confirm completion (useful for snippets)
+inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+nnoremap <silent> gH :call CocAction('doHover')<CR>
+
+augroup CocAutocmds
+  autocmd!
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  " Disable completion for some filetypes
+  autocmd FileType vfinder let b:coc_suggest_disable = 1
+augroup end
+
+highlight! link CocErrorSign Error
+highlight! link CocErrorFloat Title
+highlight! link CocWarningSign Function
 " 1}}}
 
 
