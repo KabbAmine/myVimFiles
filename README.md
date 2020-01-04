@@ -58,6 +58,24 @@ and are included in the configuration here.
 | `viml`       | `vim-vint`<sup>P</sup>                               |
 | `yaml`       | `yamllint`<sup>P</sup>                               |
 
+### Coc extensions
+
+Install using `:CocInstall`
+
+```
+coc-snippets
+coc-highlight
+coc-vimlsp
+coc-tsserver
+coc-python
+coc-phpls
+coc-json
+coc-html
+coc-css
+```
+
+Note that `coc-python` needs `jedi`<sup>P</sup>
+
 ### Miscellaneous
 
 - `ag`<sup>B</sup> or [`rg`](https://github.com/BurntSushi/ripgrep) for grepping and **vFinder**.
