@@ -1,6 +1,6 @@
 " ==============================================================
 " Kabbaj Amine - amine.kabb@gmail.com
-" Last modification: 2018-12-17
+" Last modification: 2020-01-03
 " ==============================================================
 
 
@@ -43,7 +43,7 @@ endfun
 fun! ka#tabline#tab() abort " {{{1
     let count_tabs = tabpagenr('$')
     return count_tabs isnot# 1
-                \ ? printf('%d/%d', tabpagenr(), count_tabs)
+                \ ? printf('T%d/%d', tabpagenr(), count_tabs)
                 \ : ''
 endfun
 " 1}}}
